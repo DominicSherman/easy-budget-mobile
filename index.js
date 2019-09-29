@@ -1,9 +1,14 @@
-/**
- * @format
- */
+import {Navigation} from 'react-native-navigation';
+import {loadIcons} from './src/services/icons-factory';
+import {getDefaultOptions, getRoot} from './src/services/layout-factory';
+import {registerScreens} from './src/screens';
 
-import {AppRegistry} from 'react-native';
-import App from './App';
-import {name as appName} from './app.json';
+console.disableYellowBox = true;
 
-AppRegistry.registerComponent(appName, () => App);
+registerScreens();
+
+Navigation.events().registerAppLaunchedListener(async () => {
+  await loadIcons();
+  await Navigation.setDefaultOptions(getDefaultOptions());
+  await Navigation.setRoot(getRoot());
+});
