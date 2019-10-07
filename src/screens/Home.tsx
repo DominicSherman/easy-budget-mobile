@@ -2,7 +2,7 @@ import React from 'react';
 import {SafeAreaView} from 'react-native';
 import Touchable from 'react-native-platform-touchable';
 import DefaultText from '../components/DefaultText';
-import {centeredColumn, centeredRow, screenWrapper} from '../styles/shared-styles';
+import {centeredColumn, screenWrapper} from '../styles/shared-styles';
 import {signOut} from '../services/auth-service';
 import {black} from '../constants/style-variables';
 
