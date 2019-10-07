@@ -9,6 +9,7 @@ import com.facebook.react.bridge.JavaScriptExecutorFactory;
 import com.facebook.react.ReactApplication;
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import io.invertase.firebase.RNFirebasePackage;
+import io.invertase.firebase.auth.RNFirebaseAuthPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
@@ -16,6 +17,7 @@ import com.facebook.soloader.SoLoader;
 import com.reactnativenavigation.NavigationApplication;
 import com.reactnativenavigation.react.NavigationReactNativeHost;
 import com.reactnativenavigation.react.ReactGateway;
+import co.apptailor.googlesignin.RNGoogleSigninPackage;
 
 import java.util.List;
 
@@ -41,7 +43,8 @@ public class MainApplication extends NavigationApplication {
     @SuppressWarnings("UnnecessaryLocalVariable")
     List<ReactPackage> packages = new PackageList(this).getPackages();
     // Packages that cannot be autolinked yet can be added manually here, for example:
-    // packages.add(new MyReactNativePackage());
+    // packages.add(new RNGoogleSigninPackage());
+    packages.add(new RNFirebaseAuthPackage());
     return packages;
   }
 
