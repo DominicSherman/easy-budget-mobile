@@ -1,19 +1,18 @@
 import {mediumGray} from '../constants/style-variables';
 import {sharedGetImageSource} from './icon-loader';
-import {Icon} from 'react-native-vector-icons/Icon';
 
 export interface IIcons {
-  home: Icon | {};
-  image: Icon | {};
-  info: Icon | {};
-  more: Icon | {};
+  home: number | undefined;
+  image: number | undefined;
+  info: number | undefined;
+  more: number | undefined;
 }
 
 let icons: IIcons = {
-  home: {},
-  image: {},
-  info: {},
-  more: {},
+  home: undefined,
+  image: undefined,
+  info: undefined,
+  more: undefined,
 };
 
 export const loadIcons = async () => {
@@ -32,4 +31,4 @@ export const loadIcons = async () => {
   };
 };
 
-export const getIcons = () => icons;
+export const getIcons = (): IIcons => icons;

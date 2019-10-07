@@ -1,18 +1,22 @@
-import {black, darkFont, green, white} from '../constants/style-variables';
-import {FIXED_EXPENSES, HOME, VARIABLE_EXPENSES} from '../constants/routes';
+import {darkFont, white} from '../constants/style-variables';
+import {
+  FIXED_EXPENSES,
+  HOME,
+  LOGIN,
+  VARIABLE_EXPENSES,
+} from '../constants/routes';
+import {getIcons} from './icons-factory';
+import {LayoutRoot, Options} from 'react-native-navigation';
 
-import {getIcons, IIcons} from './icons-factory';
-
-export const getDefaultOptions = () => ({
+export const getDefaultOptions = (): Options => ({
   layout: {
-    orientation: 'portrait',
+    orientation: ['portrait'],
   },
   topBar: {
     animate: false,
     background: {
       color: white,
     },
-    buttonColor: black,
     drawBehind: false,
     title: {
       color: darkFont,
@@ -21,90 +25,110 @@ export const getDefaultOptions = () => ({
   },
 });
 
-const getMainRoot = (icons: IIcons) => ({
-  root: {
-    bottomTabs: {
-      children: [
-        {
-          stack: {
-            children: [
-              {
-                component: {
-                  name: HOME,
+export const getLoggedInRootLayout = (): LayoutRoot => {
+  const icons = getIcons();
+
+  return {
+    root: {
+      bottomTabs: {
+        children: [
+          {
+            stack: {
+              children: [
+                {
+                  component: {
+                    name: HOME,
+                  },
                 },
-              },
-            ],
-            options: {
-              bottomTab: {
-                icon: icons.home,
-                title: 'Home',
-              },
-              topBar: {
-                title: {
-                  text: 'Easy Budget',
+              ],
+              options: {
+                bottomTab: {
+                  icon: icons.home,
+                  text: 'HOME',
+                  iconColor: darkFont,
+                  textColor: darkFont,
+                  fontSize: 12,
                 },
-              },
-            },
-          },
-        },
-        {
-          stack: {
-            children: [
-              {
-                component: {
-                  name: FIXED_EXPENSES,
-                },
-              },
-            ],
-            options: {
-              bottomTab: {
-                icon: icons.image,
-                title: 'Fixed Expenses',
-              },
-              topBar: {
-                title: {
-                  text: 'Easy Budget',
+                topBar: {
+                  title: {
+                    text: 'Easy Budget',
+                  },
                 },
               },
             },
           },
-        },
-        {
-          stack: {
-            children: [
-              {
-                component: {
-                  name: VARIABLE_EXPENSES,
+          {
+            stack: {
+              children: [
+                {
+                  component: {
+                    name: FIXED_EXPENSES,
+                  },
                 },
-              },
-            ],
-            options: {
-              bottomTab: {
-                icon: icons.more,
-                title: 'Variable Expenses',
-              },
-              topBar: {
-                title: {
-                  text: 'Easy Budget',
+              ],
+              options: {
+                bottomTab: {
+                  icon: icons.image,
+                  text: 'FIXED',
+                  iconColor: darkFont,
+                  textColor: darkFont,
+                  fontSize: 12,
+                },
+                topBar: {
+                  title: {
+                    text: 'Easy Budget',
+                  },
                 },
               },
             },
           },
-        },
-      ],
-      options: {
-        bottomTabs: {
-          animate: false,
-          drawBehind: true,
-          selectedTabColor: green,
+          {
+            stack: {
+              children: [
+                {
+                  component: {
+                    name: VARIABLE_EXPENSES,
+                  },
+                },
+              ],
+              options: {
+                bottomTab: {
+                  icon: icons.more,
+                  text: 'VARIABLE',
+                  iconColor: darkFont,
+                  textColor: darkFont,
+                  fontSize: 12,
+                },
+                topBar: {
+                  title: {
+                    text: 'Easy Budget',
+                  },
+                },
+              },
+            },
+          },
+        ],
+        options: {
+          bottomTabs: {
+            animate: false,
+            drawBehind: true,
+          },
         },
       },
     },
+  };
+};
+
+export const getLoggedOutRootLayout = () => ({
+  root: {
+    stack: {
+      children: [
+        {
+          component: {
+            name: LOGIN,
+          },
+        },
+      ],
+    },
   },
 });
-
-export const getRoot = () => {
-  const icons = getIcons();
-
-  return getMainRoot(icons);
-};

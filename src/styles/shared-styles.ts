@@ -3,6 +3,7 @@ import {ViewStyle, StyleProp} from 'react-native';
 export const screenWrapper: StyleProp<ViewStyle> = {
   alignItems: 'center',
   flexDirection: 'column',
+  height: '100%',
   justifyContent: 'center',
   width: '100%',
 };

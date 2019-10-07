@@ -1,11 +1,17 @@
 import {Navigation} from 'react-native-navigation';
 
-import {FIXED_EXPENSES, HOME, VARIABLE_EXPENSES} from '../constants/routes';
+import {
+  FIXED_EXPENSES,
+  HOME,
+  LOGIN,
+  VARIABLE_EXPENSES,
+} from '../constants/routes';
 import Home from './Home';
 import FixedExpenses from './FixedExpenses';
 import VariableExpenses from './VariableExpenses';
 import {asScreen} from '../services/screen-wrapper';
 import {FC} from 'react';
+import Login from './Login';
 
 interface IScreen {
   component: FC;
@@ -24,6 +30,10 @@ export const screens: IScreen[] = [
   {
     component: VariableExpenses,
     route: VARIABLE_EXPENSES,
+  },
+  {
+    component: Login,
+    route: LOGIN,
   },
 ];
 

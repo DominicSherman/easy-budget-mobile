@@ -1,3 +1,4 @@
-export const HOME = 'app.Home';
-export const FIXED_EXPENSES = 'app.FixedExpenses';
-export const VARIABLE_EXPENSES = 'app.VariableExpenses';
+export const HOME = 'com.reactnative.easybudget.Home';
+export const FIXED_EXPENSES = 'com.reactnative.easybudget.FixedExpenses';
+export const VARIABLE_EXPENSES = 'com.reactnative.easybudget.VariableExpenses';
+export const LOGIN = 'com.reactnative.easybudget.Login';
