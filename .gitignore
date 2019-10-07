@@ -61,3 +61,6 @@ buck-out/
 
 .jest/
 ts-build/
+
+GoogleService-Info.plist
+google-services.json
