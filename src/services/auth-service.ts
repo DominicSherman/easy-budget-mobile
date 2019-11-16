@@ -7,15 +7,12 @@ export const signIn = async () => {
   try {
     await GoogleSignin.configure();
     const data = await GoogleSignin.signIn();
-    console.log('data', data);
     const credential = firebase.auth.GoogleAuthProvider.credential(
       data.idToken,
     );
     const firebaseUserCredential = await firebase
       .auth()
       .signInWithCredential(credential);
-
-    console.log('firebaseUserCredential', firebaseUserCredential);
 
     await Navigation.setRoot(getLoggedInRootLayout());
   } catch (e) {
