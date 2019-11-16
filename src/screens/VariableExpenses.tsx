@@ -1,8 +1,17 @@
 import React, {useState} from 'react';
-import {SafeAreaView, StyleSheet, View, Dimensions} from 'react-native';
+import {
+  SafeAreaView,
+  StyleSheet,
+  View,
+  Dimensions,
+  ActivityIndicator,
+} from 'react-native';
 import DefaultText from '../components/DefaultText';
 import {screenWrapper} from '../styles/shared-styles';
 import {ICategory} from '../types/global';
+import {useQuery} from '@apollo/react-hooks';
+import {getVariableExpensesQuery} from '../graphql/queries';
+import {getUserId} from '../services/auth-service';
 
 const styles = StyleSheet.create({
   fixedWrapper: {
@@ -22,41 +31,32 @@ interface IVariableExpense extends ICategory {
 }
 
 const VariableExpenses: React.FC = () => {
-  const [variableExpenses, setVariableExpenses] = useState<IVariableExpense[]>([
-    {
-      amount: 400,
-      name: 'Food',
-      spent: 0,
+  const {data, loading, error} = useQuery(getVariableExpensesQuery, {
+    variables: {
+      userId: getUserId(),
     },
-    {
-      amount: 100,
-      name: 'Gas',
-      spent: 0,
-    },
-    {
-      amount: 100,
-      name: 'Clothes',
-      spent: 0,
-    },
-    {
-      amount: 75,
-      name: 'Cycling',
-      spent: 0,
-    },
-  ]);
+  });
+
+  console.log('data', data);
+
+  if (!data || loading) {
+    return (
+      <View style={screenWrapper}>
+        <ActivityIndicator />
+      </View>
+    );
+  }
+  const {variableCategories} = data;
 
   return (
     <SafeAreaView style={screenWrapper}>
-      {variableExpenses.map(variableExpense => (
+      {variableCategories.map(variableCategory => (
         <View style={styles.fixedWrapper}>
           <View style={{width: Dimensions.get('window').width / 2}}>
-            <DefaultText>{variableExpense.name}</DefaultText>
+            <DefaultText>{variableCategory.name}</DefaultText>
           </View>
           <View style={{width: Dimensions.get('window').width / 4}}>
-            <DefaultText>{variableExpense.amount}</DefaultText>
-          </View>
-          <View style={{width: Dimensions.get('window').width / 4}}>
-            <DefaultText>{variableExpense.spent}</DefaultText>
+            <DefaultText>{variableCategory.amount}</DefaultText>
           </View>
         </View>
       ))}
