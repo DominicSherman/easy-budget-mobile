@@ -1,4 +1,4 @@
 export interface ICategory {
-  amount: number;
-  name: string;
+  amount: number
+  name: string
 }
