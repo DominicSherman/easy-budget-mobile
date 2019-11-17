@@ -5,7 +5,7 @@ import Touchable from 'react-native-platform-touchable';
 import DefaultText from '../components/generic/DefaultText';
 import {centeredColumn, screenWrapper} from '../styles/shared-styles';
 import {signOut} from '../services/auth-service';
-import {black} from '../constants/colors';
+import {colors} from '../constants/colors';
 
 const Home: React.FC = () => (
     <SafeAreaView style={screenWrapper}>
@@ -13,9 +13,9 @@ const Home: React.FC = () => (
             onPress={signOut}
             style={{
                 ...centeredColumn,
-                borderWidth: 1,
-                borderColor: black,
+                borderColor: colors.black,
                 borderRadius: 4,
+                borderWidth: 1,
                 height: '10%',
                 width: '25%'
             }}

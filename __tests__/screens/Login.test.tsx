@@ -1,19 +1,18 @@
 import TestRenderer from 'react-test-renderer';
 import React from 'react';
+import {GoogleSigninButton} from '@react-native-community/google-signin';
 
-import FixedCategories from '../../src/screens/FixedCategories';
-import DefaultText from '../../src/components/generic/DefaultText';
+import Login from '../../src/screens/Login';
+import {signIn} from '../../src/services/auth-service';
 
-describe('FixedExpenses', () => {
+jest.mock('../../src/services/auth-service');
+
+describe('Login', () => {
     const {root} = TestRenderer.create(
-        <FixedCategories />
+        <Login />
     );
 
-    it('should render a DefaultText for each fixedExpense', () => {
-        const texts = root.findAllByType(DefaultText);
-
-        texts.forEach((text) => {
-            expect(text.type).toBe(DefaultText);
-        });
+    it('should render a GoogleSigninButton', () => {
+        expect(root.findByType(GoogleSigninButton).props.onPress).toBe(signIn);
     });
 });

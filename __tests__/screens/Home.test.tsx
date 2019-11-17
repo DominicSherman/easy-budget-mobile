@@ -1,19 +1,20 @@
 import TestRenderer from 'react-test-renderer';
 import React from 'react';
+import Touchable from 'react-native-platform-touchable';
 
-import FixedCategories from '../../src/screens/FixedCategories';
-import DefaultText from '../../src/components/generic/DefaultText';
+import Home from '../../src/screens/Home';
+import {signOut} from '../../src/services/auth-service';
 
-describe('FixedExpenses', () => {
+jest.mock('../../src/services/auth-service');
+
+describe('Home', () => {
     const {root} = TestRenderer.create(
-        <FixedCategories />
+        <Home />
     );
 
-    it('should render a DefaultText for each fixedExpense', () => {
-        const texts = root.findAllByType(DefaultText);
+    it('should render a Touchable to log out', () => {
+        const renderedTouchable = root.findByType(Touchable);
 
-        texts.forEach((text) => {
-            expect(text.type).toBe(DefaultText);
-        });
+        expect(renderedTouchable.props.onPress).toBe(signOut);
     });
 });

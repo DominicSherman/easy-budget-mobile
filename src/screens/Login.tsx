@@ -11,7 +11,10 @@ const Login: React.FC = () => (
             color={GoogleSigninButton.Color.Dark}
             onPress={signIn}
             size={GoogleSigninButton.Size.Wide}
-            style={{width: 192, height: 48}}
+            style={{
+                height: 48,
+                width: 192
+            }}
         />
     </SafeAreaView>
 );

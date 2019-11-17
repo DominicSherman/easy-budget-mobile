@@ -4,7 +4,7 @@ import React from 'react';
 import FixedCategories from '../../src/screens/FixedCategories';
 import DefaultText from '../../src/components/generic/DefaultText';
 
-describe('FixedExpenses', () => {
+describe('FixedCategories', () => {
     const {root} = TestRenderer.create(
         <FixedCategories />
     );
