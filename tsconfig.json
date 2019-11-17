@@ -1,7 +1,6 @@
 {
   "exclude": [
-    "node_modules",
-    "assets"
+    "node_modules"
   ],
   "include": [
     "**/*.ts",
@@ -11,7 +10,7 @@
   "compilerOptions": {
     "outDir": "ts-build/",
     "downlevelIteration": true,
-    "target": "es5",
+    "target": "es6",
     "module": "commonjs",
     "lib": [
       "es2017"

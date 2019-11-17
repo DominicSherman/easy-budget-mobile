@@ -1,18 +1,13 @@
-import React, {useState} from 'react';
-import {
-    SafeAreaView,
-    StyleSheet,
-    View,
-    Dimensions,
-    ActivityIndicator
-} from 'react-native';
+import React from 'react';
+import {ActivityIndicator, SafeAreaView, StyleSheet, View} from 'react-native';
 import {useQuery} from '@apollo/react-hooks';
 
-import DefaultText from '../components/DefaultText';
+import DefaultText from '../components/generic/DefaultText';
 import {screenWrapper} from '../styles/shared-styles';
-import {ICategory} from '../types/global';
-import {getVariableExpensesQuery} from '../graphql/queries';
+import {IVariableCategory} from '../types/global';
+import {getVariableCategoriesQuery} from '../graphql/queries';
 import {getUserId} from '../services/auth-service';
+import {SCREEN_WIDTH} from '../constants/dimensions';
 
 const styles = StyleSheet.create({
     fixedWrapper: {
@@ -20,25 +15,15 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         padding: 16,
         width: '100%'
-    },
-    text: {
-        fontSize: 30,
-        fontWeight: '600'
     }
 });
 
-interface IVariableExpense extends ICategory {
-  spent: number
-}
-
-const VariableExpenses: React.FC = () => {
-    const {data, loading, error} = useQuery(getVariableExpensesQuery, {
+const VariableCategories: React.FC = () => {
+    const {data, loading} = useQuery<{variableCategories: IVariableCategory[]}>(getVariableCategoriesQuery, {
         variables: {
             userId: getUserId()
         }
     });
-
-    console.log('data', data);
 
     if (!data || loading) {
         return (
@@ -53,11 +38,14 @@ const VariableExpenses: React.FC = () => {
     return (
         <SafeAreaView style={screenWrapper}>
             {variableCategories.map((variableCategory) => (
-                <View style={styles.fixedWrapper}>
-                    <View style={{width: Dimensions.get('window').width / 2}}>
+                <View
+                    key={variableCategory.variableCategoryId}
+                    style={styles.fixedWrapper}
+                >
+                    <View style={{width: SCREEN_WIDTH / 2}}>
                         <DefaultText>{variableCategory.name}</DefaultText>
                     </View>
-                    <View style={{width: Dimensions.get('window').width / 4}}>
+                    <View style={{width: SCREEN_WIDTH / 4}}>
                         <DefaultText>{variableCategory.amount}</DefaultText>
                     </View>
                 </View>
@@ -66,4 +54,4 @@ const VariableExpenses: React.FC = () => {
     );
 };
 
-export default VariableExpenses;
+export default VariableCategories;

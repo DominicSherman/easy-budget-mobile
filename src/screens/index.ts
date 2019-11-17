@@ -10,8 +10,8 @@ import {
 import {asScreen} from '../services/screen-wrapper';
 
 import Home from './Home';
-import FixedExpenses from './FixedExpenses';
-import VariableExpenses from './VariableExpenses';
+import FixedCategories from './FixedCategories';
+import VariableCategories from './VariableCategories';
 import Login from './Login';
 
 interface IScreen {
@@ -25,11 +25,11 @@ export const screens: IScreen[] = [
         route: HOME
     },
     {
-        component: FixedExpenses,
+        component: FixedCategories,
         route: FIXED_EXPENSES
     },
     {
-        component: VariableExpenses,
+        component: VariableCategories,
         route: VARIABLE_EXPENSES
     },
     {

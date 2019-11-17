@@ -1,4 +1,4 @@
-import {mediumGray} from '../constants/colors';
+import {colors} from '../constants/colors';
 
 import {sharedGetImageSource} from './icon-loader';
 
@@ -18,10 +18,10 @@ let icons: IIcons = {
 
 export const loadIcons = async () => {
     const [home, more, info, image] = await Promise.all([
-        sharedGetImageSource('Feather', 'home', 25, mediumGray),
-        sharedGetImageSource('Feather', 'more-horizontal', 25, mediumGray),
-        sharedGetImageSource('Feather', 'info', 25, mediumGray),
-        sharedGetImageSource('EvilIcons', 'image', 33, mediumGray)
+        sharedGetImageSource('Feather', 'home', 25, colors.mediumGray),
+        sharedGetImageSource('Feather', 'more-horizontal', 25, colors.mediumGray),
+        sharedGetImageSource('Feather', 'info', 25, colors.mediumGray),
+        sharedGetImageSource('EvilIcons', 'image', 33, colors.mediumGray)
     ]);
 
     icons = {

@@ -1,46 +1,26 @@
 import React, {useState} from 'react';
-import {SafeAreaView, StyleSheet, Switch, View, Dimensions} from 'react-native';
+import {SafeAreaView, Switch, View} from 'react-native';
 
-import {ICategory} from '../types/global';
-import DefaultText from '../components/DefaultText';
-import {
-    centeredColumn,
-    centeredRow,
-    screenWrapper
-} from '../styles/shared-styles';
+import {IFixedExpense} from '../types/global';
+import DefaultText from '../components/generic/DefaultText';
+import {centeredColumn, centeredRow, screenWrapper} from '../styles/shared-styles';
+import {SCREEN_WIDTH} from '../constants/dimensions';
 
-const styles = StyleSheet.create({
-    fixedWrapper: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        padding: 16,
-        width: '100%'
-    },
-    text: {
-        fontSize: 30,
-        fontWeight: '600'
-    }
-});
-
-interface IFixedExpense extends ICategory {
-  paid: boolean
-}
-
-const FixedExpenses: React.FC = () => {
+const FixedCategories: React.FC = () => {
     const [fixedExpenses] = useState<IFixedExpense[]>([
         {
-            name: 'Rent',
             amount: 1200,
+            name: 'Rent',
             paid: false
         },
         {
-            name: 'Internet / Utilities',
             amount: 255,
+            name: 'Internet / Utilities',
             paid: false
         },
         {
-            name: 'Insurance',
             amount: 340,
+            name: 'Insurance',
             paid: false
         }
     ]);
@@ -57,11 +37,14 @@ const FixedExpenses: React.FC = () => {
                 <View
                     style={{
                         ...centeredColumn,
-                        width: Dimensions.get('window').width / 2
+                        width: SCREEN_WIDTH / 2
                     }}
                 >
                     {fixedExpenses.map((fixedExpense) => (
-                        <DefaultText style={{paddingVertical: 16}}>
+                        <DefaultText
+                            key={fixedExpense.name}
+                            style={{paddingVertical: 16}}
+                        >
                             {fixedExpense.name}
                         </DefaultText>
                     ))}
@@ -69,11 +52,14 @@ const FixedExpenses: React.FC = () => {
                 <View
                     style={{
                         ...centeredColumn,
-                        width: Dimensions.get('window').width / 4
+                        width: SCREEN_WIDTH / 4
                     }}
                 >
                     {fixedExpenses.map((fixedExpense) => (
-                        <DefaultText style={{paddingVertical: 16}}>
+                        <DefaultText
+                            key={fixedExpense.name}
+                            style={{paddingVertical: 16}}
+                        >
                             {fixedExpense.amount}
                         </DefaultText>
                     ))}
@@ -81,11 +67,12 @@ const FixedExpenses: React.FC = () => {
                 <View
                     style={{
                         ...centeredColumn,
-                        width: Dimensions.get('window').width / 4
+                        width: SCREEN_WIDTH / 4
                     }}
                 >
                     {fixedExpenses.map((fixedExpense) =>
                         <Switch
+                            key={fixedExpense.name}
                             style={{marginVertical: 16}}
                             value={fixedExpense.paid}
                         />
@@ -96,4 +83,4 @@ const FixedExpenses: React.FC = () => {
     );
 };
 
-export default FixedExpenses;
+export default FixedCategories;

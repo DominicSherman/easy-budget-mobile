@@ -29,6 +29,7 @@
   "devDependencies": {
     "@babel/core": "7.6.2",
     "@babel/runtime": "7.6.2",
+    "@types/chance": "^1.0.7",
     "@types/jest": "24.0.18",
     "@types/react": "16.9.3",
     "@types/react-native": "0.60.17",
@@ -36,6 +37,7 @@
     "@typescript-eslint/eslint-plugin": "2.3.3",
     "@typescript-eslint/parser": "2.3.3",
     "babel-jest": "24.9.0",
+    "chance": "^1.1.3",
     "eslint": "6.6.0",
     "eslint-config-get-off-my-lawn": "5.0.1",
     "jest": "24.9.0",
@@ -56,6 +58,7 @@
     "coveragePathIgnorePatterns": [
       "<rootDir>/src/constants",
       "<rootDir>/src/types",
+      "<rootDir>/src/graphql/queries",
       "<rootDir>/src/styles"
     ],
     "coverageThreshold": {
@@ -75,11 +78,8 @@
       "<rootDir>/__tests__/**/*.test.tsx"
     ],
     "moduleNameMapper": {
-      "^react-redux": "<rootDir>/test/stubs/react-redux-stub.js",
-      "react-native-fetch-blob": "<rootDir>/test/stubs/react-native-fetch-blob-stub.js",
-      "^firebase": "<rootDir>/test/stubs/firebase-stub.js",
-      ".+\\.(png)$": "jest-transform-stub",
-      "react-native-mail": "<rootDir>/test/stubs/react-native-mail-stub.js"
+      "react-native-firebase": "<rootDir>/__tests__/stubs/react-native-firebase-stub.ts",
+      "google-signin": "<rootDir>/__tests__/stubs/google-signin-stub.ts"
     }
   }
 }
