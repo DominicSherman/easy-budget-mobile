@@ -1,14 +1,8 @@
 import {LayoutRoot, Options} from 'react-native-navigation';
 
-import {darkFont, white} from '../constants/colors';
-import {
-    FIXED_EXPENSES,
-    HOME,
-    LOGIN,
-    VARIABLE_EXPENSES
-} from '../constants/routes';
-
-import {getIcons} from './icons-factory';
+import {colors} from '../constants/colors';
+import {routes} from '../constants/routes';
+import {getIcons} from '../services/icon-service';
 
 export const getDefaultOptions = (): Options => ({
     layout: {
@@ -17,11 +11,11 @@ export const getDefaultOptions = (): Options => ({
     topBar: {
         animate: false,
         background: {
-            color: white
+            color: colors.white
         },
         drawBehind: false,
         title: {
-            color: darkFont
+            color: colors.darkFont
         },
         visible: true
     }
@@ -39,17 +33,17 @@ export const getLoggedInRootLayout = (): LayoutRoot => {
                             children: [
                                 {
                                     component: {
-                                        name: HOME
+                                        name: routes.HOME
                                     }
                                 }
                             ],
                             options: {
                                 bottomTab: {
+                                    fontSize: 12,
                                     icon: icons.home,
+                                    iconColor: colors.darkFont,
                                     text: 'HOME',
-                                    iconColor: darkFont,
-                                    textColor: darkFont,
-                                    fontSize: 12
+                                    textColor: colors.darkFont
                                 },
                                 topBar: {
                                     title: {
@@ -64,17 +58,17 @@ export const getLoggedInRootLayout = (): LayoutRoot => {
                             children: [
                                 {
                                     component: {
-                                        name: FIXED_EXPENSES
+                                        name: routes.FIXED_EXPENSES
                                     }
                                 }
                             ],
                             options: {
                                 bottomTab: {
+                                    fontSize: 12,
                                     icon: icons.image,
+                                    iconColor: colors.darkFont,
                                     text: 'FIXED',
-                                    iconColor: darkFont,
-                                    textColor: darkFont,
-                                    fontSize: 12
+                                    textColor: colors.darkFont
                                 },
                                 topBar: {
                                     title: {
@@ -89,17 +83,17 @@ export const getLoggedInRootLayout = (): LayoutRoot => {
                             children: [
                                 {
                                     component: {
-                                        name: VARIABLE_EXPENSES
+                                        name: routes.VARIABLE_EXPENSES
                                     }
                                 }
                             ],
                             options: {
                                 bottomTab: {
+                                    fontSize: 12,
                                     icon: icons.more,
+                                    iconColor: colors.darkFont,
                                     text: 'VARIABLE',
-                                    iconColor: darkFont,
-                                    textColor: darkFont,
-                                    fontSize: 12
+                                    textColor: colors.darkFont
                                 },
                                 topBar: {
                                     title: {
@@ -127,7 +121,7 @@ export const getLoggedOutRootLayout = () => ({
             children: [
                 {
                     component: {
-                        name: LOGIN
+                        name: routes.LOGIN
                     }
                 }
             ]

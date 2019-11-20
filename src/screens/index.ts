@@ -1,12 +1,7 @@
 import {Navigation} from 'react-native-navigation';
 import {FC} from 'react';
 
-import {
-    FIXED_EXPENSES,
-    HOME,
-    LOGIN,
-    VARIABLE_EXPENSES
-} from '../constants/routes';
+import {routes} from '../constants/routes';
 import {asScreen} from '../services/screen-wrapper';
 
 import Home from './Home';
@@ -19,29 +14,27 @@ interface IScreen {
   route: string
 }
 
-export const screens: IScreen[] = [
+const screens: IScreen[] = [
     {
         component: Home,
-        route: HOME
+        route: routes.HOME
     },
     {
         component: FixedCategories,
-        route: FIXED_EXPENSES
+        route: routes.FIXED_EXPENSES
     },
     {
         component: VariableCategories,
-        route: VARIABLE_EXPENSES
+        route: routes.VARIABLE_EXPENSES
     },
     {
         component: Login,
-        route: LOGIN
+        route: routes.LOGIN
     }
 ];
 
-export const registerScreens = () => {
+export const registerScreens = (): void => {
     screens.forEach((screen) => {
-        Navigation.registerComponent(screen.route, () =>
-            asScreen(screen.component)
-        );
+        Navigation.registerComponent(screen.route, () => asScreen(screen.component));
     });
 };

@@ -2,7 +2,7 @@ import {LayoutRoot, Navigation} from 'react-native-navigation';
 import {GoogleSignin} from '@react-native-community/google-signin';
 import firebase from 'react-native-firebase';
 
-import {getLoggedInRootLayout, getLoggedOutRootLayout} from './layout-factory';
+import {getLoggedInRootLayout, getLoggedOutRootLayout} from '../helpers/navigation-helpers';
 
 export const signIn = async () => {
     try {
