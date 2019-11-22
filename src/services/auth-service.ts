@@ -4,37 +4,27 @@ import firebase from 'react-native-firebase';
 
 import {getLoggedInRootLayout, getLoggedOutRootLayout} from '../helpers/navigation-helpers';
 
-export const signIn = async () => {
-    try {
-        await GoogleSignin.configure();
-        const data = await GoogleSignin.signIn();
-        const credential = firebase.auth.GoogleAuthProvider.credential(
-            data.idToken
-        );
+export const signIn = async (): Promise<void> => {
+    await GoogleSignin.configure();
+    const data = await GoogleSignin.signIn();
+    const credential = firebase.auth.GoogleAuthProvider.credential(
+        data.idToken
+    );
 
-        await firebase
-            .auth()
-            .signInWithCredential(credential);
+    await firebase
+        .auth()
+        .signInWithCredential(credential);
 
-        await Navigation.setRoot(getLoggedInRootLayout());
-    } catch (error) {
-        // eslint-disable-next-line no-console
-        console.error(error);
-    }
+    await Navigation.setRoot(getLoggedInRootLayout());
 };
 
-export const signOut = async () => {
-    try {
-        await GoogleSignin.signOut();
+export const signOut = async (): Promise<void> => {
+    await GoogleSignin.signOut();
 
-        await Navigation.setRoot(getLoggedOutRootLayout());
-    } catch (error) {
-        // eslint-disable-next-line no-console
-        console.error(error);
-    }
+    await Navigation.setRoot(getLoggedOutRootLayout());
 };
 
-export const getUserId = () => firebase.auth().currentUser?.uid || '';
+export const getUserId = (): string => firebase.auth().currentUser?.uid || '';
 
 export const getRoot = async (): Promise<LayoutRoot> => {
     const isSignedIn = await GoogleSignin.isSignedIn();

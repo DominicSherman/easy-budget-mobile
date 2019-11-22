@@ -13,6 +13,11 @@ GoogleSigninButton.Size = {
 };
 
 module.exports = {
-    configure: jest.fn(),
+    GoogleSignin: {
+        configure: jest.fn(),
+        isSignedIn: jest.fn(),
+        signIn: jest.fn(),
+        signOut: jest.fn()
+    },
     GoogleSigninButton
 };

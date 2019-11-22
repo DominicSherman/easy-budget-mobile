@@ -1,0 +1,3 @@
+describe('icon service', () => {
+
+});
