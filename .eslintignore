@@ -18,3 +18,4 @@ test/mocks/
 metro.config.js
 rn-cli.config.js
 testConfig.js
+babel.config.js

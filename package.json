@@ -75,6 +75,7 @@
     ],
     "testMatch": [
       "<rootDir>/__tests__/**/*.test.ts",
+      "<rootDir>/__tests__/**/*.test.js",
       "<rootDir>/__tests__/**/*.test.tsx"
     ],
     "moduleNameMapper": {
