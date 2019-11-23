@@ -38,26 +38,57 @@ describe('auth service', () => {
     });
 
     describe('signIn', () => {
-        let expectedData;
+        let expectedData,
+            expectedCredential,
+            signInWithCredentialSpy;
 
         beforeEach(() => {
             expectedData = {
                 idToken: chance.string()
             };
+            expectedCredential = chance.string();
+            signInWithCredentialSpy = jest.fn();
 
+            // @ts-ignore
+            auth.mockReturnValue({
+                signInWithCredential: signInWithCredentialSpy
+            });
+            // @ts-ignore
+            auth.GoogleAuthProvider.credential.mockReturnValue(expectedCredential);
             mockGoogleSignin.signIn.mockResolvedValue(expectedData);
         });
 
-        it('should configure the signin', async () => {
+        it('should configure GoogleSignin', async () => {
             await signIn();
 
             expect(GoogleSignin.configure).toHaveBeenCalledTimes(1);
         });
 
-        it('should call signIn', async () => {
+        it('should call GoogleSignin to signIn', async () => {
             await signIn();
 
             expect(GoogleSignin.signIn).toHaveBeenCalledTimes(1);
+        });
+
+        it('should get the credential from firebase', async () => {
+            await signIn();
+
+            expect(auth.GoogleAuthProvider.credential).toHaveBeenCalledTimes(1);
+            expect(auth.GoogleAuthProvider.credential).toHaveBeenCalledWith(expectedData.idToken);
+        });
+
+        it('should signIn to firebase using the credential', async () => {
+            await signIn();
+
+            expect(signInWithCredentialSpy).toHaveBeenCalledTimes(1);
+            expect(signInWithCredentialSpy).toHaveBeenCalledWith(expectedCredential);
+        });
+
+        it('should set logged in root', async () => {
+            await signIn();
+
+            expect(Navigation.setRoot).toHaveBeenCalledTimes(1);
+            expect(Navigation.setRoot).toHaveBeenCalledWith(expectedLoggedInLayout);
         });
     });
 

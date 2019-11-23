@@ -115,7 +115,7 @@ export const getLoggedInRootLayout = (): LayoutRoot => {
     };
 };
 
-export const getLoggedOutRootLayout = () => ({
+export const getLoggedOutRootLayout = (): LayoutRoot => ({
     root: {
         stack: {
             children: [
