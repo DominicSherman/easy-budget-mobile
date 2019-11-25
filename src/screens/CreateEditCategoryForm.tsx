@@ -26,10 +26,6 @@ const CreateEditCategoryForm: FC = () => {
     };
 
     const [createVariableCategory] = useMutation<CreateVariableCategoryMutation, CreateVariableCategoryMutationVariables>(createVariableCategoryMutation, {
-        onCompleted: () => {
-            setName('');
-            setAmount('');
-        },
         optimisticResponse: {
             createVariableCategory: {
                 __typename: 'VariableCategory',
@@ -42,6 +38,11 @@ const CreateEditCategoryForm: FC = () => {
         update: createVariableCategoryUpdate,
         variables: {variableCategory}
     });
+    const onPress = (): void => {
+        createVariableCategory();
+        setName('');
+        setAmount('');
+    };
 
     return (
         <View
@@ -66,7 +67,7 @@ const CreateEditCategoryForm: FC = () => {
                 value={amount}
             />
             <Button
-                onPress={createVariableCategory}
+                onPress={onPress}
                 text={'Submit'}
                 wrapperStyle={{marginTop: 16}}
             />

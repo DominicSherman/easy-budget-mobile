@@ -36,12 +36,13 @@ const VariableCategories: React.FC = () => {
     }
 
     const {variableCategories} = data;
+    const sortedVariableCategories = variableCategories.sort((a, b) => a.name < b.name ? -1 : 1);
 
     return (
         <ScrollView
             contentContainerStyle={{paddingBottom: 32}}
         >
-            {variableCategories.map((variableCategory) => (
+            {sortedVariableCategories.map((variableCategory) => (
                 <View
                     key={variableCategory.variableCategoryId}
                     style={styles.fixedWrapper}
