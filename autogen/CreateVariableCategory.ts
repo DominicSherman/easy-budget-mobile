@@ -2,7 +2,7 @@
 /* eslint-disable */
 // This file was automatically generated and should not be edited.
 
-import { CreateVariableCategory } from "./../../../autogen/globalTypes";
+import { CreateVariableCategory } from "./globalTypes";
 
 // ====================================================
 // GraphQL mutation operation: CreateVariableCategory
