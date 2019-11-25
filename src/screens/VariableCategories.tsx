@@ -4,10 +4,10 @@ import {useQuery} from '@apollo/react-hooks';
 
 import DefaultText from '../components/generic/DefaultText';
 import {screenWrapper} from '../styles/shared-styles';
-import {IVariableCategory} from '../types/global';
 import {getVariableCategoriesQuery} from '../graphql/queries';
 import {getUserId} from '../services/auth-service';
 import {SCREEN_WIDTH} from '../constants/dimensions';
+import {GetVariableCategories, GetVariableCategoriesVariables} from '../../autogen/GetVariableCategories';
 
 import CreateEditCategoryForm from './CreateEditCategoryForm';
 
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
 });
 
 const VariableCategories: React.FC = () => {
-    const {data, loading} = useQuery<{variableCategories: IVariableCategory[]}>(getVariableCategoriesQuery, {
+    const {data, loading} = useQuery<GetVariableCategories, GetVariableCategoriesVariables>(getVariableCategoriesQuery, {
         variables: {
             userId: getUserId()
         }
@@ -38,7 +38,9 @@ const VariableCategories: React.FC = () => {
     const {variableCategories} = data;
 
     return (
-        <ScrollView>
+        <ScrollView
+            contentContainerStyle={{paddingBottom: 32}}
+        >
             {variableCategories.map((variableCategory) => (
                 <View
                     key={variableCategory.variableCategoryId}
