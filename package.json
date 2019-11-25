@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "android": "react-native run-android",
+    "codegen": "apollo client:codegen autogen --target=typescript --endpoint=http://localhost:5000/easy-budget-2f9aa/us-central1/graphql --outputFlat",
     "ios": "react-native run-ios",
     "start": "react-native start",
     "coverage": "jest --coverage",

@@ -1,5 +1,5 @@
 import React from 'react';
-import {ActivityIndicator, SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
+import {ActivityIndicator, ScrollView, StyleSheet, View} from 'react-native';
 import {useQuery} from '@apollo/react-hooks';
 
 import DefaultText from '../components/generic/DefaultText';
