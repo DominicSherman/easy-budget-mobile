@@ -1,11 +1,11 @@
 import React, {FC, ReactNode} from 'react';
-import {Text, TextStyle} from 'react-native';
+import {StyleProp, Text, TextStyle} from 'react-native';
 
 import {textStyles} from '../../styles/text-styles';
 
 interface IDefaultText {
     children: ReactNode
-    style?: TextStyle
+    style?: StyleProp<TextStyle>
 }
 
 const DefaultText: FC<IDefaultText> = ({style, children}) =>
