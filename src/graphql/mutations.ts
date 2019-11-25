@@ -5,7 +5,7 @@ import {variableCategoryFragment} from './fragments';
 export const createVariableCategoryMutation = gql`
     ${variableCategoryFragment}
     
-    mutation CreateVariableCategory($variableCategory: CreateVariableCategory!) {
+    mutation CreateVariableCategoryMutation($variableCategory: CreateVariableCategory!) {
         createVariableCategory(variableCategory: $variableCategory) {
             ...IVariableCategory
         }

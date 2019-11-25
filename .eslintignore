@@ -14,6 +14,7 @@ tf/
 src/graphql/graphql-api/autogen
 ts-build/
 test/mocks/
+autogen/
 
 metro.config.js
 rn-cli.config.js
