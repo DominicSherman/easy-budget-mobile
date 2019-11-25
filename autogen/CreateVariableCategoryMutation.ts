@@ -5,10 +5,10 @@
 import { CreateVariableCategory } from "./globalTypes";
 
 // ====================================================
-// GraphQL mutation operation: CreateVariableCategory
+// GraphQL mutation operation: CreateVariableCategoryMutation
 // ====================================================
 
-export interface CreateVariableCategory_createVariableCategory {
+export interface CreateVariableCategoryMutation_createVariableCategory {
   __typename: "VariableCategory";
   variableCategoryId: string;
   userId: string;
@@ -16,10 +16,10 @@ export interface CreateVariableCategory_createVariableCategory {
   name: string;
 }
 
-export interface CreateVariableCategory {
-  createVariableCategory: CreateVariableCategory_createVariableCategory;
+export interface CreateVariableCategoryMutation {
+  createVariableCategory: CreateVariableCategoryMutation_createVariableCategory;
 }
 
-export interface CreateVariableCategoryVariables {
+export interface CreateVariableCategoryMutationVariables {
   variableCategory: CreateVariableCategory;
 }
