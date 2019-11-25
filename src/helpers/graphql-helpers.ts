@@ -7,12 +7,12 @@ import {getUserId} from '../services/auth-service';
 import {CreateVariableCategoryMutation} from '../../autogen/CreateVariableCategoryMutation';
 
 export const createVariableCategoryUpdate = (cache: DataProxy, mutationResult: FetchResult<CreateVariableCategoryMutation>): void => {
+    const query = getVariableCategoriesQuery;
+    const variables = {userId: getUserId()};
     const {data} = mutationResult;
     const result = cache.readQuery<GetVariableCategories, GetVariableCategoriesVariables>({
-        query: getVariableCategoriesQuery,
-        variables: {
-            userId: getUserId()
-        }
+        query,
+        variables
     });
 
     if (result && data) {
@@ -22,10 +22,8 @@ export const createVariableCategoryUpdate = (cache: DataProxy, mutationResult: F
             data: {
                 variableCategories: updatedVariableCategories
             },
-            query: getVariableCategoriesQuery,
-            variables: {
-                userId: getUserId()
-            }
+            query,
+            variables
         });
     }
 };
