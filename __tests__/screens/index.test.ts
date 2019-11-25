@@ -1,7 +1,7 @@
 import {Navigation} from 'react-native-navigation';
 
 import Home from '../../src/screens/Home';
-import {routes} from '../../src/constants/routes';
+import {Route} from '../../src/constants/routes';
 import FixedCategories from '../../src/screens/FixedCategories';
 import VariableCategories from '../../src/screens/VariableCategories';
 import Login from '../../src/screens/Login';
@@ -18,19 +18,19 @@ jest.mock('../../src/services/screen-wrapper');
 const expectedScreens = [
     {
         component: Home,
-        route: routes.HOME
+        route: Route.HOME
     },
     {
         component: FixedCategories,
-        route: routes.FIXED_EXPENSES
+        route: Route.FIXED_EXPENSES
     },
     {
         component: VariableCategories,
-        route: routes.VARIABLE_EXPENSES
+        route: Route.VARIABLE_EXPENSES
     },
     {
         component: Login,
-        route: routes.LOGIN
+        route: Route.LOGIN
     }
 ];
 

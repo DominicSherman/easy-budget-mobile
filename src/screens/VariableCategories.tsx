@@ -1,5 +1,5 @@
 import React from 'react';
-import {ActivityIndicator, SafeAreaView, StyleSheet, View} from 'react-native';
+import {ActivityIndicator, SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
 import {useQuery} from '@apollo/react-hooks';
 
 import DefaultText from '../components/generic/DefaultText';
@@ -8,6 +8,8 @@ import {IVariableCategory} from '../types/global';
 import {getVariableCategoriesQuery} from '../graphql/queries';
 import {getUserId} from '../services/auth-service';
 import {SCREEN_WIDTH} from '../constants/dimensions';
+
+import CreateEditCategoryForm from './CreateEditCategoryForm';
 
 const styles = StyleSheet.create({
     fixedWrapper: {
@@ -36,7 +38,7 @@ const VariableCategories: React.FC = () => {
     const {variableCategories} = data;
 
     return (
-        <SafeAreaView style={screenWrapper}>
+        <ScrollView>
             {variableCategories.map((variableCategory) => (
                 <View
                     key={variableCategory.variableCategoryId}
@@ -50,7 +52,8 @@ const VariableCategories: React.FC = () => {
                     </View>
                 </View>
             ))}
-        </SafeAreaView>
+            <CreateEditCategoryForm />
+        </ScrollView>
     );
 };
 

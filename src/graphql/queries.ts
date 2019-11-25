@@ -1,12 +1,13 @@
 import {gql} from 'apollo-boost';
 
+import {variableCategoryFragment} from './fragments';
+
 export const getVariableCategoriesQuery = gql`
-  query GetVariableCategories($userId: String!) {
-    variableCategories(userId: $userId) {
-      userId
-      variableCategoryId
-      name
-      amount
+    ${variableCategoryFragment}
+    
+    query GetVariableCategories($userId: String!) {
+        variableCategories(userId: $userId) {
+            ...IVariableCategory
+        }
     }
-  }
 `;

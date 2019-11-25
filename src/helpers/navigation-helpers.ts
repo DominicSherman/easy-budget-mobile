@@ -1,7 +1,7 @@
 import {LayoutRoot, Options} from 'react-native-navigation';
 
 import {colors} from '../constants/colors';
-import {routes} from '../constants/routes';
+import {Route} from '../constants/routes';
 import {getIcons} from '../services/icon-service';
 
 export const getDefaultOptions = (): Options => ({
@@ -33,7 +33,7 @@ export const getLoggedInRootLayout = (): LayoutRoot => {
                             children: [
                                 {
                                     component: {
-                                        name: routes.HOME
+                                        name: Route.HOME
                                     }
                                 }
                             ],
@@ -58,7 +58,7 @@ export const getLoggedInRootLayout = (): LayoutRoot => {
                             children: [
                                 {
                                     component: {
-                                        name: routes.FIXED_EXPENSES
+                                        name: Route.FIXED_EXPENSES
                                     }
                                 }
                             ],
@@ -83,7 +83,7 @@ export const getLoggedInRootLayout = (): LayoutRoot => {
                             children: [
                                 {
                                     component: {
-                                        name: routes.VARIABLE_EXPENSES
+                                        name: Route.VARIABLE_EXPENSES
                                     }
                                 }
                             ],
@@ -121,7 +121,7 @@ export const getLoggedOutRootLayout = (): LayoutRoot => ({
             children: [
                 {
                     component: {
-                        name: routes.LOGIN
+                        name: Route.LOGIN
                     }
                 }
             ]

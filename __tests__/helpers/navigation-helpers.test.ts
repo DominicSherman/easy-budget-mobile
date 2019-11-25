@@ -2,7 +2,7 @@ import {getDefaultOptions, getLoggedInRootLayout, getLoggedOutRootLayout} from '
 import {colors} from '../../src/constants/colors';
 import {chance} from '../chance';
 import * as iconService from '../../src/services/icon-service';
-import {routes} from '../../src/constants/routes';
+import {Route} from '../../src/constants/routes';
 
 jest.mock('../../src/services/icon-service');
 
@@ -53,7 +53,7 @@ describe('navigation helpers', () => {
                                     children: [
                                         {
                                             component: {
-                                                name: routes.HOME
+                                                name: Route.HOME
                                             }
                                         }
                                     ],
@@ -78,7 +78,7 @@ describe('navigation helpers', () => {
                                     children: [
                                         {
                                             component: {
-                                                name: routes.FIXED_EXPENSES
+                                                name: Route.FIXED_EXPENSES
                                             }
                                         }
                                     ],
@@ -103,7 +103,7 @@ describe('navigation helpers', () => {
                                     children: [
                                         {
                                             component: {
-                                                name: routes.VARIABLE_EXPENSES
+                                                name: Route.VARIABLE_EXPENSES
                                             }
                                         }
                                     ],
@@ -144,7 +144,7 @@ describe('navigation helpers', () => {
                         children: [
                             {
                                 component: {
-                                    name: routes.LOGIN
+                                    name: Route.LOGIN
                                 }
                             }
                         ]
