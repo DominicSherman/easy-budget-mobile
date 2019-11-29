@@ -9,6 +9,7 @@
 export interface IVariableCategory {
   __typename: "VariableCategory";
   variableCategoryId: string;
+  timePeriodId: string;
   userId: string;
   amount: number;
   name: string;

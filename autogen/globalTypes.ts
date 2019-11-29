@@ -8,6 +8,7 @@
 
 export interface CreateVariableCategory {
   variableCategoryId: string;
+  timePeriodId: string;
   userId: string;
   amount: number;
   name: string;

@@ -1,6 +1,7 @@
 import React from 'react';
 import {ActivityIndicator, ScrollView, StyleSheet, View} from 'react-native';
 import {useQuery} from '@apollo/react-hooks';
+import moment from 'moment';
 
 import DefaultText from '../components/generic/DefaultText';
 import {screenWrapper} from '../styles/shared-styles';
@@ -21,11 +22,14 @@ const styles = StyleSheet.create({
 });
 
 const VariableCategories: React.FC = () => {
-    const {data, loading} = useQuery<GetVariableCategories, GetVariableCategoriesVariables>(getVariableCategoriesQuery, {
+    const {data, loading, error} = useQuery<GetVariableCategories, GetVariableCategoriesVariables>(getVariableCategoriesQuery, {
         variables: {
+            date: moment().toISOString(),
             userId: getUserId()
         }
     });
+
+    console.log('data, loading, error', data, loading, error);
 
     if (!data || loading) {
         return (
@@ -35,7 +39,8 @@ const VariableCategories: React.FC = () => {
         );
     }
 
-    const {variableCategories} = data;
+    const {timePeriods} = data;
+    const {variableCategories} = timePeriods[0];
     const sortedVariableCategories = variableCategories.sort((a, b) => a.name < b.name ? -1 : 1);
 
     return (

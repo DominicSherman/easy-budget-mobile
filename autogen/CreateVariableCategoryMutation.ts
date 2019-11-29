@@ -11,6 +11,7 @@ import { CreateVariableCategory } from "./globalTypes";
 export interface CreateVariableCategoryMutation_createVariableCategory {
   __typename: "VariableCategory";
   variableCategoryId: string;
+  timePeriodId: string;
   userId: string;
   amount: number;
   name: string;
