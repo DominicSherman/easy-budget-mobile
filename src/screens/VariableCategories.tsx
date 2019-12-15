@@ -1,15 +1,15 @@
 import React from 'react';
-import {ActivityIndicator, ScrollView, StyleSheet, View} from 'react-native';
+import {ScrollView, StyleSheet, View} from 'react-native';
 import {useQuery} from '@apollo/react-hooks';
 
 import DefaultText from '../components/generic/DefaultText';
-import {screenWrapper} from '../styles/shared-styles';
 import {getVariableCategoriesQuery} from '../graphql/queries';
 import {getUserId} from '../services/auth-service';
 import {SCREEN_WIDTH} from '../constants/dimensions';
 import {GetVariableCategories, GetVariableCategoriesVariables} from '../../autogen/GetVariableCategories';
 import {withRedux} from '../redux/with-redux';
 import {IAppState} from '../redux/reducer';
+import {getEarlyReturn} from '../services/error-and-loading-service';
 
 import CreateEditCategoryForm from './CreateEditCategoryForm';
 
@@ -23,22 +23,18 @@ const styles = StyleSheet.create({
 });
 
 const VariableCategories: React.FC<IAppState> = ({timePeriodId}) => {
-    const {data, loading} = useQuery<GetVariableCategories, GetVariableCategoriesVariables>(getVariableCategoriesQuery, {
+    const queryResult = useQuery<GetVariableCategories, GetVariableCategoriesVariables>(getVariableCategoriesQuery, {
         variables: {
             timePeriodId,
             userId: getUserId()
         }
     });
 
-    if (!data || loading) {
-        return (
-            <View style={screenWrapper}>
-                <ActivityIndicator />
-            </View>
-        );
+    if (!queryResult.data) {
+        return getEarlyReturn(queryResult);
     }
 
-    const {variableCategories} = data;
+    const {variableCategories} = queryResult.data;
     const sortedVariableCategories = variableCategories.sort((a, b) => a.name < b.name ? -1 : 1);
 
     return (

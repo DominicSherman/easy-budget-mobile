@@ -1,6 +1,6 @@
 export enum Route {
-    FIXED_EXPENSES = 'com.reactnative.easybudget.FixedExpenses',
+    FIXED_CATEGORIES = 'com.reactnative.easybudget.FixedCategories',
     HOME = 'com.reactnative.easybudget.Home',
     LOGIN = 'com.reactnative.easybudget.Login',
-    VARIABLE_EXPENSES = 'com.reactnative.easybudget.VariableExpenses'
+    VARIABLE_CATEGORIES = 'com.reactnative.easybudget.VariableCategories'
 }

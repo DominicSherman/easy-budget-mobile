@@ -58,7 +58,7 @@ export const getLoggedInRootLayout = (): LayoutRoot => {
                             children: [
                                 {
                                     component: {
-                                        name: Route.FIXED_EXPENSES
+                                        name: Route.FIXED_CATEGORIES
                                     }
                                 }
                             ],
@@ -83,7 +83,7 @@ export const getLoggedInRootLayout = (): LayoutRoot => {
                             children: [
                                 {
                                     component: {
-                                        name: Route.VARIABLE_EXPENSES
+                                        name: Route.VARIABLE_CATEGORIES
                                     }
                                 }
                             ],

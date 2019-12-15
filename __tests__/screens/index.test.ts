@@ -22,11 +22,11 @@ const expectedScreens = [
     },
     {
         component: FixedCategories,
-        route: Route.FIXED_EXPENSES
+        route: Route.FIXED_CATEGORIES
     },
     {
         component: VariableCategories,
-        route: Route.VARIABLE_EXPENSES
+        route: Route.VARIABLE_CATEGORIES
     },
     {
         component: Login,
