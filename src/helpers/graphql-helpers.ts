@@ -5,10 +5,14 @@ import {GetVariableCategories, GetVariableCategoriesVariables} from '../../autog
 import {getVariableCategoriesQuery} from '../graphql/queries';
 import {getUserId} from '../services/auth-service';
 import {CreateVariableCategoryMutation} from '../../autogen/CreateVariableCategoryMutation';
+import {getState} from '../redux/store';
 
 export const createVariableCategoryUpdate = (cache: DataProxy, mutationResult: FetchResult<CreateVariableCategoryMutation>): void => {
     const query = getVariableCategoriesQuery;
-    const variables = {userId: getUserId()};
+    const variables = {
+        timePeriodId: getState().timePeriodId,
+        userId: getUserId()
+    };
     const {data} = mutationResult;
     const result = cache.readQuery<GetVariableCategories, GetVariableCategoriesVariables>({
         query,

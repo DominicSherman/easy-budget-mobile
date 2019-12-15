@@ -10,6 +10,8 @@ export const initializeStore = (): void => {
 
 export const getStore = (): Store<IAppState> => store;
 
+export const getState = (): IAppState => store.getState();
+
 export const dispatchAction = (type, data): void => {
     if (store) {
         store.dispatch({

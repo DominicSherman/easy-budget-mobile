@@ -14,13 +14,16 @@ import {
     CreateVariableCategoryMutationVariables
 } from '../../autogen/CreateVariableCategoryMutation';
 import {createVariableCategoryUpdate} from '../helpers/graphql-helpers';
+import {withRedux} from '../redux/with-redux';
+import {IAppState} from '../redux/reducer';
 
-const CreateEditCategoryForm: FC = () => {
+const CreateEditCategoryForm: FC<IAppState> = ({timePeriodId}) => {
     const [name, setName] = useState('');
     const [amount, setAmount] = useState('');
     const variableCategory = {
         amount: Number(amount),
         name,
+        timePeriodId,
         userId: getUserId(),
         variableCategoryId: uuid.v4()
     };
@@ -29,14 +32,13 @@ const CreateEditCategoryForm: FC = () => {
         optimisticResponse: {
             createVariableCategory: {
                 __typename: 'VariableCategory',
-                amount: Number(amount),
-                name,
-                userId: getUserId(),
-                variableCategoryId: uuid.v4()
+                ...variableCategory
             }
         },
         update: createVariableCategoryUpdate,
-        variables: {variableCategory}
+        variables: {
+            variableCategory
+        }
     });
     const onPress = (): void => {
         createVariableCategory();
@@ -75,4 +77,4 @@ const CreateEditCategoryForm: FC = () => {
     );
 };
 
-export default CreateEditCategoryForm;
+export default withRedux(CreateEditCategoryForm);

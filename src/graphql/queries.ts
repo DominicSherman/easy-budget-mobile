@@ -12,7 +12,7 @@ export const getVariableCategoriesQuery = gql`
     }
 `;
 
-export const getActiveTimePeriod = gql`
+export const getActiveTimePeriodQuery = gql`
     ${timePeriodFragment}
     
     query GetActiveTimePeriod($userId: String!, $date: String!) {
