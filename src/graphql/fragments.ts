@@ -9,3 +9,12 @@ export const variableCategoryFragment = gql`
         name
     }
 `;
+
+export const timePeriodFragment = gql`
+    fragment ITimePeriod on TimePeriod {
+        timePeriodId
+        beginDate
+        endDate
+        userId
+    }
+`;

@@ -1,16 +1,23 @@
 import {gql} from 'apollo-boost';
 
-import {variableCategoryFragment} from './fragments';
+import {timePeriodFragment, variableCategoryFragment} from './fragments';
 
 export const getVariableCategoriesQuery = gql`
     ${variableCategoryFragment}
     
-    query GetVariableCategories($userId: String!, $date: String!) {
+    query GetVariableCategories($userId: String!, $timePeriodId: String!) {
+        variableCategories(userId: $userId, timePeriodId: $timePeriodId) {
+            ...IVariableCategory
+        }
+    }
+`;
+
+export const getActiveTimePeriod = gql`
+    ${timePeriodFragment}
+    
+    query GetActiveTimePeriod($userId: String!, $date: String!) {
         timePeriods (userId: $userId, date: $date) {
-            timePeriodId
-            variableCategories {
-                ...IVariableCategory
-            }
+            ...ITimePeriod
         }
     }
 `;

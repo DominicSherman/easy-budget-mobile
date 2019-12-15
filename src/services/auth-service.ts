@@ -26,12 +26,4 @@ export const signOut = async (): Promise<void> => {
 
 export const getUserId = (): string => firebase.auth().currentUser?.uid || '';
 
-export const getRoot = async (): Promise<LayoutRoot> => {
-    const isSignedIn = await GoogleSignin.isSignedIn();
-
-    if (isSignedIn) {
-        return getLoggedInRootLayout();
-    }
-
-    return getLoggedOutRootLayout();
-};
+export const getIsSignedIn = (): Promise<boolean> => GoogleSignin.isSignedIn();

@@ -6,7 +6,7 @@
 // GraphQL query operation: GetVariableCategories
 // ====================================================
 
-export interface GetVariableCategories_timePeriods_variableCategories {
+export interface GetVariableCategories_variableCategories {
   __typename: "VariableCategory";
   variableCategoryId: string;
   timePeriodId: string;
@@ -15,17 +15,11 @@ export interface GetVariableCategories_timePeriods_variableCategories {
   name: string;
 }
 
-export interface GetVariableCategories_timePeriods {
-  __typename: "TimePeriod";
-  timePeriodId: string;
-  variableCategories: GetVariableCategories_timePeriods_variableCategories[];
-}
-
 export interface GetVariableCategories {
-  timePeriods: GetVariableCategories_timePeriods[];
+  variableCategories: GetVariableCategories_variableCategories[];
 }
 
 export interface GetVariableCategoriesVariables {
   userId: string;
-  date: string;
+  timePeriodId: string;
 }
