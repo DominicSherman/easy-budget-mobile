@@ -22,8 +22,9 @@ Navigation.events().registerAppLaunchedListener(async () => {
     let rootLayout;
 
     if (isSignedIn) {
+        await setActiveTimePeriodData();
+
         rootLayout = getLoggedInRootLayout();
-        setActiveTimePeriodData();
     } else {
         rootLayout = getLoggedOutRootLayout();
     }

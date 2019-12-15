@@ -9,7 +9,7 @@ import {dispatchAction} from './store';
 import {Actions} from './actions';
 
 export const setActiveTimePeriodData = async (): Promise<void> => {
-    const date = moment().toISOString();
+    const date = moment().startOf('h').toISOString();
 
     try {
         const result = await getApolloClient().query<GetActiveTimePeriod, GetActiveTimePeriodVariables>({
@@ -19,7 +19,6 @@ export const setActiveTimePeriodData = async (): Promise<void> => {
                 userId: getUserId()
             }
         });
-        console.log('result', result);
         const timePeriod = result.data.timePeriods[0];
 
         dispatchAction(Actions.SET_TIME_PERIOD_ID, timePeriod.timePeriodId);

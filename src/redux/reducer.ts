@@ -1,7 +1,7 @@
 import {Actions} from './actions';
 
 const defaultState: IAppState = {
-    timePeriodId: null
+    timePeriodId: ''
 };
 
 const setKey = (key): (state: IAppState, value: any) => IAppState => (state, value): IAppState => ({
@@ -14,7 +14,7 @@ const reducerMap = {
 };
 
 export interface IAppState {
-    timePeriodId: string | null
+    timePeriodId: string
 }
 
 export default (state = defaultState, {type, data}): IAppState => {

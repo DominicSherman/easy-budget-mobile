@@ -8,6 +8,8 @@ import {getVariableCategoriesQuery} from '../graphql/queries';
 import {getUserId} from '../services/auth-service';
 import {SCREEN_WIDTH} from '../constants/dimensions';
 import {GetVariableCategories, GetVariableCategoriesVariables} from '../../autogen/GetVariableCategories';
+import {withRedux} from '../redux/with-redux';
+import {IAppState} from '../redux/reducer';
 
 import CreateEditCategoryForm from './CreateEditCategoryForm';
 
@@ -20,9 +22,10 @@ const styles = StyleSheet.create({
     }
 });
 
-const VariableCategories: React.FC = () => {
+const VariableCategories: React.FC<IAppState> = ({timePeriodId}) => {
     const {data, loading} = useQuery<GetVariableCategories, GetVariableCategoriesVariables>(getVariableCategoriesQuery, {
         variables: {
+            timePeriodId,
             userId: getUserId()
         }
     });
@@ -35,8 +38,7 @@ const VariableCategories: React.FC = () => {
         );
     }
 
-    const {timePeriods} = data;
-    const {variableCategories} = timePeriods[0];
+    const {variableCategories} = data;
     const sortedVariableCategories = variableCategories.sort((a, b) => a.name < b.name ? -1 : 1);
 
     return (
@@ -61,4 +63,4 @@ const VariableCategories: React.FC = () => {
     );
 };
 
-export default VariableCategories;
+export default withRedux(VariableCategories);

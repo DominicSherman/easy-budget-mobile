@@ -1,22 +1,43 @@
 import React from 'react';
-import {SafeAreaView} from 'react-native';
+import {ActivityIndicator, SafeAreaView, View} from 'react-native';
 import Touchable from 'react-native-platform-touchable';
-import {connect} from 'react-redux';
+import {useQuery} from '@apollo/react-hooks';
+import moment from 'moment';
 
 import DefaultText from '../components/generic/DefaultText';
 import {centeredColumn, screenWrapper} from '../styles/shared-styles';
-import {signOut} from '../services/auth-service';
+import {getUserId, signOut} from '../services/auth-service';
 import {colors} from '../constants/colors';
 import {IAppState} from '../redux/reducer';
-import {withRedux} from '../redux/with-redux';
+import {getActiveTimePeriod} from '../graphql/queries';
+import {GetActiveTimePeriod, GetActiveTimePeriodVariables} from '../../autogen/GetActiveTimePeriod';
 
-const Home: React.FC<IAppState> = (props) => {
-    const {timePeriodId} = props;
+const date = moment().startOf('h').toISOString();
 
-    console.log('timePeriodId', timePeriodId);
+const Home: React.FC<IAppState> = () => {
+    const {data, loading} = useQuery<GetActiveTimePeriod, GetActiveTimePeriodVariables>(getActiveTimePeriod, {
+        variables: {
+            date,
+            userId: getUserId()
+        }
+    });
+
+    if (!data || loading) {
+        return (
+            <View style={screenWrapper}>
+                <ActivityIndicator />
+            </View>
+        );
+    }
+
+    const {timePeriods} = data;
+    const activeTimePeriod = timePeriods[0];
 
     return (
         <SafeAreaView style={screenWrapper}>
+            <View>
+                <DefaultText>{`Current time period: ${activeTimePeriod.beginDate} - ${activeTimePeriod.endDate}`}</DefaultText>
+            </View>
             <Touchable
                 onPress={signOut}
                 style={{
@@ -34,4 +55,4 @@ const Home: React.FC<IAppState> = (props) => {
     );
 };
 
-export default withRedux(Home);
+export default Home;
