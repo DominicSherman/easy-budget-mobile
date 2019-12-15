@@ -1,8 +1,9 @@
 import ApolloClient from 'apollo-boost';
 
-let apolloClient: ApolloClient<unknown>;
+let apolloClient: ApolloClient<any>;
 
 const LOCAL_HOST = 'http://localhost:5000/easy-budget-2f9aa/us-central1/graphql';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const PROD = 'https://us-central1-easy-budget-2f9aa.cloudfunctions.net/graphql';
 
 const initializeApolloClient = (): void => {
@@ -11,7 +12,7 @@ const initializeApolloClient = (): void => {
     });
 };
 
-export const getApolloClient = (): ApolloClient<unknown> => {
+export const getApolloClient = (): ApolloClient<any> => {
     if (!apolloClient) {
         initializeApolloClient();
     }

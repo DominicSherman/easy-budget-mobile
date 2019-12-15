@@ -1,36 +1,32 @@
 import React from 'react';
-import {ActivityIndicator, SafeAreaView, View} from 'react-native';
+import {SafeAreaView, View} from 'react-native';
 import {useQuery} from '@apollo/react-hooks';
 
 import DefaultText from '../components/generic/DefaultText';
 import {screenWrapper} from '../styles/shared-styles';
 import {getUserId, signOut} from '../services/auth-service';
-import {IAppState} from '../redux/reducer';
 import {getActiveTimePeriodQuery} from '../graphql/queries';
 import {GetActiveTimePeriod, GetActiveTimePeriodVariables} from '../../autogen/GetActiveTimePeriod';
 import Button from '../components/generic/Button';
 import {formatTimePeriod, getRoundedDate} from '../services/moment-service';
 import {textStyles} from '../styles/text-styles';
+import {getEarlyReturn} from '../services/error-and-loading-service';
 
 const date = getRoundedDate();
 
-const Home: React.FC<IAppState> = () => {
-    const {data, loading} = useQuery<GetActiveTimePeriod, GetActiveTimePeriodVariables>(getActiveTimePeriodQuery, {
+const Home: React.FC = () => {
+    const queryResult = useQuery<GetActiveTimePeriod, GetActiveTimePeriodVariables>(getActiveTimePeriodQuery, {
         variables: {
             date,
             userId: getUserId()
         }
     });
 
-    if (!data || loading) {
-        return (
-            <View style={screenWrapper}>
-                <ActivityIndicator />
-            </View>
-        );
+    if (!queryResult.data) {
+        return getEarlyReturn(queryResult);
     }
 
-    const {timePeriods} = data;
+    const {timePeriods} = queryResult.data;
     const activeTimePeriod = timePeriods[0];
 
     return (
