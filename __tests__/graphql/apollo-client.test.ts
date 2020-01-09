@@ -14,7 +14,7 @@ describe('Apollo Client', () => {
 
         expect(ApolloClient).toHaveBeenCalledTimes(1);
         expect(ApolloClient).toHaveBeenCalledWith({
-            uri: 'http://localhost:5000/easy-budget-2f9aa/us-central1/api'
+            uri: 'http://localhost:5000/easy-budget-2f9aa/us-central1/graphql'
         });
     });
 

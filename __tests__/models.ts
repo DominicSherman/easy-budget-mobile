@@ -3,6 +3,7 @@ import {ApolloError, NetworkStatus} from 'apollo-client';
 
 import {IVariableCategory} from '../autogen/IVariableCategory';
 import {ITimePeriod} from '../autogen/ITimePeriod';
+import {IAppState} from '../src/redux/reducer';
 
 import {chance} from './chance';
 
@@ -23,6 +24,8 @@ export const createRandomVariableCategory = (variableCategory = {}): IVariableCa
     variableCategoryId: chance.guid(),
     ...variableCategory
 });
+
+export const createRandomVariableCategories = (): IVariableCategory[] => chance.n(createRandomVariableCategory, chance.d6());
 
 export const createRandomTimePeriod = (timePeriod = {}): ITimePeriod => ({
     __typename: 'TimePeriod',
@@ -48,4 +51,8 @@ export const createRandomQueryResult = <TData = any>(data: TData): QueryResult<T
         NetworkStatus.loading,
         NetworkStatus.ready
     ])
+});
+
+export const createRandomAppState = (): IAppState => ({
+    timePeriodId: chance.guid()
 });
