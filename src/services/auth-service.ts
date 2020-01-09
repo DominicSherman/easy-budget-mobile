@@ -1,4 +1,4 @@
-import {LayoutRoot, Navigation} from 'react-native-navigation';
+import {Navigation} from 'react-native-navigation';
 import {GoogleSignin} from '@react-native-community/google-signin';
 import firebase from 'react-native-firebase';
 

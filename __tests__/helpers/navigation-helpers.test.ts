@@ -1,3 +1,5 @@
+import {OptionsBottomTab} from 'react-native-navigation';
+
 import {getDefaultOptions, getLoggedInRootLayout, getLoggedOutRootLayout} from '../../src/helpers/navigation-helpers';
 import {colors} from '../../src/constants/colors';
 import {chance} from '../chance';
@@ -5,6 +7,14 @@ import * as iconService from '../../src/services/icon-service';
 import {Route} from '../../src/constants/routes';
 
 jest.mock('../../src/services/icon-service');
+
+const tabStyle = {
+    fontSize: 12,
+    iconColor: colors.darkFont,
+    selectedIconColor: colors.green,
+    selectedTextColor: colors.green,
+    textColor: colors.darkFont
+};
 
 describe('navigation helpers', () => {
     const {getIcons} = iconService as jest.Mocked<typeof iconService>;
@@ -59,11 +69,9 @@ describe('navigation helpers', () => {
                                     ],
                                     options: {
                                         bottomTab: {
-                                            fontSize: 12,
+                                            ...tabStyle,
                                             icon: expectedIcons.home,
-                                            iconColor: colors.darkFont,
-                                            text: 'HOME',
-                                            textColor: colors.darkFont
+                                            text: 'HOME'
                                         },
                                         topBar: {
                                             title: {
@@ -84,11 +92,9 @@ describe('navigation helpers', () => {
                                     ],
                                     options: {
                                         bottomTab: {
-                                            fontSize: 12,
+                                            ...tabStyle,
                                             icon: expectedIcons.image,
-                                            iconColor: colors.darkFont,
-                                            text: 'FIXED',
-                                            textColor: colors.darkFont
+                                            text: 'FIXED'
                                         },
                                         topBar: {
                                             title: {
@@ -109,11 +115,9 @@ describe('navigation helpers', () => {
                                     ],
                                     options: {
                                         bottomTab: {
-                                            fontSize: 12,
+                                            ...tabStyle,
                                             icon: expectedIcons.more,
-                                            iconColor: colors.darkFont,
-                                            text: 'VARIABLE',
-                                            textColor: colors.darkFont
+                                            text: 'VARIABLE'
                                         },
                                         topBar: {
                                             title: {
