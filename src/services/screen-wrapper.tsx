@@ -1,7 +1,9 @@
 import React from 'react';
 import {ApolloProvider} from '@apollo/react-hooks';
+import {Provider} from 'react-redux';
 
 import {getApolloClient} from '../graphql/apollo-client';
+import {getStore} from '../redux/store';
 
 export const asScreen = (Component: React.FC): any =>
     class ScreenWrapper extends React.Component {
@@ -10,7 +12,9 @@ export const asScreen = (Component: React.FC): any =>
                 // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
                 // @ts-ignore
                 <ApolloProvider client={getApolloClient()}>
-                    <Component {...this.props} />
+                    <Provider store={getStore()}>
+                        <Component {...this.props} />
+                    </Provider>
                 </ApolloProvider>
             );
         }

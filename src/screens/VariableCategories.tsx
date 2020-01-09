@@ -1,13 +1,13 @@
 import React from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
 import {useQuery} from '@apollo/react-hooks';
+import {useSelector} from 'react-redux';
 
 import DefaultText from '../components/generic/DefaultText';
 import {getVariableCategoriesQuery} from '../graphql/queries';
 import {getUserId} from '../services/auth-service';
 import {SCREEN_WIDTH} from '../constants/dimensions';
 import {GetVariableCategories, GetVariableCategoriesVariables} from '../../autogen/GetVariableCategories';
-import {withRedux} from '../redux/with-redux';
 import {IAppState} from '../redux/reducer';
 import {getEarlyReturn} from '../services/error-and-loading-service';
 
@@ -22,7 +22,8 @@ const styles = StyleSheet.create({
     }
 });
 
-const VariableCategories: React.FC<IAppState> = ({timePeriodId}) => {
+const VariableCategories: React.FC = () => {
+    const timePeriodId = useSelector<IAppState, string>((state) => state.timePeriodId);
     const queryResult = useQuery<GetVariableCategories, GetVariableCategoriesVariables>(getVariableCategoriesQuery, {
         variables: {
             timePeriodId,
@@ -59,4 +60,4 @@ const VariableCategories: React.FC<IAppState> = ({timePeriodId}) => {
     );
 };
 
-export default withRedux(VariableCategories);
+export default VariableCategories;

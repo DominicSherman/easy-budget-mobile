@@ -2,6 +2,7 @@ import React, {FC, useState} from 'react';
 import {View} from 'react-native';
 import uuid from 'uuid';
 import {useMutation} from '@apollo/react-hooks';
+import {useSelector} from 'react-redux';
 
 import Input from '../components/generic/Input';
 import Button from '../components/generic/Button';
@@ -14,10 +15,10 @@ import {
     CreateVariableCategoryMutationVariables
 } from '../../autogen/CreateVariableCategoryMutation';
 import {createVariableCategoryUpdate} from '../helpers/graphql-helpers';
-import {withRedux} from '../redux/with-redux';
 import {IAppState} from '../redux/reducer';
 
-const CreateEditCategoryForm: FC<IAppState> = ({timePeriodId}) => {
+const CreateEditCategoryForm: FC = () => {
+    const timePeriodId = useSelector<IAppState, string>((state) => state.timePeriodId);
     const [name, setName] = useState('');
     const [amount, setAmount] = useState('');
     const variableCategory = {
@@ -77,4 +78,4 @@ const CreateEditCategoryForm: FC<IAppState> = ({timePeriodId}) => {
     );
 };
 
-export default withRedux(CreateEditCategoryForm);
+export default CreateEditCategoryForm;

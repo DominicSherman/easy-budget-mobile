@@ -29,6 +29,10 @@ const Home: React.FC = () => {
     const {timePeriods} = queryResult.data;
     const activeTimePeriod = timePeriods[0];
 
+    if (!activeTimePeriod) {
+        return getEarlyReturn(queryResult);
+    }
+
     return (
         <SafeAreaView style={screenWrapper}>
             <View style={{margin: 16}}>

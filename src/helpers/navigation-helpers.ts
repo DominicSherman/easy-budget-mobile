@@ -42,6 +42,8 @@ export const getLoggedInRootLayout = (): LayoutRoot => {
                                     fontSize: 12,
                                     icon: icons.home,
                                     iconColor: colors.darkFont,
+                                    selectedIconColor: colors.green,
+                                    selectedTextColor: colors.green,
                                     text: 'HOME',
                                     textColor: colors.darkFont
                                 },
@@ -67,6 +69,8 @@ export const getLoggedInRootLayout = (): LayoutRoot => {
                                     fontSize: 12,
                                     icon: icons.image,
                                     iconColor: colors.darkFont,
+                                    selectedIconColor: colors.green,
+                                    selectedTextColor: colors.green,
                                     text: 'FIXED',
                                     textColor: colors.darkFont
                                 },
@@ -92,6 +96,8 @@ export const getLoggedInRootLayout = (): LayoutRoot => {
                                     fontSize: 12,
                                     icon: icons.more,
                                     iconColor: colors.darkFont,
+                                    selectedIconColor: colors.green,
+                                    selectedTextColor: colors.green,
                                     text: 'VARIABLE',
                                     textColor: colors.darkFont
                                 },
