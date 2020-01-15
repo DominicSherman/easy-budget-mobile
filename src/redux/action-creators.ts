@@ -1,4 +1,4 @@
-import {getActiveTimePeriod} from '../services/graphql-service';
+import {getActiveTimePeriod} from '../repositories/time-period-repository';
 
 import {dispatchAction} from './store';
 import {Actions} from './actions';
