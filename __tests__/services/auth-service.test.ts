@@ -4,14 +4,14 @@ import * as firebase from 'react-native-firebase';
 
 import {getUserId, signIn, signOut} from '../../src/services/auth-service';
 import {chance} from '../chance';
-import * as navigationHelpers from '../../src/helpers/navigation-helpers';
+import * as navigationHelpers from '../../src/utils/navigation-utils';
 
 jest.mock('react-native-navigation', () => ({
     Navigation: {
         setRoot: jest.fn()
     }
 }));
-jest.mock('../../src/helpers/navigation-helpers');
+jest.mock('../../src/utils/navigation-utils');
 
 describe('auth service', () => {
     const mockGoogleSignin = GoogleSignin as jest.Mocked<typeof GoogleSignin>;

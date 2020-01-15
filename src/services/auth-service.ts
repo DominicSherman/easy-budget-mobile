@@ -2,7 +2,7 @@ import {Navigation} from 'react-native-navigation';
 import {GoogleSignin} from '@react-native-community/google-signin';
 import firebase from 'react-native-firebase';
 
-import {getLoggedInRootLayout, getLoggedOutRootLayout} from '../helpers/navigation-helpers';
+import {getLoggedInRootLayout, getLoggedOutRootLayout} from '../utils/navigation-utils';
 
 export const signIn = async (): Promise<void> => {
     await GoogleSignin.configure();

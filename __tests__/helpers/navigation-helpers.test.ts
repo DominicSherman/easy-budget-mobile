@@ -1,6 +1,6 @@
 import {OptionsBottomTab} from 'react-native-navigation';
 
-import {getDefaultOptions, getLoggedInRootLayout, getLoggedOutRootLayout} from '../../src/helpers/navigation-helpers';
+import {getDefaultOptions, getLoggedInRootLayout, getLoggedOutRootLayout} from '../../src/utils/navigation-utils';
 import {colors} from '../../src/constants/colors';
 import {chance} from '../chance';
 import * as iconService from '../../src/services/icon-service';
@@ -16,7 +16,7 @@ const tabStyle = {
     textColor: colors.darkFont
 };
 
-describe('navigation helpers', () => {
+describe('navigation utils', () => {
     const {getIcons} = iconService as jest.Mocked<typeof iconService>;
 
     describe('getDefaultOptions', () => {

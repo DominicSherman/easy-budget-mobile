@@ -1,7 +1,7 @@
 import {Navigation} from 'react-native-navigation';
 
 import {loadIcons} from './src/services/icon-service';
-import {getDefaultOptions, getLoggedInRootLayout, getLoggedOutRootLayout} from './src/helpers/navigation-helpers';
+import {getDefaultOptions, getLoggedInRootLayout, getLoggedOutRootLayout} from './src/utils/navigation-utils';
 import {registerScreens} from './src/screens';
 import {getIsSignedIn} from './src/services/auth-service';
 import {initializeStore} from './src/redux/store';

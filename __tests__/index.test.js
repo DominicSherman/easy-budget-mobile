@@ -2,7 +2,7 @@ import Chance from 'chance';
 
 jest.mock('../src/screens', () => ({registerScreens: jest.fn()}));
 jest.mock('../src/services/icon-service', () => ({loadIcons: jest.fn()}));
-jest.mock('../src/helpers/navigation-helpers');
+jest.mock('../src/utils/navigation-utils');
 jest.mock('../src/services/auth-service', () => ({
     getIsSignedIn: jest.fn()
 }));
@@ -28,7 +28,7 @@ describe('index', () => {
         registerScreens = require('../src/screens').registerScreens;
         loadIcons = require('../src/services/icon-service').loadIcons;
         expectedDefaultOptions = chance.string();
-        navigationHelpers = require('../src/helpers/navigation-helpers');
+        navigationHelpers = require('../src/utils/navigation-utils');
         getDefaultOptions = navigationHelpers.getDefaultOptions;
         getDefaultOptions.mockReturnValue(expectedDefaultOptions);
         expectedLoggedInRoot = chance.string();

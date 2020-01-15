@@ -14,7 +14,7 @@ import {
     CreateVariableCategoryMutation,
     CreateVariableCategoryMutationVariables
 } from '../../autogen/CreateVariableCategoryMutation';
-import {createVariableCategoryUpdate} from '../helpers/graphql-helpers';
+import {createVariableCategoryUpdate} from '../utils/update-cache-utils';
 import {IAppState} from '../redux/reducer';
 
 const CreateEditCategoryForm: FC = () => {
