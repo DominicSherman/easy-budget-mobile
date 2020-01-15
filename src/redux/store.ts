@@ -18,7 +18,14 @@ export const dispatchAction = (type, data): void => {
             data,
             type
         });
-    }
+    } else {
+        initializeStore();
 
-    initializeStore();
+        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+        // @ts-ignore
+        store.dispatch({
+            data,
+            type
+        });
+    }
 };

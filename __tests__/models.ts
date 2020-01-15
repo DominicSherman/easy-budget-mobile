@@ -4,6 +4,7 @@ import {ApolloError, NetworkStatus} from 'apollo-client';
 import {IVariableCategory} from '../autogen/IVariableCategory';
 import {ITimePeriod} from '../autogen/ITimePeriod';
 import {IAppState} from '../src/redux/reducer';
+import {IErrorResponse, IOkResponse} from '../src/repositories/query-middleware';
 
 import {chance} from './chance';
 
@@ -51,6 +52,18 @@ export const createRandomQueryResult = <TData = any>(data: TData): QueryResult<T
         NetworkStatus.loading,
         NetworkStatus.ready
     ])
+});
+
+export const createRandomErrorResponse = (): IErrorResponse => ({
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // @ts-ignore
+    errors: chance.n(chance.string, chance.d6()),
+    hasError: true
+});
+
+export const createRandomOkResponse = <TData>(data: TData): IOkResponse<TData> => ({
+    data,
+    hasError: false
 });
 
 export const createRandomAppState = (): IAppState => ({
