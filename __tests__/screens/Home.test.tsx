@@ -9,7 +9,6 @@ import {createRandomQueryResult, createRandomTimePeriods} from '../models';
 import {getActiveTimePeriodQuery} from '../../src/graphql/queries';
 import {getRoundedDate} from '../../src/services/moment-service';
 import {getEarlyReturn} from '../../src/services/error-and-loading-service';
-import {GetActiveTimePeriod} from '../../autogen/GetActiveTimePeriod';
 
 jest.mock('@apollo/react-hooks');
 jest.mock('../../src/services/auth-service');
