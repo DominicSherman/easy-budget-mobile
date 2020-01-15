@@ -5,6 +5,7 @@ import {IVariableCategory} from '../autogen/IVariableCategory';
 import {ITimePeriod} from '../autogen/ITimePeriod';
 import {IAppState} from '../src/redux/reducer';
 import {IErrorResponse, IOkResponse} from '../src/repositories/query-middleware';
+import {Actions} from '../src/redux/actions';
 
 import {chance} from './chance';
 
