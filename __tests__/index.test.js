@@ -2,11 +2,9 @@ import Chance from 'chance';
 
 jest.mock('../src/screens', () => ({registerScreens: jest.fn()}));
 jest.mock('../src/services/icon-service', () => ({loadIcons: jest.fn()}));
-jest.mock('../src/helpers/navigation-helpers', () => ({
-    getDefaultOptions: jest.fn(),
-    getRoot: jest.fn()
-}));
-jest.mock('../src/services/auth-service', () => ({getRoot: jest.fn()}));
+jest.mock('../src/helpers/navigation-helpers');
+jest.mock('../src/services/auth-service');
+jest.mock('../src/redux/action-creators');
 
 const chance = new Chance();
 
@@ -15,9 +13,11 @@ describe('index', () => {
         registerScreens,
         loadIcons,
         getDefaultOptions,
-        getRoot,
+        setActiveTimePeriodData,
+        navigationHelpers,
         expectedDefaultOptions,
-        expectedRoot,
+        expectedLoggedInRoot,
+        expectedLoggedOutRoot,
         registerAppSpy;
 
     beforeEach(() => {
@@ -25,12 +25,15 @@ describe('index', () => {
         registerScreens = require('../src/screens').registerScreens;
         loadIcons = require('../src/services/icon-service').loadIcons;
         expectedDefaultOptions = chance.string();
-        getDefaultOptions = require('../src/helpers/navigation-helpers').getDefaultOptions;
+        navigationHelpers = require('../src/helpers/navigation-helpers');
+        getDefaultOptions = navigationHelpers.getDefaultOptions;
         getDefaultOptions.mockReturnValue(expectedDefaultOptions);
-        expectedRoot = chance.string();
-        getRoot = require('../src/services/auth-service').getRoot;
-        getRoot.mockReturnValue(expectedRoot);
+        expectedLoggedInRoot = chance.string();
+        expectedLoggedOutRoot = chance.string();
+        setActiveTimePeriodData = require('../src/redux/action-creators').setActiveTimePeriodData;
 
+        navigationHelpers.getLoggedInRootLayout.mockReturnValue(expectedLoggedInRoot);
+        navigationHelpers.getLoggedOutRootLayout.mockReturnValue(expectedLoggedOutRoot);
         registerAppSpy = jest.fn();
         Navigation.events = jest.fn().mockReturnValue({
             registerAppLaunchedListener: registerAppSpy
@@ -76,12 +79,20 @@ describe('index', () => {
             expect(Navigation.setDefaultOptions).toHaveBeenCalledWith(expectedDefaultOptions);
         });
 
-        it('should set the root for Navigation', async () => {
-            await triggerAppLaunchedListener();
+        describe('when the user is signed in', () => {
+            it('should set active time period data', async () => {
+                await triggerAppLaunchedListener();
 
-            expect(getRoot).toHaveBeenCalledTimes(1);
-            expect(Navigation.setRoot).toHaveBeenCalledTimes(1);
-            expect(Navigation.setRoot).toHaveBeenCalledWith(expectedRoot);
+                expect(setActiveTimePeriodData).toHaveBeenCalledTimes(1);
+                expect(setActiveTimePeriodData).toHaveBeenCalledWith();
+            });
+
+            it('should set the root for Navigation', async () => {
+                await triggerAppLaunchedListener();
+
+                expect(Navigation.setRoot).toHaveBeenCalledTimes(1);
+                expect(Navigation.setRoot).toHaveBeenCalledWith(expectedLoggedInRoot);
+            });
         });
     });
 });

@@ -2,7 +2,7 @@ import {GoogleSignin} from '@react-native-community/google-signin';
 import {Navigation} from 'react-native-navigation';
 import * as firebase from 'react-native-firebase';
 
-import {getUserId, signIn, signOut, getRoot} from '../../src/services/auth-service';
+import {getUserId, signIn, signOut} from '../../src/services/auth-service';
 import {chance} from '../chance';
 import * as navigationHelpers from '../../src/helpers/navigation-helpers';
 
@@ -134,20 +134,6 @@ describe('auth service', () => {
             const actualUserId = getUserId();
 
             expect(actualUserId).toBe('');
-        });
-    });
-
-    describe('getRoot', () => {
-        it('should return the logged in layout if isSignedIn', async () => {
-            mockGoogleSignin.isSignedIn.mockResolvedValue(true);
-
-            expect(await getRoot()).toBe(expectedLoggedInLayout);
-        });
-
-        it('should return the logged out layout if **not** isSignedIn', async () => {
-            mockGoogleSignin.isSignedIn.mockResolvedValue(false);
-
-            expect(await getRoot()).toBe(expectedLoggedOutLayout);
         });
     });
 });

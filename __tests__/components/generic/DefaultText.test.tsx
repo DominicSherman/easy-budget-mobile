@@ -1,20 +1,20 @@
 import TestRenderer from 'react-test-renderer';
 import React from 'react';
-import {TextInput} from 'react-native';
+import {Text} from 'react-native';
 
-import DefaultTextInput from '../../../src/components/generic/DefaultTextInput';
+import DefaultText from '../../../src/components/generic/DefaultText';
 import {chance} from '../../chance';
 
-describe('DefaultTextInput', () => {
+describe('DefaultText', () => {
     const expectedChildren = chance.string();
 
     const {root} = TestRenderer.create(
-        <DefaultTextInput>
+        <DefaultText>
             {expectedChildren}
-        </DefaultTextInput>
+        </DefaultText>
     );
 
-    it('should render a TextInput component', () => {
-        expect(root.findByType(TextInput).props.children).toBe(expectedChildren);
+    it('should render a Text component', () => {
+        expect(root.findByType(Text).props.children).toBe(expectedChildren);
     });
 });
