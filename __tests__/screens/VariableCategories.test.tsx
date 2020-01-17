@@ -14,7 +14,7 @@ jest.mock('react-redux');
 jest.mock('../../src/services/auth-service');
 
 describe('VariableCategories', () => {
-    const {useQuery} = reactHooks as jest.Mocked<typeof reactHooks>;
+    const {useQuery, useMutation} = reactHooks as jest.Mocked<typeof reactHooks>;
     const {useSelector} = reactRedux as jest.Mocked<typeof reactRedux>;
 
     let expectedTimePeriodId,
@@ -35,6 +35,8 @@ describe('VariableCategories', () => {
 
         useQuery.mockReturnValue(expectedData);
         useSelector.mockReturnValue(expectedTimePeriodId);
+        // @ts-ignore
+        useMutation.mockReturnValue([jest.fn()]);
 
         render();
     });
