@@ -10,8 +10,7 @@ import {SCREEN_WIDTH} from '../constants/dimensions';
 import {GetVariableCategories, GetVariableCategoriesVariables} from '../../autogen/GetVariableCategories';
 import {IAppState} from '../redux/reducer';
 import {getEarlyReturn} from '../services/error-and-loading-service';
-
-import CreateEditCategoryForm from './CreateEditCategoryForm';
+import CreateEditCategoryForm from '../components/CreateEditCategoryForm';
 
 const styles = StyleSheet.create({
     fixedWrapper: {

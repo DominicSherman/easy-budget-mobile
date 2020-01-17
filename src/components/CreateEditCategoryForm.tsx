@@ -4,18 +4,19 @@ import uuid from 'uuid';
 import {useMutation} from '@apollo/react-hooks';
 import {useSelector} from 'react-redux';
 
-import Input from '../components/generic/Input';
-import Button from '../components/generic/Button';
 import {createVariableCategoryMutation} from '../graphql/mutations';
 import {getUserId} from '../services/auth-service';
 import {textStyles} from '../styles/text-styles';
-import DefaultText from '../components/generic/DefaultText';
 import {
     CreateVariableCategoryMutation,
     CreateVariableCategoryMutationVariables
 } from '../../autogen/CreateVariableCategoryMutation';
 import {createVariableCategoryUpdate} from '../utils/update-cache-utils';
 import {IAppState} from '../redux/reducer';
+
+import DefaultText from './generic/DefaultText';
+import Button from './generic/Button';
+import Input from './generic/Input';
 
 const CreateEditCategoryForm: FC = () => {
     const timePeriodId = useSelector<IAppState, string>((state) => state.timePeriodId);
