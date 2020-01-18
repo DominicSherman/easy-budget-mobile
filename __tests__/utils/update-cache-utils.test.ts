@@ -51,5 +51,38 @@ describe('update cache utils', () => {
                 }
             });
         });
+
+        it('should call write query if there is a result and data', () => {
+            createVariableCategoryUpdate(cache, expectedMutationResult);
+
+            expect(cache.writeQuery).toHaveBeenCalledTimes(1);
+            expect(cache.writeQuery).toHaveBeenCalledWith({
+                data: {
+                    variableCategories: [
+                        ...expectedReadQuery.variableCategories,
+                        expectedMutationResult.data.createVariableCategory
+                    ]
+                },
+                query: getVariableCategoriesQuery,
+                variables: {
+                    timePeriodId: expectedState.timePeriodId,
+                    userId: getUserId()
+                }
+            });
+        });
+
+        it('should **not** call write query if there is not a result', () => {
+            cache.readQuery.mockReturnValue(null);
+
+            createVariableCategoryUpdate(cache, expectedMutationResult);
+
+            expect(cache.writeQuery).not.toHaveBeenCalled();
+        });
+
+        it('should **not** call write query if there is not data', () => {
+            createVariableCategoryUpdate(cache, {data: null});
+
+            expect(cache.writeQuery).not.toHaveBeenCalled();
+        });
     });
 });
