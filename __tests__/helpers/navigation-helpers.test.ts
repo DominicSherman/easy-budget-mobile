@@ -1,5 +1,3 @@
-import {OptionsBottomTab} from 'react-native-navigation';
-
 import {getDefaultOptions, getLoggedInRootLayout, getLoggedOutRootLayout} from '../../src/utils/navigation-utils';
 import {colors} from '../../src/constants/colors';
 import {chance} from '../chance';
