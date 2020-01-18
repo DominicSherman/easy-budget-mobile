@@ -1,5 +1,6 @@
 {
   "exclude": [
+    "autogen",
     "node_modules"
   ],
   "include": [
@@ -18,7 +19,6 @@
     "allowJs": false,
     "checkJs": false,
     "jsx": "react",
-    "plugins": [{ "transform": "ts-optchain/transform" }],
     "strict": true,
     "noImplicitAny": false,
     "allowSyntheticDefaultImports": true,

@@ -1,22 +1,15 @@
-import React, {ReactNode, FC} from 'react';
-import {Text, TextStyle} from 'react-native';
+import React, {FC, ReactNode} from 'react';
+import {StyleProp, Text, TextStyle} from 'react-native';
 
-import {colors} from '../../constants/colors';
-
-const styles = {
-    default: {
-        color: colors.darkFont,
-        fontSize: 18
-    }
-};
+import {textStyles} from '../../styles/text-styles';
 
 interface IDefaultText {
     children: ReactNode
-    style?: TextStyle
+    style?: StyleProp<TextStyle>
 }
 
 const DefaultText: FC<IDefaultText> = ({style, children}) =>
-    <Text style={[styles.default, style]}>
+    <Text style={[textStyles.regularDark, style]}>
         {children}
     </Text>;
 

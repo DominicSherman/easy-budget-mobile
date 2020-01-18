@@ -1,8 +1,16 @@
-import {LayoutRoot, Options} from 'react-native-navigation';
+import {LayoutRoot, Options, OptionsBottomTab} from 'react-native-navigation';
 
 import {colors} from '../constants/colors';
-import {routes} from '../constants/routes';
+import {Route} from '../constants/routes';
 import {getIcons} from '../services/icon-service';
+
+const tabStyle: OptionsBottomTab = {
+    fontSize: 12,
+    iconColor: colors.darkFont,
+    selectedIconColor: colors.green,
+    selectedTextColor: colors.green,
+    textColor: colors.darkFont
+};
 
 export const getDefaultOptions = (): Options => ({
     layout: {
@@ -33,17 +41,15 @@ export const getLoggedInRootLayout = (): LayoutRoot => {
                             children: [
                                 {
                                     component: {
-                                        name: routes.HOME
+                                        name: Route.HOME
                                     }
                                 }
                             ],
                             options: {
                                 bottomTab: {
-                                    fontSize: 12,
+                                    ...tabStyle,
                                     icon: icons.home,
-                                    iconColor: colors.darkFont,
-                                    text: 'HOME',
-                                    textColor: colors.darkFont
+                                    text: 'HOME'
                                 },
                                 topBar: {
                                     title: {
@@ -58,17 +64,15 @@ export const getLoggedInRootLayout = (): LayoutRoot => {
                             children: [
                                 {
                                     component: {
-                                        name: routes.FIXED_EXPENSES
+                                        name: Route.FIXED_CATEGORIES
                                     }
                                 }
                             ],
                             options: {
                                 bottomTab: {
-                                    fontSize: 12,
+                                    ...tabStyle,
                                     icon: icons.image,
-                                    iconColor: colors.darkFont,
-                                    text: 'FIXED',
-                                    textColor: colors.darkFont
+                                    text: 'FIXED'
                                 },
                                 topBar: {
                                     title: {
@@ -83,17 +87,15 @@ export const getLoggedInRootLayout = (): LayoutRoot => {
                             children: [
                                 {
                                     component: {
-                                        name: routes.VARIABLE_EXPENSES
+                                        name: Route.VARIABLE_CATEGORIES
                                     }
                                 }
                             ],
                             options: {
                                 bottomTab: {
-                                    fontSize: 12,
+                                    ...tabStyle,
                                     icon: icons.more,
-                                    iconColor: colors.darkFont,
-                                    text: 'VARIABLE',
-                                    textColor: colors.darkFont
+                                    text: 'VARIABLE'
                                 },
                                 topBar: {
                                     title: {
@@ -121,7 +123,7 @@ export const getLoggedOutRootLayout = (): LayoutRoot => ({
             children: [
                 {
                     component: {
-                        name: routes.LOGIN
+                        name: Route.LOGIN
                     }
                 }
             ]

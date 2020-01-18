@@ -1,12 +1,20 @@
-import {getDefaultOptions, getLoggedInRootLayout, getLoggedOutRootLayout} from '../../src/helpers/navigation-helpers';
+import {getDefaultOptions, getLoggedInRootLayout, getLoggedOutRootLayout} from '../../src/utils/navigation-utils';
 import {colors} from '../../src/constants/colors';
 import {chance} from '../chance';
 import * as iconService from '../../src/services/icon-service';
-import {routes} from '../../src/constants/routes';
+import {Route} from '../../src/constants/routes';
 
 jest.mock('../../src/services/icon-service');
 
-describe('navigation helpers', () => {
+const tabStyle = {
+    fontSize: 12,
+    iconColor: colors.darkFont,
+    selectedIconColor: colors.green,
+    selectedTextColor: colors.green,
+    textColor: colors.darkFont
+};
+
+describe('navigation utils', () => {
     const {getIcons} = iconService as jest.Mocked<typeof iconService>;
 
     describe('getDefaultOptions', () => {
@@ -53,17 +61,15 @@ describe('navigation helpers', () => {
                                     children: [
                                         {
                                             component: {
-                                                name: routes.HOME
+                                                name: Route.HOME
                                             }
                                         }
                                     ],
                                     options: {
                                         bottomTab: {
-                                            fontSize: 12,
+                                            ...tabStyle,
                                             icon: expectedIcons.home,
-                                            iconColor: colors.darkFont,
-                                            text: 'HOME',
-                                            textColor: colors.darkFont
+                                            text: 'HOME'
                                         },
                                         topBar: {
                                             title: {
@@ -78,17 +84,15 @@ describe('navigation helpers', () => {
                                     children: [
                                         {
                                             component: {
-                                                name: routes.FIXED_EXPENSES
+                                                name: Route.FIXED_CATEGORIES
                                             }
                                         }
                                     ],
                                     options: {
                                         bottomTab: {
-                                            fontSize: 12,
+                                            ...tabStyle,
                                             icon: expectedIcons.image,
-                                            iconColor: colors.darkFont,
-                                            text: 'FIXED',
-                                            textColor: colors.darkFont
+                                            text: 'FIXED'
                                         },
                                         topBar: {
                                             title: {
@@ -103,17 +107,15 @@ describe('navigation helpers', () => {
                                     children: [
                                         {
                                             component: {
-                                                name: routes.VARIABLE_EXPENSES
+                                                name: Route.VARIABLE_CATEGORIES
                                             }
                                         }
                                     ],
                                     options: {
                                         bottomTab: {
-                                            fontSize: 12,
+                                            ...tabStyle,
                                             icon: expectedIcons.more,
-                                            iconColor: colors.darkFont,
-                                            text: 'VARIABLE',
-                                            textColor: colors.darkFont
+                                            text: 'VARIABLE'
                                         },
                                         topBar: {
                                             title: {
@@ -144,7 +146,7 @@ describe('navigation helpers', () => {
                         children: [
                             {
                                 component: {
-                                    name: routes.LOGIN
+                                    name: Route.LOGIN
                                 }
                             }
                         ]

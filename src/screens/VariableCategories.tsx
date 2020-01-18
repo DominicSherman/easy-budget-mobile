@@ -1,13 +1,16 @@
 import React from 'react';
-import {ActivityIndicator, SafeAreaView, StyleSheet, View} from 'react-native';
+import {ScrollView, StyleSheet, View} from 'react-native';
 import {useQuery} from '@apollo/react-hooks';
+import {useSelector} from 'react-redux';
 
 import DefaultText from '../components/generic/DefaultText';
-import {screenWrapper} from '../styles/shared-styles';
-import {IVariableCategory} from '../types/global';
 import {getVariableCategoriesQuery} from '../graphql/queries';
 import {getUserId} from '../services/auth-service';
 import {SCREEN_WIDTH} from '../constants/dimensions';
+import {GetVariableCategories, GetVariableCategoriesVariables} from '../../autogen/GetVariableCategories';
+import {IAppState} from '../redux/reducer';
+import {getEarlyReturn} from '../services/error-and-loading-service';
+import CreateEditCategoryForm from '../components/CreateEditCategoryForm';
 
 const styles = StyleSheet.create({
     fixedWrapper: {
@@ -19,25 +22,26 @@ const styles = StyleSheet.create({
 });
 
 const VariableCategories: React.FC = () => {
-    const {data, loading} = useQuery<{variableCategories: IVariableCategory[]}>(getVariableCategoriesQuery, {
+    const timePeriodId = useSelector<IAppState, string>((state) => state.timePeriodId);
+    const queryResult = useQuery<GetVariableCategories, GetVariableCategoriesVariables>(getVariableCategoriesQuery, {
         variables: {
+            timePeriodId,
             userId: getUserId()
         }
     });
 
-    if (!data || loading) {
-        return (
-            <View style={screenWrapper}>
-                <ActivityIndicator />
-            </View>
-        );
+    if (!queryResult.data) {
+        return getEarlyReturn(queryResult);
     }
 
-    const {variableCategories} = data;
+    const {variableCategories} = queryResult.data;
+    const sortedVariableCategories = variableCategories.sort((a, b) => a.name < b.name ? -1 : 1);
 
     return (
-        <SafeAreaView style={screenWrapper}>
-            {variableCategories.map((variableCategory) => (
+        <ScrollView
+            contentContainerStyle={{paddingBottom: 32}}
+        >
+            {sortedVariableCategories.map((variableCategory) => (
                 <View
                     key={variableCategory.variableCategoryId}
                     style={styles.fixedWrapper}
@@ -50,7 +54,8 @@ const VariableCategories: React.FC = () => {
                     </View>
                 </View>
             ))}
-        </SafeAreaView>
+            <CreateEditCategoryForm />
+        </ScrollView>
     );
 };
 

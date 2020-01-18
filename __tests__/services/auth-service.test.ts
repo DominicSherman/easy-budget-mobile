@@ -2,16 +2,16 @@ import {GoogleSignin} from '@react-native-community/google-signin';
 import {Navigation} from 'react-native-navigation';
 import * as firebase from 'react-native-firebase';
 
-import {getUserId, signIn, signOut, getRoot} from '../../src/services/auth-service';
+import {getIsSignedIn, getUserId, signIn, signOut} from '../../src/services/auth-service';
 import {chance} from '../chance';
-import * as navigationHelpers from '../../src/helpers/navigation-helpers';
+import * as navigationHelpers from '../../src/utils/navigation-utils';
 
 jest.mock('react-native-navigation', () => ({
     Navigation: {
         setRoot: jest.fn()
     }
 }));
-jest.mock('../../src/helpers/navigation-helpers');
+jest.mock('../../src/utils/navigation-utils');
 
 describe('auth service', () => {
     const mockGoogleSignin = GoogleSignin as jest.Mocked<typeof GoogleSignin>;
@@ -137,17 +137,9 @@ describe('auth service', () => {
         });
     });
 
-    describe('getRoot', () => {
-        it('should return the logged in layout if isSignedIn', async () => {
-            mockGoogleSignin.isSignedIn.mockResolvedValue(true);
-
-            expect(await getRoot()).toBe(expectedLoggedInLayout);
-        });
-
-        it('should return the logged out layout if **not** isSignedIn', async () => {
-            mockGoogleSignin.isSignedIn.mockResolvedValue(false);
-
-            expect(await getRoot()).toBe(expectedLoggedOutLayout);
+    describe('getIsSignedIn', () => {
+        it('should return GoogleSignin.isSignedIn', () => {
+            expect(getIsSignedIn()).toEqual(GoogleSignin.isSignedIn());
         });
     });
 });
