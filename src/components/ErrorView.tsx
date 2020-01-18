@@ -2,6 +2,7 @@ import React, {FC} from 'react';
 import {View} from 'react-native';
 
 import {screenWrapper} from '../styles/shared-styles';
+
 import DefaultText from './generic/DefaultText';
 
 const ErrorView: FC = () =>
