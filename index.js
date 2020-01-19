@@ -1,33 +1,7 @@
-import {Navigation} from 'react-native-navigation';
+import 'react-native-gesture-handler';
+import {AppRegistry} from 'react-native';
 
-import {loadIcons} from './src/services/icon-service';
-import {getDefaultOptions, getLoggedInRootLayout, getLoggedOutRootLayout} from './src/utils/navigation-utils';
-import {registerScreens} from './src/screens';
-import {getIsSignedIn} from './src/services/auth-service';
-import {initializeStore} from './src/redux/store';
-import {setActiveTimePeriodData} from './src/redux/action-creators';
+import {name as appName} from './app';
+import App from './src/App';
 
-// eslint-disable-next-line no-console
-console.disableYellowBox = true;
-
-initializeStore();
-registerScreens();
-
-Navigation.events().registerAppLaunchedListener(async () => {
-    await loadIcons();
-    await Navigation.setDefaultOptions(getDefaultOptions());
-
-    const isSignedIn = await getIsSignedIn();
-
-    let rootLayout;
-
-    if (isSignedIn) {
-        await setActiveTimePeriodData();
-
-        rootLayout = getLoggedInRootLayout();
-    } else {
-        rootLayout = getLoggedOutRootLayout();
-    }
-
-    await Navigation.setRoot(rootLayout);
-});
+AppRegistry.registerComponent(appName, () => App);
