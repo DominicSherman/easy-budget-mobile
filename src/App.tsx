@@ -1,33 +1,75 @@
 import React, {FC} from 'react';
-import {NavigationNativeContainer} from '@react-navigation/native';
+import {DefaultTheme, NavigationNativeContainer} from '@react-navigation/native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {ApolloProvider} from '@apollo/react-hooks';
 import {Provider} from 'react-redux';
+import {createStackNavigator} from '@react-navigation/stack';
 
-import {Route} from './constants/routes';
+import {Route} from './enums/routes';
 import Home from './screens/Home';
 import FixedCategories from './screens/FixedCategories';
 import VariableCategories from './screens/VariableCategories';
 import {getApolloClient} from './graphql/apollo-client';
 import {getStore} from './redux/store';
+import {HamburgerMenu} from './components/navigation/HeaderComponents';
 
+const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
+const options = {
+    headerLeft: (): JSX.Element => <HamburgerMenu />
+};
+
+const HomeStack: FC = () =>
+    <Stack.Navigator>
+        <Stack.Screen
+            component={Home}
+            name={Route.HOME}
+            options={options}
+        />
+    </Stack.Navigator>;
+
+const FixedCategoriesStack: FC = () =>
+    <Stack.Navigator>
+        <Stack.Screen
+            component={FixedCategories}
+            name={Route.FIXED_CATEGORIES}
+            options={options}
+        />
+    </Stack.Navigator>;
+
+const VariableCategoriesStack: FC = () =>
+    <Stack.Navigator>
+        <Stack.Screen
+            component={VariableCategories}
+            name={Route.VARIABLE_CATEGORIES}
+            options={options}
+        />
+    </Stack.Navigator>;
+
+const LightTheme = {
+    colors: {
+        ...DefaultTheme.colors,
+        background: 'rgb(255, 255, 255)'
+    },
+    dark: false
+};
+
 const App: FC = () =>
-    <NavigationNativeContainer>
+    <NavigationNativeContainer theme={LightTheme}>
         <ApolloProvider client={getApolloClient()}>
             <Provider store={getStore()}>
                 <Drawer.Navigator>
                     <Drawer.Screen
-                        component={Home}
+                        component={HomeStack}
                         name={Route.HOME}
                     />
                     <Drawer.Screen
-                        component={FixedCategories}
+                        component={FixedCategoriesStack}
                         name={Route.FIXED_CATEGORIES}
                     />
                     <Drawer.Screen
-                        component={VariableCategories}
+                        component={VariableCategoriesStack}
                         name={Route.VARIABLE_CATEGORIES}
                     />
                 </Drawer.Navigator>

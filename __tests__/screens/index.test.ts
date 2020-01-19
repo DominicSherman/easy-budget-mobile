@@ -1,7 +1,7 @@
 import {Navigation} from 'react-native-navigation';
 
 import Home from '../../src/screens/Home';
-import {Route} from '../../src/constants/routes';
+import {Route} from '../../src/enums/routes';
 import FixedCategories from '../../src/screens/FixedCategories';
 import VariableCategories from '../../src/screens/VariableCategories';
 import Login from '../../src/screens/Login';

@@ -17,7 +17,11 @@ export const initializeStore = (): void => {
     }
 };
 
-export const getStore = (): Store<IAppState> => store;
+export const getStore = (): Store<IAppState> => {
+    initializeStore();
+
+    return store;
+};
 
 export const getState = (): IAppState => store.getState();
 

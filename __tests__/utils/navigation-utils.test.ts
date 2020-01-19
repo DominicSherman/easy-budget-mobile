@@ -4,7 +4,7 @@ import {getDefaultOptions, getLoggedInRootLayout, getLoggedOutRootLayout} from '
 import {colors} from '../../src/constants/colors';
 import {chance} from '../chance';
 import * as iconService from '../../src/services/icon-service';
-import {Route} from '../../src/constants/routes';
+import {Route} from '../../src/enums/routes';
 
 jest.mock('../../src/services/icon-service');
 

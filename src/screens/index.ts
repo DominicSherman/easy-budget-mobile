@@ -1,7 +1,7 @@
 import {Navigation} from 'react-native-navigation';
 import {FC} from 'react';
 
-import {Route} from '../constants/routes';
+import {Route} from '../enums/routes';
 import {asScreen} from '../services/screen-wrapper';
 
 import Home from './Home';
