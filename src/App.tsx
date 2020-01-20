@@ -1,8 +1,8 @@
-import React, {FC, useState} from 'react';
+import React, {FC} from 'react';
 import {DefaultTheme, NavigationNativeContainer} from '@react-navigation/native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {ApolloProvider} from '@apollo/react-hooks';
-import {Provider} from 'react-redux';
+import {Provider, useSelector} from 'react-redux';
 import {createStackNavigator} from '@react-navigation/stack';
 
 import {Route} from './enums/routes';
@@ -12,10 +12,12 @@ import VariableCategories from './screens/VariableCategories';
 import {getApolloClient} from './graphql/apollo-client';
 import {getStore} from './redux/store';
 import {HamburgerMenu} from './components/navigation/HeaderComponents';
-import {getIsSignedIn} from './services/auth-service';
-import {setActiveTimePeriodData} from './redux/action-creators';
+import {setAppState} from './redux/action-creators';
 import LoadingView from './components/LoadingView';
 import Login from './screens/Login';
+import {IAppState} from './redux/reducer';
+import {AppStatus} from './enums/app-status';
+import ErrorView from './components/ErrorView';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -59,63 +61,47 @@ const LightTheme = {
     dark: false
 };
 
-enum StatusType {
-    LOADING = 'LOADING',
-    LOGGED_IN = 'LOGGED_IN',
-    LOGGED_OUT = 'LOGGED_OUT'
-}
-
 const App: FC = () => {
-    const [status, setStatus] = useState<StatusType>(StatusType.LOADING);
-
     React.useEffect(() => {
-        const bootstrapAsync = async (): Promise<void> => {
-            const isSignedIn = await getIsSignedIn();
-
-            if (isSignedIn) {
-                await setActiveTimePeriodData();
-
-                setStatus(StatusType.LOGGED_IN);
-            } else {
-                setStatus(StatusType.LOGGED_OUT);
-            }
-        };
-
-        bootstrapAsync();
+        setAppState();
     }, []);
+    const appStatus = useSelector((state: IAppState) => state.appStatus);
 
-    console.log('status', status);
-
-    if (status === StatusType.LOADING) {
+    if (appStatus === AppStatus.LOADING) {
         return <LoadingView />;
     }
 
-    if (status === StatusType.LOGGED_OUT) {
+    if (appStatus === AppStatus.LOGGED_OUT) {
         return <Login />;
+    }
+
+    if (appStatus === AppStatus.ERROR) {
+        return <ErrorView />;
     }
 
     return (
         <NavigationNativeContainer theme={LightTheme}>
             <ApolloProvider client={getApolloClient()}>
-                <Provider store={getStore()}>
-                    <Drawer.Navigator>
-                        <Drawer.Screen
-                            component={HomeStack}
-                            name={Route.HOME}
-                        />
-                        <Drawer.Screen
-                            component={FixedCategoriesStack}
-                            name={Route.FIXED_CATEGORIES}
-                        />
-                        <Drawer.Screen
-                            component={VariableCategoriesStack}
-                            name={Route.VARIABLE_CATEGORIES}
-                        />
-                    </Drawer.Navigator>
-                </Provider>
+                <Drawer.Navigator>
+                    <Drawer.Screen
+                        component={HomeStack}
+                        name={Route.HOME}
+                    />
+                    <Drawer.Screen
+                        component={FixedCategoriesStack}
+                        name={Route.FIXED_CATEGORIES}
+                    />
+                    <Drawer.Screen
+                        component={VariableCategoriesStack}
+                        name={Route.VARIABLE_CATEGORIES}
+                    />
+                </Drawer.Navigator>
             </ApolloProvider>
         </NavigationNativeContainer>
     );
 };
 
-export default App;
+export default () =>
+    <Provider store={getStore()}>
+        <App />
+    </Provider>;

@@ -1,20 +1,30 @@
 import {getActiveTimePeriod} from '../repositories/time-period-repository';
+import {getIsSignedIn} from '../services/auth-service';
+import {AppStatus} from '../enums/app-status';
 
 import {dispatchAction} from './store';
 import {Actions} from './actions';
 
-export const setActiveTimePeriodData = async (): Promise<void> => {
-    const result = await getActiveTimePeriod();
+export const setAppState = async (): Promise<void> => {
+    dispatchAction(Actions.SET_APP_STATUS, AppStatus.LOADING);
 
-    if (!result.hasError) {
-        const timePeriod = result.data.timePeriods[0];
+    const isSignedIn = await getIsSignedIn();
 
-        if (timePeriod) {
-            dispatchAction(Actions.SET_TIME_PERIOD_ID, timePeriod.timePeriodId);
+    if (isSignedIn) {
+        const result = await getActiveTimePeriod();
+
+        if (!result.hasError) {
+            const timePeriod = result.data.timePeriods[0];
+
+            if (timePeriod) {
+                dispatchAction(Actions.SET_TIME_PERIOD_ID, timePeriod.timePeriodId);
+            }
+
+            dispatchAction(Actions.SET_APP_STATUS, AppStatus.LOGGED_IN);
+        } else {
+            dispatchAction(Actions.SET_APP_STATUS, AppStatus.ERROR);
         }
-
-        return;
+    } else {
+        dispatchAction(Actions.SET_APP_STATUS, AppStatus.LOGGED_OUT);
     }
-
-    dispatchAction(Actions.SET_TIME_PERIOD_ID, null);
 };

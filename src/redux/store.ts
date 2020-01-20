@@ -23,7 +23,7 @@ export const getStore = (): Store<IAppState> => {
     return store;
 };
 
-export const getState = (): IAppState => store.getState();
+export const getState = (): IAppState => getStore().getState();
 
 export const dispatchAction = (type: Actions, data: any): void => {
     initializeStore();

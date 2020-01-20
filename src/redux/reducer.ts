@@ -1,7 +1,10 @@
+import {AppStatus} from '../enums/app-status';
+
 import {Actions} from './actions';
 
 const defaultState: IAppState = {
-    timePeriodId: ''
+    appStatus: AppStatus.LOADING,
+    timePeriodId: null
 };
 
 const setKey = (key: string): (state: IAppState, value: any) => IAppState => (state, value): IAppState => ({
@@ -10,13 +13,15 @@ const setKey = (key: string): (state: IAppState, value: any) => IAppState => (st
 });
 
 const reducerMap: ReducerMap = {
+    [Actions.SET_APP_STATUS]: setKey('appStatus'),
     [Actions.SET_TIME_PERIOD_ID]: setKey('timePeriodId')
 };
 
 type ReducerMap = {[key in Actions]?: (state: IAppState, value: any) => IAppState};
 
 export interface IAppState {
-    timePeriodId: string
+    appStatus: AppStatus
+    timePeriodId: string | null
 }
 
 export default (state = defaultState, {type, data}: {type: Actions, data: any}): IAppState => {
