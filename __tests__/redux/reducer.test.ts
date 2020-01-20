@@ -2,9 +2,11 @@ import {createRandomAppState} from '../models';
 import reducer, {IAppState} from '../../src/redux/reducer';
 import {chance} from '../chance';
 import {Actions} from '../../src/redux/actions';
+import {AppStatus} from '../../src/enums/app-status';
 
 const defaultState: IAppState = {
-    timePeriodId: ''
+    appStatus: AppStatus.LOADING,
+    timePeriodId: null
 };
 
 describe('reducer', () => {
@@ -22,6 +24,20 @@ describe('reducer', () => {
         });
 
         expect(actualState).toEqual(defaultState);
+    });
+
+    it('should set the appStatus if the action is SET_APP_STATUS', () => {
+        const appStatus = chance.string();
+
+        const actualState = reducer(expectedAppState, {
+            data: appStatus,
+            type: Actions.SET_APP_STATUS
+        });
+
+        expect(actualState).toEqual({
+            ...expectedAppState,
+            appStatus
+        });
     });
 
     it('should set the timePeriodId if the action is SET_TIME_PERIOD_ID', () => {

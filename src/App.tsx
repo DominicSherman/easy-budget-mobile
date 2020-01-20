@@ -67,41 +67,38 @@ const App: FC = () => {
     }, []);
     const appStatus = useSelector((state: IAppState) => state.appStatus);
 
-    if (appStatus === AppStatus.LOADING) {
-        return <LoadingView />;
+    switch (appStatus) {
+        case AppStatus.LOGGED_IN:
+            return (
+                <NavigationNativeContainer theme={LightTheme}>
+                    <ApolloProvider client={getApolloClient()}>
+                        <Drawer.Navigator>
+                            <Drawer.Screen
+                                component={HomeStack}
+                                name={Route.HOME}
+                            />
+                            <Drawer.Screen
+                                component={FixedCategoriesStack}
+                                name={Route.FIXED_CATEGORIES}
+                            />
+                            <Drawer.Screen
+                                component={VariableCategoriesStack}
+                                name={Route.VARIABLE_CATEGORIES}
+                            />
+                        </Drawer.Navigator>
+                    </ApolloProvider>
+                </NavigationNativeContainer>
+            );
+        case AppStatus.LOGGED_OUT:
+            return <Login />;
+        case AppStatus.ERROR:
+            return <ErrorView />;
+        default:
+            return <LoadingView />;
     }
-
-    if (appStatus === AppStatus.LOGGED_OUT) {
-        return <Login />;
-    }
-
-    if (appStatus === AppStatus.ERROR) {
-        return <ErrorView />;
-    }
-
-    return (
-        <NavigationNativeContainer theme={LightTheme}>
-            <ApolloProvider client={getApolloClient()}>
-                <Drawer.Navigator>
-                    <Drawer.Screen
-                        component={HomeStack}
-                        name={Route.HOME}
-                    />
-                    <Drawer.Screen
-                        component={FixedCategoriesStack}
-                        name={Route.FIXED_CATEGORIES}
-                    />
-                    <Drawer.Screen
-                        component={VariableCategoriesStack}
-                        name={Route.VARIABLE_CATEGORIES}
-                    />
-                </Drawer.Navigator>
-            </ApolloProvider>
-        </NavigationNativeContainer>
-    );
 };
 
-export default () =>
+export default (): JSX.Element =>
     <Provider store={getStore()}>
         <App />
     </Provider>;
