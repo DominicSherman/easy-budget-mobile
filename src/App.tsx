@@ -2,7 +2,7 @@ import React, {FC} from 'react';
 import {DefaultTheme, NavigationNativeContainer} from '@react-navigation/native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {ApolloProvider} from '@apollo/react-hooks';
-import {Provider, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {createStackNavigator} from '@react-navigation/stack';
 
 import {Route} from './enums/routes';
@@ -10,7 +10,6 @@ import Home from './screens/Home';
 import FixedCategories from './screens/FixedCategories';
 import VariableCategories from './screens/VariableCategories';
 import {getApolloClient} from './graphql/apollo-client';
-import {getStore} from './redux/store';
 import {HamburgerMenu} from './components/navigation/HeaderComponents';
 import {setAppState} from './redux/action-creators';
 import LoadingView from './components/LoadingView';
@@ -98,7 +97,4 @@ const App: FC = () => {
     }
 };
 
-export default (): JSX.Element =>
-    <Provider store={getStore()}>
-        <App />
-    </Provider>;
+export default App;
