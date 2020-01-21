@@ -1,5 +1,4 @@
 import {GoogleSignin} from '@react-native-community/google-signin';
-import {Navigation} from 'react-native-navigation';
 import * as firebase from 'react-native-firebase';
 
 import {getIsSignedIn, getUserId, signIn, signOut} from '../../src/services/auth-service';
