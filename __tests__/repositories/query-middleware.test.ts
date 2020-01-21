@@ -10,15 +10,11 @@ describe('query-middleware', () => {
     describe('queryGraphql', () => {
         let expectedClient: any,
             expectedOptions: any,
-            expectedErrorResponse: any,
             expectedOkResponse: any;
 
         beforeEach(() => {
             expectedOkResponse = {
                 data: chance.string()
-            };
-            expectedErrorResponse = {
-                errors: chance.n(chance.string, chance.d6())
             };
             expectedClient = {
                 query: jest.fn(() => expectedOkResponse)
@@ -34,10 +30,7 @@ describe('query-middleware', () => {
             await queryGraphql(expectedOptions);
 
             expect(expectedClient.query).toHaveBeenCalledTimes(1);
-            expect(expectedClient.query).toHaveBeenCalledWith({
-                ...expectedOptions,
-                errorPolicy: 'all'
-            });
+            expect(expectedClient.query).toHaveBeenCalledWith(expectedOptions);
         });
 
         it('should return the correct response if the query response is ok', async () => {
@@ -49,13 +42,15 @@ describe('query-middleware', () => {
             });
         });
 
-        it('should return the correct response if the query response has errors', async () => {
-            expectedClient.query.mockReturnValue(expectedErrorResponse);
+        it('should return the correct response if the query response throws an error', async () => {
+            const expectedError = chance.string();
+
+            expectedClient.query.mockRejectedValue(expectedError);
 
             const actualResponse = await queryGraphql(expectedOptions);
 
             expect(actualResponse).toEqual({
-                errors: expectedErrorResponse.errors,
+                error: expectedError,
                 hasError: true
             });
         });
