@@ -32,6 +32,7 @@ const FixedCategories: React.FC = () => {
         <FlatList
             ListFooterComponent={<CreateFixedCategoryForm />}
             data={sortedFixedCategories}
+            keyExtractor={(item): string => item.fixedCategoryId}
             renderItem={({item}): JSX.Element =>
                 <View
                     style={{

@@ -11,6 +11,7 @@ import {GetVariableCategories, GetVariableCategoriesVariables} from '../../autog
 import {IAppState} from '../redux/reducer';
 import {getEarlyReturn} from '../services/error-and-loading-service';
 import CreateVariableCategoryForm from '../components/CreateVariableCategoryForm';
+import {sortByName} from '../utils/sorting-utils';
 
 const styles = StyleSheet.create({
     fixedWrapper: {
@@ -35,12 +36,13 @@ const VariableCategories: React.FC = () => {
     }
 
     const {variableCategories} = queryResult.data;
-    const sortedVariableCategories = variableCategories.sort((a, b) => a.name < b.name ? -1 : 1);
+    const sortedVariableCategories = variableCategories.sort(sortByName);
 
     return (
         <FlatList
             ListFooterComponent={<CreateVariableCategoryForm />}
             data={sortedVariableCategories}
+            keyExtractor={(item): string => item.variableCategoryId}
             renderItem={({item}): JSX.Element =>
                 <View
                     key={item.variableCategoryId}
