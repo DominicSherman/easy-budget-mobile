@@ -6,8 +6,6 @@ import {setAppState} from '../redux/action-creators';
 export const signIn = async (): Promise<void> => {
     await GoogleSignin.configure();
     const data = await GoogleSignin.signIn();
-
-    console.log('data', data);
     const credential = firebase.auth.GoogleAuthProvider.credential(
         data.idToken
     );
