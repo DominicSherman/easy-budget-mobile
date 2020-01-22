@@ -1,85 +1,73 @@
-import React, {useState} from 'react';
-import {SafeAreaView, Switch, View} from 'react-native';
+import React from 'react';
+import {FlatList, Switch, View} from 'react-native';
+import {useSelector} from 'react-redux';
+import {useQuery} from '@apollo/react-hooks';
 
-import {IFixedExpense} from '../types/global';
-import DefaultText from '../components/generic/DefaultText';
-import {centeredColumn, centeredRow, screenWrapper} from '../styles/shared-styles';
+import {IAppState} from '../redux/reducer';
+import {GetFixedCategories, GetFixedCategoriesVariables} from '../../autogen/GetFixedCategories';
+import {getFixedCategoriesQuery} from '../graphql/queries';
+import {getUserId} from '../services/auth-service';
+import {getEarlyReturn} from '../services/error-and-loading-service';
 import {SCREEN_WIDTH} from '../constants/dimensions';
+import DefaultText from '../components/generic/DefaultText';
+import CreateFixedCategoryForm from '../components/CreateFixedCategoryForm';
 
 const FixedCategories: React.FC = () => {
-    const [fixedExpenses] = useState<IFixedExpense[]>([
-        {
-            amount: 1200,
-            name: 'Rent',
-            paid: false
-        },
-        {
-            amount: 255,
-            name: 'Internet / Utilities',
-            paid: false
-        },
-        {
-            amount: 340,
-            name: 'Insurance',
-            paid: false
+    const timePeriodId = useSelector<IAppState, string>((state) => state.timePeriodId);
+    const queryResult = useQuery<GetFixedCategories, GetFixedCategoriesVariables>(getFixedCategoriesQuery, {
+        variables: {
+            timePeriodId,
+            userId: getUserId()
         }
-    ]);
+    });
+
+    if (!queryResult.data) {
+        return getEarlyReturn(queryResult);
+    }
+
+    const {fixedCategories} = queryResult.data;
+    const sortedFixedCategories = fixedCategories.sort((a, b) => a.name < b.name ? -1 : 1);
 
     return (
-        <SafeAreaView style={screenWrapper}>
-            <View
-                style={{
-                    ...centeredRow,
-                    paddingHorizontal: 16,
-                    width: '100%'
-                }}
-            >
+        <FlatList
+            ListFooterComponent={<CreateFixedCategoryForm />}
+            data={sortedFixedCategories}
+            renderItem={({item}): JSX.Element =>
                 <View
                     style={{
-                        ...centeredColumn,
-                        width: SCREEN_WIDTH / 2
+                        flexDirection: 'row',
+                        width: '100%'
                     }}
                 >
-                    {fixedExpenses.map((fixedExpense) => (
-                        <DefaultText
-                            key={fixedExpense.name}
-                            style={{paddingVertical: 16}}
-                        >
-                            {fixedExpense.name}
-                        </DefaultText>
-                    ))}
-                </View>
-                <View
-                    style={{
-                        ...centeredColumn,
-                        width: SCREEN_WIDTH / 4
-                    }}
-                >
-                    {fixedExpenses.map((fixedExpense) => (
-                        <DefaultText
-                            key={fixedExpense.name}
-                            style={{paddingVertical: 16}}
-                        >
-                            {fixedExpense.amount}
-                        </DefaultText>
-                    ))}
-                </View>
-                <View
-                    style={{
-                        ...centeredColumn,
-                        width: SCREEN_WIDTH / 4
-                    }}
-                >
-                    {fixedExpenses.map((fixedExpense) =>
+                    <View
+                        style={{
+                            padding: 16,
+                            width: SCREEN_WIDTH / 2
+                        }}
+                    >
+                        <DefaultText>{item.name}</DefaultText>
+                    </View>
+                    <View
+                        style={{
+                            padding: 16,
+                            width: SCREEN_WIDTH / 4
+                        }}
+                    >
+                        <DefaultText>{item.amount}</DefaultText>
+                    </View>
+                    <View
+                        style={{
+                            padding: 16,
+                            width: SCREEN_WIDTH / 4
+                        }}
+                    >
                         <Switch
-                            key={fixedExpense.name}
-                            style={{marginVertical: 16}}
-                            value={fixedExpense.paid}
+                            value={item.paid}
                         />
-                    )}
+                    </View>
                 </View>
-            </View>
-        </SafeAreaView>
+            }
+        />
     );
 };
 

@@ -5,7 +5,7 @@ import * as reactRedux from 'react-redux';
 
 import {chance} from '../chance';
 import {createRandomAppState} from '../models';
-import CreateEditCategoryForm from '../../src/components/CreateEditCategoryForm';
+import CreateCategoryForm from '../../src/components/CreateCategoryForm';
 import {createVariableCategoryMutation} from '../../src/graphql/mutations';
 import {getUserId} from '../../src/services/auth-service';
 import {createVariableCategoryUpdate} from '../../src/utils/update-cache-utils';
@@ -15,7 +15,7 @@ jest.mock('@apollo/react-hooks');
 jest.mock('react-redux');
 jest.mock('../../src/services/auth-service');
 
-describe('CreateEditCategoryForm', () => {
+describe('CreateCategoryForm', () => {
     const {useMutation} = reactHooks as jest.Mocked<typeof reactHooks>;
     const {useSelector} = reactRedux as jest.Mocked<typeof reactRedux>;
 
@@ -27,7 +27,7 @@ describe('CreateEditCategoryForm', () => {
         createVariableCategory;
 
     const updateComponent = (): void => {
-        testRenderer.update(<CreateEditCategoryForm />);
+        testRenderer.update(<CreateCategoryForm />);
 
         testInstance = testRenderer.root;
     };
@@ -45,7 +45,7 @@ describe('CreateEditCategoryForm', () => {
     };
 
     const render = (): void => {
-        testRenderer = TestRenderer.create(<CreateEditCategoryForm />);
+        testRenderer = TestRenderer.create(<CreateCategoryForm />);
 
         testInstance = testRenderer.root;
         setStateData();
