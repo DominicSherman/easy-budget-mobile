@@ -1,24 +1,28 @@
-import {setActiveTimePeriodData} from '../../src/redux/action-creators';
+import {setAppState} from '../../src/redux/action-creators';
 import * as timePeriodRepository from '../../src/repositories/time-period-repository';
 import {createRandomErrorResponse, createRandomOkResponse, createRandomTimePeriods} from '../models';
 import {dispatchAction} from '../../src/redux/store';
 import {Actions} from '../../src/redux/actions';
 import {ITimePeriod} from '../../autogen/ITimePeriod';
+import * as authService from '../../src/services/auth-service';
+import {AppStatus} from '../../src/enums/app-status';
 
 jest.mock('../../src/repositories/time-period-repository');
 jest.mock('../../src/redux/store');
+jest.mock('../../src/services/auth-service');
 
 describe('action creators', () => {
     const {getActiveTimePeriod} = timePeriodRepository as jest.Mocked<typeof timePeriodRepository>;
+    const {getIsSignedIn} = authService as jest.Mocked<typeof authService>;
 
-    describe('setActiveTimePeriodData', () => {
+    describe('setAppState', () => {
         let expectedTimePeriods: ITimePeriod[];
 
         beforeEach(() => {
             expectedTimePeriods = createRandomTimePeriods();
 
             getActiveTimePeriod.mockResolvedValue(createRandomOkResponse({
-                timePeriods: expectedTimePeriods
+                timePeriods: []
             }));
         });
 
@@ -26,27 +30,55 @@ describe('action creators', () => {
             jest.resetAllMocks();
         });
 
-        it('should call getActiveTimePeriod', async () => {
-            await setActiveTimePeriodData();
+        it('should set the app status to loading', async () => {
+            await setAppState();
 
-            expect(getActiveTimePeriod).toHaveBeenCalledTimes(1);
-            expect(getActiveTimePeriod).toHaveBeenCalledWith();
+            expect(dispatchAction).toHaveBeenCalledWith(Actions.SET_APP_STATUS, AppStatus.LOADING);
         });
 
-        it('should set time period to null if there is an error', async () => {
-            getActiveTimePeriod.mockResolvedValue(createRandomErrorResponse());
+        describe('when the user is signed in', () => {
+            beforeEach(() => {
+                getIsSignedIn.mockResolvedValue(true);
+            });
 
-            await setActiveTimePeriodData();
+            it('should call getActiveTimePeriod', async () => {
+                await setAppState();
 
-            expect(dispatchAction).toHaveBeenCalledTimes(1);
-            expect(dispatchAction).toHaveBeenCalledWith(Actions.SET_TIME_PERIOD_ID, null);
+                expect(getActiveTimePeriod).toHaveBeenCalledTimes(1);
+                expect(getActiveTimePeriod).toHaveBeenCalledWith();
+            });
+
+            describe('if there is not an error', () => {
+                it('should set timePeriodId if there is one', async () => {
+                    getActiveTimePeriod.mockResolvedValue(createRandomOkResponse({
+                        timePeriods: expectedTimePeriods
+                    }));
+
+                    await setAppState();
+
+                    expect(dispatchAction).toHaveBeenCalledWith(Actions.SET_TIME_PERIOD_ID, expectedTimePeriods[0].timePeriodId);
+                });
+
+                it('should set the app status to logged in', async () => {
+                    await setAppState();
+
+                    expect(dispatchAction).toHaveBeenCalledWith(Actions.SET_APP_STATUS, AppStatus.LOGGED_IN);
+                });
+            });
+
+            it('should set app status to error if there is an error', async () => {
+                getActiveTimePeriod.mockResolvedValue(createRandomErrorResponse());
+
+                await setAppState();
+
+                expect(dispatchAction).toHaveBeenCalledWith(Actions.SET_APP_STATUS, AppStatus.ERROR);
+            });
         });
 
-        it('should set timePeriodId if there is not an error', async () => {
-            await setActiveTimePeriodData();
+        it('should set the app status to logged out if the user is not logged in', async () => {
+            await setAppState();
 
-            expect(dispatchAction).toHaveBeenCalledTimes(1);
-            expect(dispatchAction).toHaveBeenCalledWith(Actions.SET_TIME_PERIOD_ID, expectedTimePeriods[0].timePeriodId);
+            expect(dispatchAction).toHaveBeenCalledWith(Actions.SET_APP_STATUS, AppStatus.LOGGED_OUT);
         });
     });
 });

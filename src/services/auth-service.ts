@@ -1,8 +1,7 @@
-import {Navigation} from 'react-native-navigation';
 import {GoogleSignin} from '@react-native-community/google-signin';
 import firebase from 'react-native-firebase';
 
-import {getLoggedInRootLayout, getLoggedOutRootLayout} from '../utils/navigation-utils';
+import {setAppState} from '../redux/action-creators';
 
 export const signIn = async (): Promise<void> => {
     await GoogleSignin.configure();
@@ -15,13 +14,12 @@ export const signIn = async (): Promise<void> => {
         .auth()
         .signInWithCredential(credential);
 
-    await Navigation.setRoot(getLoggedInRootLayout());
+    setAppState();
 };
 
 export const signOut = async (): Promise<void> => {
     await GoogleSignin.signOut();
-
-    await Navigation.setRoot(getLoggedOutRootLayout());
+    setAppState();
 };
 
 export const getUserId = (): string => firebase.auth().currentUser?.uid || '';

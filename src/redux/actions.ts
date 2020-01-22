@@ -1,3 +1,4 @@
 export enum Actions {
+    SET_APP_STATUS = 'SET_APP_STATUS',
     SET_TIME_PERIOD_ID = 'SET_TIME_PERIOD_ID'
 }

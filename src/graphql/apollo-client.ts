@@ -1,4 +1,5 @@
 import ApolloClient from 'apollo-boost';
+import DefaultClient from 'apollo-client';
 
 let apolloClient: ApolloClient<any>;
 
@@ -12,10 +13,12 @@ const initializeApolloClient = (): void => {
     });
 };
 
-export const getApolloClient = (): ApolloClient<any> => {
+export const getApolloClient = (): DefaultClient<any> => {
     if (!apolloClient) {
         initializeApolloClient();
     }
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // @ts-ignore
     return apolloClient;
 };

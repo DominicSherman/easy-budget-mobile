@@ -42,7 +42,8 @@ module.exports = {
     'unicorn/no-unused-properties': 0,
     'unicorn/no-zero-fractions': 0,
     'unicorn/filename-case': 0,
-    'import/exports-last': 0
+    'import/exports-last': 0,
+    'react/display-name': 0
   },
   overrides: [
     {
