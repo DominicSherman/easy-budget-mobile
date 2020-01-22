@@ -4,9 +4,13 @@ import {AppStatus} from '../enums/app-status';
 
 import {dispatchAction} from './store';
 import {Actions} from './actions';
+import {GoogleSignin} from '@react-native-community/google-signin';
 
 export const setAppState = async (): Promise<void> => {
     dispatchAction(Actions.SET_APP_STATUS, AppStatus.LOADING);
+
+    await GoogleSignin.configure();
+    await GoogleSignin.signOut();
 
     const isSignedIn = await getIsSignedIn();
 
