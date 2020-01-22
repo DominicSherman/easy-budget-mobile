@@ -10,6 +10,17 @@ export const variableCategoryFragment = gql`
     }
 `;
 
+export const fixedCategoryFragment = gql`
+    fragment IFixedCategory on FixedCategory {
+        fixedCategoryId
+        timePeriodId
+        userId
+        amount
+        name
+        paid
+    }
+`;
+
 export const timePeriodFragment = gql`
     fragment ITimePeriod on TimePeriod {
         timePeriodId

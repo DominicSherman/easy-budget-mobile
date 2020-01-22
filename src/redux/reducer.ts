@@ -4,7 +4,7 @@ import {Actions} from './actions';
 
 const defaultState: IAppState = {
     appStatus: AppStatus.LOADING,
-    timePeriodId: null
+    timePeriodId: ''
 };
 
 const setKey = (key: string): (state: IAppState, value: any) => IAppState => (state, value): IAppState => ({
@@ -21,7 +21,7 @@ type ReducerMap = {[key in Actions]?: (state: IAppState, value: any) => IAppStat
 
 export interface IAppState {
     appStatus: AppStatus
-    timePeriodId: string | null
+    timePeriodId: string
 }
 
 export default (state = defaultState, {type, data}: {type: Actions, data: any}): IAppState => {

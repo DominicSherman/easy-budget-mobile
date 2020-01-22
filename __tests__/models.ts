@@ -5,6 +5,8 @@ import {IVariableCategory} from '../autogen/IVariableCategory';
 import {ITimePeriod} from '../autogen/ITimePeriod';
 import {IAppState} from '../src/redux/reducer';
 import {IErrorResponse, IOkResponse} from '../src/repositories/query-middleware';
+import {AppStatus} from '../src/enums/app-status';
+import {IFixedCategory} from '../autogen/IFixedCategory';
 
 import {chance} from './chance';
 
@@ -27,6 +29,19 @@ export const createRandomVariableCategory = (variableCategory = {}): IVariableCa
 });
 
 export const createRandomVariableCategories = (): IVariableCategory[] => chance.n(createRandomVariableCategory, chance.d6());
+
+export const createRandomFixedCategory = (fixedCategory = {}): IFixedCategory => ({
+    __typename: 'FixedCategory',
+    amount: chance.natural(),
+    fixedCategoryId: chance.guid(),
+    name: chance.string(),
+    paid: chance.bool(),
+    timePeriodId: chance.guid(),
+    userId: chance.string(),
+    ...fixedCategory
+});
+
+export const createRandomFixedCategories = (): IFixedCategory[] => chance.n(createRandomFixedCategory, chance.d6());
 
 export const createRandomTimePeriod = (timePeriod = {}): ITimePeriod => ({
     __typename: 'TimePeriod',
@@ -67,5 +82,6 @@ export const createRandomOkResponse = <TData>(data: TData): IOkResponse<TData> =
 });
 
 export const createRandomAppState = (): IAppState => ({
+    appStatus: AppStatus.LOADING,
     timePeriodId: chance.guid()
 });

@@ -29,6 +29,10 @@ module.exports = {
         '<rootDir>/__tests__/**/*.test.js',
         '<rootDir>/__tests__/**/*.test.tsx'
     ],
+    'transform': {
+        '\\.(ts|tsx)$': 'ts-jest',
+        '^.+\\.(js)$': '<rootDir>/node_modules/babel-jest'
+    },
     'moduleNameMapper': {
         'react-native-firebase': '<rootDir>/__tests__/stubs/react-native-firebase-stub.ts',
         'google-signin': '<rootDir>/__tests__/stubs/google-signin-stub.ts',

@@ -1,7 +1,12 @@
-import {createRandomAppState, createRandomVariableCategories, createRandomVariableCategory} from '../models';
+import {
+    createRandomAppState, createRandomFixedCategories,
+    createRandomFixedCategory,
+    createRandomVariableCategories,
+    createRandomVariableCategory
+} from '../models';
 import * as reduxStore from '../../src/redux/store';
-import {createVariableCategoryUpdate} from '../../src/utils/update-cache-utils';
-import {getVariableCategoriesQuery} from '../../src/graphql/queries';
+import {createFixedCategoryUpdate, createVariableCategoryUpdate} from '../../src/utils/update-cache-utils';
+import {getFixedCategoriesQuery, getVariableCategoriesQuery} from '../../src/graphql/queries';
 import {getUserId} from '../../src/services/auth-service';
 
 jest.mock('../../src/redux/store');
@@ -81,6 +86,73 @@ describe('update cache utils', () => {
 
         it('should **not** call write query if there is not data', () => {
             createVariableCategoryUpdate(cache, {data: null});
+
+            expect(cache.writeQuery).not.toHaveBeenCalled();
+        });
+    });
+
+    describe('createFixedCategoryUpdate', () => {
+        let expectedReadQuery,
+            expectedMutationResult,
+            expectedState;
+
+        beforeEach(() => {
+            expectedMutationResult = {
+                data: {
+                    createFixedCategory: createRandomFixedCategory()
+                }
+            };
+            expectedReadQuery = {
+                fixedCategories: createRandomFixedCategories()
+            };
+            expectedState = createRandomAppState();
+
+            cache.readQuery.mockReturnValue(expectedReadQuery);
+            getState.mockReturnValue(expectedState);
+        });
+
+        it('should call readQuery', () => {
+            createFixedCategoryUpdate(cache, expectedMutationResult);
+
+            expect(cache.readQuery).toHaveBeenCalledTimes(1);
+            expect(cache.readQuery).toHaveBeenCalledWith({
+                query: getFixedCategoriesQuery,
+                variables: {
+                    timePeriodId: expectedState.timePeriodId,
+                    userId: getUserId()
+                }
+            });
+        });
+
+        it('should call write query if there is a result and data', () => {
+            createFixedCategoryUpdate(cache, expectedMutationResult);
+
+            expect(cache.writeQuery).toHaveBeenCalledTimes(1);
+            expect(cache.writeQuery).toHaveBeenCalledWith({
+                data: {
+                    fixedCategories: [
+                        ...expectedReadQuery.fixedCategories,
+                        expectedMutationResult.data.createFixedCategory
+                    ]
+                },
+                query: getFixedCategoriesQuery,
+                variables: {
+                    timePeriodId: expectedState.timePeriodId,
+                    userId: getUserId()
+                }
+            });
+        });
+
+        it('should **not** call write query if there is not a result', () => {
+            cache.readQuery.mockReturnValue(null);
+
+            createFixedCategoryUpdate(cache, expectedMutationResult);
+
+            expect(cache.writeQuery).not.toHaveBeenCalled();
+        });
+
+        it('should **not** call write query if there is not data', () => {
+            createFixedCategoryUpdate(cache, {data: null});
 
             expect(cache.writeQuery).not.toHaveBeenCalled();
         });

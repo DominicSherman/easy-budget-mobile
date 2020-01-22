@@ -2,12 +2,15 @@ import TestRenderer from 'react-test-renderer';
 import React from 'react';
 import * as reactHooks from '@apollo/react-hooks';
 import * as reactRedux from 'react-redux';
+import {FlatList, View} from 'react-native';
 
 import VariableCategories from '../../src/screens/VariableCategories';
-import DefaultText from '../../src/components/generic/DefaultText';
 import {createRandomAppState, createRandomQueryResult, createRandomVariableCategories} from '../models';
 import {chance} from '../chance';
 import {getEarlyReturn} from '../../src/services/error-and-loading-service';
+import CreateVariableCategoryForm from '../../src/components/CreateVariableCategoryForm';
+import {sortByName} from '../../src/utils/sorting-utils';
+import {IVariableCategory} from '../../autogen/IVariableCategory';
 
 jest.mock('@apollo/react-hooks');
 jest.mock('react-redux');
@@ -63,13 +66,18 @@ describe('VariableCategories', () => {
         root.findByType(earlyReturn.type);
     });
 
-    it('should render a DefaultText for each fixedExpense', () => {
-        expectedData.data.variableCategories.forEach((variableCategory: any) => {
-            const renderedName = root.findByProps({children: variableCategory.name});
-            const renderedAmount = root.findByProps({children: variableCategory.amount});
+    it('should render a FlatList', () => {
+        const renderedFlatList = root.findByType(FlatList);
 
-            expect(renderedName.type).toBe(DefaultText);
-            expect(renderedAmount.type).toBe(DefaultText);
-        });
+        expect(renderedFlatList.props.ListFooterComponent.type).toBe(CreateVariableCategoryForm);
+        expect(renderedFlatList.props.data).toBe(expectedData.data.variableCategories.sort(sortByName));
+
+        const expectedItem = chance.pickone<IVariableCategory>(expectedData.data.variableCategories);
+
+        const renderedItem = renderedFlatList.props.renderItem({item: expectedItem});
+        const key = renderedFlatList.props.keyExtractor(expectedItem);
+
+        expect(renderedItem.type).toBe(View);
+        expect(key).toBe(expectedItem.variableCategoryId);
     });
 });
