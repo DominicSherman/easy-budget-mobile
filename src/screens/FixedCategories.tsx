@@ -11,6 +11,7 @@ import {getEarlyReturn} from '../services/error-and-loading-service';
 import {SCREEN_WIDTH} from '../constants/dimensions';
 import DefaultText from '../components/generic/DefaultText';
 import CreateFixedCategoryForm from '../components/CreateFixedCategoryForm';
+import {sortByName} from '../utils/sorting-utils';
 
 const FixedCategories: React.FC = () => {
     const timePeriodId = useSelector<IAppState, string>((state) => state.timePeriodId);
@@ -26,7 +27,7 @@ const FixedCategories: React.FC = () => {
     }
 
     const {fixedCategories} = queryResult.data;
-    const sortedFixedCategories = fixedCategories.sort((a, b) => a.name < b.name ? -1 : 1);
+    const sortedFixedCategories = fixedCategories.sort(sortByName);
 
     return (
         <FlatList
