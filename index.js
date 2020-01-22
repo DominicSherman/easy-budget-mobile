@@ -13,7 +13,8 @@ console.disableYellowBox = true;
 
 AppRegistry.registerComponent(
     appName,
-    () =>
+    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+    () => () =>
         <Provider store={getStore()}>
             <App />
         </Provider>
