@@ -5,11 +5,6 @@ import {getIsSignedIn, getUserId, signIn, signOut} from '../../src/services/auth
 import {chance} from '../chance';
 import {setAppState} from '../../src/redux/action-creators';
 
-jest.mock('react-native-navigation', () => ({
-    Navigation: {
-        setRoot: jest.fn()
-    }
-}));
 jest.mock('../../src/redux/action-creators');
 
 describe('auth service', () => {
