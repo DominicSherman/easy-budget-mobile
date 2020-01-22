@@ -5,17 +5,17 @@ import * as reactRedux from 'react-redux';
 
 import {chance} from '../chance';
 import {createRandomAppState} from '../models';
-import CreateEditCategoryForm from '../../src/components/CreateEditCategoryForm';
+import CreateVariableCategoryForm from '../../src/components/CreateVariableCategoryForm';
 import {createVariableCategoryMutation} from '../../src/graphql/mutations';
 import {getUserId} from '../../src/services/auth-service';
 import {createVariableCategoryUpdate} from '../../src/utils/update-cache-utils';
-import Button from '../../src/components/generic/Button';
+import CreateCategoryForm from '../../src/components/CreateCategoryForm';
 
 jest.mock('@apollo/react-hooks');
 jest.mock('react-redux');
 jest.mock('../../src/services/auth-service');
 
-describe('CreateEditCategoryForm', () => {
+describe('CreateVariableCategoryForm', () => {
     const {useMutation} = reactHooks as jest.Mocked<typeof reactHooks>;
     const {useSelector} = reactRedux as jest.Mocked<typeof reactRedux>;
 
@@ -27,7 +27,7 @@ describe('CreateEditCategoryForm', () => {
         createVariableCategory;
 
     const updateComponent = (): void => {
-        testRenderer.update(<CreateEditCategoryForm />);
+        testRenderer.update(<CreateVariableCategoryForm />);
 
         testInstance = testRenderer.root;
     };
@@ -45,7 +45,7 @@ describe('CreateEditCategoryForm', () => {
     };
 
     const render = (): void => {
-        testRenderer = TestRenderer.create(<CreateEditCategoryForm />);
+        testRenderer = TestRenderer.create(<CreateVariableCategoryForm />);
 
         testInstance = testRenderer.root;
         setStateData();
@@ -99,20 +99,28 @@ describe('CreateEditCategoryForm', () => {
         });
     });
 
-    it('should render a button', () => {
-        const renderedButton = testInstance.findByType(Button);
+    it('should render a CreateCategoryForm with the correct values', () => {
+        const renderedCreateCategoryForm = testInstance.findByType(CreateCategoryForm);
+
+        const expectedAmount = chance.string();
+        const expectedName = chance.string();
 
         act(() => {
-            renderedButton.props.onPress();
+            renderedCreateCategoryForm.props.setAmount(expectedAmount);
+            renderedCreateCategoryForm.props.setName(expectedName);
         });
         updateComponent();
 
-        const nameInput = testInstance.findByProps({title: 'Category Name'});
-        const amountInput = testInstance.findByProps({title: 'Category Amount'});
+        expect(renderedCreateCategoryForm.props.amount).toBe(expectedAmount);
+        expect(renderedCreateCategoryForm.props.name).toBe(expectedName);
 
-        expect(nameInput.props.value).toBe('');
-        expect(amountInput.props.value).toBe('');
+        act(() => {
+            renderedCreateCategoryForm.props.onPress();
+        });
+        updateComponent();
+
         expect(createVariableCategory).toHaveBeenCalledTimes(1);
-        expect(createVariableCategory).toHaveBeenCalledWith();
+        expect(renderedCreateCategoryForm.props.amount).toBe('');
+        expect(renderedCreateCategoryForm.props.name).toBe('');
     });
 });

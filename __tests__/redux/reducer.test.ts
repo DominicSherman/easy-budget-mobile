@@ -6,7 +6,7 @@ import {AppStatus} from '../../src/enums/app-status';
 
 const defaultState: IAppState = {
     appStatus: AppStatus.LOADING,
-    timePeriodId: null
+    timePeriodId: ''
 };
 
 describe('reducer', () => {

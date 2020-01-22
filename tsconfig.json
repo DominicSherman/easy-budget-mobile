@@ -3,15 +3,10 @@
     "autogen",
     "node_modules"
   ],
-  "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    "**/*.js"
-  ],
   "compilerOptions": {
     "outDir": "ts-build/",
     "downlevelIteration": true,
-    "target": "es6",
+    "target": "es5",
     "module": "commonjs",
     "lib": [
       "es2017"
