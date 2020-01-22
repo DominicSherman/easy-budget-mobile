@@ -1,37 +1,20 @@
 import {GoogleSignin} from '@react-native-community/google-signin';
-import {Navigation} from 'react-native-navigation';
 import * as firebase from 'react-native-firebase';
 
 import {getIsSignedIn, getUserId, signIn, signOut} from '../../src/services/auth-service';
 import {chance} from '../chance';
-import * as navigationHelpers from '../../src/utils/navigation-utils';
+import {setAppState} from '../../src/redux/action-creators';
 
 jest.mock('react-native-navigation', () => ({
     Navigation: {
         setRoot: jest.fn()
     }
 }));
-jest.mock('../../src/utils/navigation-utils');
+jest.mock('../../src/redux/action-creators');
 
 describe('auth service', () => {
     const mockGoogleSignin = GoogleSignin as jest.Mocked<typeof GoogleSignin>;
-    const {getLoggedInRootLayout, getLoggedOutRootLayout} = navigationHelpers as jest.Mocked<typeof navigationHelpers>;
     const {auth} = firebase as jest.Mocked<typeof firebase>;
-
-    let expectedLoggedInLayout,
-        expectedLoggedOutLayout;
-
-    beforeEach(() => {
-        expectedLoggedInLayout = {
-            [chance.string()]: chance.string()
-        };
-        expectedLoggedOutLayout = {
-            [chance.string()]: chance.string()
-        };
-
-        getLoggedInRootLayout.mockReturnValue(expectedLoggedInLayout);
-        getLoggedOutRootLayout.mockReturnValue(expectedLoggedOutLayout);
-    });
 
     afterEach(() => {
         jest.resetAllMocks();
@@ -87,8 +70,8 @@ describe('auth service', () => {
         it('should set logged in root', async () => {
             await signIn();
 
-            expect(Navigation.setRoot).toHaveBeenCalledTimes(1);
-            expect(Navigation.setRoot).toHaveBeenCalledWith(expectedLoggedInLayout);
+            expect(setAppState).toHaveBeenCalledTimes(1);
+            expect(setAppState).toHaveBeenCalledWith();
         });
     });
 
@@ -102,8 +85,8 @@ describe('auth service', () => {
         it('should call setRoot', async () => {
             await signOut();
 
-            expect(Navigation.setRoot).toHaveBeenCalledTimes(1);
-            expect(Navigation.setRoot).toHaveBeenCalledWith(expectedLoggedOutLayout);
+            expect(setAppState).toHaveBeenCalledTimes(1);
+            expect(setAppState).toHaveBeenCalledWith();
         });
     });
 

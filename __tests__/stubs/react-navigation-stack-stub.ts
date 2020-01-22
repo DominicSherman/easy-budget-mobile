@@ -1,5 +1,5 @@
 const Stack = {
-    Navigator: () => ({})
+    Navigator: (): void => {}
 };
 
 module.exports = {

@@ -11,10 +11,10 @@ import {getStore} from './src/redux/store';
 // eslint-disable-next-line no-console
 console.disableYellowBox = true;
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const Main = () =>
-    <Provider store={getStore()}>
-        <App />
-    </Provider>;
-
-AppRegistry.registerComponent(appName, () => Main);
+AppRegistry.registerComponent(
+    appName,
+    () =>
+        <Provider store={getStore()}>
+            <App />
+        </Provider>
+);
