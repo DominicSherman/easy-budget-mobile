@@ -1,5 +1,5 @@
 import React from 'react';
-import {FlatList, Switch, View} from 'react-native';
+import {FlatList, StyleSheet, Switch, View} from 'react-native';
 import {useSelector} from 'react-redux';
 import {useQuery} from '@apollo/react-hooks';
 
@@ -12,6 +12,21 @@ import {SCREEN_WIDTH} from '../constants/dimensions';
 import DefaultText from '../components/generic/DefaultText';
 import CreateFixedCategoryForm from '../components/CreateFixedCategoryForm';
 import {sortByName} from '../utils/sorting-utils';
+
+const styles = StyleSheet.create({
+    halfWrapper: {
+        padding: 16,
+        width: SCREEN_WIDTH / 2
+    },
+    quarterWrapper: {
+        padding: 16,
+        width: SCREEN_WIDTH / 4
+    },
+    wrapper: {
+        flexDirection: 'row',
+        width: '100%'
+    }
+});
 
 const FixedCategories: React.FC = () => {
     const timePeriodId = useSelector<IAppState, string>((state) => state.timePeriodId);
@@ -35,34 +50,14 @@ const FixedCategories: React.FC = () => {
             data={sortedFixedCategories}
             keyExtractor={(item): string => item.fixedCategoryId}
             renderItem={({item}): JSX.Element =>
-                <View
-                    style={{
-                        flexDirection: 'row',
-                        width: '100%'
-                    }}
-                >
-                    <View
-                        style={{
-                            padding: 16,
-                            width: SCREEN_WIDTH / 2
-                        }}
-                    >
+                <View style={styles.wrapper}>
+                    <View style={styles.halfWrapper}>
                         <DefaultText>{item.name}</DefaultText>
                     </View>
-                    <View
-                        style={{
-                            padding: 16,
-                            width: SCREEN_WIDTH / 4
-                        }}
-                    >
+                    <View style={styles.quarterWrapper}>
                         <DefaultText>{item.amount}</DefaultText>
                     </View>
-                    <View
-                        style={{
-                            padding: 16,
-                            width: SCREEN_WIDTH / 4
-                        }}
-                    >
+                    <View style={styles.quarterWrapper}>
                         <Switch
                             value={item.paid}
                         />

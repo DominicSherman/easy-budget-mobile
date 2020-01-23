@@ -21,6 +21,18 @@ export const fixedCategoryFragment = gql`
     }
 `;
 
+export const expenseFragment = gql`
+    fragment IExpense on Expense {
+        expenseId
+        userId
+        variableCategoryId
+        timePeriodId
+        amount
+        date
+        name    
+    }
+`;
+
 export const timePeriodFragment = gql`
     fragment ITimePeriod on TimePeriod {
         timePeriodId

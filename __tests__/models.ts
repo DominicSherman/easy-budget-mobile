@@ -7,6 +7,7 @@ import {IAppState} from '../src/redux/reducer';
 import {IErrorResponse, IOkResponse} from '../src/repositories/query-middleware';
 import {AppStatus} from '../src/enums/app-status';
 import {IFixedCategory} from '../autogen/IFixedCategory';
+import {IExpense} from '../autogen/IExpense';
 
 import {chance} from './chance';
 
@@ -42,6 +43,20 @@ export const createRandomFixedCategory = (fixedCategory = {}): IFixedCategory =>
 });
 
 export const createRandomFixedCategories = (): IFixedCategory[] => chance.n(createRandomFixedCategory, chance.d6());
+
+export const createRandomExpense = (expense = {}): IExpense => ({
+    __typename: 'Expense',
+    amount: chance.natural(),
+    date: chance.date().toISOString(),
+    expenseId: chance.guid(),
+    name: chance.string(),
+    timePeriodId: chance.guid(),
+    userId: chance.string(),
+    variableCategoryId: chance.guid(),
+    ...expense
+});
+
+export const createRandomExpenses = (): IExpense[] => chance.n(createRandomExpense, chance.d6());
 
 export const createRandomTimePeriod = (timePeriod = {}): ITimePeriod => ({
     __typename: 'TimePeriod',
