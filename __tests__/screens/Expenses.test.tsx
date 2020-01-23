@@ -9,7 +9,6 @@ import {createRandomAppState, createRandomExpenses, createRandomQueryResult} fro
 import {chance} from '../chance';
 import {getEarlyReturn} from '../../src/services/error-and-loading-service';
 import {sortByDate} from '../../src/utils/sorting-utils';
-import {IVariableCategory} from '../../autogen/IVariableCategory';
 import {IExpense} from '../../autogen/IExpense';
 
 jest.mock('@apollo/react-hooks');

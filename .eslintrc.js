@@ -77,7 +77,12 @@ module.exports = {
         'max-nested-callbacks': 0,
         'jest/consistent-test-it': 0,
         '@typescript-eslint/ban-ts-ignore': 0,
-        '@typescript-eslint/no-non-null-assertion': 0
+        '@typescript-eslint/no-non-null-assertion': 0,
+        "@typescript-eslint/no-unused-vars": ["error", {
+          "vars": "all",
+          "args": "after-used",
+          "ignoreRestSiblings": false
+        }],
       }
     }
   ]
