@@ -1,6 +1,6 @@
 import {gql} from 'apollo-boost';
 
-import {fixedCategoryFragment, timePeriodFragment, variableCategoryFragment} from './fragments';
+import {expenseFragment, fixedCategoryFragment, timePeriodFragment, variableCategoryFragment} from './fragments';
 
 export const getVariableCategoriesQuery = gql`
     ${variableCategoryFragment}
@@ -18,6 +18,16 @@ export const getFixedCategoriesQuery = gql`
     query GetFixedCategories($userId: String!, $timePeriodId: String!) {
         fixedCategories(userId: $userId, timePeriodId: $timePeriodId) {
             ...IFixedCategory
+        }
+    }
+`;
+
+export const getExpensesQuery = gql`
+    ${expenseFragment}
+    
+    query GetExpenses($userId: String!, $timePeriodId: String!) {
+        expenses(userId: $userId, timePeriodId: $timePeriodId) {
+            ...IExpense
         }
     }
 `;
