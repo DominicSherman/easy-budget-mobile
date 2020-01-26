@@ -7,11 +7,11 @@ import {useSelector} from 'react-redux';
 import {Route} from './enums/routes';
 import {getApolloClient} from './graphql/apollo-client';
 import {setAppState} from './redux/action-creators';
-import LoadingView from './components/LoadingView';
+import LoadingView from './components/generic/LoadingView';
 import Login from './screens/Login';
 import {IAppState} from './redux/reducer';
 import {AppStatus} from './enums/app-status';
-import ErrorView from './components/ErrorView';
+import ErrorView from './components/generic/ErrorView';
 import {
     ExpensesStack,
     FixedCategoriesStack,

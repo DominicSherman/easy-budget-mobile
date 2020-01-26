@@ -2,7 +2,7 @@ import TestRenderer from 'react-test-renderer';
 import React from 'react';
 import {ActivityIndicator} from 'react-native';
 
-import LoadingView from '../../src/components/LoadingView';
+import LoadingView from '../../../src/components/generic/LoadingView';
 
 describe('LoadingView', () => {
     let testInstance;

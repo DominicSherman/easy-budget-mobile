@@ -10,7 +10,7 @@ import {getUserId} from '../services/auth-service';
 import {getEarlyReturn} from '../services/error-and-loading-service';
 import {SCREEN_WIDTH} from '../constants/dimensions';
 import DefaultText from '../components/generic/DefaultText';
-import CreateFixedCategoryForm from '../components/CreateFixedCategoryForm';
+import CreateFixedCategoryForm from '../components/budget/CreateFixedCategoryForm';
 import {sortByName} from '../utils/sorting-utils';
 
 const styles = StyleSheet.create({

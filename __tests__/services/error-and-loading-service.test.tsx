@@ -1,6 +1,6 @@
 import {getEarlyReturn} from '../../src/services/error-and-loading-service';
-import LoadingView from '../../src/components/LoadingView';
-import ErrorView from '../../src/components/ErrorView';
+import LoadingView from '../../src/components/generic/LoadingView';
+import ErrorView from '../../src/components/generic/ErrorView';
 
 describe('error and loading service', () => {
     describe('getEarlyReturn', () => {

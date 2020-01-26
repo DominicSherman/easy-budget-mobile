@@ -3,13 +3,13 @@ import React from 'react';
 import * as reactHooks from '@apollo/react-hooks';
 import * as reactRedux from 'react-redux';
 
-import {chance} from '../chance';
-import {createRandomAppState} from '../models';
-import CreateFixedCategoryForm from '../../src/components/CreateFixedCategoryForm';
-import {createFixedCategoryMutation} from '../../src/graphql/mutations';
-import {getUserId} from '../../src/services/auth-service';
-import {createFixedCategoryUpdate} from '../../src/utils/update-cache-utils';
-import CreateCategoryForm from '../../src/components/CreateCategoryForm';
+import {chance} from '../../chance';
+import {createRandomAppState} from '../../models';
+import CreateFixedCategoryForm from '../../../src/components/budget/CreateFixedCategoryForm';
+import {createFixedCategoryMutation} from '../../../src/graphql/mutations';
+import {getUserId} from '../../../src/services/auth-service';
+import {createFixedCategoryUpdate} from '../../../src/utils/update-cache-utils';
+import CreateCategoryForm from '../../../src/components/budget/CreateCategoryForm';
 
 jest.mock('@apollo/react-hooks');
 jest.mock('react-redux');

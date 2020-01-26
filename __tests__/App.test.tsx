@@ -8,8 +8,8 @@ import App from '../src/App';
 import {setAppState} from '../src/redux/action-creators';
 import {AppStatus} from '../src/enums/app-status';
 import Login from '../src/screens/Login';
-import ErrorView from '../src/components/ErrorView';
-import LoadingView from '../src/components/LoadingView';
+import ErrorView from '../src/components/generic/ErrorView';
+import LoadingView from '../src/components/generic/LoadingView';
 
 import {chance} from './chance';
 

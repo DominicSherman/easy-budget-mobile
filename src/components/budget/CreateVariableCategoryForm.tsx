@@ -3,14 +3,14 @@ import uuid from 'uuid';
 import {useMutation} from '@apollo/react-hooks';
 import {useSelector} from 'react-redux';
 
-import {createVariableCategoryMutation} from '../graphql/mutations';
-import {getUserId} from '../services/auth-service';
+import {createVariableCategoryMutation} from '../../graphql/mutations';
+import {getUserId} from '../../services/auth-service';
 import {
     CreateVariableCategoryMutation,
     CreateVariableCategoryMutationVariables
-} from '../../autogen/CreateVariableCategoryMutation';
-import {createVariableCategoryUpdate} from '../utils/update-cache-utils';
-import {IAppState} from '../redux/reducer';
+} from '../../../autogen/CreateVariableCategoryMutation';
+import {createVariableCategoryUpdate} from '../../utils/update-cache-utils';
+import {IAppState} from '../../redux/reducer';
 
 import CreateCategoryForm from './CreateCategoryForm';
 

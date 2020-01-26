@@ -12,6 +12,7 @@ import {SCREEN_WIDTH} from '../constants/dimensions';
 import DefaultText from '../components/generic/DefaultText';
 import {formatExpenseDate} from '../services/moment-service';
 import {sortByDate} from '../utils/sorting-utils';
+import CreateExpenseForm from '../components/budget/CreateExpenseForm';
 
 const styles = StyleSheet.create({
     fixedWrapper: {
@@ -40,6 +41,7 @@ const Expenses: FC = () => {
 
     return (
         <FlatList
+            ListFooterComponent={<CreateExpenseForm />}
             data={sortedExpenses}
             keyExtractor={(item): string => item.expenseId}
             renderItem={({item}): JSX.Element =>

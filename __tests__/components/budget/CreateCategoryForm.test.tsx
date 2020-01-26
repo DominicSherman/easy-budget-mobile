@@ -1,9 +1,9 @@
 import TestRenderer from 'react-test-renderer';
 import React from 'react';
 
-import {chance} from '../chance';
-import CreateCategoryForm from '../../src/components/CreateCategoryForm';
-import Button from '../../src/components/generic/Button';
+import {chance} from '../../chance';
+import CreateCategoryForm from '../../../src/components/budget/CreateCategoryForm';
+import Button from '../../../src/components/generic/Button';
 
 jest.mock('@apollo/react-hooks');
 jest.mock('react-redux');

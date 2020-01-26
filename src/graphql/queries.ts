@@ -24,10 +24,14 @@ export const getFixedCategoriesQuery = gql`
 
 export const getExpensesQuery = gql`
     ${expenseFragment}
+    ${variableCategoryFragment}
     
     query GetExpenses($userId: String!, $timePeriodId: String!) {
         expenses(userId: $userId, timePeriodId: $timePeriodId) {
             ...IExpense
+        }
+        variableCategories(userId: $userId, timePeriodId: $timePeriodId) {
+            ...IVariableCategory
         }
     }
 `;

@@ -3,15 +3,15 @@ import uuid from 'uuid';
 import {useMutation} from '@apollo/react-hooks';
 import {useSelector} from 'react-redux';
 
-import {createFixedCategoryMutation} from '../graphql/mutations';
-import {getUserId} from '../services/auth-service';
-import {IAppState} from '../redux/reducer';
+import {createFixedCategoryMutation} from '../../graphql/mutations';
+import {getUserId} from '../../services/auth-service';
+import {IAppState} from '../../redux/reducer';
 import {
     CreateFixedCategoryMutation,
     CreateFixedCategoryMutationVariables
-} from '../../autogen/CreateFixedCategoryMutation';
-import {CreateFixedCategory} from '../../autogen/globalTypes';
-import {createFixedCategoryUpdate} from '../utils/update-cache-utils';
+} from '../../../autogen/CreateFixedCategoryMutation';
+import {CreateFixedCategory} from '../../../autogen/globalTypes';
+import {createFixedCategoryUpdate} from '../../utils/update-cache-utils';
 
 import CreateCategoryForm from './CreateCategoryForm';
 

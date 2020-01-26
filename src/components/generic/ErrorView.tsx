@@ -1,9 +1,9 @@
 import React, {FC} from 'react';
 import {View} from 'react-native';
 
-import {screenWrapper} from '../styles/shared-styles';
+import {screenWrapper} from '../../styles/shared-styles';
 
-import DefaultText from './generic/DefaultText';
+import DefaultText from './DefaultText';
 
 const ErrorView: FC = () =>
     <View style={screenWrapper}>
