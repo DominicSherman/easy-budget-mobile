@@ -1,7 +1,9 @@
 import React, {FC, useState} from 'react';
 import {Picker, View} from 'react-native';
 import {useSelector} from 'react-redux';
-import {useQuery} from '@apollo/react-hooks';
+import {useMutation, useQuery} from '@apollo/react-hooks';
+import uuid from 'uuid';
+import moment from 'moment';
 
 import {textStyles} from '../../styles/text-styles';
 import DefaultText from '../generic/DefaultText';
@@ -14,6 +16,9 @@ import {getEarlyReturn} from '../../services/error-and-loading-service';
 import {GetExpenses, GetExpensesVariables} from '../../../autogen/GetExpenses';
 import {sortByDate, sortByName} from '../../utils/sorting-utils';
 import {SCREEN_WIDTH} from '../../constants/dimensions';
+import {createExpenseMutation} from '../../graphql/mutations';
+import {CreateExpenseMutation, CreateExpenseMutationVariables} from '../../../autogen/CreateExpenseMutation';
+import {createExpenseUpdate} from '../../utils/update-cache-utils';
 
 const CreateExpenseForm: FC = () => {
     const [name, setName] = useState('');
@@ -26,7 +31,32 @@ const CreateExpenseForm: FC = () => {
             userId: getUserId()
         }
     });
-    const onPress = () => {};
+    const expense = {
+        amount: Number(amount),
+        date: moment().toISOString(),
+        expenseId: uuid.v4(),
+        name,
+        timePeriodId,
+        userId: getUserId(),
+        variableCategoryId: categoryId || ''
+    };
+    const [createExpense] = useMutation<CreateExpenseMutation, CreateExpenseMutationVariables>(createExpenseMutation, {
+        optimisticResponse: {
+            createExpense: {
+                __typename: 'Expense',
+                ...expense
+            }
+        },
+        update: createExpenseUpdate,
+        variables: {
+            expense
+        }
+    });
+    const onPress = (): void => {
+        createExpense();
+        setName('');
+        setAmount('');
+    };
 
     if (!queryResult.data) {
         return getEarlyReturn(queryResult);
@@ -82,6 +112,7 @@ const CreateExpenseForm: FC = () => {
                 value={amount}
             />
             <Button
+                disabled={!categoryId || amount === ''}
                 onPress={onPress}
                 text={'Submit'}
                 wrapperStyle={{marginTop: 16}}

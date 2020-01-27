@@ -6,6 +6,16 @@
 // START Enums and Input Objects
 //==============================================================
 
+export interface CreateExpense {
+  expenseId: string;
+  userId: string;
+  variableCategoryId: string;
+  timePeriodId: string;
+  amount: number;
+  date: string;
+  name?: string | null;
+}
+
 export interface CreateFixedCategory {
   fixedCategoryId: string;
   timePeriodId: string;

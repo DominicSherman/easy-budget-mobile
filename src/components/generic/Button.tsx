@@ -25,14 +25,16 @@ const styles = StyleSheet.create({
 });
 
 interface IButton {
+    disabled?: boolean
     text: string
     onPress: () => void
     textStyle?: TextStyle
     wrapperStyle?: ViewStyle
 }
 
-const Button: FC<IButton> = ({onPress, text, textStyle, wrapperStyle}) =>
+const Button: FC<IButton> = ({disabled, onPress, text, textStyle, wrapperStyle}) =>
     <Touchable
+        disabled={disabled}
         onPress={onPress}
         style={[styles.wrapper, wrapperStyle]}
     >
