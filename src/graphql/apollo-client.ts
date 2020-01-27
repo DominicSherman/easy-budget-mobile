@@ -9,7 +9,7 @@ const PROD = 'https://us-central1-easy-budget-2f9aa.cloudfunctions.net/graphql';
 
 const initializeApolloClient = (): void => {
     apolloClient = new ApolloClient({
-        uri: PROD
+        uri: LOCAL_HOST
     });
 };
 

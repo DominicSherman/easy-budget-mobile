@@ -2,7 +2,6 @@ import TestRenderer, {act} from 'react-test-renderer';
 import React from 'react';
 import * as reactHooks from '@apollo/react-hooks';
 import * as reactRedux from 'react-redux';
-import moment from 'moment';
 import {View} from 'react-native';
 
 import {chance} from '../../chance';
@@ -13,7 +12,6 @@ import {getUserId} from '../../../src/services/auth-service';
 import {createExpenseUpdate} from '../../../src/utils/update-cache-utils';
 import Button from '../../../src/components/generic/Button';
 
-jest.spyOn(Date, 'now').mockImplementation(() => 0);
 jest.mock('@apollo/react-hooks');
 jest.mock('react-redux');
 jest.mock('../../../src/services/auth-service');
@@ -98,7 +96,7 @@ describe('CreateExpenseForm', () => {
     it('should call useMutation', () => {
         const expense = {
             amount: Number(expectedAmount),
-            date: moment().toISOString(),
+            date: expect.any(String),
             expenseId: expect.any(String),
             name: expectedName,
             timePeriodId: expectedTimePeriodId,
