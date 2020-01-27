@@ -13,7 +13,7 @@ import CreateCategoryForm from '../../../src/components/budget/CreateCategoryFor
 
 jest.mock('@apollo/react-hooks');
 jest.mock('react-redux');
-jest.mock('../../src/services/auth-service');
+jest.mock('../../../src/services/auth-service');
 
 describe('CreateFixedCategoryForm', () => {
     const {useMutation} = reactHooks as jest.Mocked<typeof reactHooks>;

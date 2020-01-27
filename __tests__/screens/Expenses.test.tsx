@@ -5,11 +5,17 @@ import * as reactRedux from 'react-redux';
 import {FlatList, View} from 'react-native';
 
 import Expenses from '../../src/screens/Expenses';
-import {createRandomAppState, createRandomExpenses, createRandomQueryResult} from '../models';
+import {
+    createRandomAppState,
+    createRandomExpenses,
+    createRandomQueryResult,
+    createRandomVariableCategories
+} from '../models';
 import {chance} from '../chance';
 import {getEarlyReturn} from '../../src/services/error-and-loading-service';
 import {sortByDate} from '../../src/utils/sorting-utils';
 import {IExpense} from '../../autogen/IExpense';
+import CreateExpenseForm from '../../src/components/budget/CreateExpenseForm';
 
 jest.mock('@apollo/react-hooks');
 jest.mock('react-redux');
@@ -31,7 +37,8 @@ describe('Expenses', () => {
 
     beforeEach(() => {
         expectedData = createRandomQueryResult({
-            expenses: createRandomExpenses()
+            expenses: createRandomExpenses(),
+            variableCategories: createRandomVariableCategories()
         });
         expectedTimePeriodId = chance.guid();
 
@@ -68,6 +75,7 @@ describe('Expenses', () => {
     it('should render a FlatList', () => {
         const renderedFlatList = root.findByType(FlatList);
 
+        expect(renderedFlatList.props.ListFooterComponent.type).toBe(CreateExpenseForm);
         expect(renderedFlatList.props.data).toBe(expectedData.data.expenses.sort(sortByDate));
 
         const expectedItem = chance.pickone<IExpense>(expectedData.data.expenses);

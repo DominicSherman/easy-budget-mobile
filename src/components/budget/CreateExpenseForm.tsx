@@ -12,7 +12,6 @@ import Input from '../generic/Input';
 import {IAppState} from '../../redux/reducer';
 import {getExpensesQuery} from '../../graphql/queries';
 import {getUserId} from '../../services/auth-service';
-import {getEarlyReturn} from '../../services/error-and-loading-service';
 import {GetExpenses, GetExpensesVariables} from '../../../autogen/GetExpenses';
 import {sortByDate, sortByName} from '../../utils/sorting-utils';
 import {SCREEN_WIDTH} from '../../constants/dimensions';
@@ -59,7 +58,7 @@ const CreateExpenseForm: FC = () => {
     };
 
     if (!queryResult.data) {
-        return getEarlyReturn(queryResult);
+        return null;
     }
 
     const {expenses, variableCategories} = queryResult.data;
