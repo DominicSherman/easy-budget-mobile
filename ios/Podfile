@@ -40,20 +40,5 @@ target 'EasyBudget' do
 
   pod 'RNGoogleSignin', :path => '../node_modules/@react-native-community/google-signin'
 
-  target 'EasyBudgetTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
   use_native_modules!
-end
-
-target 'EasyBudget-tvOS' do
-  # Pods for EasyBudget-tvOS
-
-  target 'EasyBudget-tvOSTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
 end
