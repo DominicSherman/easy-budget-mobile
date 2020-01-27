@@ -1,8 +1,8 @@
 import {QueryResult} from '@apollo/react-common';
 import React from 'react';
 
-import LoadingView from '../components/LoadingView';
-import ErrorView from '../components/ErrorView';
+import LoadingView from '../components/generic/LoadingView';
+import ErrorView from '../components/generic/ErrorView';
 
 export const getEarlyReturn = (queryResult: QueryResult<any, any>): JSX.Element => {
     if (queryResult.loading) {

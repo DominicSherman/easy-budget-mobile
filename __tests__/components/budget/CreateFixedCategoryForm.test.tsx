@@ -3,19 +3,19 @@ import React from 'react';
 import * as reactHooks from '@apollo/react-hooks';
 import * as reactRedux from 'react-redux';
 
-import {chance} from '../chance';
-import {createRandomAppState} from '../models';
-import CreateVariableCategoryForm from '../../src/components/CreateVariableCategoryForm';
-import {createVariableCategoryMutation} from '../../src/graphql/mutations';
-import {getUserId} from '../../src/services/auth-service';
-import {createVariableCategoryUpdate} from '../../src/utils/update-cache-utils';
-import CreateCategoryForm from '../../src/components/CreateCategoryForm';
+import {chance} from '../../chance';
+import {createRandomAppState} from '../../models';
+import CreateFixedCategoryForm from '../../../src/components/budget/CreateFixedCategoryForm';
+import {createFixedCategoryMutation} from '../../../src/graphql/mutations';
+import {getUserId} from '../../../src/services/auth-service';
+import {createFixedCategoryUpdate} from '../../../src/utils/update-cache-utils';
+import CreateCategoryForm from '../../../src/components/budget/CreateCategoryForm';
 
 jest.mock('@apollo/react-hooks');
 jest.mock('react-redux');
-jest.mock('../../src/services/auth-service');
+jest.mock('../../../src/services/auth-service');
 
-describe('CreateVariableCategoryForm', () => {
+describe('CreateFixedCategoryForm', () => {
     const {useMutation} = reactHooks as jest.Mocked<typeof reactHooks>;
     const {useSelector} = reactRedux as jest.Mocked<typeof reactRedux>;
 
@@ -24,10 +24,10 @@ describe('CreateVariableCategoryForm', () => {
         expectedName,
         expectedAmount,
         expectedTimePeriodId,
-        createVariableCategory;
+        createFixedCategory;
 
     const updateComponent = (): void => {
-        testRenderer.update(<CreateVariableCategoryForm />);
+        testRenderer.update(<CreateFixedCategoryForm />);
 
         testInstance = testRenderer.root;
     };
@@ -45,7 +45,7 @@ describe('CreateVariableCategoryForm', () => {
     };
 
     const render = (): void => {
-        testRenderer = TestRenderer.create(<CreateVariableCategoryForm />);
+        testRenderer = TestRenderer.create(<CreateFixedCategoryForm />);
 
         testInstance = testRenderer.root;
         setStateData();
@@ -53,13 +53,13 @@ describe('CreateVariableCategoryForm', () => {
 
     beforeEach(() => {
         expectedTimePeriodId = chance.guid();
-        createVariableCategory = jest.fn();
+        createFixedCategory = jest.fn();
         expectedName = chance.string();
         expectedAmount = chance.natural().toString();
 
         useSelector.mockReturnValue(expectedTimePeriodId);
         // @ts-ignore
-        useMutation.mockReturnValue([createVariableCategory]);
+        useMutation.mockReturnValue([createFixedCategory]);
 
         render();
     });
@@ -77,24 +77,25 @@ describe('CreateVariableCategoryForm', () => {
     });
 
     it('should call useMutation', () => {
-        const variableCategory = {
+        const fixedCategory = {
             amount: Number(expectedAmount),
+            fixedCategoryId: expect.any(String),
             name: expectedName,
+            paid: false,
             timePeriodId: expectedTimePeriodId,
-            userId: getUserId(),
-            variableCategoryId: expect.any(String)
+            userId: getUserId()
         };
 
-        expect(useMutation).toHaveBeenCalledWith(createVariableCategoryMutation, {
+        expect(useMutation).toHaveBeenCalledWith(createFixedCategoryMutation, {
             optimisticResponse: {
-                createVariableCategory: {
-                    __typename: 'VariableCategory',
-                    ...variableCategory
+                createFixedCategory: {
+                    __typename: 'FixedCategory',
+                    ...fixedCategory
                 }
             },
-            update: createVariableCategoryUpdate,
+            update: createFixedCategoryUpdate,
             variables: {
-                variableCategory
+                fixedCategory
             }
         });
     });
@@ -119,7 +120,7 @@ describe('CreateVariableCategoryForm', () => {
         });
         updateComponent();
 
-        expect(createVariableCategory).toHaveBeenCalledTimes(1);
+        expect(createFixedCategory).toHaveBeenCalledTimes(1);
         expect(renderedCreateCategoryForm.props.amount).toBe('');
         expect(renderedCreateCategoryForm.props.name).toBe('');
     });

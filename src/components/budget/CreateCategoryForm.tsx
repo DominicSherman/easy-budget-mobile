@@ -1,11 +1,10 @@
 import React, {Dispatch, FC, SetStateAction} from 'react';
 import {View} from 'react-native';
 
-import {textStyles} from '../styles/text-styles';
-
-import DefaultText from './generic/DefaultText';
-import Button from './generic/Button';
-import Input from './generic/Input';
+import {textStyles} from '../../styles/text-styles';
+import DefaultText from '../generic/DefaultText';
+import Button from '../generic/Button';
+import Input from '../generic/Input';
 
 interface ICreateCategoryFormProps {
     setName: Dispatch<SetStateAction<any>>

@@ -1,12 +1,16 @@
 import {
-    createRandomAppState, createRandomFixedCategories,
+    createRandomAppState, createRandomExpense, createRandomFixedCategories,
     createRandomFixedCategory,
     createRandomVariableCategories,
     createRandomVariableCategory
 } from '../models';
 import * as reduxStore from '../../src/redux/store';
-import {createFixedCategoryUpdate, createVariableCategoryUpdate} from '../../src/utils/update-cache-utils';
-import {getFixedCategoriesQuery, getVariableCategoriesQuery} from '../../src/graphql/queries';
+import {
+    createExpenseUpdate,
+    createFixedCategoryUpdate,
+    createVariableCategoryUpdate
+} from '../../src/utils/update-cache-utils';
+import {getExpensesQuery, getFixedCategoriesQuery, getVariableCategoriesQuery} from '../../src/graphql/queries';
 import {getUserId} from '../../src/services/auth-service';
 
 jest.mock('../../src/redux/store');
@@ -153,6 +157,73 @@ describe('update cache utils', () => {
 
         it('should **not** call write query if there is not data', () => {
             createFixedCategoryUpdate(cache, {data: null});
+
+            expect(cache.writeQuery).not.toHaveBeenCalled();
+        });
+    });
+
+    describe('createExpenseUpdate', () => {
+        let expectedReadQuery,
+            expectedMutationResult,
+            expectedState;
+
+        beforeEach(() => {
+            expectedMutationResult = {
+                data: {
+                    createExpense: createRandomExpense()
+                }
+            };
+            expectedReadQuery = {
+                expenses: createRandomFixedCategories()
+            };
+            expectedState = createRandomAppState();
+
+            cache.readQuery.mockReturnValue(expectedReadQuery);
+            getState.mockReturnValue(expectedState);
+        });
+
+        it('should call readQuery', () => {
+            createExpenseUpdate(cache, expectedMutationResult);
+
+            expect(cache.readQuery).toHaveBeenCalledTimes(1);
+            expect(cache.readQuery).toHaveBeenCalledWith({
+                query: getExpensesQuery,
+                variables: {
+                    timePeriodId: expectedState.timePeriodId,
+                    userId: getUserId()
+                }
+            });
+        });
+
+        it('should call write query if there is a result and data', () => {
+            createExpenseUpdate(cache, expectedMutationResult);
+
+            expect(cache.writeQuery).toHaveBeenCalledTimes(1);
+            expect(cache.writeQuery).toHaveBeenCalledWith({
+                data: {
+                    expenses: [
+                        ...expectedReadQuery.expenses,
+                        expectedMutationResult.data.createExpense
+                    ]
+                },
+                query: getExpensesQuery,
+                variables: {
+                    timePeriodId: expectedState.timePeriodId,
+                    userId: getUserId()
+                }
+            });
+        });
+
+        it('should **not** call write query if there is not a result', () => {
+            cache.readQuery.mockReturnValue(null);
+
+            createExpenseUpdate(cache, expectedMutationResult);
+
+            expect(cache.writeQuery).not.toHaveBeenCalled();
+        });
+
+        it('should **not** call write query if there is not data', () => {
+            createExpenseUpdate(cache, {data: null});
 
             expect(cache.writeQuery).not.toHaveBeenCalled();
         });

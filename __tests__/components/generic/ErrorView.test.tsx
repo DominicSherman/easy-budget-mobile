@@ -1,7 +1,7 @@
 import TestRenderer from 'react-test-renderer';
 import React from 'react';
 
-import ErrorView from '../../src/components/ErrorView';
+import ErrorView from '../../../src/components/generic/ErrorView';
 
 describe('ErrorView', () => {
     let testInstance;

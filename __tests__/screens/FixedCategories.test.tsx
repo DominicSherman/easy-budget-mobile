@@ -8,7 +8,7 @@ import FixedCategories from '../../src/screens/FixedCategories';
 import {createRandomAppState, createRandomQueryResult, createRandomFixedCategories} from '../models';
 import {chance} from '../chance';
 import {getEarlyReturn} from '../../src/services/error-and-loading-service';
-import CreateFixedCategoryForm from '../../src/components/CreateFixedCategoryForm';
+import CreateFixedCategoryForm from '../../src/components/budget/CreateFixedCategoryForm';
 import {sortByName} from '../../src/utils/sorting-utils';
 import {IFixedCategory} from '../../autogen/IFixedCategory';
 

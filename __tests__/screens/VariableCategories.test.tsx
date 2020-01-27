@@ -8,7 +8,7 @@ import VariableCategories from '../../src/screens/VariableCategories';
 import {createRandomAppState, createRandomQueryResult, createRandomVariableCategories} from '../models';
 import {chance} from '../chance';
 import {getEarlyReturn} from '../../src/services/error-and-loading-service';
-import CreateVariableCategoryForm from '../../src/components/CreateVariableCategoryForm';
+import CreateVariableCategoryForm from '../../src/components/budget/CreateVariableCategoryForm';
 import {sortByName} from '../../src/utils/sorting-utils';
 import {IVariableCategory} from '../../autogen/IVariableCategory';
 

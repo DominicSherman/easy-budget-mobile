@@ -10,7 +10,7 @@ import {SCREEN_WIDTH} from '../constants/dimensions';
 import {GetVariableCategories, GetVariableCategoriesVariables} from '../../autogen/GetVariableCategories';
 import {IAppState} from '../redux/reducer';
 import {getEarlyReturn} from '../services/error-and-loading-service';
-import CreateVariableCategoryForm from '../components/CreateVariableCategoryForm';
+import CreateVariableCategoryForm from '../components/budget/CreateVariableCategoryForm';
 import {sortByName} from '../utils/sorting-utils';
 
 const styles = StyleSheet.create({
