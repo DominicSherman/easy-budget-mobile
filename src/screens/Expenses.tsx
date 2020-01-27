@@ -56,7 +56,7 @@ const Expenses: FC = () => {
                         <DefaultText>{formatExpenseDate(item.date)}</DefaultText>
                     </View>
                     <View style={{width: SCREEN_WIDTH / 3}}>
-                        <DefaultText>{item.amount}</DefaultText>
+                        <DefaultText>{item.amount.toFixed(2)}</DefaultText>
                     </View>
                 </View>
             }
