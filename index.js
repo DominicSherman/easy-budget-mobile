@@ -8,7 +8,7 @@ import {name as appName} from './app.json';
 import App from './src/App';
 import {getStore} from './src/redux/store';
 
-// eslint-disable-next-line no-console
+// eslint-disable-next-line no-consol
 console.disableYellowBox = true;
 
 AppRegistry.registerComponent(
