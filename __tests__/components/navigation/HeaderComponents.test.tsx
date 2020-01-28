@@ -22,7 +22,6 @@ describe('HeaderComponents', () => {
         });
 
         it('should render a Feather component', () => {
-            // eslint-disable-next-line new-cap
             const renderedComponent = HamburgerMenu({})!;
 
             expect(renderedComponent.type).toEqual(Feather);

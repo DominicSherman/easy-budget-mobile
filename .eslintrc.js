@@ -43,7 +43,8 @@ module.exports = {
     'unicorn/no-zero-fractions': 0,
     'unicorn/filename-case': 0,
     'import/exports-last': 0,
-    'react/display-name': 0
+    'react/display-name': 0,
+    'new-cap': 0
   },
   overrides: [
     {

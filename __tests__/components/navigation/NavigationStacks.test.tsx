@@ -23,7 +23,6 @@ describe('NavigationStacks', () => {
             renderedScreen;
 
         beforeEach(() => {
-            // eslint-disable-next-line new-cap
             renderedComponent = HomeStack({});
             renderedScreen = renderedComponent.props.children;
         });
@@ -45,7 +44,6 @@ describe('NavigationStacks', () => {
             renderedScreen;
 
         beforeEach(() => {
-            // eslint-disable-next-line new-cap
             renderedComponent = FixedCategoriesStack({});
             renderedScreen = renderedComponent.props.children;
         });
@@ -67,7 +65,6 @@ describe('NavigationStacks', () => {
             renderedScreen;
 
         beforeEach(() => {
-            // eslint-disable-next-line new-cap
             renderedComponent = VariableCategoriesStack({});
             renderedScreen = renderedComponent.props.children;
         });
@@ -89,7 +86,6 @@ describe('NavigationStacks', () => {
             renderedScreen;
 
         beforeEach(() => {
-            // eslint-disable-next-line new-cap
             renderedComponent = ExpensesStack({});
             renderedScreen = renderedComponent.props.children;
         });
