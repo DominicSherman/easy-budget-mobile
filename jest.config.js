@@ -38,6 +38,7 @@ module.exports = {
         'google-signin': '<rootDir>/__tests__/stubs/google-signin-stub.ts',
         'react-native-gesture-handler': '<rootDir>/__tests__/stubs/react-native-gesture-handler-stub.ts',
         'react-native-reanimated': '<rootDir>/__tests__/stubs/react-native-reanimated-stub.ts',
-        '@react-navigation/stack': '<rootDir>/__tests__/stubs/react-navigation-stack-stub.tsx'
+        '@react-navigation/stack': '<rootDir>/__tests__/stubs/react-navigation-stack-stub.tsx',
+        'apollo-link-http': '<rootDir>/__tests__/stubs/apollo-link-http-stub.tsx',
     }
 };

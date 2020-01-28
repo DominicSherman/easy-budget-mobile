@@ -10,12 +10,13 @@ jest.mock('apollo-link');
 jest.mock('apollo-link-http');
 jest.mock('apollo-link-logger');
 jest.mock('apollo-cache-inmemory', () => ({
+    defaultDataIdFromObject: jest.fn(),
     InMemoryCache: jest.fn()
 }));
 
 describe('Apollo Client', () => {
     const {from} = apolloLink as jest.Mocked<typeof apolloLink>;
-    const {InMemoryCache} = inMemoryCache as jest.Mocked<typeof inMemoryCache>;
+    const {InMemoryCache, defaultDataIdFromObject} = inMemoryCache as jest.Mocked<typeof inMemoryCache>;
     const {ApolloClient} = apolloClient as jest.Mocked<typeof apolloClient>;
 
     beforeEach(() => {
@@ -43,18 +44,21 @@ describe('Apollo Client', () => {
         let expectedTypename,
             expectedValue,
             expectedObject,
+            expectedDefault,
             dataIdSpy;
 
         beforeEach(() => {
-            expectedTypename = chance.string();
+            expectedTypename = chance.string().toLowerCase();
             expectedValue = chance.string();
             expectedObject = {
                 [chance.string()]: chance.string(),
                 __typename: expectedTypename,
                 [`${expectedTypename}Id`]: expectedValue
             };
+            expectedDefault = chance.string();
 
             getApolloClient();
+            defaultDataIdFromObject.mockReturnValue(expectedDefault);
             // @ts-ignore
             dataIdSpy = InMemoryCache.mock.calls[0][0].dataIdFromObject;
         });
@@ -66,9 +70,12 @@ describe('Apollo Client', () => {
         });
 
         it('should cache by default if not possible', () => {
-            const cacheValue = dataIdSpy(expectedObject);
+            const cacheValue = dataIdSpy({
+                ...expectedObject,
+                __typename: chance.string()
+            });
 
-            expect(cacheValue).toBe(`${expectedTypename}:${expectedValue}`);
+            expect(cacheValue).toBe(expectedDefault);
         });
     });
 
