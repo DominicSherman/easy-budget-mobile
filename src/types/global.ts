@@ -1,8 +1,7 @@
-interface ICategory {
-  amount: number
-  name: string
-}
+import {FC} from 'react';
 
-export interface IFixedExpense extends ICategory {
-  paid: boolean
-}
+export type IScreenFC<T> = FC<{
+  route: {
+    params: T
+  }
+}>

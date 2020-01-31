@@ -6,20 +6,40 @@ import {Route} from '../../enums/routes';
 import FixedCategories from '../../screens/FixedCategories';
 import VariableCategories from '../../screens/VariableCategories';
 import Expenses from '../../screens/Expenses';
+import DateTimePicker, {IDateTimePickerProps} from '../../screens/DateTimePicker';
 
 import {HamburgerMenu} from './HeaderComponents';
 
-const Stack = createStackNavigator();
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+export type StackParams = {
+    [Route.HOME]: undefined
+    [Route.FIXED_CATEGORIES]: undefined
+    [Route.VARIABLE_CATEGORIES]: undefined
+    [Route.EXPENSES]: undefined
+    [Route.DATE_PICKER]: IDateTimePickerProps
+}
+const Stack = createStackNavigator<StackParams>();
+
 const options = {
     headerLeft: (): JSX.Element => <HamburgerMenu />
 };
 
 export const HomeStack: FC = () =>
-    <Stack.Navigator>
+    <Stack.Navigator mode={'modal'}>
         <Stack.Screen
             component={Home}
             name={Route.HOME}
             options={options}
+        />
+        <Stack.Screen
+            component={DateTimePicker}
+            initialParams={{
+                date: new Date(),
+                setDate: (): void => {},
+                title: ''
+            }}
+            name={Route.DATE_PICKER}
+            options={{headerShown: false}}
         />
     </Stack.Navigator>;
 
