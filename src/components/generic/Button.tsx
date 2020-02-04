@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {StyleSheet, TextStyle, ViewStyle} from 'react-native';
+import {ActivityIndicator, StyleSheet, TextStyle, ViewStyle} from 'react-native';
 import Touchable from 'react-native-platform-touchable';
 
 import {colors} from '../../constants/colors';
@@ -26,19 +26,25 @@ const styles = StyleSheet.create({
 
 interface IButton {
     disabled?: boolean
+    loading?: boolean
     text: string
     onPress: () => void
     textStyle?: TextStyle
     wrapperStyle?: ViewStyle
 }
 
-const Button: FC<IButton> = ({disabled, onPress, text, textStyle, wrapperStyle}) =>
+const Button: FC<IButton> = ({disabled, onPress, text, textStyle, loading, wrapperStyle}) =>
     <Touchable
         disabled={disabled}
         onPress={onPress}
         style={[styles.wrapper, wrapperStyle]}
     >
-        <DefaultText style={[styles.text, textStyle]}>{text}</DefaultText>
+        {
+            loading ?
+                <ActivityIndicator />
+                :
+                <DefaultText style={[styles.text, textStyle]}>{text}</DefaultText>
+        }
     </Touchable>;
 
 export default Button;

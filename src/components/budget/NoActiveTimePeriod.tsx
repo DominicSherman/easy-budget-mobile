@@ -2,12 +2,18 @@ import React, {FC, useState} from 'react';
 import {View} from 'react-native';
 import moment from 'moment';
 import {useNavigation} from '@react-navigation/native';
+import uuid from 'uuid';
+import {useMutation} from '@apollo/react-hooks';
 
 import DefaultText from '../generic/DefaultText';
 import {textStyles} from '../../styles/text-styles';
 import Button from '../generic/Button';
 import {screenWrapper} from '../../styles/shared-styles';
 import {Route} from '../../enums/routes';
+import {getUserId} from '../../services/auth-service';
+import {createTimePeriodMutation} from '../../graphql/mutations';
+import {CreateTimePeriodMutation, CreateTimePeriodMutationVariables} from '../../../autogen/CreateTimePeriodMutation';
+import {setAppState} from '../../redux/action-creators';
 
 const now = moment().startOf('day').toISOString();
 const fourWeeks = moment().startOf('day').add(4, 'w').toISOString();
@@ -22,6 +28,27 @@ const NoActiveTimePeriod: FC = () => {
     const [beginDate, setBeginDate] = useState<Date>(new Date(now));
     const [endDate, setEndDate] = useState<Date>(new Date(fourWeeks));
     const navigation = useNavigation();
+    const timePeriod = {
+        beginDate: moment(beginDate).toISOString(),
+        endDate: moment(endDate).toISOString(),
+        timePeriodId: uuid.v4(),
+        userId: getUserId()
+    };
+
+    const [createTimePeriod, {loading}] = useMutation<CreateTimePeriodMutation, CreateTimePeriodMutationVariables>(createTimePeriodMutation, {
+        onCompleted: () => {
+            setAppState();
+        },
+        optimisticResponse: {
+            createTimePeriod: {
+                __typename: 'TimePeriod',
+                ...timePeriod
+            }
+        },
+        variables: {
+            timePeriod
+        }
+    });
 
     return (
         <View style={screenWrapper}>
@@ -58,7 +85,10 @@ const NoActiveTimePeriod: FC = () => {
                 {`${moment(endDate).diff(moment(beginDate), 'days')} days`}
             </DefaultText>
             <Button
-                onPress={(): void => {}}
+                loading={loading}
+                onPress={async (): Promise<void> => {
+                    await createTimePeriod();
+                }}
                 text={'Create'}
             />
         </View>
