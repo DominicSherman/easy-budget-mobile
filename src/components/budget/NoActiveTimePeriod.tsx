@@ -25,7 +25,6 @@ const NoActiveTimePeriod: FC = () => {
 
     return (
         <View style={screenWrapper}>
-            <DefaultText style={[textStyles.large, {marginBottom: 32}]}>{'No active time period'}</DefaultText>
             <DefaultText style={textStyles.large}>{'Select Time Period'}</DefaultText>
             <DefaultText style={{marginTop: 16}}>{'Begin Date'}</DefaultText>
             <Button
@@ -55,7 +54,7 @@ const NoActiveTimePeriod: FC = () => {
                 }}
                 text={moment(endDate).calendar(undefined, formats)}
             />
-            <DefaultText style={[textStyles.medium, {marginTop: 32}]}>
+            <DefaultText style={[textStyles.medium, {marginVertical: 32}]}>
                 {`${moment(endDate).diff(moment(beginDate), 'days')} days`}
             </DefaultText>
             <Button
