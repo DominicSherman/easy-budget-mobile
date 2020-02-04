@@ -11,6 +11,12 @@ import {Route} from '../../enums/routes';
 
 const now = moment().startOf('day').toISOString();
 const fourWeeks = moment().startOf('day').add(4, 'w').toISOString();
+const formats = {
+    nextDay: '[Tomorrow]',
+    nextWeek: 'dddd',
+    sameDay: '[Today]',
+    sameElse: 'ddd, MMM DD'
+};
 
 const NoActiveTimePeriod: FC = () => {
     const [beginDate, setBeginDate] = useState<Date>(new Date(now));
@@ -33,7 +39,7 @@ const NoActiveTimePeriod: FC = () => {
                         }
                     });
                 }}
-                text={`${moment(beginDate).format('ddd, MMM DD')}`}
+                text={moment(beginDate).calendar(undefined, formats)}
             />
             <DefaultText style={{marginTop: 16}}>{'End Date'}</DefaultText>
             <Button
@@ -47,11 +53,15 @@ const NoActiveTimePeriod: FC = () => {
                         }
                     });
                 }}
-                text={`${moment(endDate).format('ddd, MMM DD')}`}
+                text={moment(endDate).calendar(undefined, formats)}
             />
             <DefaultText style={[textStyles.medium, {marginTop: 32}]}>
                 {`${moment(endDate).diff(moment(beginDate), 'days')} days`}
             </DefaultText>
+            <Button
+                onPress={(): void => {}}
+                text={'Create'}
+            />
         </View>
     );
 };
