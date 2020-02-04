@@ -16,7 +16,7 @@ import {CreateTimePeriodMutation, CreateTimePeriodMutationVariables} from '../..
 import {setAppState} from '../../redux/action-creators';
 
 const now = moment().startOf('day').toISOString();
-const fourWeeks = moment().startOf('day').add(4, 'w').toISOString();
+const fourWeeks = moment().startOf('day').add(4, 'w').subtract(1, 'd').toISOString();
 const formats = {
     nextDay: '[Tomorrow]',
     nextWeek: 'dddd',
@@ -52,8 +52,8 @@ const NoActiveTimePeriod: FC = () => {
 
     return (
         <View style={screenWrapper}>
-            <DefaultText style={textStyles.large}>{'Select Time Period'}</DefaultText>
-            <DefaultText style={{marginTop: 16}}>{'Begin Date'}</DefaultText>
+            <DefaultText style={textStyles.large}>{'Create New Time Period'}</DefaultText>
+            <DefaultText style={{marginTop: 16}}>{'Beginning'}</DefaultText>
             <Button
                 onPress={(): void => {
                     navigation.navigate({
@@ -67,7 +67,7 @@ const NoActiveTimePeriod: FC = () => {
                 }}
                 text={moment(beginDate).calendar(undefined, formats)}
             />
-            <DefaultText style={{marginTop: 16}}>{'End Date'}</DefaultText>
+            <DefaultText style={{marginTop: 16}}>{'Final Day'}</DefaultText>
             <Button
                 onPress={(): void => {
                     navigation.navigate({
