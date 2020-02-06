@@ -100,3 +100,11 @@ export const createRandomAppState = (): IAppState => ({
     appStatus: AppStatus.LOADING,
     timePeriodId: chance.guid()
 });
+
+export const createRouteProps = (props): any => ({
+    route: {
+        params: {
+            ...props
+        }
+    }
+});
