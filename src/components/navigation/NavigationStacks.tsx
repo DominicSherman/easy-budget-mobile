@@ -26,11 +26,6 @@ export const HomeStack: FC = () =>
         />
         <Stack.Screen
             component={DateTimePicker}
-            initialParams={{
-                date: new Date(),
-                setDate: (): void => {},
-                title: ''
-            }}
             name={Route.DATE_PICKER}
             options={{headerShown: false}}
         />

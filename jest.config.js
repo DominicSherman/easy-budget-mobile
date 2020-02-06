@@ -40,7 +40,7 @@ module.exports = {
         'react-native-reanimated': '<rootDir>/__tests__/stubs/react-native-reanimated-stub.ts',
         '@react-navigation/stack': '<rootDir>/__tests__/stubs/react-navigation-stack-stub.tsx',
         'apollo-link-http': '<rootDir>/__tests__/stubs/apollo-link-http-stub.tsx',
-        '@react-navigation/native': '<rootDir>/__tests__/stubs/react-navigation-native-stub',
-        '@apollo/react-hooks': '<rootDir>/__tests__/stubs/apollo-react-hooks-stub'
+        '@react-navigation/native': '<rootDir>/__tests__/stubs/react-navigation-native-stub.tsx',
+        '@apollo/react-hooks': '<rootDir>/__tests__/stubs/apollo-react-hooks-stub.ts'
     }
 };
