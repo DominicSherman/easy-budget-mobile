@@ -11,9 +11,11 @@ import {getEarlyReturn} from '../../src/services/error-and-loading-service';
 import CreateVariableCategoryForm from '../../src/components/budget/CreateVariableCategoryForm';
 import {sortByName} from '../../src/utils/sorting-utils';
 import {IVariableCategory} from '../../autogen/IVariableCategory';
+import NoActiveTimePeriod from '../../src/components/budget/NoActiveTimePeriod';
 
 jest.mock('@apollo/react-hooks');
 jest.mock('react-redux');
+jest.mock('@react-navigation/native');
 jest.mock('../../src/services/auth-service');
 
 describe('VariableCategories', () => {
@@ -39,7 +41,7 @@ describe('VariableCategories', () => {
         useQuery.mockReturnValue(expectedData);
         useSelector.mockReturnValue(expectedTimePeriodId);
         // @ts-ignore
-        useMutation.mockReturnValue([jest.fn()]);
+        useMutation.mockReturnValue([jest.fn(), {loading: chance.bool()}]);
 
         render();
     });
@@ -53,6 +55,13 @@ describe('VariableCategories', () => {
         const selector = useSelector.mock.calls[0][0](expectedState);
 
         expect(selector).toBe(expectedState.timePeriodId);
+    });
+
+    it('should return early if there is no time period', () => {
+        useSelector.mockReturnValue(null);
+        render();
+
+        root.findByType(NoActiveTimePeriod);
     });
 
     it('should return early when there is no data', () => {

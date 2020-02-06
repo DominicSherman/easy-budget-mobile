@@ -7,6 +7,7 @@ import moment from 'moment';
 import DefaultText from '../components/generic/DefaultText';
 import {textStyles} from '../styles/text-styles';
 import Button from '../components/generic/Button';
+import {Route} from '../enums/routes';
 import {IScreenFC} from '../types/global';
 
 const styles = StyleSheet.create({
@@ -29,7 +30,7 @@ export interface IDateTimePickerProps {
 
 const oneYear = moment().add(1, 'year').toISOString();
 
-const DateTimePicker: IScreenFC<IDateTimePickerProps> = ({route: {params: {date, setDate, title}}}) => {
+const DateTimePicker: IScreenFC<Route.DATE_PICKER> = ({route: {params: {date, setDate, title}}}) => {
     const navigation = useNavigation();
 
     return (
@@ -40,13 +41,11 @@ const DateTimePicker: IScreenFC<IDateTimePickerProps> = ({route: {params: {date,
             <RNDatePicker
                 maximumDate={new Date(oneYear)}
                 minimumDate={new Date()}
-                onChange={
-                    (event: Event, date?: Date): void => {
-                        if (date) {
-                            setDate(date);
-                        }
+                onChange={(event: Event, date?: Date): void => {
+                    if (date) {
+                        setDate(date);
                     }
-                }
+                }}
                 value={date}
             />
             <View style={styles.centerWrapper}>

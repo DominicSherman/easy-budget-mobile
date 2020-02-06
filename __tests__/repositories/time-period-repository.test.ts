@@ -33,6 +33,7 @@ describe('time period repository', () => {
 
             expect(queryGraphql).toHaveBeenCalledTimes(1);
             expect(queryGraphql).toHaveBeenCalledWith({
+                fetchPolicy: 'network-only',
                 query: getActiveTimePeriodQuery,
                 variables: {
                     date: expectedDate,
