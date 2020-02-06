@@ -2,6 +2,10 @@ import {Provider} from 'react-redux';
 
 import App from '../src/App';
 
+jest.mock('@react-navigation/drawer', () => ({
+    createDrawerNavigator: jest.fn()
+}));
+
 describe('index', () => {
     let AppRegistry;
 

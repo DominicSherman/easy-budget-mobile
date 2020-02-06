@@ -25,6 +25,13 @@ export interface CreateFixedCategory {
   paid: boolean;
 }
 
+export interface CreateTimePeriod {
+  timePeriodId: string;
+  beginDate: string;
+  endDate: string;
+  userId: string;
+}
+
 export interface CreateVariableCategory {
   variableCategoryId: string;
   timePeriodId: string;

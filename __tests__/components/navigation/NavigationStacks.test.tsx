@@ -12,6 +12,7 @@ import FixedCategories from '../../../src/screens/FixedCategories';
 import VariableCategories from '../../../src/screens/VariableCategories';
 import Expenses from '../../../src/screens/Expenses';
 import {HamburgerMenu} from '../../../src/components/navigation/HeaderComponents';
+import DateTimePicker from '../../../src/screens/DateTimePicker';
 
 jest.mock('@react-navigation/stack');
 
@@ -20,11 +21,15 @@ describe('NavigationStacks', () => {
 
     describe('HomeStack', () => {
         let renderedComponent,
-            renderedScreen;
+            renderedScreen,
+            renderedModal;
 
         beforeEach(() => {
             renderedComponent = HomeStack({});
-            renderedScreen = renderedComponent.props.children;
+            [
+                renderedScreen,
+                renderedModal
+            ] = renderedComponent.props.children;
         });
 
         it('should return a Stack.Navigator', () => {
@@ -36,6 +41,13 @@ describe('NavigationStacks', () => {
             expect(renderedScreen.props.component).toBe(Home);
             expect(renderedScreen.props.name).toBe(Route.HOME);
             expect(renderedScreen.props.options.headerLeft().type).toBe(HamburgerMenu);
+        });
+
+        it('should return a nested Stack.Screen for the modal', () => {
+            expect(renderedModal.type).toBe(Stack.Screen);
+            expect(renderedModal.props.component).toBe(DateTimePicker);
+            expect(renderedModal.props.name).toBe(Route.DATE_PICKER);
+            expect(renderedModal.props.options).toEqual({headerShown: false});
         });
     });
 

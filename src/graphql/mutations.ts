@@ -1,6 +1,6 @@
 import {gql} from 'apollo-boost';
 
-import {expenseFragment, fixedCategoryFragment, variableCategoryFragment} from './fragments';
+import {expenseFragment, fixedCategoryFragment, timePeriodFragment, variableCategoryFragment} from './fragments';
 
 export const createVariableCategoryMutation = gql`
     ${variableCategoryFragment}
@@ -28,6 +28,16 @@ export const createExpenseMutation = gql`
     mutation CreateExpenseMutation($expense: CreateExpense!) {
         createExpense(expense: $expense) {
             ...IExpense
+        }
+    }
+`;
+
+export const createTimePeriodMutation = gql`
+    ${timePeriodFragment}
+    
+    mutation CreateTimePeriodMutation($timePeriod: CreateTimePeriod!) {
+        createTimePeriod(timePeriod: $timePeriod) {
+            ...ITimePeriod
         }
     }
 `;

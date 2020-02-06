@@ -11,6 +11,7 @@ import Button from '../components/generic/Button';
 import {formatTimePeriod, getRoundedDate} from '../services/moment-service';
 import {textStyles} from '../styles/text-styles';
 import {getEarlyReturn} from '../services/error-and-loading-service';
+import NoActiveTimePeriod from '../components/budget/NoActiveTimePeriod';
 
 const date = getRoundedDate();
 
@@ -30,7 +31,9 @@ const Home: React.FC = () => {
     const activeTimePeriod = timePeriods[0];
 
     if (!activeTimePeriod) {
-        return getEarlyReturn(queryResult);
+        return (
+            <NoActiveTimePeriod />
+        );
     }
 
     return (

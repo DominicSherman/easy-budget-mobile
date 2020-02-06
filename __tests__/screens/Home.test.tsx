@@ -9,8 +9,10 @@ import {createRandomQueryResult, createRandomTimePeriods} from '../models';
 import {getActiveTimePeriodQuery} from '../../src/graphql/queries';
 import {getRoundedDate} from '../../src/services/moment-service';
 import {getEarlyReturn} from '../../src/services/error-and-loading-service';
+import NoActiveTimePeriod from '../../src/components/budget/NoActiveTimePeriod';
 
 jest.mock('@apollo/react-hooks');
+jest.mock('@react-navigation/native');
 jest.mock('../../src/services/auth-service');
 
 describe('Home', () => {
@@ -59,12 +61,9 @@ describe('Home', () => {
         expectedData.data.timePeriods = [];
 
         useQuery.mockReturnValue(expectedData);
-
         render();
 
-        const earlyReturn = getEarlyReturn(expectedData);
-
-        root.findByType(earlyReturn.type);
+        root.findByType(NoActiveTimePeriod);
     });
 
     it('should render a Touchable to log out', () => {

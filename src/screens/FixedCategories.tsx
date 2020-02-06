@@ -12,6 +12,7 @@ import {SCREEN_WIDTH} from '../constants/dimensions';
 import DefaultText from '../components/generic/DefaultText';
 import CreateFixedCategoryForm from '../components/budget/CreateFixedCategoryForm';
 import {sortByName} from '../utils/sorting-utils';
+import NoActiveTimePeriod from '../components/budget/NoActiveTimePeriod';
 
 const styles = StyleSheet.create({
     halfWrapper: {
@@ -31,11 +32,16 @@ const styles = StyleSheet.create({
 const FixedCategories: React.FC = () => {
     const timePeriodId = useSelector<IAppState, string>((state) => state.timePeriodId);
     const queryResult = useQuery<GetFixedCategories, GetFixedCategoriesVariables>(getFixedCategoriesQuery, {
+        skip: !timePeriodId,
         variables: {
             timePeriodId,
             userId: getUserId()
         }
     });
+
+    if (!timePeriodId) {
+        return <NoActiveTimePeriod />;
+    }
 
     if (!queryResult.data) {
         return getEarlyReturn(queryResult);

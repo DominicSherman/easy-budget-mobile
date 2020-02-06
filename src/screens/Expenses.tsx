@@ -13,6 +13,7 @@ import DefaultText from '../components/generic/DefaultText';
 import {formatExpenseDate} from '../services/moment-service';
 import {sortByDate} from '../utils/sorting-utils';
 import CreateExpenseForm from '../components/budget/CreateExpenseForm';
+import NoActiveTimePeriod from '../components/budget/NoActiveTimePeriod';
 
 const styles = StyleSheet.create({
     fixedWrapper: {
@@ -26,11 +27,16 @@ const styles = StyleSheet.create({
 const Expenses: FC = () => {
     const timePeriodId = useSelector<IAppState, string>((state) => state.timePeriodId);
     const queryResult = useQuery<GetExpenses, GetExpensesVariables>(getExpensesQuery, {
+        skip: !timePeriodId,
         variables: {
             timePeriodId,
             userId: getUserId()
         }
     });
+
+    if (!timePeriodId) {
+        return <NoActiveTimePeriod />;
+    }
 
     if (!queryResult.data) {
         return getEarlyReturn(queryResult);

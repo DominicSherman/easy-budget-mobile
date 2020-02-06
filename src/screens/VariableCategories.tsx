@@ -12,6 +12,7 @@ import {IAppState} from '../redux/reducer';
 import {getEarlyReturn} from '../services/error-and-loading-service';
 import CreateVariableCategoryForm from '../components/budget/CreateVariableCategoryForm';
 import {sortByName} from '../utils/sorting-utils';
+import NoActiveTimePeriod from '../components/budget/NoActiveTimePeriod';
 
 const styles = StyleSheet.create({
     fixedWrapper: {
@@ -25,11 +26,16 @@ const styles = StyleSheet.create({
 const VariableCategories: React.FC = () => {
     const timePeriodId = useSelector<IAppState, string>((state) => state.timePeriodId);
     const queryResult = useQuery<GetVariableCategories, GetVariableCategoriesVariables>(getVariableCategoriesQuery, {
+        skip: !timePeriodId,
         variables: {
             timePeriodId,
             userId: getUserId()
         }
     });
+
+    if (!timePeriodId) {
+        return <NoActiveTimePeriod />;
+    }
 
     if (!queryResult.data) {
         return getEarlyReturn(queryResult);

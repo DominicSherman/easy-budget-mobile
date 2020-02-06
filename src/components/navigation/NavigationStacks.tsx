@@ -6,20 +6,28 @@ import {Route} from '../../enums/routes';
 import FixedCategories from '../../screens/FixedCategories';
 import VariableCategories from '../../screens/VariableCategories';
 import Expenses from '../../screens/Expenses';
+import DateTimePicker from '../../screens/DateTimePicker';
+import {StackParams} from '../../types/global';
 
 import {HamburgerMenu} from './HeaderComponents';
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<StackParams>();
+
 const options = {
     headerLeft: (): JSX.Element => <HamburgerMenu />
 };
 
 export const HomeStack: FC = () =>
-    <Stack.Navigator>
+    <Stack.Navigator mode={'modal'}>
         <Stack.Screen
             component={Home}
             name={Route.HOME}
             options={options}
+        />
+        <Stack.Screen
+            component={DateTimePicker}
+            name={Route.DATE_PICKER}
+            options={{headerShown: false}}
         />
     </Stack.Navigator>;
 

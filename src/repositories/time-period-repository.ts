@@ -9,6 +9,7 @@ export const getActiveTimePeriod = (): Promise<QueryResponse<GetActiveTimePeriod
     const date = getRoundedDate();
 
     return queryGraphql<GetActiveTimePeriod, GetActiveTimePeriodVariables>({
+        fetchPolicy: 'network-only',
         query: getActiveTimePeriodQuery,
         variables: {
             date,
