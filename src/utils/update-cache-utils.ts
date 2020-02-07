@@ -28,6 +28,7 @@ export const createVariableCategoryUpdate = (cache: DataProxy, mutationResult: F
 
         cache.writeQuery<GetVariableCategories, GetVariableCategoriesVariables>({
             data: {
+                expenses: result.expenses,
                 variableCategories: updatedVariableCategories
             },
             query,

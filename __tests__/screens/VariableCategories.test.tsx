@@ -5,7 +5,13 @@ import * as reactRedux from 'react-redux';
 import {FlatList, View} from 'react-native';
 
 import VariableCategories from '../../src/screens/VariableCategories';
-import {createRandomAppState, createRandomQueryResult, createRandomVariableCategories} from '../models';
+import {
+    createRandomAppState,
+    createRandomExpense,
+    createRandomQueryResult,
+    createRandomVariableCategories,
+    createRandomVariableCategory
+} from '../models';
 import {chance} from '../chance';
 import {getEarlyReturn} from '../../src/services/error-and-loading-service';
 import CreateVariableCategoryForm from '../../src/components/budget/CreateVariableCategoryForm';
@@ -33,8 +39,14 @@ describe('VariableCategories', () => {
     };
 
     beforeEach(() => {
+        const variableCategoryId = chance.guid();
+
         expectedData = createRandomQueryResult({
-            variableCategories: createRandomVariableCategories()
+            expenses: chance.n(createRandomExpense, chance.d6(), {variableCategoryId}),
+            variableCategories: [
+                ...createRandomVariableCategories(),
+                createRandomVariableCategory({variableCategoryId})
+            ]
         });
         expectedTimePeriodId = chance.guid();
 
