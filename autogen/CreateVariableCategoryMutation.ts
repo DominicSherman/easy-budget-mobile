@@ -8,6 +8,17 @@ import { CreateVariableCategory } from "./globalTypes";
 // GraphQL mutation operation: CreateVariableCategoryMutation
 // ====================================================
 
+export interface CreateVariableCategoryMutation_createVariableCategory_expenses {
+  __typename: "Expense";
+  expenseId: string;
+  userId: string;
+  variableCategoryId: string;
+  timePeriodId: string;
+  amount: number;
+  date: string;
+  name: string | null;
+}
+
 export interface CreateVariableCategoryMutation_createVariableCategory {
   __typename: "VariableCategory";
   variableCategoryId: string;
@@ -15,6 +26,7 @@ export interface CreateVariableCategoryMutation_createVariableCategory {
   userId: string;
   amount: number;
   name: string;
+  expenses: CreateVariableCategoryMutation_createVariableCategory_expenses[];
 }
 
 export interface CreateVariableCategoryMutation {
