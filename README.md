@@ -5,7 +5,7 @@ A simple budgeting app
 ## Getting Started
 
 * Go through the [React Native instructions](https://facebook.github.io/react-native/docs/getting-started) for `React Native CLI` to install the necessary applications and tools
-* Go to the Firebase project's setting and download the `GoogleService-Info.plist` file and put it in the `iOS` directory, and download the `google-services.json` file and put it in the `android` directory
+* Go to the Firebase project's setting and download the `GoogleService-Info.plist` file and put it in the `iOS` directory, and download the `google-services.json` file and put it in the `android/app` directory
     * If the `GoogleService-Info.plist` is not appearing in XCode, you may have to add it
 * Run `yarn`
 * For iOS, run `pod install`
