@@ -68,7 +68,6 @@ export const createExpenseUpdate = (cache: DataProxy, mutationResult: FetchResul
         userId: getUserId()
     };
     const {data} = mutationResult;
-
     const result = cache.readQuery<GetExpenses, GetExpensesVariables>({
         query,
         variables
@@ -76,24 +75,11 @@ export const createExpenseUpdate = (cache: DataProxy, mutationResult: FetchResul
 
     if (result && data) {
         const updatedExpenses = [...result.expenses, data.createExpense];
-        const updatedCategory = result.variableCategories.find((variableCategory) => variableCategory.variableCategoryId === data.createExpense.variableCategoryId)!;
-        const index = result.variableCategories.indexOf(updatedCategory);
-        const updatedCategories = [
-            ...result.variableCategories.slice(0, index),
-            {
-                ...updatedCategory,
-                expenses: [
-                    ...updatedCategory.expenses,
-                    data.createExpense
-                ]
-            },
-            ...result.variableCategories.slice(index + 1, result.variableCategories.length)
-        ];
 
         cache.writeQuery<GetExpenses, GetExpensesVariables>({
             data: {
                 expenses: updatedExpenses,
-                variableCategories: updatedCategories
+                variableCategories: result.variableCategories
             },
             query,
             variables

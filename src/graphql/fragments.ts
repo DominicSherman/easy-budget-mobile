@@ -32,9 +32,6 @@ export const variableCategoryFragment = gql`
         userId
         amount
         name
-        expenses {
-            ...IExpense
-        }
     }
 `;
 

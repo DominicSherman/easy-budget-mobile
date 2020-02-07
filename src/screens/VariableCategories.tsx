@@ -39,8 +39,6 @@ const VariableCategories: React.FC = () => {
         }
     });
 
-    console.log('queryResult', queryResult);
-
     if (!timePeriodId) {
         return <NoActiveTimePeriod />;
     }
@@ -49,7 +47,7 @@ const VariableCategories: React.FC = () => {
         return getEarlyReturn(queryResult);
     }
 
-    const {variableCategories} = queryResult.data;
+    const {variableCategories, expenses} = queryResult.data;
     const sortedVariableCategories = variableCategories.sort(sortByName);
     const calculateTotal = (expenses: IExpense[]): number => expenses.reduce((total, expense) => total + expense.amount, 0);
 
@@ -74,25 +72,30 @@ const VariableCategories: React.FC = () => {
             }
             data={sortedVariableCategories}
             keyExtractor={(item): string => item.variableCategoryId}
-            renderItem={({item}): JSX.Element =>
-                <View
-                    key={item.variableCategoryId}
-                    style={styles.fixedWrapper}
-                >
-                    <View style={styles.itemWrapper}>
-                        <DefaultText>{item.name}</DefaultText>
+            renderItem={({item}): JSX.Element => {
+                const categoryExpenses = expenses.filter((expense) => expense.variableCategoryId === item.variableCategoryId);
+                const sum = calculateTotal(categoryExpenses);
+
+                return (
+                    <View
+                        key={item.variableCategoryId}
+                        style={styles.fixedWrapper}
+                    >
+                        <View style={styles.itemWrapper}>
+                            <DefaultText>{item.name}</DefaultText>
+                        </View>
+                        <View style={styles.itemWrapper}>
+                            <DefaultText>{item.amount}</DefaultText>
+                        </View>
+                        <View style={styles.itemWrapper}>
+                            <DefaultText>{item.amount - sum}</DefaultText>
+                        </View>
+                        <View style={styles.itemWrapper}>
+                            <DefaultText>{sum}</DefaultText>
+                        </View>
                     </View>
-                    <View style={styles.itemWrapper}>
-                        <DefaultText>{item.amount}</DefaultText>
-                    </View>
-                    <View style={styles.itemWrapper}>
-                        <DefaultText>{item.amount - calculateTotal(item.expenses)}</DefaultText>
-                    </View>
-                    <View style={styles.itemWrapper}>
-                        <DefaultText>{calculateTotal(item.expenses)}</DefaultText>
-                    </View>
-                </View>
-            }
+                );
+            }}
         />
     );
 };
