@@ -15,8 +15,20 @@ export interface GetVariableCategories_variableCategories {
   name: string;
 }
 
+export interface GetVariableCategories_expenses {
+  __typename: "Expense";
+  expenseId: string;
+  userId: string;
+  variableCategoryId: string;
+  timePeriodId: string;
+  amount: number;
+  date: string;
+  name: string | null;
+}
+
 export interface GetVariableCategories {
   variableCategories: GetVariableCategories_variableCategories[];
+  expenses: GetVariableCategories_expenses[];
 }
 
 export interface GetVariableCategoriesVariables {

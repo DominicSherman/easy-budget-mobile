@@ -4,10 +4,14 @@ import {expenseFragment, fixedCategoryFragment, timePeriodFragment, variableCate
 
 export const getVariableCategoriesQuery = gql`
     ${variableCategoryFragment}
+    ${expenseFragment}
     
     query GetVariableCategories($userId: String!, $timePeriodId: String!) {
         variableCategories(userId: $userId, timePeriodId: $timePeriodId) {
             ...IVariableCategory
+        }
+        expenses(userId: $userId, timePeriodId: $timePeriodId) {
+            ...IExpense
         }
     }
 `;

@@ -13,13 +13,19 @@ import {getEarlyReturn} from '../services/error-and-loading-service';
 import CreateVariableCategoryForm from '../components/budget/CreateVariableCategoryForm';
 import {sortByName} from '../utils/sorting-utils';
 import NoActiveTimePeriod from '../components/budget/NoActiveTimePeriod';
+import {IExpense} from '../../autogen/IExpense';
 
 const styles = StyleSheet.create({
     fixedWrapper: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        padding: 16,
+        paddingVertical: 8,
         width: '100%'
+    },
+    itemWrapper: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: SCREEN_WIDTH / 4
     }
 });
 
@@ -41,27 +47,55 @@ const VariableCategories: React.FC = () => {
         return getEarlyReturn(queryResult);
     }
 
-    const {variableCategories} = queryResult.data;
+    const {variableCategories, expenses} = queryResult.data;
     const sortedVariableCategories = variableCategories.sort(sortByName);
+    const calculateTotal = (expenses: IExpense[]): number => expenses.reduce((total, expense) => total + expense.amount, 0);
 
     return (
         <FlatList
             ListFooterComponent={<CreateVariableCategoryForm />}
-            data={sortedVariableCategories}
-            keyExtractor={(item): string => item.variableCategoryId}
-            renderItem={({item}): JSX.Element =>
-                <View
-                    key={item.variableCategoryId}
-                    style={styles.fixedWrapper}
-                >
-                    <View style={{width: SCREEN_WIDTH / 2}}>
-                        <DefaultText>{item.name}</DefaultText>
+            ListHeaderComponent={
+                <View style={[styles.fixedWrapper, {borderBottomWidth: 1}]}>
+                    <View style={styles.itemWrapper}>
+                        <DefaultText style={{fontWeight: '600'}}>{'Name'}</DefaultText>
                     </View>
-                    <View style={{width: SCREEN_WIDTH / 4}}>
-                        <DefaultText>{item.amount}</DefaultText>
+                    <View style={styles.itemWrapper}>
+                        <DefaultText style={{fontWeight: '600'}}>{'Amount'}</DefaultText>
+                    </View>
+                    <View style={styles.itemWrapper}>
+                        <DefaultText style={{fontWeight: '600'}}>{'Remaining'}</DefaultText>
+                    </View>
+                    <View style={styles.itemWrapper}>
+                        <DefaultText style={{fontWeight: '600'}}>{'Spent'}</DefaultText>
                     </View>
                 </View>
             }
+            data={sortedVariableCategories}
+            keyExtractor={(item): string => item.variableCategoryId}
+            renderItem={({item}): JSX.Element => {
+                const categoryExpenses = expenses.filter((expense) => expense.variableCategoryId === item.variableCategoryId);
+                const sum = calculateTotal(categoryExpenses);
+
+                return (
+                    <View
+                        key={item.variableCategoryId}
+                        style={styles.fixedWrapper}
+                    >
+                        <View style={styles.itemWrapper}>
+                            <DefaultText>{item.name}</DefaultText>
+                        </View>
+                        <View style={styles.itemWrapper}>
+                            <DefaultText>{item.amount}</DefaultText>
+                        </View>
+                        <View style={styles.itemWrapper}>
+                            <DefaultText>{item.amount - sum}</DefaultText>
+                        </View>
+                        <View style={styles.itemWrapper}>
+                            <DefaultText>{sum}</DefaultText>
+                        </View>
+                    </View>
+                );
+            }}
         />
     );
 };
