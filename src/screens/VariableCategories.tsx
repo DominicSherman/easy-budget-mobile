@@ -39,6 +39,8 @@ const VariableCategories: React.FC = () => {
         }
     });
 
+    console.log('queryResult', queryResult);
+
     if (!timePeriodId) {
         return <NoActiveTimePeriod />;
     }

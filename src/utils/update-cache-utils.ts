@@ -87,7 +87,7 @@ export const createExpenseUpdate = (cache: DataProxy, mutationResult: FetchResul
                     data.createExpense
                 ]
             },
-            result.variableCategories.slice(index + 1, result.variableCategories.length)
+            ...result.variableCategories.slice(index + 1, result.variableCategories.length)
         ];
 
         cache.writeQuery<GetExpenses, GetExpensesVariables>({
