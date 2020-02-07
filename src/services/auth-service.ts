@@ -4,7 +4,10 @@ import firebase from 'react-native-firebase';
 import {setAppState} from '../redux/action-creators';
 
 export const signIn = async (): Promise<void> => {
-    await GoogleSignin.configure();
+    await GoogleSignin.configure({
+        webClientId: '507817004856-aivthrdc9634dd3j5coibbvsikbj4v2i.apps.googleusercontent.com'
+    });
+
     const data = await GoogleSignin.signIn();
     const credential = firebase.auth.GoogleAuthProvider.credential(
         data.idToken
