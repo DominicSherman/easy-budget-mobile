@@ -40,6 +40,14 @@ export interface CreateVariableCategory {
   name: string;
 }
 
+export interface UpdateFixedCategory {
+  fixedCategoryId: string;
+  userId: string;
+  amount?: number | null;
+  name?: string | null;
+  paid?: boolean | null;
+}
+
 //==============================================================
 // END Enums and Input Objects
 //==============================================================

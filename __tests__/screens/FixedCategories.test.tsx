@@ -2,16 +2,17 @@ import TestRenderer from 'react-test-renderer';
 import React from 'react';
 import * as reactHooks from '@apollo/react-hooks';
 import * as reactRedux from 'react-redux';
-import {FlatList, View} from 'react-native';
+import {FlatList} from 'react-native';
 
 import FixedCategories from '../../src/screens/FixedCategories';
-import {createRandomAppState, createRandomQueryResult, createRandomFixedCategories} from '../models';
+import {createRandomAppState, createRandomFixedCategories, createRandomQueryResult} from '../models';
 import {chance} from '../chance';
 import {getEarlyReturn} from '../../src/services/error-and-loading-service';
 import CreateFixedCategoryForm from '../../src/components/budget/CreateFixedCategoryForm';
 import {sortByName} from '../../src/utils/sorting-utils';
 import {IFixedCategory} from '../../autogen/IFixedCategory';
 import NoActiveTimePeriod from '../../src/components/budget/NoActiveTimePeriod';
+import FixedCategoryItem from '../../src/components/budget/FixedCategoryItem';
 
 jest.mock('@apollo/react-hooks');
 jest.mock('react-redux');
@@ -86,7 +87,7 @@ describe('FixedCategories', () => {
         const renderedItem = renderedFlatList.props.renderItem({item: expectedItem});
         const key = renderedFlatList.props.keyExtractor(expectedItem);
 
-        expect(renderedItem.type).toBe(View);
+        expect(renderedItem.type).toBe(FixedCategoryItem);
         expect(key).toBe(expectedItem.fixedCategoryId);
     });
 });
