@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import {AppRegistry} from 'react-native';
+import {AppRegistry, Platform, UIManager} from 'react-native';
 import {Provider} from 'react-redux';
 import React from 'react';
 
@@ -10,6 +10,12 @@ import {getStore} from './src/redux/store';
 
 // eslint-disable-next-line no-console
 console.disableYellowBox = true;
+
+if (Platform.OS === 'android') {
+    if (UIManager.setLayoutAnimationEnabledExperimental) {
+        UIManager.setLayoutAnimationEnabledExperimental(true);
+    }
+}
 
 AppRegistry.registerComponent(
     appName,

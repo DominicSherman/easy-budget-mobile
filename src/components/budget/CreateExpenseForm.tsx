@@ -74,7 +74,7 @@ const CreateExpenseForm: FC = () => {
         <View
             style={{
                 alignItems: 'center',
-                marginTop: 60,
+                marginVertical: 8,
                 width: '100%'
             }}
         >
