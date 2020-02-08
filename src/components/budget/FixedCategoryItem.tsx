@@ -10,7 +10,6 @@ import {
     UpdateFixedCategoryMutationVariables
 } from '../../../autogen/UpdateFixedCategoryMutation';
 import {updateFixedCategoryMutation} from '../../graphql/mutations';
-import {getUserId} from '../../services/auth-service';
 
 const styles = StyleSheet.create({
     halfWrapper: {

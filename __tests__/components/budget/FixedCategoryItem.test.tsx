@@ -1,12 +1,12 @@
 import TestRenderer from 'react-test-renderer';
 import * as reactHooks from '@apollo/react-hooks';
+import React from 'react';
+import {MutationResult} from '@apollo/react-common';
+import {Switch} from 'react-native';
 
 import FixedCategories from '../../../src/screens/FixedCategories';
-import React from 'react';
 import {createRandomFixedCategory} from '../../models';
-import {MutationResult} from '@apollo/react-common';
 import {updateFixedCategoryMutation} from '../../../src/graphql/mutations';
-import {Switch} from 'react-native';
 import {chance} from '../../chance';
 
 jest.mock('@apollo/react-hooks');
@@ -61,7 +61,7 @@ describe('FixedCategoryItem', () => {
                 fixedCategory: {
                     fixedCategoryId: expectedProps.fixedCategory.fixedCategoryId,
                     paid,
-                    userId: expectedProps.fixedCategory.userId,
+                    userId: expectedProps.fixedCategory.userId
                 }
             }
         });
