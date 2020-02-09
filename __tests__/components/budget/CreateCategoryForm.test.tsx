@@ -61,6 +61,20 @@ describe('CreateCategoryForm', () => {
         expect(amountInput.props.value).toEqual(expectedProps.amount);
     });
 
+    it('should render the note input if it is passed', () => {
+        expectedProps = {
+            ...expectedProps,
+            note: chance.string(),
+            setNote: jest.fn()
+        };
+        render();
+
+        const noteInput = testInstance.findByProps({title: 'Note'});
+
+        expect(noteInput.props.onChange).toEqual(expectedProps.setNote);
+        expect(noteInput.props.value).toEqual(expectedProps.note);
+    });
+
     it('should render a button', () => {
         const renderedButton = testInstance.findByType(Button);
 
