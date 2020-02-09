@@ -1,5 +1,6 @@
 import {QueryResult} from '@apollo/react-common';
 import {ApolloError, NetworkStatus} from 'apollo-client';
+import {User} from '@react-native-community/google-signin';
 
 import {IVariableCategory} from '../autogen/IVariableCategory';
 import {ITimePeriod} from '../autogen/ITimePeriod';
@@ -10,7 +11,6 @@ import {IFixedCategory} from '../autogen/IFixedCategory';
 import {IExpense} from '../autogen/IExpense';
 
 import {chance} from './chance';
-import {User} from '@react-native-community/google-signin';
 
 export const createError = (): ApolloError => new ApolloError({
     errorMessage: chance.string(),
