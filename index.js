@@ -11,11 +11,13 @@ import {getStore} from './src/redux/store';
 // eslint-disable-next-line no-console
 console.disableYellowBox = true;
 
-if (Platform.OS === 'android') {
-    if (UIManager.setLayoutAnimationEnabledExperimental) {
-        UIManager.setLayoutAnimationEnabledExperimental(true);
-    }
-}
+/*
+ * if (Platform.OS === 'android') {
+ *     if (UIManager.setLayoutAnimationEnabledExperimental) {
+ *         UIManager.setLayoutAnimationEnabledExperimental(true);
+ *     }
+ * }
+ */
 
 AppRegistry.registerComponent(
     appName,
