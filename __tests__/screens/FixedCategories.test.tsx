@@ -2,7 +2,7 @@ import TestRenderer from 'react-test-renderer';
 import React from 'react';
 import * as reactHooks from '@apollo/react-hooks';
 import * as reactRedux from 'react-redux';
-import {FlatList, View} from 'react-native';
+import {FlatList} from 'react-native';
 
 import FixedCategories from '../../src/screens/FixedCategories';
 import {createRandomAppState, createRandomFixedCategories, createRandomQueryResult} from '../models';
