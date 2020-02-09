@@ -84,7 +84,7 @@ describe('Expenses', () => {
     it('should render a FlatList', () => {
         const renderedFlatList = root.findByType(FlatList);
 
-        expect(renderedFlatList.props.ListFooterComponent.type).toBe(CreateExpenseForm);
+        expect(renderedFlatList.props.ListHeaderComponent.type).toBe(CreateExpenseForm);
         expect(renderedFlatList.props.data).toBe(expectedData.data.expenses.sort(sortByDate));
 
         const expectedItem = chance.pickone<IExpense>(expectedData.data.expenses);
