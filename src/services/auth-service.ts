@@ -33,4 +33,8 @@ export const getUserId = (): string => firebase.auth().currentUser?.uid || '';
 
 export const getIsSignedIn = (): Promise<boolean> => GoogleSignin.isSignedIn();
 
-export const getUser = (): Promise<User | null> => GoogleSignin.getCurrentUser();
+export const signInSilently = async (): Promise<User | null> => {
+    await configureGoogle();
+
+    return GoogleSignin.signInSilently();
+};

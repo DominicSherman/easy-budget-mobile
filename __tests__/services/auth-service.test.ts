@@ -1,7 +1,7 @@
 import {GoogleSignin} from '@react-native-community/google-signin';
 import * as firebase from 'react-native-firebase';
 
-import {getIsSignedIn, getUserId, signIn, signOut} from '../../src/services/auth-service';
+import {getIsSignedIn, getUserId, signIn, signInSilently, signOut} from '../../src/services/auth-service';
 import {chance} from '../chance';
 import {setAppState} from '../../src/redux/action-creators';
 
@@ -118,6 +118,12 @@ describe('auth service', () => {
     describe('getIsSignedIn', () => {
         it('should return GoogleSignin.isSignedIn', () => {
             expect(getIsSignedIn()).toEqual(GoogleSignin.isSignedIn());
+        });
+    });
+
+    describe('signInSilently', () => {
+        it('should return GoogleSignin.isSignedIn', async () => {
+            expect(await signInSilently()).toEqual(await GoogleSignin.signInSilently());
         });
     });
 });

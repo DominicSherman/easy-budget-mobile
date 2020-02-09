@@ -42,9 +42,7 @@ const App: FC = () => {
             return (
                 <NavigationNativeContainer theme={LightTheme}>
                     <ApolloProvider client={getApolloClient()}>
-                        <Drawer.Navigator
-                            minSwipeDistance={SCREEN_WIDTH / 4}
-                        >
+                        <Drawer.Navigator edgeWidth={SCREEN_WIDTH / 3}>
                             <Drawer.Screen
                                 component={HomeStack}
                                 name={Route.HOME}

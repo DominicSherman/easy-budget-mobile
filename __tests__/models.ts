@@ -10,6 +10,7 @@ import {IFixedCategory} from '../autogen/IFixedCategory';
 import {IExpense} from '../autogen/IExpense';
 
 import {chance} from './chance';
+import {User} from '@react-native-community/google-signin';
 
 export const createError = (): ApolloError => new ApolloError({
     errorMessage: chance.string(),
@@ -96,9 +97,23 @@ export const createRandomOkResponse = <TData>(data: TData): IOkResponse<TData> =
     hasError: false
 });
 
+export const createRandomUserInformation = (): User => ({
+    idToken: chance.string(),
+    serverAuthCode: chance.string(),
+    user: {
+        email: chance.string(),
+        familyName: chance.string(),
+        givenName: chance.string(),
+        id: chance.string(),
+        name: chance.string(),
+        photo: chance.string()
+    }
+});
+
 export const createRandomAppState = (): IAppState => ({
     appStatus: AppStatus.LOADING,
-    timePeriodId: chance.guid()
+    timePeriodId: chance.guid(),
+    userInformation: createRandomUserInformation()
 });
 
 export const createRouteProps = (props): any => ({

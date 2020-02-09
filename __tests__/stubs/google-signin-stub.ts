@@ -17,6 +17,7 @@ module.exports = {
         configure: jest.fn(),
         isSignedIn: jest.fn(),
         signIn: jest.fn(),
+        signInSilently: jest.fn(),
         signOut: jest.fn()
     },
     GoogleSigninButton
