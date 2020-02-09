@@ -16,6 +16,7 @@ export interface CreateFixedCategoryMutation_createFixedCategory {
   amount: number;
   name: string;
   paid: boolean;
+  note: string | null;
 }
 
 export interface CreateFixedCategoryMutation {

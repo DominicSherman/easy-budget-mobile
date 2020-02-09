@@ -29,6 +29,8 @@ interface ICreateCategoryFormProps {
     name: string
     setAmount: Dispatch<SetStateAction<any>>
     amount: string
+    note?: string
+    setNote?: Dispatch<SetStateAction<any>>
     onPress: () => void
 }
 
@@ -38,7 +40,9 @@ const CreateCategoryForm: FC<ICreateCategoryFormProps> = (props) => {
         name,
         setAmount,
         amount,
-        onPress
+        onPress,
+        note,
+        setNote
     } = props;
     const [isVisible, setIsVisible] = useState(false);
     const setVisible = (): void => {
@@ -73,6 +77,16 @@ const CreateCategoryForm: FC<ICreateCategoryFormProps> = (props) => {
                             title={'Category Amount *'}
                             value={amount}
                         />
+                        {
+                            note !== undefined && setNote ?
+                                <Input
+                                    onChange={setNote}
+                                    title={'Note'}
+                                    value={note}
+                                />
+                                :
+                                null
+                        }
                         <Button
                             disabled={!name.length || !amount.length}
                             onPress={onPress}

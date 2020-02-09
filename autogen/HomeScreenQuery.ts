@@ -42,6 +42,7 @@ export interface HomeScreenQuery_fixedCategories {
   amount: number;
   name: string;
   paid: boolean;
+  note: string | null;
 }
 
 export interface HomeScreenQuery {

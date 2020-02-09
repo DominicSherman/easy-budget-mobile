@@ -37,6 +37,7 @@ export const createRandomFixedCategory = (fixedCategory = {}): IFixedCategory =>
     amount: chance.natural(),
     fixedCategoryId: chance.guid(),
     name: chance.string(),
+    note: chance.string(),
     paid: chance.bool(),
     timePeriodId: chance.guid(),
     userId: chance.string(),

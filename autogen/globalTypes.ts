@@ -23,6 +23,7 @@ export interface CreateFixedCategory {
   amount: number;
   name: string;
   paid: boolean;
+  note?: string | null;
 }
 
 export interface CreateTimePeriod {
@@ -46,6 +47,7 @@ export interface UpdateFixedCategory {
   amount?: number | null;
   name?: string | null;
   paid?: boolean | null;
+  note?: string | null;
 }
 
 //==============================================================

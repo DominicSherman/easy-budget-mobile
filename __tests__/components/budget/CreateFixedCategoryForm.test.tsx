@@ -23,6 +23,7 @@ describe('CreateFixedCategoryForm', () => {
         testInstance,
         expectedName,
         expectedAmount,
+        expectedNote,
         expectedTimePeriodId,
         createFixedCategory;
 
@@ -38,6 +39,7 @@ describe('CreateFixedCategoryForm', () => {
         act(() => {
             form.props.setName(expectedName);
             form.props.setAmount(expectedAmount);
+            form.props.setNote(expectedNote);
         });
 
         updateComponent();
@@ -55,6 +57,7 @@ describe('CreateFixedCategoryForm', () => {
         createFixedCategory = jest.fn();
         expectedName = chance.string();
         expectedAmount = chance.natural().toString();
+        expectedNote = chance.string();
 
         useSelector.mockReturnValue(expectedTimePeriodId);
         // @ts-ignore
@@ -80,6 +83,7 @@ describe('CreateFixedCategoryForm', () => {
             amount: Number(expectedAmount),
             fixedCategoryId: expect.any(String),
             name: expectedName,
+            note: expectedNote,
             paid: false,
             timePeriodId: expectedTimePeriodId,
             userId: getUserId()
@@ -102,17 +106,9 @@ describe('CreateFixedCategoryForm', () => {
     it('should render a CreateCategoryForm with the correct values', () => {
         const renderedCreateCategoryForm = testInstance.findByType(CreateCategoryForm);
 
-        const expectedAmount = chance.string();
-        const expectedName = chance.string();
-
-        act(() => {
-            renderedCreateCategoryForm.props.setAmount(expectedAmount);
-            renderedCreateCategoryForm.props.setName(expectedName);
-        });
-        updateComponent();
-
         expect(renderedCreateCategoryForm.props.amount).toBe(expectedAmount);
         expect(renderedCreateCategoryForm.props.name).toBe(expectedName);
+        expect(renderedCreateCategoryForm.props.note).toBe(expectedNote);
 
         act(() => {
             renderedCreateCategoryForm.props.onPress();
@@ -122,5 +118,6 @@ describe('CreateFixedCategoryForm', () => {
         expect(createFixedCategory).toHaveBeenCalledTimes(1);
         expect(renderedCreateCategoryForm.props.amount).toBe('');
         expect(renderedCreateCategoryForm.props.name).toBe('');
+        expect(renderedCreateCategoryForm.props.note).toBe('');
     });
 });

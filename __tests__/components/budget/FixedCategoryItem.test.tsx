@@ -43,6 +43,17 @@ describe('FixedCategoryItem', () => {
         expect(useMutation).toHaveBeenCalledWith(updateFixedCategoryMutation);
     });
 
+    it('should render the note if there is one', () => {
+        root.findByProps({children: expectedProps.fixedCategory.note});
+    });
+
+    it('should **not** render the note if there is not one', () => {
+        expectedProps.fixedCategory.note = null;
+        render();
+
+        expect(root.findAllByProps({children: expectedProps.fixedCategory.note})).toEqual([]);
+    });
+
     it('should call updateFixedCategory onValueChange', () => {
         const renderedTouchable = root.findAllByType(Touchable)[1];
 
