@@ -69,14 +69,14 @@ describe('CreateCategoryForm', () => {
     });
 
     it('should render the name input', () => {
-        const nameInput = testInstance.findByProps({title: 'Category Name'});
+        const nameInput = testInstance.findByProps({title: 'Category Name *'});
 
         expect(nameInput.props.onChange).toEqual(expectedProps.setName);
         expect(nameInput.props.value).toEqual(expectedProps.name);
     });
 
     it('should render the amount input', () => {
-        const amountInput = testInstance.findByProps({title: 'Category Amount'});
+        const amountInput = testInstance.findByProps({title: 'Category Amount *'});
 
         expect(amountInput.props.onChange).toEqual(expectedProps.setAmount);
         expect(amountInput.props.value).toEqual(expectedProps.amount);
@@ -86,5 +86,23 @@ describe('CreateCategoryForm', () => {
         const renderedButton = testInstance.findByType(Button);
 
         expect(renderedButton.props.onPress).toBe(expectedProps.onPress);
+    });
+
+    it('should pass disabled as true if there is no name', () => {
+        expectedProps.name = '';
+        render();
+
+        const renderedButton = testInstance.findByType(Button);
+
+        expect(renderedButton.props.disabled).toBe(true);
+    });
+
+    it('should pass disabled as true if there is no amount', () => {
+        expectedProps.amount = '';
+        render();
+
+        const renderedButton = testInstance.findByType(Button);
+
+        expect(renderedButton.props.disabled).toBe(true);
     });
 });
