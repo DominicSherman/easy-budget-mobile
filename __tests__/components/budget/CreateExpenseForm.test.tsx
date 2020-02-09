@@ -2,7 +2,7 @@ import TestRenderer, {act} from 'react-test-renderer';
 import React from 'react';
 import * as reactHooks from '@apollo/react-hooks';
 import * as reactRedux from 'react-redux';
-import {View} from 'react-native';
+import {Picker, View} from 'react-native';
 
 import {chance} from '../../chance';
 import {createRandomAppState, createRandomExpenses, createRandomVariableCategories} from '../../models';
@@ -116,6 +116,18 @@ describe('CreateExpenseForm', () => {
                 expense
             }
         });
+    });
+
+    it('should render a Picker', () => {
+        const renderedPicker = testInstance.findByType(Picker);
+        const expectedValue = chance.string();
+
+        act(() => {
+            renderedPicker.props.onValueChange(expectedValue);
+        });
+        updateComponent();
+
+        expect(renderedPicker.props.selectedValue).toBe(expectedValue);
     });
 
     it('should render a Button with the correct onPress', () => {

@@ -42,8 +42,12 @@ const Expenses: FC = () => {
         return getEarlyReturn(queryResult);
     }
 
-    const {expenses} = queryResult.data;
+    const {expenses, variableCategories} = queryResult.data;
     const sortedExpenses = expenses.sort(sortByDate);
+
+    const getCategoryName = (variableCategoryId: string): string | undefined => variableCategories.find(
+        (variableCategory) => variableCategory.variableCategoryId === variableCategoryId
+    )?.name;
 
     return (
         <FlatList
@@ -56,7 +60,7 @@ const Expenses: FC = () => {
                     style={styles.fixedWrapper}
                 >
                     <View style={{width: SCREEN_WIDTH / 3}}>
-                        <DefaultText>{item.name}</DefaultText>
+                        <DefaultText>{getCategoryName(item.variableCategoryId)}</DefaultText>
                     </View>
                     <View style={{width: SCREEN_WIDTH / 3}}>
                         <DefaultText>{formatExpenseDate(item.date)}</DefaultText>
@@ -66,6 +70,7 @@ const Expenses: FC = () => {
                     </View>
                 </View>
             }
+            style={{marginBottom: 8}}
         />
     );
 };

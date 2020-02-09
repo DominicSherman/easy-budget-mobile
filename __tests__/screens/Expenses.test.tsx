@@ -9,7 +9,8 @@ import {
     createRandomAppState,
     createRandomExpenses,
     createRandomQueryResult,
-    createRandomVariableCategories
+    createRandomVariableCategories,
+    createRandomExpense, createRandomVariableCategory
 } from '../models';
 import {chance} from '../chance';
 import {getEarlyReturn} from '../../src/services/error-and-loading-service';
@@ -38,9 +39,11 @@ describe('Expenses', () => {
     };
 
     beforeEach(() => {
+        const matchingCategoryId = chance.guid();
+
         expectedData = createRandomQueryResult({
-            expenses: createRandomExpenses(),
-            variableCategories: createRandomVariableCategories()
+            expenses: chance.shuffle([...createRandomExpenses(), createRandomExpense({variableCategoryId: matchingCategoryId})]),
+            variableCategories: chance.shuffle([...createRandomVariableCategories(), createRandomVariableCategory({variableCategoryId: matchingCategoryId})])
         });
         expectedTimePeriodId = chance.guid();
 
