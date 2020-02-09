@@ -2,7 +2,7 @@ import TestRenderer from 'react-test-renderer';
 import React from 'react';
 import * as reactHooks from '@apollo/react-hooks';
 import * as reactRedux from 'react-redux';
-import {FlatList, View} from 'react-native';
+import {FlatList} from 'react-native';
 
 import VariableCategories from '../../src/screens/VariableCategories';
 import {
@@ -18,6 +18,7 @@ import CreateVariableCategoryForm from '../../src/components/budget/CreateVariab
 import {sortByName} from '../../src/utils/sorting-utils';
 import {IVariableCategory} from '../../autogen/IVariableCategory';
 import NoActiveTimePeriod from '../../src/components/budget/NoActiveTimePeriod';
+import VariableCategoryItem from '../../src/components/budget/VariableCategoryItem';
 
 jest.mock('@apollo/react-hooks');
 jest.mock('react-redux');
@@ -98,7 +99,7 @@ describe('VariableCategories', () => {
         const renderedItem = renderedFlatList.props.renderItem({item: expectedItem});
         const key = renderedFlatList.props.keyExtractor(expectedItem);
 
-        expect(renderedItem.type).toBe(View);
+        expect(renderedItem.type).toBe(VariableCategoryItem);
         expect(key).toBe(expectedItem.variableCategoryId);
     });
 });
