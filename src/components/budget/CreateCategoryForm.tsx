@@ -1,5 +1,5 @@
 import React, {Dispatch, FC, SetStateAction, useState} from 'react';
-import {View, LayoutAnimation, StyleSheet} from 'react-native';
+import {LayoutAnimation, StyleSheet, View} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 
 import {textStyles} from '../../styles/text-styles';
@@ -7,6 +7,7 @@ import DefaultText from '../generic/DefaultText';
 import Button from '../generic/Button';
 import Input from '../generic/Input';
 import {colors} from '../../constants/colors';
+import {FeatherNames} from '../../enums/icon-names';
 
 const styles = StyleSheet.create({
     buttonWrapper: {
@@ -16,8 +17,6 @@ const styles = StyleSheet.create({
     },
     wrapper: {
         alignItems: 'center',
-        borderBottomColor: colors.darkGray,
-        borderBottomWidth: 2,
         marginBottom: 8,
         paddingBottom: 8,
         width: '100%'
@@ -51,7 +50,7 @@ const CreateCategoryForm: FC<ICreateCategoryFormProps> = (props) => {
             <View style={styles.buttonWrapper}>
                 <Feather
                     color={colors.darkerGray}
-                    name={isVisible ? 'x-circle' : 'plus-circle'}
+                    name={isVisible ? FeatherNames.X_CIRCLE : FeatherNames.PLUS_CIRCLE}
                     onPress={setVisible}
                     size={50}
                 />

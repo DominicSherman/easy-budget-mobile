@@ -90,7 +90,8 @@ describe('VariableCategories', () => {
     it('should render a FlatList', () => {
         const renderedFlatList = root.findByType(FlatList);
 
-        expect(renderedFlatList.props.ListFooterComponent.type).toBe(CreateVariableCategoryForm);
+        expect(renderedFlatList.props.ListHeaderComponent.type).toBe(View);
+        expect(renderedFlatList.props.ListHeaderComponent.props.children[0].type).toBe(CreateVariableCategoryForm);
         expect(renderedFlatList.props.data).toBe(expectedData.data.variableCategories.sort(sortByName));
 
         const expectedItem = chance.pickone<IVariableCategory>(expectedData.data.variableCategories);
