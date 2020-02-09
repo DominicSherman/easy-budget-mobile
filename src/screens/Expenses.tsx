@@ -47,7 +47,7 @@ const Expenses: FC = () => {
 
     return (
         <FlatList
-            ListFooterComponent={<CreateExpenseForm />}
+            ListHeaderComponent={<CreateExpenseForm />}
             data={sortedExpenses}
             keyExtractor={(item): string => item.expenseId}
             renderItem={({item}): JSX.Element =>

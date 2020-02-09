@@ -53,20 +53,22 @@ const VariableCategories: React.FC = () => {
 
     return (
         <FlatList
-            ListFooterComponent={<CreateVariableCategoryForm />}
             ListHeaderComponent={
-                <View style={[styles.fixedWrapper, {borderBottomWidth: 1}]}>
-                    <View style={styles.itemWrapper}>
-                        <DefaultText style={{fontWeight: '600'}}>{'Name'}</DefaultText>
-                    </View>
-                    <View style={styles.itemWrapper}>
-                        <DefaultText style={{fontWeight: '600'}}>{'Amount'}</DefaultText>
-                    </View>
-                    <View style={styles.itemWrapper}>
-                        <DefaultText style={{fontWeight: '600'}}>{'Remaining'}</DefaultText>
-                    </View>
-                    <View style={styles.itemWrapper}>
-                        <DefaultText style={{fontWeight: '600'}}>{'Spent'}</DefaultText>
+                <View>
+                    <CreateVariableCategoryForm />
+                    <View style={[styles.fixedWrapper, {borderBottomWidth: 1}]}>
+                        <View style={styles.itemWrapper}>
+                            <DefaultText style={{fontWeight: '600'}}>{'Name'}</DefaultText>
+                        </View>
+                        <View style={styles.itemWrapper}>
+                            <DefaultText style={{fontWeight: '600'}}>{'Amount'}</DefaultText>
+                        </View>
+                        <View style={styles.itemWrapper}>
+                            <DefaultText style={{fontWeight: '600'}}>{'Remaining'}</DefaultText>
+                        </View>
+                        <View style={styles.itemWrapper}>
+                            <DefaultText style={{fontWeight: '600'}}>{'Spent'}</DefaultText>
+                        </View>
                     </View>
                 </View>
             }

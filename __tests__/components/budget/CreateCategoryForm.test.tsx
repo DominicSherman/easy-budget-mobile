@@ -1,9 +1,12 @@
-import TestRenderer from 'react-test-renderer';
+import TestRenderer, {act} from 'react-test-renderer';
 import React from 'react';
+import Feather from 'react-native-vector-icons/Feather';
 
 import {chance} from '../../chance';
 import CreateCategoryForm from '../../../src/components/budget/CreateCategoryForm';
 import Button from '../../../src/components/generic/Button';
+import {FeatherNames} from '../../../src/enums/icon-names';
+import Input from '../../../src/components/generic/Input';
 
 jest.mock('@apollo/react-hooks');
 jest.mock('react-redux');
@@ -14,7 +17,14 @@ describe('CreateCategoryForm', () => {
         testInstance,
         expectedProps,
         expectedName,
-        expectedAmount;
+        expectedAmount,
+        LayoutAnimation;
+
+    const updateComponent = (): void => {
+        testRenderer.update(<CreateCategoryForm {...expectedProps} />);
+
+        testInstance = testRenderer.root;
+    };
 
     const render = (): void => {
         testRenderer = TestRenderer.create(<CreateCategoryForm {...expectedProps} />);
@@ -32,12 +42,30 @@ describe('CreateCategoryForm', () => {
             setAmount: jest.fn(),
             setName: jest.fn()
         };
+        LayoutAnimation = require('react-native').LayoutAnimation;
+        LayoutAnimation.configureNext = jest.fn();
 
         render();
     });
 
     afterEach(() => {
         jest.resetAllMocks();
+    });
+
+    it('should render a button to toggle visibility', () => {
+        const renderedButton = testInstance.findByType(Feather);
+
+        expect(renderedButton.props.name).toBe(FeatherNames.X_CIRCLE);
+
+        act(() => {
+            renderedButton.props.onPress();
+        });
+
+        updateComponent();
+
+        expect(LayoutAnimation.configureNext).toHaveBeenCalledTimes(1);
+        expect(renderedButton.props.name).toBe(FeatherNames.PLUS_CIRCLE);
+        expect(testInstance.findAllByType(Input)).toEqual([]);
     });
 
     it('should render the name input', () => {
