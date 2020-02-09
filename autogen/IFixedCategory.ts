@@ -14,4 +14,5 @@ export interface IFixedCategory {
   amount: number;
   name: string;
   paid: boolean;
+  note: string | null;
 }

@@ -16,6 +16,7 @@ export interface UpdateFixedCategoryMutation_updateFixedCategory {
   amount: number;
   name: string;
   paid: boolean;
+  note: string | null;
 }
 
 export interface UpdateFixedCategoryMutation {

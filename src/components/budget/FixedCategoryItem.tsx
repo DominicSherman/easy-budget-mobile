@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
 });
 
 const FixedCategoryItem: FC<{ fixedCategory: IFixedCategory }> = ({fixedCategory}) => {
-    const {name, amount, paid} = fixedCategory;
+    const {name, amount, paid, note} = fixedCategory;
     const [updateFixedCategory] = useMutation<UpdateFixedCategoryMutation, UpdateFixedCategoryMutationVariables>(updateFixedCategoryMutation);
     const iconName = paid ? FeatherNames.CHECK_SQUARE : FeatherNames.SQUARE;
     const borderAndIconColor = paid ? colors.green : colors.lightGray;
@@ -65,6 +65,12 @@ const FixedCategoryItem: FC<{ fixedCategory: IFixedCategory }> = ({fixedCategory
         >
             <View style={{width: '60%'}}>
                 <TitleText style={{color: textColor}}>{name}</TitleText>
+                {
+                    note ?
+                        <SmallText style={{marginTop: 8}}>{note}</SmallText>
+                        :
+                        null
+                }
             </View>
             <View style={styles.rightWrapper}>
                 <View style={[styles.verticalCenter, {marginRight: 32}]}>

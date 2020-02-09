@@ -18,6 +18,7 @@ export const fixedCategoryFragment = gql`
         amount
         name
         paid
+        note
     }
 `;
 

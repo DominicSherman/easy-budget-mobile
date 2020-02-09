@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {FlatList} from 'react-native';
+import {FlatList, SafeAreaView} from 'react-native';
 import {useSelector} from 'react-redux';
 import {useQuery} from '@apollo/react-hooks';
 
@@ -35,18 +35,19 @@ const Expenses: FC = () => {
     const sortedExpenses = expenses.sort(sortByDate);
 
     return (
-        <FlatList
-            ListHeaderComponent={<CreateExpenseForm />}
-            data={sortedExpenses}
-            keyExtractor={(item): string => item.expenseId}
-            renderItem={({item}): JSX.Element =>
-                <ExpenseItem
-                    expense={item}
-                    variableCategories={variableCategories}
-                />
-            }
-            style={{marginBottom: 8}}
-        />
+        <SafeAreaView>
+            <FlatList
+                ListHeaderComponent={<CreateExpenseForm />}
+                data={sortedExpenses}
+                keyExtractor={(item): string => item.expenseId}
+                renderItem={({item}): JSX.Element =>
+                    <ExpenseItem
+                        expense={item}
+                        variableCategories={variableCategories}
+                    />
+                }
+            />
+        </SafeAreaView>
     );
 };
 

@@ -10,7 +10,6 @@ import {
     CreateFixedCategoryMutation,
     CreateFixedCategoryMutationVariables
 } from '../../../autogen/CreateFixedCategoryMutation';
-import {CreateFixedCategory} from '../../../autogen/globalTypes';
 import {createFixedCategoryUpdate} from '../../utils/update-cache-utils';
 
 import CreateCategoryForm from './CreateCategoryForm';
@@ -19,10 +18,12 @@ const CreateFixedCategoryForm: FC = () => {
     const timePeriodId = useSelector<IAppState, string>((state) => state.timePeriodId);
     const [name, setName] = useState('');
     const [amount, setAmount] = useState('');
-    const fixedCategory: CreateFixedCategory = {
+    const [note, setNote] = useState('');
+    const fixedCategory = {
         amount: Number(amount),
         fixedCategoryId: uuid.v4(),
         name,
+        note,
         paid: false,
         timePeriodId,
         userId: getUserId()
@@ -44,15 +45,18 @@ const CreateFixedCategoryForm: FC = () => {
         createFixedCategory();
         setName('');
         setAmount('');
+        setNote('');
     };
 
     return (
         <CreateCategoryForm
             amount={amount}
             name={name}
+            note={note}
             onPress={onPress}
             setAmount={setAmount}
             setName={setName}
+            setNote={setNote}
         />
     );
 };

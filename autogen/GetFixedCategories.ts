@@ -14,6 +14,7 @@ export interface GetFixedCategories_fixedCategories {
   amount: number;
   name: string;
   paid: boolean;
+  note: string | null;
 }
 
 export interface GetFixedCategories {
