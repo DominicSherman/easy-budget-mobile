@@ -79,8 +79,7 @@ describe('FixedCategories', () => {
     it('should render a FlatList', () => {
         const renderedFlatList = root.findByType(FlatList);
 
-        expect(renderedFlatList.props.ListHeaderComponent.type).toBe(View);
-        expect(renderedFlatList.props.ListHeaderComponent.props.children[0].type).toBe(CreateFixedCategoryForm);
+        expect(renderedFlatList.props.ListHeaderComponent.type).toBe(CreateFixedCategoryForm);
         expect(renderedFlatList.props.data).toBe(expectedData.data.fixedCategories.sort(sortByName));
 
         const expectedItem = chance.pickone<IFixedCategory>(expectedData.data.fixedCategories);

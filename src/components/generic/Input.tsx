@@ -16,10 +16,10 @@ const styles = StyleSheet.create({
         marginHorizontal: 16,
         padding: 8,
         width: SCREEN_WIDTH - 32,
-        ...textStyles.regularDark
+        ...textStyles.regular
     },
     title: {
-        ...textStyles.regularDark,
+        ...textStyles.regular,
         fontWeight: '600',
         marginLeft: 16,
         marginVertical: 8

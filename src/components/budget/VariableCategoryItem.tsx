@@ -1,5 +1,5 @@
 import React, {FC, useState} from 'react';
-import {LayoutAnimation, StyleSheet, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import Touchable from 'react-native-platform-touchable';
 
@@ -10,6 +10,7 @@ import {LargeText, RegularText, SmallText} from '../generic/Text';
 import {IExpense} from '../../../autogen/IExpense';
 import {FeatherNames} from '../../enums/icon-names';
 import {colors} from '../../constants/colors';
+import {easeInTransition} from '../../services/animation-service';
 
 const styles = StyleSheet.create({
     bottomWrapper: {
@@ -48,6 +49,10 @@ const VariableCategoryItem: FC<IVariableCategoryItemProps> = ({expenses, variabl
     const categoryExpenses = expenses.filter((expense) => expense.variableCategoryId === variableCategory.variableCategoryId);
     const sum = calculateTotal(categoryExpenses);
     const [isVisible, setIsVisible] = useState(false);
+    const onPress = (): void => {
+        easeInTransition();
+        setIsVisible(!isVisible);
+    };
     const hitSlop = {
         bottom: 16,
         left: 15,
@@ -72,10 +77,7 @@ const VariableCategoryItem: FC<IVariableCategoryItemProps> = ({expenses, variabl
                 }
                 <Touchable
                     hitSlop={hitSlop}
-                    onPress={(): void => {
-                        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-                        setIsVisible(!isVisible);
-                    }}
+                    onPress={onPress}
                 >
                     <Feather
                         color={colors.darkerGray}

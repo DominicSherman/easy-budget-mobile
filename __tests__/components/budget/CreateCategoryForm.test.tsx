@@ -5,31 +5,28 @@ import Feather from 'react-native-vector-icons/Feather';
 import {chance} from '../../chance';
 import CreateCategoryForm from '../../../src/components/budget/CreateCategoryForm';
 import Button from '../../../src/components/generic/Button';
-import {FeatherNames} from '../../../src/enums/icon-names';
-import Input from '../../../src/components/generic/Input';
 
 jest.mock('@apollo/react-hooks');
 jest.mock('react-redux');
 jest.mock('../../../src/services/auth-service');
+jest.mock('../../../src/services/animation-service');
 
 describe('CreateCategoryForm', () => {
     let testRenderer,
         testInstance,
         expectedProps,
         expectedName,
-        expectedAmount,
-        LayoutAnimation;
-
-    const updateComponent = (): void => {
-        testRenderer.update(<CreateCategoryForm {...expectedProps} />);
-
-        testInstance = testRenderer.root;
-    };
+        expectedAmount;
 
     const render = (): void => {
         testRenderer = TestRenderer.create(<CreateCategoryForm {...expectedProps} />);
 
         testInstance = testRenderer.root;
+        const renderedButton = testInstance.findByType(Feather);
+
+        act(() => {
+            renderedButton.props.onPress();
+        });
     };
 
     beforeEach(() => {
@@ -42,30 +39,12 @@ describe('CreateCategoryForm', () => {
             setAmount: jest.fn(),
             setName: jest.fn()
         };
-        LayoutAnimation = require('react-native').LayoutAnimation;
-        LayoutAnimation.configureNext = jest.fn();
 
         render();
     });
 
     afterEach(() => {
         jest.resetAllMocks();
-    });
-
-    it('should render a button to toggle visibility', () => {
-        const renderedButton = testInstance.findByType(Feather);
-
-        expect(renderedButton.props.name).toBe(FeatherNames.PLUS_CIRCLE);
-
-        act(() => {
-            renderedButton.props.onPress();
-        });
-
-        updateComponent();
-
-        expect(LayoutAnimation.configureNext).toHaveBeenCalledTimes(1);
-        expect(renderedButton.props.name).toBe(FeatherNames.X_CIRCLE);
-        expect(testInstance.findAllByType(Input)).toEqual([]);
     });
 
     it('should render the name input', () => {

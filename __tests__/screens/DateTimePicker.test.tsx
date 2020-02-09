@@ -41,7 +41,7 @@ describe('DateTimePicker', () => {
     });
 
     it('should render the title', () => {
-        const renderedText = root.findAllByType(DefaultText)[0];
+        const renderedText = root.findAllByType(RegularText)[0];
 
         expect(renderedText.props.children).toBe(expectedProps.title);
     });

@@ -1,5 +1,5 @@
 import React, {Dispatch, FC, SetStateAction, useState} from 'react';
-import {LayoutAnimation, StyleSheet, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 
 import {textStyles} from '../../styles/text-styles';
@@ -8,6 +8,7 @@ import Button from '../generic/Button';
 import Input from '../generic/Input';
 import {colors} from '../../constants/colors';
 import {FeatherNames} from '../../enums/icon-names';
+import {easeInTransition} from '../../services/animation-service';
 
 const styles = StyleSheet.create({
     buttonWrapper: {
@@ -41,7 +42,7 @@ const CreateCategoryForm: FC<ICreateCategoryFormProps> = (props) => {
     } = props;
     const [isVisible, setIsVisible] = useState(false);
     const setVisible = (): void => {
-        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+        easeInTransition();
         setIsVisible(!isVisible);
     };
 

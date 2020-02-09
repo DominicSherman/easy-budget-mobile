@@ -5,8 +5,7 @@ import {useMutation, useQuery} from '@apollo/react-hooks';
 import uuid from 'uuid';
 import moment from 'moment';
 
-import {textStyles} from '../../styles/text-styles';
-import {RegularText} from '../generic/Text';
+import {LargeText} from '../generic/Text';
 import Button from '../generic/Button';
 import Input from '../generic/Input';
 import {IAppState} from '../../redux/reducer';
@@ -79,7 +78,7 @@ const CreateExpenseForm: FC = () => {
             }}
         >
             <View style={{justifyContent: 'center'}}>
-                <RegularText style={textStyles.large}>{'Add Expense'}</RegularText>
+                <LargeText>{'Add Expense'}</LargeText>
             </View>
             <Picker
                 onValueChange={(value): void => setCategoryId(value)}
