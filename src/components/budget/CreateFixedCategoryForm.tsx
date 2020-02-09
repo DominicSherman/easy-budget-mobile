@@ -12,7 +12,7 @@ import {
 } from '../../../autogen/CreateFixedCategoryMutation';
 import {createFixedCategoryUpdate} from '../../utils/update-cache-utils';
 
-import CreateCategoryForm from './CreateCategoryForm';
+import CreateEditCategoryForm from './CreateEditCategoryForm';
 
 const CreateFixedCategoryForm: FC = () => {
     const timePeriodId = useSelector<IAppState, string>((state) => state.timePeriodId);
@@ -49,14 +49,16 @@ const CreateFixedCategoryForm: FC = () => {
     };
 
     return (
-        <CreateCategoryForm
+        <CreateEditCategoryForm
             amount={amount}
+            headerText={'Create Fixed Category'}
             name={name}
             note={note}
             onPress={onPress}
             setAmount={setAmount}
             setName={setName}
             setNote={setNote}
+            toggleable
         />
     );
 };

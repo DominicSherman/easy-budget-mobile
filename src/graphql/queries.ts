@@ -26,6 +26,16 @@ export const getFixedCategoriesQuery = gql`
     }
 `;
 
+export const getFixedCategoryQuery = gql`
+    ${fixedCategoryFragment}
+    
+    query GetFixedCategory($userId: String!, $fixedCategoryId: String!) {
+        fixedCategory(userId: $userId, fixedCategoryId: $fixedCategoryId) {
+            ...IFixedCategory
+        }
+    }
+`;
+
 export const getExpensesQuery = gql`
     ${expenseFragment}
     ${variableCategoryFragment}

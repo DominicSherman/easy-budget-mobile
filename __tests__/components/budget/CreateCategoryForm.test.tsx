@@ -3,7 +3,7 @@ import React from 'react';
 import Feather from 'react-native-vector-icons/Feather';
 
 import {chance} from '../../chance';
-import CreateCategoryForm from '../../../src/components/budget/CreateCategoryForm';
+import CreateEditCategoryForm from '../../../src/components/budget/CreateEditCategoryForm';
 import Button from '../../../src/components/generic/Button';
 
 jest.mock('@apollo/react-hooks');
@@ -11,7 +11,7 @@ jest.mock('react-redux');
 jest.mock('../../../src/services/auth-service');
 jest.mock('../../../src/services/animation-service');
 
-describe('CreateCategoryForm', () => {
+describe('CreateEditCategoryForm', () => {
     let testRenderer,
         testInstance,
         expectedProps,
@@ -19,7 +19,7 @@ describe('CreateCategoryForm', () => {
         expectedAmount;
 
     const render = (): void => {
-        testRenderer = TestRenderer.create(<CreateCategoryForm {...expectedProps} />);
+        testRenderer = TestRenderer.create(<CreateEditCategoryForm {...expectedProps} />);
 
         testInstance = testRenderer.root;
         const renderedButton = testInstance.findByType(Feather);

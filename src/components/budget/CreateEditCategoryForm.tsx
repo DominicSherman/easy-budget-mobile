@@ -25,24 +25,30 @@ const styles = StyleSheet.create({
 });
 
 interface ICreateCategoryFormProps {
+    disabled?: boolean
+    headerText: string
     setName: Dispatch<SetStateAction<any>>
     name: string
     setAmount: Dispatch<SetStateAction<any>>
     amount: string
-    note?: string
+    note?: string | null
     setNote?: Dispatch<SetStateAction<any>>
     onPress: () => void
+    toggleable?: boolean
 }
 
-const CreateCategoryForm: FC<ICreateCategoryFormProps> = (props) => {
+const CreateEditCategoryForm: FC<ICreateCategoryFormProps> = (props) => {
     const {
+        disabled,
+        headerText,
         setName,
         name,
         setAmount,
         amount,
         onPress,
         note,
-        setNote
+        setNote,
+        toggleable
     } = props;
     const [isVisible, setIsVisible] = useState(false);
     const setVisible = (): void => {
@@ -51,20 +57,23 @@ const CreateCategoryForm: FC<ICreateCategoryFormProps> = (props) => {
     };
 
     return (
-        <View>
-            <View style={styles.buttonWrapper}>
-                <Feather
-                    color={colors.darkerGray}
-                    name={isVisible ? FeatherNames.X_CIRCLE : FeatherNames.PLUS_CIRCLE}
-                    onPress={setVisible}
-                    size={50}
-                />
-            </View>
+        <View style={{marginTop: 16}}>
             {
-                isVisible &&
+                toggleable &&
+                    <View style={styles.buttonWrapper}>
+                        <Feather
+                            color={colors.darkerGray}
+                            name={isVisible ? FeatherNames.X_CIRCLE : FeatherNames.PLUS_CIRCLE}
+                            onPress={setVisible}
+                            size={50}
+                        />
+                    </View>
+            }
+            {
+                (isVisible || !toggleable) &&
                     <View style={styles.wrapper}>
                         <View style={{justifyContent: 'center'}}>
-                            <RegularText style={textStyles.large}>{'Add Category'}</RegularText>
+                            <RegularText style={textStyles.large}>{headerText}</RegularText>
                         </View>
                         <Input
                             onChange={setName}
@@ -78,7 +87,7 @@ const CreateCategoryForm: FC<ICreateCategoryFormProps> = (props) => {
                             value={amount}
                         />
                         {
-                            note !== undefined && setNote ?
+                            note !== null && note !== undefined && setNote ?
                                 <Input
                                     onChange={setNote}
                                     title={'Note'}
@@ -88,7 +97,7 @@ const CreateCategoryForm: FC<ICreateCategoryFormProps> = (props) => {
                                 null
                         }
                         <Button
-                            disabled={!name.length || !amount.length}
+                            disabled={disabled || !name.length || !amount.length}
                             onPress={onPress}
                             text={'Submit'}
                             wrapperStyle={{marginTop: 16}}
@@ -99,4 +108,4 @@ const CreateCategoryForm: FC<ICreateCategoryFormProps> = (props) => {
     );
 };
 
-export default CreateCategoryForm;
+export default CreateEditCategoryForm;

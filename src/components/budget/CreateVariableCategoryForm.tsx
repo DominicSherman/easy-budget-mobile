@@ -12,7 +12,7 @@ import {
 import {createVariableCategoryUpdate} from '../../utils/update-cache-utils';
 import {IAppState} from '../../redux/reducer';
 
-import CreateCategoryForm from './CreateCategoryForm';
+import CreateEditCategoryForm from './CreateEditCategoryForm';
 
 const CreateVariableCategoryForm: FC = () => {
     const timePeriodId = useSelector<IAppState, string>((state) => state.timePeriodId);
@@ -45,12 +45,14 @@ const CreateVariableCategoryForm: FC = () => {
     };
 
     return (
-        <CreateCategoryForm
+        <CreateEditCategoryForm
             amount={amount}
+            headerText={'Create Variable Category'}
             name={name}
             onPress={onPress}
             setAmount={setAmount}
             setName={setName}
+            toggleable
         />
     );
 };
