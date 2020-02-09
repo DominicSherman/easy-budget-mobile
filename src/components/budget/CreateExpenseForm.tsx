@@ -82,7 +82,7 @@ const CreateExpenseForm: FC = () => {
                 <DefaultText style={textStyles.large}>{'Add Expense'}</DefaultText>
             </View>
             <Picker
-                onValueChange={setCategoryId}
+                onValueChange={(value): void => setCategoryId(value)}
                 selectedValue={categoryId}
                 style={{
                     height: 180,
