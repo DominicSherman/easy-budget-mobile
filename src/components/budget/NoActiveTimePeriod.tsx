@@ -5,7 +5,7 @@ import {useNavigation} from '@react-navigation/native';
 import uuid from 'uuid';
 import {useMutation} from '@apollo/react-hooks';
 
-import DefaultText from '../generic/DefaultText';
+import {RegularText} from '../generic/Text';
 import {textStyles} from '../../styles/text-styles';
 import Button from '../generic/Button';
 import {screenWrapper} from '../../styles/shared-styles';
@@ -52,8 +52,8 @@ const NoActiveTimePeriod: FC = () => {
 
     return (
         <View style={screenWrapper}>
-            <DefaultText style={textStyles.large}>{'Create New Time Period'}</DefaultText>
-            <DefaultText style={{marginTop: 16}}>{'Beginning'}</DefaultText>
+            <RegularText style={textStyles.large}>{'Create New Time Period'}</RegularText>
+            <RegularText style={{marginTop: 16}}>{'Beginning'}</RegularText>
             <Button
                 onPress={(): void => {
                     navigation.navigate({
@@ -67,7 +67,7 @@ const NoActiveTimePeriod: FC = () => {
                 }}
                 text={moment(beginDate).calendar(undefined, formats)}
             />
-            <DefaultText style={{marginTop: 16}}>{'Final Day'}</DefaultText>
+            <RegularText style={{marginTop: 16}}>{'Final Day'}</RegularText>
             <Button
                 onPress={(): void => {
                     navigation.navigate({
@@ -81,9 +81,9 @@ const NoActiveTimePeriod: FC = () => {
                 }}
                 text={moment(endDate).calendar(undefined, formats)}
             />
-            <DefaultText style={[textStyles.medium, {marginVertical: 32}]}>
+            <RegularText style={[textStyles.medium, {marginVertical: 32}]}>
                 {`${moment(endDate).diff(moment(beginDate), 'days')} days`}
-            </DefaultText>
+            </RegularText>
             <Button
                 loading={loading}
                 onPress={async (): Promise<void> => {

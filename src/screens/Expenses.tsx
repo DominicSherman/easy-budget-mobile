@@ -9,7 +9,7 @@ import {getUserId} from '../services/auth-service';
 import {getEarlyReturn} from '../services/error-and-loading-service';
 import {GetExpenses, GetExpensesVariables} from '../../autogen/GetExpenses';
 import {SCREEN_WIDTH} from '../constants/dimensions';
-import DefaultText from '../components/generic/DefaultText';
+import {RegularText} from '../components/generic/Text';
 import {formatExpenseDate} from '../services/moment-service';
 import {sortByDate} from '../utils/sorting-utils';
 import CreateExpenseForm from '../components/budget/CreateExpenseForm';
@@ -60,13 +60,13 @@ const Expenses: FC = () => {
                     style={styles.fixedWrapper}
                 >
                     <View style={{width: SCREEN_WIDTH / 3}}>
-                        <DefaultText>{getCategoryName(item.variableCategoryId)}</DefaultText>
+                        <RegularText>{getCategoryName(item.variableCategoryId)}</RegularText>
                     </View>
                     <View style={{width: SCREEN_WIDTH / 3}}>
-                        <DefaultText>{formatExpenseDate(item.date)}</DefaultText>
+                        <RegularText>{formatExpenseDate(item.date)}</RegularText>
                     </View>
                     <View style={{width: SCREEN_WIDTH / 3}}>
-                        <DefaultText>{item.amount.toFixed(2)}</DefaultText>
+                        <RegularText>{item.amount.toFixed(2)}</RegularText>
                     </View>
                 </View>
             }

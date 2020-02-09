@@ -6,7 +6,7 @@ import {colors} from '../../constants/colors';
 import {textStyles} from '../../styles/text-styles';
 import {SCREEN_WIDTH} from '../../constants/dimensions';
 
-import DefaultText from './DefaultText';
+import {RegularText} from './Text';
 
 const styles = StyleSheet.create({
     disabled: {
@@ -47,14 +47,14 @@ const Button: FC<IButton> = ({disabled, onPress, text, textStyle, loading, wrapp
             loading ?
                 <ActivityIndicator />
                 :
-                <DefaultText
+                <RegularText
                     style={[
                         styles.text,
                         textStyle
                     ]}
                 >
                     {text}
-                </DefaultText>
+                </RegularText>
         }
     </Touchable>;
 

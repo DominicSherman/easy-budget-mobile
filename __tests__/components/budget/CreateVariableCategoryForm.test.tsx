@@ -33,12 +33,11 @@ describe('CreateVariableCategoryForm', () => {
     };
 
     const setStateData = (): void => {
-        const nameInput = testInstance.findByProps({title: 'Category Name *'});
-        const amountInput = testInstance.findByProps({title: 'Category Amount *'});
+        const form = testInstance.findByType(CreateCategoryForm);
 
         act(() => {
-            nameInput.props.onChange(expectedName);
-            amountInput.props.onChange(expectedAmount);
+            form.props.setName(expectedName);
+            form.props.setAmount(expectedAmount);
         });
 
         updateComponent();
@@ -48,7 +47,6 @@ describe('CreateVariableCategoryForm', () => {
         testRenderer = TestRenderer.create(<CreateVariableCategoryForm />);
 
         testInstance = testRenderer.root;
-        setStateData();
     };
 
     beforeEach(() => {
@@ -77,6 +75,7 @@ describe('CreateVariableCategoryForm', () => {
     });
 
     it('should call useMutation', () => {
+        setStateData();
         const variableCategory = {
             amount: Number(expectedAmount),
             name: expectedName,

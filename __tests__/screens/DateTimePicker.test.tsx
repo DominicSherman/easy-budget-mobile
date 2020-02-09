@@ -5,7 +5,7 @@ import * as reactNavigationNative from '@react-navigation/native';
 
 import DateTimePicker from '../../src/screens/DateTimePicker';
 import {chance} from '../chance';
-import DefaultText from '../../src/components/generic/DefaultText';
+import {RegularText} from '../../src/components/generic/Text';
 import Button from '../../src/components/generic/Button';
 import {createRouteProps} from '../models';
 
@@ -41,7 +41,7 @@ describe('DateTimePicker', () => {
     });
 
     it('should render the title', () => {
-        const renderedText = root.findAllByType(DefaultText)[0];
+        const renderedText = root.findAllByType(RegularText)[0];
 
         expect(renderedText.props.children).toBe(expectedProps.title);
     });

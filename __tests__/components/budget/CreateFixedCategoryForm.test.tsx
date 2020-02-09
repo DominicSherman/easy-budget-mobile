@@ -33,12 +33,11 @@ describe('CreateFixedCategoryForm', () => {
     };
 
     const setStateData = (): void => {
-        const nameInput = testInstance.findByProps({title: 'Category Name *'});
-        const amountInput = testInstance.findByProps({title: 'Category Amount *'});
+        const form = testInstance.findByType(CreateCategoryForm);
 
         act(() => {
-            nameInput.props.onChange(expectedName);
-            amountInput.props.onChange(expectedAmount);
+            form.props.setName(expectedName);
+            form.props.setAmount(expectedAmount);
         });
 
         updateComponent();

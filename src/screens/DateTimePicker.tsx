@@ -4,7 +4,7 @@ import RNDatePicker from '@react-native-community/datetimepicker';
 import {useNavigation} from '@react-navigation/native';
 import moment from 'moment';
 
-import DefaultText from '../components/generic/DefaultText';
+import {RegularText} from '../components/generic/Text';
 import {textStyles} from '../styles/text-styles';
 import Button from '../components/generic/Button';
 import {Route} from '../enums/routes';
@@ -36,7 +36,7 @@ const DateTimePicker: IScreenFC<Route.DATE_PICKER> = ({route: {params: {date, se
     return (
         <View style={styles.wrapper}>
             <View style={styles.centerWrapper}>
-                <DefaultText style={textStyles.large}>{title}</DefaultText>
+                <RegularText style={textStyles.large}>{title}</RegularText>
             </View>
             <RNDatePicker
                 maximumDate={new Date(oneYear)}

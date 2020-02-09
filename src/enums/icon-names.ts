@@ -1,5 +1,9 @@
 export enum FeatherNames {
     X_CIRCLE = 'x-circle',
     PLUS_CIRCLE = 'plus-circle',
-    MENU = 'menu'
+    MENU = 'menu',
+    CHECK_SQUARE = 'check-square',
+    SQUARE = 'square',
+    CHEVRON_DOWN = 'chevron-down',
+    CHEVRON_UP = 'chevron-up',
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import {SafeAreaView, View} from 'react-native';
 import {useQuery} from '@apollo/react-hooks';
 
-import DefaultText from '../components/generic/DefaultText';
+import {RegularText} from '../components/generic/Text';
 import {screenWrapper} from '../styles/shared-styles';
 import {getUserId, signOut} from '../services/auth-service';
 import {getActiveTimePeriodQuery} from '../graphql/queries';
@@ -39,11 +39,11 @@ const Home: React.FC = () => {
     return (
         <SafeAreaView style={screenWrapper}>
             <View style={{margin: 16}}>
-                <DefaultText
+                <RegularText
                     style={textStyles.medium}
                 >
                     {`Current time period: ${formatTimePeriod(activeTimePeriod.beginDate)} - ${formatTimePeriod(activeTimePeriod.endDate)}`}
-                </DefaultText>
+                </RegularText>
             </View>
             <Button
                 onPress={signOut}

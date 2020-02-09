@@ -2,7 +2,7 @@ import TestRenderer from 'react-test-renderer';
 import React from 'react';
 import * as reactHooks from '@apollo/react-hooks';
 import * as reactRedux from 'react-redux';
-import {FlatList, View} from 'react-native';
+import {FlatList} from 'react-native';
 
 import FixedCategories from '../../src/screens/FixedCategories';
 import {createRandomAppState, createRandomFixedCategories, createRandomQueryResult} from '../models';
@@ -79,8 +79,7 @@ describe('FixedCategories', () => {
     it('should render a FlatList', () => {
         const renderedFlatList = root.findByType(FlatList);
 
-        expect(renderedFlatList.props.ListHeaderComponent.type).toBe(View);
-        expect(renderedFlatList.props.ListHeaderComponent.props.children[0].type).toBe(CreateFixedCategoryForm);
+        expect(renderedFlatList.props.ListHeaderComponent.type).toBe(CreateFixedCategoryForm);
         expect(renderedFlatList.props.data).toBe(expectedData.data.fixedCategories.sort(sortByName));
 
         const expectedItem = chance.pickone<IFixedCategory>(expectedData.data.fixedCategories);
