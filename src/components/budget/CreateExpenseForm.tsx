@@ -101,15 +101,15 @@ const CreateExpenseForm: FC = () => {
                 }
             </Picker>
             <Input
+                keyboardType={'number-pad'}
+                onChange={setAmount}
+                title={'Expense Amount *'}
+                value={amount}
+            />
+            <Input
                 onChange={setName}
                 title={'Expense Name'}
                 value={name}
-            />
-            <Input
-                keyboardType={'number-pad'}
-                onChange={setAmount}
-                title={'Expense Amount'}
-                value={amount}
             />
             <Button
                 disabled={!categoryId || amount === ''}

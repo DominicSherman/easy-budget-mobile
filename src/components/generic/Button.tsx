@@ -9,6 +9,10 @@ import {SCREEN_WIDTH} from '../../constants/dimensions';
 import DefaultText from './DefaultText';
 
 const styles = StyleSheet.create({
+    disabled: {
+        backgroundColor: colors.lightGray,
+        borderColor: colors.lightGray
+    },
     text: {
         ...textStyles.large,
         color: colors.green
@@ -37,13 +41,20 @@ const Button: FC<IButton> = ({disabled, onPress, text, textStyle, loading, wrapp
     <Touchable
         disabled={disabled}
         onPress={onPress}
-        style={[styles.wrapper, wrapperStyle]}
+        style={[styles.wrapper, disabled && styles.disabled, wrapperStyle]}
     >
         {
             loading ?
                 <ActivityIndicator />
                 :
-                <DefaultText style={[styles.text, textStyle]}>{text}</DefaultText>
+                <DefaultText
+                    style={[
+                        styles.text,
+                        textStyle
+                    ]}
+                >
+                    {text}
+                </DefaultText>
         }
     </Touchable>;
 

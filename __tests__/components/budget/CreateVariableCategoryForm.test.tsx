@@ -33,8 +33,8 @@ describe('CreateVariableCategoryForm', () => {
     };
 
     const setStateData = (): void => {
-        const nameInput = testInstance.findByProps({title: 'Category Name'});
-        const amountInput = testInstance.findByProps({title: 'Category Amount'});
+        const nameInput = testInstance.findByProps({title: 'Category Name *'});
+        const amountInput = testInstance.findByProps({title: 'Category Amount *'});
 
         act(() => {
             nameInput.props.onChange(expectedName);

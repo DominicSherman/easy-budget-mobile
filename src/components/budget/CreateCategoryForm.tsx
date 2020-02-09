@@ -63,16 +63,17 @@ const CreateCategoryForm: FC<ICreateCategoryFormProps> = (props) => {
                         </View>
                         <Input
                             onChange={setName}
-                            title={'Category Name'}
+                            title={'Category Name *'}
                             value={name}
                         />
                         <Input
                             keyboardType={'number-pad'}
                             onChange={setAmount}
-                            title={'Category Amount'}
+                            title={'Category Amount *'}
                             value={amount}
                         />
                         <Button
+                            disabled={!name.length || !amount.length}
                             onPress={onPress}
                             text={'Submit'}
                             wrapperStyle={{marginTop: 16}}
