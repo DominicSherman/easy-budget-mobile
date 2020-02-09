@@ -11,6 +11,7 @@ export type StackParams = {
   [Route.VARIABLE_CATEGORIES]: undefined
   [Route.EXPENSES]: undefined
   [Route.DATE_PICKER]: IDateTimePickerProps
+  [Route.ACCOUNT]: undefined
 }
 
 export type IScreenFC<RouteName extends Route> = FC<{

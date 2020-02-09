@@ -1,6 +1,7 @@
 import {createStackNavigator} from '@react-navigation/stack';
 
 import {
+    AccountStack,
     ExpensesStack,
     FixedCategoriesStack,
     HomeStack,
@@ -13,6 +14,7 @@ import VariableCategories from '../../../src/screens/VariableCategories';
 import Expenses from '../../../src/screens/Expenses';
 import {HamburgerMenu} from '../../../src/components/navigation/HeaderComponents';
 import DateTimePicker from '../../../src/screens/DateTimePicker';
+import Account from '../../../src/screens/Account';
 
 jest.mock('@react-navigation/stack');
 
@@ -110,6 +112,27 @@ describe('NavigationStacks', () => {
             expect(renderedScreen.type).toBe(Stack.Screen);
             expect(renderedScreen.props.component).toBe(Expenses);
             expect(renderedScreen.props.name).toBe(Route.EXPENSES);
+            expect(renderedScreen.props.options.headerLeft().type).toBe(HamburgerMenu);
+        });
+    });
+
+    describe('AccountStack', () => {
+        let renderedComponent,
+            renderedScreen;
+
+        beforeEach(() => {
+            renderedComponent = AccountStack({});
+            renderedScreen = renderedComponent.props.children;
+        });
+
+        it('should return a Stack.Navigator', () => {
+            expect(renderedComponent.type).toBe(Stack.Navigator);
+        });
+
+        it('should return a nested Stack.Screen', () => {
+            expect(renderedScreen.type).toBe(Stack.Screen);
+            expect(renderedScreen.props.component).toBe(Account);
+            expect(renderedScreen.props.name).toBe(Route.ACCOUNT);
             expect(renderedScreen.props.options.headerLeft().type).toBe(HamburgerMenu);
         });
     });

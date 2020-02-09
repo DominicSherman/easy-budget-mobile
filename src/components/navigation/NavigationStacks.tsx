@@ -8,6 +8,7 @@ import VariableCategories from '../../screens/VariableCategories';
 import Expenses from '../../screens/Expenses';
 import DateTimePicker from '../../screens/DateTimePicker';
 import {StackParams} from '../../types/global';
+import Account from '../../screens/Account';
 
 import {HamburgerMenu} from './HeaderComponents';
 
@@ -54,6 +55,15 @@ export const ExpensesStack: FC = () =>
         <Stack.Screen
             component={Expenses}
             name={Route.EXPENSES}
+            options={options}
+        />
+    </Stack.Navigator>;
+
+export const AccountStack: FC = () =>
+    <Stack.Navigator>
+        <Stack.Screen
+            component={Account}
+            name={Route.ACCOUNT}
             options={options}
         />
     </Stack.Navigator>;

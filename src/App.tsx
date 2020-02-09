@@ -13,6 +13,7 @@ import {IAppState} from './redux/reducer';
 import {AppStatus} from './enums/app-status';
 import ErrorView from './components/generic/ErrorView';
 import {
+    AccountStack,
     ExpensesStack,
     FixedCategoriesStack,
     HomeStack,
@@ -56,6 +57,10 @@ const App: FC = () => {
                             <Drawer.Screen
                                 component={ExpensesStack}
                                 name={Route.EXPENSES}
+                            />
+                            <Drawer.Screen
+                                component={AccountStack}
+                                name={Route.ACCOUNT}
                             />
                         </Drawer.Navigator>
                     </ApolloProvider>

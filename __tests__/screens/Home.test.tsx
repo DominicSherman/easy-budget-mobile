@@ -1,10 +1,9 @@
 import TestRenderer from 'react-test-renderer';
 import React from 'react';
-import Touchable from 'react-native-platform-touchable';
 import * as reactHooks from '@apollo/react-hooks';
 
 import Home from '../../src/screens/Home';
-import {getUserId, signOut} from '../../src/services/auth-service';
+import {getUserId} from '../../src/services/auth-service';
 import {createRandomQueryResult, createRandomTimePeriods} from '../models';
 import {getActiveTimePeriodQuery} from '../../src/graphql/queries';
 import {getRoundedDate} from '../../src/services/moment-service';
@@ -64,11 +63,5 @@ describe('Home', () => {
         render();
 
         root.findByType(NoActiveTimePeriod);
-    });
-
-    it('should render a Touchable to log out', () => {
-        const renderedTouchable = root.findByType(Touchable);
-
-        expect(renderedTouchable.props.onPress).toBe(signOut);
     });
 });

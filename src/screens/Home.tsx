@@ -4,10 +4,9 @@ import {useQuery} from '@apollo/react-hooks';
 
 import {RegularText} from '../components/generic/Text';
 import {screenWrapper} from '../styles/shared-styles';
-import {getUserId, signOut} from '../services/auth-service';
+import {getUserId} from '../services/auth-service';
 import {getActiveTimePeriodQuery} from '../graphql/queries';
 import {GetActiveTimePeriod, GetActiveTimePeriodVariables} from '../../autogen/GetActiveTimePeriod';
-import Button from '../components/generic/Button';
 import {formatTimePeriod, getRoundedDate} from '../services/moment-service';
 import {textStyles} from '../styles/text-styles';
 import {getEarlyReturn} from '../services/error-and-loading-service';
@@ -45,10 +44,6 @@ const Home: React.FC = () => {
                     {`Current time period: ${formatTimePeriod(activeTimePeriod.beginDate)} - ${formatTimePeriod(activeTimePeriod.endDate)}`}
                 </RegularText>
             </View>
-            <Button
-                onPress={signOut}
-                text={'Log Out'}
-            />
         </SafeAreaView>
     );
 };
