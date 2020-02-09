@@ -2,15 +2,16 @@ import TestRenderer from 'react-test-renderer';
 import React from 'react';
 import * as reactHooks from '@apollo/react-hooks';
 import * as reactRedux from 'react-redux';
-import {FlatList, View} from 'react-native';
+import {FlatList} from 'react-native';
 
 import Expenses from '../../src/screens/Expenses';
 import {
     createRandomAppState,
+    createRandomExpense,
     createRandomExpenses,
     createRandomQueryResult,
     createRandomVariableCategories,
-    createRandomExpense, createRandomVariableCategory
+    createRandomVariableCategory
 } from '../models';
 import {chance} from '../chance';
 import {getEarlyReturn} from '../../src/services/error-and-loading-service';
@@ -18,6 +19,7 @@ import {sortByDate} from '../../src/utils/sorting-utils';
 import {IExpense} from '../../autogen/IExpense';
 import CreateExpenseForm from '../../src/components/budget/CreateExpenseForm';
 import NoActiveTimePeriod from '../../src/components/budget/NoActiveTimePeriod';
+import ExpenseItem from '../../src/components/budget/ExpenseItem';
 
 jest.mock('@apollo/react-hooks');
 jest.mock('react-redux');
@@ -95,7 +97,7 @@ describe('Expenses', () => {
         const renderedItem = renderedFlatList.props.renderItem({item: expectedItem});
         const key = renderedFlatList.props.keyExtractor(expectedItem);
 
-        expect(renderedItem.type).toBe(View);
+        expect(renderedItem.type).toBe(ExpenseItem);
         expect(key).toBe(expectedItem.expenseId);
     });
 });

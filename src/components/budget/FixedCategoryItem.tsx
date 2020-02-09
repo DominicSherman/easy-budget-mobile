@@ -57,6 +57,7 @@ const FixedCategoryItem: FC<{ fixedCategory: IFixedCategory }> = ({fixedCategory
 
     return (
         <CardView
+            shadow
             style={{
                 ...styles.wrapper,
                 borderColor: borderAndIconColor
