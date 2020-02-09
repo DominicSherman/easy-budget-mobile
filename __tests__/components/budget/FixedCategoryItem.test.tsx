@@ -2,11 +2,10 @@ import TestRenderer from 'react-test-renderer';
 import * as reactHooks from '@apollo/react-hooks';
 import React from 'react';
 import {MutationResult} from '@apollo/react-common';
-import {Switch} from 'react-native';
+import Touchable from 'react-native-platform-touchable';
 
 import {createRandomFixedCategory} from '../../models';
 import {updateFixedCategoryMutation} from '../../../src/graphql/mutations';
-import {chance} from '../../chance';
 import FixedCategoryItem from '../../../src/components/budget/FixedCategoryItem';
 
 jest.mock('@apollo/react-hooks');
@@ -45,23 +44,22 @@ describe('FixedCategoryItem', () => {
     });
 
     it('should call updateFixedCategory onValueChange', () => {
-        const renderedSwitch = root.findByType(Switch);
-        const paid = chance.bool();
+        const renderedTouchable = root.findAllByType(Touchable)[1];
 
-        renderedSwitch.props.onValueChange(paid);
+        renderedTouchable.props.onPress();
 
         expect(updateCategory).toHaveBeenCalledTimes(1);
         expect(updateCategory).toHaveBeenCalledWith({
             optimisticResponse: {
                 updateFixedCategory: {
                     ...expectedProps.fixedCategory,
-                    paid
+                    paid: !expectedProps.fixedCategory.paid
                 }
             },
             variables: {
                 fixedCategory: {
                     fixedCategoryId: expectedProps.fixedCategory.fixedCategoryId,
-                    paid,
+                    paid: !expectedProps.fixedCategory.paid,
                     userId: expectedProps.fixedCategory.userId
                 }
             }
