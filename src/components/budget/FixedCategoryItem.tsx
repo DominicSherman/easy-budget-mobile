@@ -3,6 +3,7 @@ import {StyleSheet, View} from 'react-native';
 import {useMutation} from '@apollo/react-hooks';
 import Feather from 'react-native-vector-icons/Feather';
 import Touchable from 'react-native-platform-touchable';
+import {useNavigation} from '@react-navigation/native';
 
 import {IFixedCategory} from '../../../autogen/IFixedCategory';
 import {LargeText, SmallText, TitleText} from '../generic/Text';
@@ -15,6 +16,7 @@ import {updateFixedCategoryMutation} from '../../graphql/mutations';
 import CardView from '../generic/CardView';
 import {FeatherNames} from '../../enums/icon-names';
 import {colors} from '../../constants/colors';
+import {Route} from '../../enums/routes';
 
 const styles = StyleSheet.create({
     rightWrapper: {
@@ -32,12 +34,13 @@ const styles = StyleSheet.create({
 });
 
 const FixedCategoryItem: FC<{ fixedCategory: IFixedCategory }> = ({fixedCategory}) => {
-    const {name, amount, paid, note} = fixedCategory;
+    const {name, amount, paid, note, userId, fixedCategoryId} = fixedCategory;
+    const navigation = useNavigation();
     const [updateFixedCategory] = useMutation<UpdateFixedCategoryMutation, UpdateFixedCategoryMutationVariables>(updateFixedCategoryMutation);
     const iconName = paid ? FeatherNames.CHECK_SQUARE : FeatherNames.SQUARE;
     const borderAndIconColor = paid ? colors.green : colors.lightGray;
     const textColor = paid ? colors.green : colors.darkerGray;
-    const onPress = (): void => {
+    const togglePaid = (): void => {
         updateFixedCategory({
             optimisticResponse: {
                 updateFixedCategory: {
@@ -47,16 +50,25 @@ const FixedCategoryItem: FC<{ fixedCategory: IFixedCategory }> = ({fixedCategory
             },
             variables: {
                 fixedCategory: {
-                    fixedCategoryId: fixedCategory.fixedCategoryId,
+                    fixedCategoryId,
                     paid: !paid,
-                    userId: fixedCategory.userId
+                    userId
                 }
+            }
+        });
+    };
+    const onPress = (): void => {
+        navigation.navigate({
+            name: Route.FIXED_CATEGORY,
+            params: {
+                fixedCategoryId
             }
         });
     };
 
     return (
         <CardView
+            onPress={onPress}
             shadow
             style={{
                 ...styles.wrapper,
@@ -78,7 +90,7 @@ const FixedCategoryItem: FC<{ fixedCategory: IFixedCategory }> = ({fixedCategory
                     <SmallText>{'amount'}</SmallText>
                 </View>
                 <View style={styles.verticalCenter}>
-                    <Touchable onPress={onPress}>
+                    <Touchable onPress={togglePaid}>
                         <View>
                             <Feather
                                 color={borderAndIconColor}
