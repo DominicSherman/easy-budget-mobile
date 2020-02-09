@@ -55,7 +55,7 @@ describe('CreateCategoryForm', () => {
     it('should render a button to toggle visibility', () => {
         const renderedButton = testInstance.findByType(Feather);
 
-        expect(renderedButton.props.name).toBe(FeatherNames.X_CIRCLE);
+        expect(renderedButton.props.name).toBe(FeatherNames.PLUS_CIRCLE);
 
         act(() => {
             renderedButton.props.onPress();
@@ -64,7 +64,7 @@ describe('CreateCategoryForm', () => {
         updateComponent();
 
         expect(LayoutAnimation.configureNext).toHaveBeenCalledTimes(1);
-        expect(renderedButton.props.name).toBe(FeatherNames.PLUS_CIRCLE);
+        expect(renderedButton.props.name).toBe(FeatherNames.X_CIRCLE);
         expect(testInstance.findAllByType(Input)).toEqual([]);
     });
 

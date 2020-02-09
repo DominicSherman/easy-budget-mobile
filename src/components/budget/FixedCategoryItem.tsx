@@ -3,7 +3,7 @@ import {StyleSheet, Switch, View} from 'react-native';
 import {useMutation} from '@apollo/react-hooks';
 
 import {IFixedCategory} from '../../../autogen/IFixedCategory';
-import DefaultText from '../generic/DefaultText';
+import {RegularText} from '../generic/Text';
 import {SCREEN_WIDTH} from '../../constants/dimensions';
 import {
     UpdateFixedCategoryMutation,
@@ -33,10 +33,10 @@ const FixedCategoryItem: FC<{ fixedCategory: IFixedCategory }> = ({fixedCategory
     return (
         <View style={styles.wrapper}>
             <View style={styles.halfWrapper}>
-                <DefaultText>{name}</DefaultText>
+                <RegularText>{name}</RegularText>
             </View>
             <View style={styles.quarterWrapper}>
-                <DefaultText>{amount}</DefaultText>
+                <RegularText>{amount}</RegularText>
             </View>
             <View style={styles.quarterWrapper}>
                 <Switch

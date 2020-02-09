@@ -5,7 +5,7 @@ import {textStyles} from '../../styles/text-styles';
 import {colors} from '../../constants/colors';
 import {SCREEN_WIDTH} from '../../constants/dimensions';
 
-import DefaultText from './DefaultText';
+import {RegularText} from './Text';
 
 const styles = StyleSheet.create({
     input: {
@@ -36,7 +36,7 @@ interface IInput {
 
 const Input: FC<IInput> = ({style, title, onChange, keyboardType, value}) =>
     <View>
-        <DefaultText style={styles.title}>{title}</DefaultText>
+        <RegularText style={styles.title}>{title}</RegularText>
         <TextInput
             keyboardType={keyboardType}
             onChangeText={onChange}

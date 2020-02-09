@@ -2,16 +2,16 @@ import TestRenderer from 'react-test-renderer';
 import React from 'react';
 import {Text} from 'react-native';
 
-import DefaultText from '../../../src/components/generic/DefaultText';
+import {RegularText} from '../../../src/components/generic/Text';
 import {chance} from '../../chance';
 
 describe('DefaultText', () => {
     const expectedChildren = chance.string();
 
     const {root} = TestRenderer.create(
-        <DefaultText>
+        <RegularText>
             {expectedChildren}
-        </DefaultText>
+        </RegularText>
     );
 
     it('should render a Text component', () => {

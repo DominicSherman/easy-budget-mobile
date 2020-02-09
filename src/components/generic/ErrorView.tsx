@@ -3,11 +3,11 @@ import {View} from 'react-native';
 
 import {screenWrapper} from '../../styles/shared-styles';
 
-import DefaultText from './DefaultText';
+import {RegularText} from './Text';
 
 const ErrorView: FC = () =>
     <View style={screenWrapper}>
-        <DefaultText>{'Whoops! Something went wrong.'}</DefaultText>
+        <RegularText>{'Whoops! Something went wrong.'}</RegularText>
     </View>;
 
 export default ErrorView;

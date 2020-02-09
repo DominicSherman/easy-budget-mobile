@@ -11,7 +11,7 @@ import {getEarlyReturn} from '../services/error-and-loading-service';
 import {sortByName} from '../utils/sorting-utils';
 import NoActiveTimePeriod from '../components/budget/NoActiveTimePeriod';
 import FixedCategoryItem from '../components/budget/FixedCategoryItem';
-import DefaultText from '../components/generic/DefaultText';
+import {RegularText} from '../components/generic/Text';
 import {SCREEN_WIDTH} from '../constants/dimensions';
 import CreateFixedCategoryForm from '../components/budget/CreateFixedCategoryForm';
 
@@ -62,13 +62,13 @@ const FixedCategories: React.FC = () => {
                     <CreateFixedCategoryForm />
                     <View style={[styles.fixedWrapper, {borderBottomWidth: 1}]}>
                         <View style={styles.halfItemWrapper}>
-                            <DefaultText style={{fontWeight: '600'}}>{'Name'}</DefaultText>
+                            <RegularText style={{fontWeight: '600'}}>{'Name'}</RegularText>
                         </View>
                         <View style={styles.itemWrapper}>
-                            <DefaultText style={{fontWeight: '600'}}>{'Amount'}</DefaultText>
+                            <RegularText style={{fontWeight: '600'}}>{'Amount'}</RegularText>
                         </View>
                         <View style={styles.itemWrapper}>
-                            <DefaultText style={{fontWeight: '600'}}>{'Paid'}</DefaultText>
+                            <RegularText style={{fontWeight: '600'}}>{'Paid'}</RegularText>
                         </View>
                     </View>
                 </View>

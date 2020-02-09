@@ -5,7 +5,7 @@ import * as reactNavigationNative from '@react-navigation/native';
 
 import DateTimePicker from '../../src/screens/DateTimePicker';
 import {chance} from '../chance';
-import DefaultText from '../../src/components/generic/DefaultText';
+import {RegularText} from '../../src/components/generic/Text';
 import Button from '../../src/components/generic/Button';
 import {createRouteProps} from '../models';
 

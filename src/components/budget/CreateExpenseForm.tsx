@@ -6,7 +6,7 @@ import uuid from 'uuid';
 import moment from 'moment';
 
 import {textStyles} from '../../styles/text-styles';
-import DefaultText from '../generic/DefaultText';
+import {RegularText} from '../generic/Text';
 import Button from '../generic/Button';
 import Input from '../generic/Input';
 import {IAppState} from '../../redux/reducer';
@@ -79,7 +79,7 @@ const CreateExpenseForm: FC = () => {
             }}
         >
             <View style={{justifyContent: 'center'}}>
-                <DefaultText style={textStyles.large}>{'Add Expense'}</DefaultText>
+                <RegularText style={textStyles.large}>{'Add Expense'}</RegularText>
             </View>
             <Picker
                 onValueChange={(value): void => setCategoryId(value)}
