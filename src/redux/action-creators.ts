@@ -1,5 +1,7 @@
+import {GoogleSignin} from '@react-native-community/google-signin';
+
 import {getActiveTimePeriod} from '../repositories/time-period-repository';
-import {getIsSignedIn} from '../services/auth-service';
+import {configureGoogle, getIsSignedIn} from '../services/auth-service';
 import {AppStatus} from '../enums/app-status';
 
 import {dispatchAction} from './store';
@@ -11,7 +13,13 @@ export const setAppState = async (): Promise<void> => {
     const isSignedIn = await getIsSignedIn();
 
     if (isSignedIn) {
-        const result = await getActiveTimePeriod();
+        await configureGoogle();
+        const [user, result] = await Promise.all([
+            GoogleSignin.signInSilently(),
+            getActiveTimePeriod()
+        ]);
+
+        dispatchAction(Actions.SET_USER_INFORMATION, user);
 
         if (!result.hasError) {
             const timePeriod = result.data.timePeriods[0];

@@ -4,4 +4,4 @@ export const formatTimePeriod = (date: string): string => moment(date).format('M
 
 export const formatExpenseDate = (date: string): string => moment(date).format('MMM Do');
 
-export const getRoundedDate = (): string => moment().startOf('h').toISOString();
+export const getRoundedDate = (): string => moment().startOf('m').toISOString();

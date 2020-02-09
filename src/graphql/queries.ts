@@ -40,6 +40,28 @@ export const getExpensesQuery = gql`
     }
 `;
 
+export const homeScreenQuery = gql`
+    ${timePeriodFragment}
+    ${fixedCategoryFragment}
+    ${variableCategoryFragment}
+    ${expenseFragment}
+    
+    query HomeScreenQuery($userId: String!, $date: String!, $timePeriodId: String!) {
+        timePeriods (userId: $userId, date: $date) {
+            ...ITimePeriod
+        }
+        expenses (userId: $userId, timePeriodId: $timePeriodId) {
+            ...IExpense
+        }
+        variableCategories (userId: $userId, timePeriodId: $timePeriodId) {
+            ...IVariableCategory
+        }
+        fixedCategories (userId: $userId, timePeriodId: $timePeriodId) {
+            ...IFixedCategory
+        }
+    }
+`;
+
 export const getActiveTimePeriodQuery = gql`
     ${timePeriodFragment}
     
