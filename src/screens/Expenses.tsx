@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {FlatList, StyleSheet, View} from 'react-native';
+import {FlatList} from 'react-native';
 import {useSelector} from 'react-redux';
 import {useQuery} from '@apollo/react-hooks';
 
@@ -8,21 +8,10 @@ import {getExpensesQuery} from '../graphql/queries';
 import {getUserId} from '../services/auth-service';
 import {getEarlyReturn} from '../services/error-and-loading-service';
 import {GetExpenses, GetExpensesVariables} from '../../autogen/GetExpenses';
-import {SCREEN_WIDTH} from '../constants/dimensions';
-import {RegularText} from '../components/generic/Text';
-import {formatExpenseDate} from '../services/moment-service';
 import {sortByDate} from '../utils/sorting-utils';
 import CreateExpenseForm from '../components/budget/CreateExpenseForm';
 import NoActiveTimePeriod from '../components/budget/NoActiveTimePeriod';
-
-const styles = StyleSheet.create({
-    fixedWrapper: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        padding: 16,
-        width: '100%'
-    }
-});
+import ExpenseItem from '../components/budget/ExpenseItem';
 
 const Expenses: FC = () => {
     const timePeriodId = useSelector<IAppState, string>((state) => state.timePeriodId);
@@ -45,30 +34,16 @@ const Expenses: FC = () => {
     const {expenses, variableCategories} = queryResult.data;
     const sortedExpenses = expenses.sort(sortByDate);
 
-    const getCategoryName = (variableCategoryId: string): string | undefined => variableCategories.find(
-        (variableCategory) => variableCategory.variableCategoryId === variableCategoryId
-    )?.name;
-
     return (
         <FlatList
             ListHeaderComponent={<CreateExpenseForm />}
             data={sortedExpenses}
             keyExtractor={(item): string => item.expenseId}
             renderItem={({item}): JSX.Element =>
-                <View
-                    key={item.variableCategoryId}
-                    style={styles.fixedWrapper}
-                >
-                    <View style={{width: SCREEN_WIDTH / 3}}>
-                        <RegularText>{getCategoryName(item.variableCategoryId)}</RegularText>
-                    </View>
-                    <View style={{width: SCREEN_WIDTH / 3}}>
-                        <RegularText>{formatExpenseDate(item.date)}</RegularText>
-                    </View>
-                    <View style={{width: SCREEN_WIDTH / 3}}>
-                        <RegularText>{item.amount.toFixed(2)}</RegularText>
-                    </View>
-                </View>
+                <ExpenseItem
+                    expense={item}
+                    variableCategories={variableCategories}
+                />
             }
             style={{marginBottom: 8}}
         />

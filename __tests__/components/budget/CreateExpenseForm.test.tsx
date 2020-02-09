@@ -35,7 +35,7 @@ describe('CreateExpenseForm', () => {
     };
 
     const setStateData = (): void => {
-        const nameInput = testInstance.findByProps({title: 'Expense Name'});
+        const nameInput = testInstance.findByProps({title: 'Expense Description'});
         const amountInput = testInstance.findByProps({title: 'Expense Amount *'});
 
         act(() => {

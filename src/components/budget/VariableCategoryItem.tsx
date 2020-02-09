@@ -62,6 +62,7 @@ const VariableCategoryItem: FC<IVariableCategoryItemProps> = ({expenses, variabl
 
     return (
         <CardView
+            shadow
             style={styles.wrapper}
         >
             <View style={styles.titleWrapper}>

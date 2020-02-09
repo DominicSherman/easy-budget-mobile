@@ -107,7 +107,7 @@ const CreateExpenseForm: FC = () => {
             />
             <Input
                 onChange={setName}
-                title={'Expense Name'}
+                title={'Expense Description'}
                 value={name}
             />
             <Button
