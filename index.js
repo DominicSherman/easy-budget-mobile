@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import {AppRegistry, Platform, UIManager} from 'react-native';
+import {AppRegistry} from 'react-native';
 import {Provider} from 'react-redux';
 import React from 'react';
 
