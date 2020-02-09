@@ -18,11 +18,6 @@ export const RegularText: FC<IDefaultText> = ({style, children}) =>
         {children}
     </Text>;
 
-export const MediumText: FC<IDefaultText> = ({style, children}) =>
-    <Text style={[textStyles.medium, style]}>
-        {children}
-    </Text>;
-
 export const LargeText: FC<IDefaultText> = ({style, children}) =>
     <Text style={[textStyles.large, style]}>
         {children}
