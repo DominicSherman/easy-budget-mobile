@@ -19,6 +19,7 @@ import {
     HomeStack,
     VariableCategoriesStack
 } from './components/navigation/NavigationStacks';
+import {SCREEN_WIDTH} from './constants/dimensions';
 
 const LightTheme = {
     colors: {
@@ -41,7 +42,7 @@ const App: FC = () => {
             return (
                 <NavigationNativeContainer theme={LightTheme}>
                     <ApolloProvider client={getApolloClient()}>
-                        <Drawer.Navigator>
+                        <Drawer.Navigator edgeWidth={SCREEN_WIDTH / 3}>
                             <Drawer.Screen
                                 component={HomeStack}
                                 name={Route.HOME}

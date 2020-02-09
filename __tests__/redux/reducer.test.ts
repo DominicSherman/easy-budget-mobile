@@ -1,4 +1,4 @@
-import {createRandomAppState} from '../models';
+import {createRandomAppState, createRandomUserInformation} from '../models';
 import reducer, {IAppState} from '../../src/redux/reducer';
 import {chance} from '../chance';
 import {Actions} from '../../src/redux/actions';
@@ -6,7 +6,19 @@ import {AppStatus} from '../../src/enums/app-status';
 
 const defaultState: IAppState = {
     appStatus: AppStatus.LOADING,
-    timePeriodId: ''
+    timePeriodId: '',
+    userInformation: {
+        idToken: '',
+        serverAuthCode: null,
+        user: {
+            email: '',
+            familyName: null,
+            givenName: null,
+            id: '',
+            name: null,
+            photo: null
+        }
+    }
 };
 
 describe('reducer', () => {
@@ -51,6 +63,20 @@ describe('reducer', () => {
         expect(actualState).toEqual({
             ...expectedAppState,
             timePeriodId
+        });
+    });
+
+    it('should set the userInformation if the action is SET_USER_INFORMATION', () => {
+        const userInformation = createRandomUserInformation();
+
+        const actualState = reducer(expectedAppState, {
+            data: userInformation,
+            type: Actions.SET_USER_INFORMATION
+        });
+
+        expect(actualState).toEqual({
+            ...expectedAppState,
+            userInformation
         });
     });
 });

@@ -1,10 +1,24 @@
+import {User} from '@react-native-community/google-signin';
+
 import {AppStatus} from '../enums/app-status';
 
 import {Actions} from './actions';
 
 const defaultState: IAppState = {
     appStatus: AppStatus.LOADING,
-    timePeriodId: ''
+    timePeriodId: '',
+    userInformation: {
+        idToken: '',
+        serverAuthCode: null,
+        user: {
+            email: '',
+            familyName: null,
+            givenName: null,
+            id: '',
+            name: null,
+            photo: null
+        }
+    }
 };
 
 const setKey = (key: string): (state: IAppState, value: any) => IAppState => (state, value): IAppState => ({
@@ -14,17 +28,19 @@ const setKey = (key: string): (state: IAppState, value: any) => IAppState => (st
 
 const reducerMap: ReducerMap = {
     [Actions.SET_APP_STATUS]: setKey('appStatus'),
-    [Actions.SET_TIME_PERIOD_ID]: setKey('timePeriodId')
+    [Actions.SET_TIME_PERIOD_ID]: setKey('timePeriodId'),
+    [Actions.SET_USER_INFORMATION]: setKey('userInformation')
 };
 
-type ReducerMap = {[key in Actions]?: (state: IAppState, value: any) => IAppState};
+type ReducerMap = { [key in Actions]?: (state: IAppState, value: any) => IAppState };
 
 export interface IAppState {
     appStatus: AppStatus
     timePeriodId: string
+    userInformation: User
 }
 
-export default (state = defaultState, {type, data}: {type: Actions, data: any}): IAppState => {
+export default (state = defaultState, {type, data}: { type: Actions, data: any }): IAppState => {
     const action = reducerMap[type];
 
     if (action) {

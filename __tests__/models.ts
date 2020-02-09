@@ -1,5 +1,6 @@
 import {QueryResult} from '@apollo/react-common';
 import {ApolloError, NetworkStatus} from 'apollo-client';
+import {User} from '@react-native-community/google-signin';
 
 import {IVariableCategory} from '../autogen/IVariableCategory';
 import {ITimePeriod} from '../autogen/ITimePeriod';
@@ -96,9 +97,23 @@ export const createRandomOkResponse = <TData>(data: TData): IOkResponse<TData> =
     hasError: false
 });
 
+export const createRandomUserInformation = (): User => ({
+    idToken: chance.string(),
+    serverAuthCode: chance.string(),
+    user: {
+        email: chance.string(),
+        familyName: chance.string(),
+        givenName: chance.string(),
+        id: chance.string(),
+        name: chance.string(),
+        photo: chance.string()
+    }
+});
+
 export const createRandomAppState = (): IAppState => ({
     appStatus: AppStatus.LOADING,
-    timePeriodId: chance.guid()
+    timePeriodId: chance.guid(),
+    userInformation: createRandomUserInformation()
 });
 
 export const createRouteProps = (props): any => ({

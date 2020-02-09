@@ -1,6 +1,11 @@
 import {setAppState} from '../../src/redux/action-creators';
 import * as timePeriodRepository from '../../src/repositories/time-period-repository';
-import {createRandomErrorResponse, createRandomOkResponse, createRandomTimePeriods} from '../models';
+import {
+    createRandomErrorResponse,
+    createRandomOkResponse,
+    createRandomTimePeriods,
+    createRandomUserInformation
+} from '../models';
 import {dispatchAction} from '../../src/redux/store';
 import {Actions} from '../../src/redux/actions';
 import {ITimePeriod} from '../../autogen/ITimePeriod';
@@ -13,14 +18,17 @@ jest.mock('../../src/services/auth-service');
 
 describe('action creators', () => {
     const {getActiveTimePeriod} = timePeriodRepository as jest.Mocked<typeof timePeriodRepository>;
-    const {getIsSignedIn} = authService as jest.Mocked<typeof authService>;
+    const {getIsSignedIn, signInSilently} = authService as jest.Mocked<typeof authService>;
 
     describe('setAppState', () => {
-        let expectedTimePeriods: ITimePeriod[];
+        let expectedTimePeriods: ITimePeriod[],
+            expectedUser;
 
         beforeEach(() => {
+            expectedUser = createRandomUserInformation();
             expectedTimePeriods = createRandomTimePeriods();
 
+            signInSilently.mockResolvedValue(expectedUser);
             getActiveTimePeriod.mockResolvedValue(createRandomOkResponse({
                 timePeriods: []
             }));
@@ -57,6 +65,12 @@ describe('action creators', () => {
                     await setAppState();
 
                     expect(dispatchAction).toHaveBeenCalledWith(Actions.SET_TIME_PERIOD_ID, expectedTimePeriods[0].timePeriodId);
+                });
+
+                it('should set the user', async () => {
+                    await setAppState();
+
+                    expect(dispatchAction).toHaveBeenCalledWith(Actions.SET_USER_INFORMATION, expectedUser);
                 });
 
                 it('should set the app status to logged in', async () => {

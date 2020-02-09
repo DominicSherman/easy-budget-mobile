@@ -19,6 +19,6 @@ describe('moment service', () => {
     });
 
     it('should getRoundedDate', () => {
-        expect(getRoundedDate()).toBe(moment().startOf('h').toISOString());
+        expect(getRoundedDate()).toBe(moment().startOf('m').toISOString());
     });
 });
