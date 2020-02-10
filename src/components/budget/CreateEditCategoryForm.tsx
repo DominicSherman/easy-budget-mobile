@@ -38,7 +38,49 @@ interface ICreateCategoryFormProps {
 }
 
 const CreateEditCategoryForm: FC<ICreateCategoryFormProps> = (props) => {
+    const [isVisible, setIsVisible] = useState(false);
+    const setVisible = (): void => {
+        easeInTransition();
+        setIsVisible(!isVisible);
+    };
+
+    return (
+        <View style={{marginTop: 16}}>
+            <ToggleIcon
+                isVisible={isVisible}
+                setVisible={setVisible}
+                {...props}
+            />
+            <DropdownForm
+                isVisible={isVisible}
+                {...props}
+            />
+        </View>
+    );
+};
+
+interface IToggleIconProps extends ICreateCategoryFormProps {
+    isVisible: boolean
+    setVisible: () => void
+}
+
+const ToggleIcon: FC<IToggleIconProps> = ({toggleable, isVisible, setVisible}) => toggleable ?
+    <View style={styles.buttonWrapper}>
+        <Feather
+            color={colors.darkerGray}
+            name={isVisible ? FeatherNames.X_CIRCLE : FeatherNames.PLUS_CIRCLE}
+            onPress={setVisible}
+            size={50}
+        />
+    </View> : null;
+
+interface IDropdownProps extends ICreateCategoryFormProps {
+    isVisible: boolean
+}
+
+const DropdownForm: FC<IDropdownProps> = (props) => {
     const {
+        isVisible,
         disabled,
         headerText,
         setName,
@@ -50,60 +92,43 @@ const CreateEditCategoryForm: FC<ICreateCategoryFormProps> = (props) => {
         setNote,
         toggleable
     } = props;
-    const [isVisible, setIsVisible] = useState(false);
-    const setVisible = (): void => {
-        easeInTransition();
-        setIsVisible(!isVisible);
-    };
+
+    if (toggleable && !isVisible) {
+        return null;
+    }
 
     return (
-        <View style={{marginTop: 16}}>
+        <View style={styles.wrapper}>
+            <View style={{justifyContent: 'center'}}>
+                <RegularText style={textStyles.large}>{headerText}</RegularText>
+            </View>
+            <Input
+                onChange={setName}
+                title={'Category Name *'}
+                value={name}
+            />
+            <Input
+                keyboardType={'number-pad'}
+                onChange={setAmount}
+                title={'Category Amount *'}
+                value={amount}
+            />
             {
-                toggleable &&
-                    <View style={styles.buttonWrapper}>
-                        <Feather
-                            color={colors.darkerGray}
-                            name={isVisible ? FeatherNames.X_CIRCLE : FeatherNames.PLUS_CIRCLE}
-                            onPress={setVisible}
-                            size={50}
-                        />
-                    </View>
+                note !== undefined && setNote ?
+                    <Input
+                        onChange={setNote}
+                        title={'Note'}
+                        value={note}
+                    />
+                    :
+                    null
             }
-            {
-                (isVisible || !toggleable) &&
-                    <View style={styles.wrapper}>
-                        <View style={{justifyContent: 'center'}}>
-                            <RegularText style={textStyles.large}>{headerText}</RegularText>
-                        </View>
-                        <Input
-                            onChange={setName}
-                            title={'Category Name *'}
-                            value={name}
-                        />
-                        <Input
-                            keyboardType={'number-pad'}
-                            onChange={setAmount}
-                            title={'Category Amount *'}
-                            value={amount}
-                        />
-                        {
-                            note !== undefined && setNote ?
-                                <Input
-                                    onChange={setNote}
-                                    title={'Note'}
-                                    value={note}
-                                />
-                                :
-                                null
-                        }
-                        <Button
-                            disabled={disabled || !name.length || !amount.length}
-                            onPress={onPress}
-                            text={'Submit'}
-                            wrapperStyle={{marginTop: 16}}
-                        />
-                    </View>
-            }
+            <Button
+                disabled={disabled || !name.length || !amount.length}
+                onPress={onPress}
+                text={'Submit'}
+                wrapperStyle={{marginTop: 16}}
+            />
         </View>
     );
 };

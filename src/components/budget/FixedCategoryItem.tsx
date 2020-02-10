@@ -36,24 +36,27 @@ const styles = StyleSheet.create({
 const FixedCategoryItem: FC<{ fixedCategory: IFixedCategory }> = ({fixedCategory}) => {
     const {name, amount, paid, note, userId, fixedCategoryId} = fixedCategory;
     const navigation = useNavigation();
-    const [updateFixedCategory] = useMutation<UpdateFixedCategoryMutation, UpdateFixedCategoryMutationVariables>(updateFixedCategoryMutation, {
-        optimisticResponse: {
-            updateFixedCategory: {
-                ...fixedCategory,
-                paid: !paid
-            }
-        },
-        variables: {
-            fixedCategory: {
-                fixedCategoryId,
-                paid: !paid,
-                userId
-            }
-        }
-    });
+    const [updateFixedCategory] = useMutation<UpdateFixedCategoryMutation, UpdateFixedCategoryMutationVariables>(updateFixedCategoryMutation);
     const iconName = paid ? FeatherNames.CHECK_SQUARE : FeatherNames.SQUARE;
     const borderAndIconColor = paid ? colors.green : colors.lightGray;
     const textColor = paid ? colors.green : colors.darkerGray;
+    const togglePaid = (): void => {
+        updateFixedCategory({
+            optimisticResponse: {
+                updateFixedCategory: {
+                    ...fixedCategory,
+                    paid: !paid
+                }
+            },
+            variables: {
+                fixedCategory: {
+                    fixedCategoryId,
+                    paid: !paid,
+                    userId
+                }
+            }
+        });
+    };
     const onPress = (): void => {
         navigation.navigate({
             name: Route.FIXED_CATEGORY,
@@ -87,7 +90,7 @@ const FixedCategoryItem: FC<{ fixedCategory: IFixedCategory }> = ({fixedCategory
                     <SmallText>{'amount'}</SmallText>
                 </View>
                 <View style={styles.verticalCenter}>
-                    <Touchable onPress={updateFixedCategory}>
+                    <Touchable onPress={togglePaid}>
                         <View>
                             <Feather
                                 color={borderAndIconColor}
