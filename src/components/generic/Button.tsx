@@ -39,7 +39,7 @@ interface IButton {
 
 const Button: FC<IButton> = ({disabled, onPress, text, textStyle, loading, wrapperStyle}) =>
     <Touchable
-        disabled={disabled}
+        disabled={disabled || loading}
         onPress={onPress}
         style={[styles.wrapper, disabled && styles.disabled, wrapperStyle]}
     >
