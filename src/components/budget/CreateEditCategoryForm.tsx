@@ -87,7 +87,7 @@ const CreateEditCategoryForm: FC<ICreateCategoryFormProps> = (props) => {
                             value={amount}
                         />
                         {
-                            note !== null && note !== undefined && setNote ?
+                            note !== undefined && setNote ?
                                 <Input
                                     onChange={setNote}
                                     title={'Note'}

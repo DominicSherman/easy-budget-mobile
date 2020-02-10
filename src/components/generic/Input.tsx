@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
 interface IInput {
     onChange: (text: string) => void
     title: string
-    value: string
+    value: string | null
     style?: TextStyle
     keyboardType?: KeyboardTypeOptions
 }
@@ -41,7 +41,7 @@ const Input: FC<IInput> = ({style, title, onChange, keyboardType, value}) =>
             keyboardType={keyboardType}
             onChangeText={onChange}
             style={[styles.input, style]}
-            value={value}
+            value={value ? value : ''}
         />
     </View>;
 
