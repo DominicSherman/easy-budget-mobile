@@ -3,10 +3,12 @@ import {FC} from 'react';
 
 import {Route} from '../enums/routes';
 import {IDateTimePickerProps} from '../screens/DateTimePicker';
+import {IFixedCategoryProps} from '../components/budget/FixedCategory';
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type StackParams = {
   [Route.HOME]: undefined
+  [Route.FIXED_CATEGORY]: IFixedCategoryProps
   [Route.FIXED_CATEGORIES]: undefined
   [Route.VARIABLE_CATEGORIES]: undefined
   [Route.EXPENSES]: undefined

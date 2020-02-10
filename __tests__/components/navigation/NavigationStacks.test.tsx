@@ -15,6 +15,7 @@ import Expenses from '../../../src/screens/Expenses';
 import {HamburgerMenu} from '../../../src/components/navigation/HeaderComponents';
 import DateTimePicker from '../../../src/screens/DateTimePicker';
 import Account from '../../../src/screens/Account';
+import FixedCategory from '../../../src/components/budget/FixedCategory';
 
 jest.mock('@react-navigation/stack');
 
@@ -55,22 +56,32 @@ describe('NavigationStacks', () => {
 
     describe('FixedCategoriesStack', () => {
         let renderedComponent,
-            renderedScreen;
+            renderedScreen,
+            renderedFixedCategoryScreen;
 
         beforeEach(() => {
             renderedComponent = FixedCategoriesStack({});
-            renderedScreen = renderedComponent.props.children;
+            [
+                renderedScreen,
+                renderedFixedCategoryScreen
+            ] = renderedComponent.props.children;
         });
 
         it('should return a Stack.Navigator', () => {
             expect(renderedComponent.type).toBe(Stack.Navigator);
         });
 
-        it('should return a nested Stack.Screen', () => {
+        it('should return a nested Stack.Screen for FixedCategories', () => {
             expect(renderedScreen.type).toBe(Stack.Screen);
             expect(renderedScreen.props.component).toBe(FixedCategories);
             expect(renderedScreen.props.name).toBe(Route.FIXED_CATEGORIES);
             expect(renderedScreen.props.options.headerLeft().type).toBe(HamburgerMenu);
+        });
+
+        it('should return a nested Stack.Screen for FixedCategory', () => {
+            expect(renderedFixedCategoryScreen.type).toBe(Stack.Screen);
+            expect(renderedFixedCategoryScreen.props.component).toBe(FixedCategory);
+            expect(renderedFixedCategoryScreen.props.name).toBe(Route.FIXED_CATEGORY);
         });
     });
 

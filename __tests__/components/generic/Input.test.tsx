@@ -29,4 +29,13 @@ describe('Input', () => {
 
         expect(renderedInput.props.onChangeText).toEqual(expectedProps.onChange);
     });
+
+    it('should render a textInput if value is null', () => {
+        expectedProps.value = null;
+        render();
+
+        const renderedInput = testInstance.findByType(TextInput);
+
+        expect(renderedInput.props.value).toEqual('');
+    });
 });

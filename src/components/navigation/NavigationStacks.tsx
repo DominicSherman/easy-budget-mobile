@@ -9,6 +9,7 @@ import Expenses from '../../screens/Expenses';
 import DateTimePicker from '../../screens/DateTimePicker';
 import {StackParams} from '../../types/global';
 import Account from '../../screens/Account';
+import FixedCategory from '../budget/FixedCategory';
 
 import {HamburgerMenu} from './HeaderComponents';
 
@@ -38,6 +39,10 @@ export const FixedCategoriesStack: FC = () =>
             component={FixedCategories}
             name={Route.FIXED_CATEGORIES}
             options={options}
+        />
+        <Stack.Screen
+            component={FixedCategory}
+            name={Route.FIXED_CATEGORY}
         />
     </Stack.Navigator>;
 

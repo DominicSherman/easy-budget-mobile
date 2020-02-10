@@ -3,15 +3,16 @@ import React from 'react';
 import Feather from 'react-native-vector-icons/Feather';
 
 import {chance} from '../../chance';
-import CreateCategoryForm from '../../../src/components/budget/CreateCategoryForm';
+import CreateEditCategoryForm from '../../../src/components/budget/CreateEditCategoryForm';
 import Button from '../../../src/components/generic/Button';
+import Input from '../../../src/components/generic/Input';
 
 jest.mock('@apollo/react-hooks');
 jest.mock('react-redux');
 jest.mock('../../../src/services/auth-service');
 jest.mock('../../../src/services/animation-service');
 
-describe('CreateCategoryForm', () => {
+describe('CreateEditCategoryForm', () => {
     let testRenderer,
         testInstance,
         expectedProps,
@@ -19,14 +20,9 @@ describe('CreateCategoryForm', () => {
         expectedAmount;
 
     const render = (): void => {
-        testRenderer = TestRenderer.create(<CreateCategoryForm {...expectedProps} />);
+        testRenderer = TestRenderer.create(<CreateEditCategoryForm {...expectedProps} />);
 
         testInstance = testRenderer.root;
-        const renderedButton = testInstance.findByType(Feather);
-
-        act(() => {
-            renderedButton.props.onPress();
-        });
     };
 
     beforeEach(() => {
@@ -34,10 +30,12 @@ describe('CreateCategoryForm', () => {
         expectedAmount = chance.natural().toString();
         expectedProps = {
             amount: expectedAmount,
+            headerText: chance.string(),
             name: expectedName,
             onPress: jest.fn(),
             setAmount: jest.fn(),
-            setName: jest.fn()
+            setName: jest.fn(),
+            toggleable: false
         };
 
         render();
@@ -73,6 +71,19 @@ describe('CreateCategoryForm', () => {
 
         expect(noteInput.props.onChange).toEqual(expectedProps.setNote);
         expect(noteInput.props.value).toEqual(expectedProps.note);
+    });
+
+    it('should render an icon to toggle when toggleable', () => {
+        expectedProps.toggleable = true;
+        render();
+
+        const renderedIcon = testInstance.findByType(Feather);
+
+        act(() => {
+            renderedIcon.props.onPress();
+        });
+
+        expect(testInstance.findAllByType(Input)).toHaveLength(2);
     });
 
     it('should render a button', () => {
