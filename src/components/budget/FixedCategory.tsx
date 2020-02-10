@@ -8,6 +8,7 @@ import {getFixedCategoryQuery} from '../../graphql/queries';
 import {getUserId} from '../../services/auth-service';
 import {getEarlyReturn} from '../../services/error-and-loading-service';
 import {GetFixedCategory, GetFixedCategoryVariables} from '../../../autogen/GetFixedCategory';
+
 import EditFixedCategoryForm from './EditFixedCategoryForm';
 
 export interface IFixedCategoryProps {
