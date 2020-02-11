@@ -2,7 +2,7 @@ import * as reactNavigationNative from '@react-navigation/native';
 import Feather from 'react-native-vector-icons/Feather';
 import {DrawerActions} from '@react-navigation/routers';
 
-import {HamburgerMenu} from '../../../src/components/navigation/HeaderComponents';
+import {CloseIcon, HamburgerMenu} from '../../../src/components/navigation/HeaderComponents';
 import {FeatherNames} from '../../../src/enums/icon-names';
 
 jest.mock('@react-navigation/native');
@@ -37,6 +37,31 @@ describe('HeaderComponents', () => {
 
             expect(expectedNavigation.dispatch).toHaveBeenCalledTimes(1);
             expect(expectedNavigation.dispatch).toHaveBeenCalledWith(DrawerActions.openDrawer());
+        });
+    });
+
+    describe('CloseIcon', () => {
+        let expectedNavigation;
+
+        beforeEach(() => {
+            expectedNavigation = {
+                goBack: jest.fn()
+            };
+
+            useNavigation.mockReturnValue(expectedNavigation);
+        });
+
+        it('should render a Feather component', () => {
+            const renderedComponent = CloseIcon({})!;
+
+            expect(renderedComponent.type).toEqual(Feather);
+            expect(renderedComponent.props).toEqual({
+                allowFontScaling: false,
+                name: FeatherNames.X,
+                onPress: expectedNavigation.goBack,
+                size: 25,
+                style: expect.any(Object)
+            });
         });
     });
 });

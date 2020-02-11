@@ -3,6 +3,7 @@ import {DefaultTheme, NavigationNativeContainer} from '@react-navigation/native'
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {ApolloProvider} from '@apollo/react-hooks';
 import {useSelector} from 'react-redux';
+import {createStackNavigator} from '@react-navigation/stack';
 
 import {Route} from './enums/routes';
 import {getApolloClient} from './graphql/apollo-client';
@@ -12,14 +13,9 @@ import Login from './screens/Login';
 import {IAppState} from './redux/reducer';
 import {AppStatus} from './enums/app-status';
 import ErrorView from './components/generic/ErrorView';
-import {
-    AccountStack,
-    ExpensesStack,
-    FixedCategoriesStack,
-    HomeStack,
-    VariableCategoriesStack
-} from './components/navigation/NavigationStacks';
 import {SCREEN_WIDTH} from './constants/dimensions';
+import {CloseIcon, HamburgerMenu} from './components/navigation/HeaderComponents';
+import {MAIN_SCREENS, MODALS} from './screens';
 
 const LightTheme = {
     colors: {
@@ -29,7 +25,38 @@ const LightTheme = {
     dark: false
 };
 
+const Stack = createStackNavigator();
+const RootStack = createStackNavigator();
 const Drawer = createDrawerNavigator();
+
+const screenOptions = {
+    headerLeft: (): JSX.Element => <HamburgerMenu />
+};
+const modalOptions = {
+    headerLeft: (): JSX.Element => <CloseIcon />
+};
+
+const DrawerNavigator = (): JSX.Element =>
+    <Drawer.Navigator edgeWidth={SCREEN_WIDTH / 3}>
+        {
+            Object.keys(MAIN_SCREENS).map<JSX.Element>((route) =>
+                <Drawer.Screen
+                    component={
+                        (): JSX.Element =>
+                            <Stack.Navigator>
+                                <Stack.Screen
+                                    component={MAIN_SCREENS[route]}
+                                    name={Route.HOME}
+                                    options={screenOptions}
+                                />
+                            </Stack.Navigator>
+                    }
+                    key={route}
+                    name={route}
+                />
+            )
+        }
+    </Drawer.Navigator>;
 
 const App: FC = () => {
     React.useEffect(() => {
@@ -42,28 +69,26 @@ const App: FC = () => {
             return (
                 <NavigationNativeContainer theme={LightTheme}>
                     <ApolloProvider client={getApolloClient()}>
-                        <Drawer.Navigator edgeWidth={SCREEN_WIDTH / 3}>
-                            <Drawer.Screen
-                                component={HomeStack}
+                        <RootStack.Navigator
+                            headerMode={'screen'}
+                            mode={'modal'}
+                        >
+                            <RootStack.Screen
+                                component={DrawerNavigator}
                                 name={Route.HOME}
+                                options={{headerShown: false}}
                             />
-                            <Drawer.Screen
-                                component={FixedCategoriesStack}
-                                name={Route.FIXED_CATEGORIES}
-                            />
-                            <Drawer.Screen
-                                component={VariableCategoriesStack}
-                                name={Route.VARIABLE_CATEGORIES}
-                            />
-                            <Drawer.Screen
-                                component={ExpensesStack}
-                                name={Route.EXPENSES}
-                            />
-                            <Drawer.Screen
-                                component={AccountStack}
-                                name={Route.ACCOUNT}
-                            />
-                        </Drawer.Navigator>
+                            {
+                                Object.keys(MODALS).map<JSX.Element>((route) =>
+                                    <RootStack.Screen
+                                        component={MODALS[route]}
+                                        key={route}
+                                        name={route}
+                                        options={modalOptions}
+                                    />
+                                )
+                            }
+                        </RootStack.Navigator>
                     </ApolloProvider>
                 </NavigationNativeContainer>
             );
