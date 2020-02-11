@@ -2,14 +2,13 @@ import React from 'react';
 import {View} from 'react-native';
 import {useQuery} from '@apollo/react-hooks';
 
-import {IScreenFC} from '../../types/global';
-import {Route} from '../../enums/routes';
-import {getFixedCategoryQuery} from '../../graphql/queries';
-import {getUserId} from '../../services/auth-service';
-import {getEarlyReturn} from '../../services/error-and-loading-service';
-import {GetFixedCategory, GetFixedCategoryVariables} from '../../../autogen/GetFixedCategory';
-
-import EditFixedCategoryForm from './EditFixedCategoryForm';
+import {IScreenFC} from '../types/global';
+import {Route} from '../enums/routes';
+import {getFixedCategoryQuery} from '../graphql/queries';
+import {getUserId} from '../services/auth-service';
+import {getEarlyReturn} from '../services/error-and-loading-service';
+import {GetFixedCategory, GetFixedCategoryVariables} from '../../autogen/GetFixedCategory';
+import EditFixedCategoryForm from '../components/budget/EditFixedCategoryForm';
 
 export interface IFixedCategoryProps {
     fixedCategoryId: string

@@ -1,12 +1,13 @@
 import {Route} from '../enums/routes';
-import FixedCategory from '../components/budget/FixedCategory';
 
+import FixedCategory from './FixedCategory';
 import Home from './Home';
 import VariableCategories from './VariableCategories';
 import Expenses from './Expenses';
 import Account from './Account';
 import DateTimePicker from './DateTimePicker';
 import FixedCategories from './FixedCategories';
+import VariableCategory from './VariableCategory';
 
 export const MAIN_SCREENS = {
     [Route.HOME]: Home,
@@ -18,5 +19,6 @@ export const MAIN_SCREENS = {
 
 export const MODALS = {
     [Route.DATE_PICKER]: DateTimePicker,
-    [Route.FIXED_CATEGORY]: FixedCategory
+    [Route.FIXED_CATEGORY]: FixedCategory,
+    [Route.VARIABLE_CATEGORY]: VariableCategory
 };

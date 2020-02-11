@@ -32,6 +32,16 @@ export const updateFixedCategoryMutation = gql`
     }
 `;
 
+export const updateVariableCategoryMutation = gql`
+    ${variableCategoryFragment}
+    
+    mutation UpdateVariableCategoryMutation($variableCategory: UpdateVariableCategory!) {
+        updateVariableCategory(variableCategory: $variableCategory) {
+            ...IVariableCategory
+        }
+    }
+`;
+
 export const createExpenseMutation = gql`
     ${expenseFragment}
     

@@ -2,18 +2,18 @@ import TestRenderer from 'react-test-renderer';
 import React from 'react';
 import * as apolloReactHooks from '@apollo/react-hooks';
 
-import FixedCategory from '../../../src/components/budget/FixedCategory';
-import {createRandomFixedCategory, createRandomQueryResult, createRouteProps} from '../../models';
-import {chance} from '../../chance';
-import {getFixedCategoryQuery} from '../../../src/graphql/queries';
-import {getUserId} from '../../../src/services/auth-service';
-import {getEarlyReturn} from '../../../src/services/error-and-loading-service';
-import EditFixedCategoryForm from '../../../src/components/budget/EditFixedCategoryForm';
+import VariableCategory from '../../src/screens/VariableCategory';
+import {createRandomVariableCategory, createRandomQueryResult, createRouteProps} from '../models';
+import {chance} from '../chance';
+import {getVariableCategoryQuery} from '../../src/graphql/queries';
+import {getUserId} from '../../src/services/auth-service';
+import {getEarlyReturn} from '../../src/services/error-and-loading-service';
+import EditVariableCategoryForm from '../../src/components/budget/EditVariableCategoryForm';
 
 jest.mock('@apollo/react-hooks');
-jest.mock('../../../src/services/auth-service');
+jest.mock('../../src/services/auth-service');
 
-describe('FixedCategory', () => {
+describe('VariableCategory', () => {
     const {useQuery} = apolloReactHooks as jest.Mocked<typeof apolloReactHooks>;
 
     let root,
@@ -22,16 +22,16 @@ describe('FixedCategory', () => {
 
     const render = (): void => {
         root = TestRenderer.create(
-            <FixedCategory {...createRouteProps(expectedProps)} />
+            <VariableCategory {...createRouteProps(expectedProps)} />
         ).root;
     };
 
     beforeEach(() => {
         expectedProps = {
-            fixedCategoryId: chance.guid()
+            variableCategoryId: chance.guid()
         };
         expectedQueryResult = createRandomQueryResult({
-            fixedCategory: createRandomFixedCategory()
+            variableCategory: createRandomVariableCategory()
         });
 
         useQuery.mockReturnValue(expectedQueryResult);
@@ -41,10 +41,10 @@ describe('FixedCategory', () => {
 
     it('should call useQuery', () => {
         expect(useQuery).toHaveBeenCalledTimes(1);
-        expect(useQuery).toHaveBeenCalledWith(getFixedCategoryQuery, {
+        expect(useQuery).toHaveBeenCalledWith(getVariableCategoryQuery, {
             variables: {
-                fixedCategoryId: expectedProps.fixedCategoryId,
-                userId: getUserId()
+                userId: getUserId(),
+                variableCategoryId: expectedProps.variableCategoryId
             }
         });
     });
@@ -59,7 +59,7 @@ describe('FixedCategory', () => {
         root.findByType(earlyReturn.type);
     });
 
-    it('should render an EditFixedCategoryForm', () => {
-        root.findByType(EditFixedCategoryForm);
+    it('should render an EditVariableCategoryForm', () => {
+        root.findByType(EditVariableCategoryForm);
     });
 });

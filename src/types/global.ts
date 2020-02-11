@@ -3,7 +3,8 @@ import {FC} from 'react';
 
 import {Route} from '../enums/routes';
 import {IDateTimePickerProps} from '../screens/DateTimePicker';
-import {IFixedCategoryProps} from '../components/budget/FixedCategory';
+import {IFixedCategoryProps} from '../screens/FixedCategory';
+import {IVariableCategoryProps} from '../screens/VariableCategory';
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type StackParams = {
@@ -14,6 +15,7 @@ export type StackParams = {
   [Route.EXPENSES]: undefined
   [Route.DATE_PICKER]: IDateTimePickerProps
   [Route.ACCOUNT]: undefined
+  [Route.VARIABLE_CATEGORY]: IVariableCategoryProps
 }
 
 export type IScreenFC<RouteName extends Route> = FC<{
