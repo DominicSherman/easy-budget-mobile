@@ -1,6 +1,6 @@
 import {Route} from '../enums/routes';
-import FixedCategory from './FixedCategory';
 
+import FixedCategory from './FixedCategory';
 import Home from './Home';
 import VariableCategories from './VariableCategories';
 import Expenses from './Expenses';
