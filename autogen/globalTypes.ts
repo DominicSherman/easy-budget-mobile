@@ -50,6 +50,13 @@ export interface UpdateFixedCategory {
   note?: string | null;
 }
 
+export interface UpdateVariableCategory {
+  variableCategoryId: string;
+  userId: string;
+  amount?: number | null;
+  name?: string | null;
+}
+
 //==============================================================
 // END Enums and Input Objects
 //==============================================================

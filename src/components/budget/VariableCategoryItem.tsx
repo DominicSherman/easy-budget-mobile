@@ -2,6 +2,7 @@ import React, {FC, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import Touchable from 'react-native-platform-touchable';
+import {useNavigation} from '@react-navigation/native';
 
 import {IVariableCategory} from '../../../autogen/IVariableCategory';
 import CardView from '../generic/CardView';
@@ -11,6 +12,7 @@ import {IExpense} from '../../../autogen/IExpense';
 import {FeatherNames} from '../../enums/icon-names';
 import {colors} from '../../constants/colors';
 import {easeInTransition} from '../../services/animation-service';
+import {Route} from '../../enums/routes';
 
 const styles = StyleSheet.create({
     bottomWrapper: {
@@ -46,10 +48,11 @@ interface IVariableCategoryItemProps {
 const calculateTotal = (expenses: IExpense[]): number => expenses.reduce((total, expense) => total + expense.amount, 0);
 
 const VariableCategoryItem: FC<IVariableCategoryItemProps> = ({expenses, variableCategory}) => {
+    const navigation = useNavigation();
     const categoryExpenses = expenses.filter((expense) => expense.variableCategoryId === variableCategory.variableCategoryId);
     const sum = calculateTotal(categoryExpenses);
     const [isVisible, setIsVisible] = useState(false);
-    const onPress = (): void => {
+    const toggle = (): void => {
         easeInTransition();
         setIsVisible(!isVisible);
     };
@@ -59,9 +62,18 @@ const VariableCategoryItem: FC<IVariableCategoryItemProps> = ({expenses, variabl
         right: 16,
         top: 16
     };
+    const onPress = (): void => {
+        navigation.navigate({
+            name: Route.VARIABLE_CATEGORY,
+            params: {
+                variableCategoryId: variableCategory.variableCategoryId
+            }
+        });
+    };
 
     return (
         <CardView
+            onPress={onPress}
             shadow
             style={styles.wrapper}
         >
@@ -78,7 +90,7 @@ const VariableCategoryItem: FC<IVariableCategoryItemProps> = ({expenses, variabl
                 }
                 <Touchable
                     hitSlop={hitSlop}
-                    onPress={onPress}
+                    onPress={toggle}
                 >
                     <Feather
                         color={colors.darkerGray}

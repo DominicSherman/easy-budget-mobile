@@ -16,6 +16,20 @@ export const getVariableCategoriesQuery = gql`
     }
 `;
 
+export const getVariableCategoryQuery = gql`
+    ${variableCategoryFragment}
+    ${expenseFragment}
+    
+    query GetVariableCategory($userId: String!, $variableCategoryId: String!) {
+        variableCategory(userId: $userId, variableCategoryId: $variableCategoryId) {
+            ...IVariableCategory
+            expenses {
+                ...IExpense
+            }
+        }
+    }
+`;
+
 export const getFixedCategoriesQuery = gql`
     ${fixedCategoryFragment}
     
