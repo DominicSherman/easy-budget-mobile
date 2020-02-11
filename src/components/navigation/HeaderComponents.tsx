@@ -24,3 +24,16 @@ export const HamburgerMenu: FC = () => {
         />
     );
 };
+
+export const CloseIcon: FC = () => {
+    const navigation = useNavigation();
+
+    return (
+        <Feather
+            name={FeatherNames.X}
+            onPress={navigation.goBack}
+            size={25}
+            style={iconStyle}
+        />
+    );
+};
