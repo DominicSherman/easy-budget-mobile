@@ -11,7 +11,7 @@ import {getEarlyReturn} from '../../src/services/error-and-loading-service';
 import EditFixedCategoryForm from '../../src/components/budget/EditFixedCategoryForm';
 
 jest.mock('@apollo/react-hooks');
-jest.mock('../../../src/services/auth-service');
+jest.mock('../../src/services/auth-service');
 
 describe('FixedCategory', () => {
     const {useQuery} = apolloReactHooks as jest.Mocked<typeof apolloReactHooks>;
