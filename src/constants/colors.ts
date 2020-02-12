@@ -2,6 +2,8 @@ export const colors = {
     backgroundGray: '#F5F5F5',
     black: '#000',
     borderGray: '#B8B8B8',
+    dark: '#252829',
+    darkBlue: '#2D2F43',
     darkerGray: '#3F3F3F',
     darkFont: '#3F3F3F',
     darkGray: '#747474',

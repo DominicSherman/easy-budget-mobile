@@ -7,6 +7,7 @@ import {textStyles} from '../../styles/text-styles';
 import {SCREEN_WIDTH} from '../../constants/dimensions';
 
 import {RegularText} from './Text';
+import {shadow} from '../../styles/shared-styles';
 
 const styles = StyleSheet.create({
     disabled: {
@@ -15,16 +16,18 @@ const styles = StyleSheet.create({
     },
     text: {
         ...textStyles.large,
-        color: colors.green
+        color: colors.white
     },
     wrapper: {
         alignItems: 'center',
-        borderColor: colors.green,
+        backgroundColor: colors.darkBlue,
+        borderColor: colors.white,
         borderRadius: 10,
         borderWidth: 1,
         justifyContent: 'center',
         padding: 16,
-        width: SCREEN_WIDTH / 1.5
+        width: SCREEN_WIDTH / 1.5,
+        ...shadow,
     }
 });
 
