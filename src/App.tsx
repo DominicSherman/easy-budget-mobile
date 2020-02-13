@@ -16,6 +16,7 @@ import ErrorView from './components/generic/ErrorView';
 import {SCREEN_WIDTH} from './constants/dimensions';
 import {CloseIcon, HamburgerMenu} from './components/navigation/HeaderComponents';
 import {MAIN_SCREENS, MODALS} from './screens';
+import {colors} from './constants/colors';
 
 const LightThemeObject = {
     colors: {
@@ -27,8 +28,11 @@ const LightThemeObject = {
 
 const DarkThemeObject = {
     colors: {
-        ...DarkTheme.colors,
-        background: '#2D2F43'
+        background: colors.dark,
+        border: colors.black,
+        card: colors.black,
+        primary: colors.white,
+        text: colors.white
     },
     dark: true
 };
@@ -45,7 +49,10 @@ const modalOptions = {
 };
 
 const DrawerNavigator = (): JSX.Element =>
-    <Drawer.Navigator edgeWidth={SCREEN_WIDTH / 3}>
+    <Drawer.Navigator
+        drawerType={'slide'}
+        edgeWidth={SCREEN_WIDTH / 3}
+    >
         {
             Object.keys(MAIN_SCREENS).map<JSX.Element>((route) =>
                 <Drawer.Screen

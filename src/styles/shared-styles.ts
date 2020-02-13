@@ -24,7 +24,7 @@ export const centeredColumn: Record<string, any> = {
     flexDirection: 'column'
 };
 
-export const shadow = {
+export const whiteShadow = {
     borderColor: colors.white,
     borderWidth: 0,
     elevation: 3,
