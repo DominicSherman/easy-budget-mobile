@@ -9,7 +9,7 @@ import {RegularText} from '../generic/Text';
 import {textStyles} from '../../styles/text-styles';
 import Button from '../generic/Button';
 import {screenWrapper} from '../../styles/shared-styles';
-import {Route} from '../../enums/routes';
+import {Route} from '../../enums/Route';
 import {getUserId} from '../../services/auth-service';
 import {createTimePeriodMutation} from '../../graphql/mutations';
 import {CreateTimePeriodMutation, CreateTimePeriodMutationVariables} from '../../../autogen/CreateTimePeriodMutation';

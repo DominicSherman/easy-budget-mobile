@@ -5,7 +5,7 @@ import Button from '../components/generic/Button';
 import {signOut} from '../services/auth-service';
 import {screenWrapper} from '../styles/shared-styles';
 
-const Account: FC = () =>
+const Settings: FC = () =>
     <SafeAreaView style={screenWrapper}>
         <Button
             onPress={signOut}
@@ -13,4 +13,4 @@ const Account: FC = () =>
         />
     </SafeAreaView>;
 
-export default Account;
+export default Settings;

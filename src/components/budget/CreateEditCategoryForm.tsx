@@ -6,7 +6,7 @@ import {textStyles} from '../../styles/text-styles';
 import {RegularText} from '../generic/Text';
 import Button from '../generic/Button';
 import Input from '../generic/Input';
-import {FeatherNames} from '../../enums/icon-names';
+import {FeatherNames} from '../../enums/IconNames';
 import {easeInTransition} from '../../services/animation-service';
 import {usePrimaryColor} from '../../redux/hooks';
 

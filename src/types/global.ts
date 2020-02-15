@@ -1,7 +1,7 @@
 import {RouteProp} from '@react-navigation/native';
 import {FC} from 'react';
 
-import {Route} from '../enums/routes';
+import {Route} from '../enums/Route';
 import {IDateTimePickerProps} from '../screens/DateTimePicker';
 import {IFixedCategoryProps} from '../screens/FixedCategory';
 import {IVariableCategoryProps} from '../screens/VariableCategory';
@@ -14,7 +14,7 @@ export type StackParams = {
   [Route.VARIABLE_CATEGORIES]: undefined
   [Route.EXPENSES]: undefined
   [Route.DATE_PICKER]: IDateTimePickerProps
-  [Route.ACCOUNT]: undefined
+  [Route.SETTINGS]: undefined
   [Route.VARIABLE_CATEGORY]: IVariableCategoryProps
 }
 

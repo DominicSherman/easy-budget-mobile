@@ -10,7 +10,7 @@ import {dispatchAction} from '../../src/redux/store';
 import {Actions} from '../../src/redux/actions';
 import {ITimePeriod} from '../../autogen/ITimePeriod';
 import * as authService from '../../src/services/auth-service';
-import {AppStatus} from '../../src/enums/app-status';
+import {AppStatus} from '../../src/enums/AppStatus';
 
 jest.mock('../../src/repositories/time-period-repository');
 jest.mock('../../src/redux/store');

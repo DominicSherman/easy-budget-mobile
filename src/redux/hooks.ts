@@ -1,6 +1,6 @@
 import {useSelector} from 'react-redux';
 
-import {Mode} from '../enums/mode';
+import {Mode} from '../enums/Mode';
 import {colors} from '../constants/colors';
 
 import {IAppState} from './reducer';

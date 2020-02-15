@@ -8,6 +8,10 @@ import {formatExpenseDate} from '../../services/moment-service';
 import CardView from '../generic/CardView';
 
 const styles = StyleSheet.create({
+    singleWrapper: {
+        alignItems: 'center',
+        width: SCREEN_WIDTH / 3
+    },
     wrapper: {
         alignItems: 'center',
         flexDirection: 'row',
@@ -26,7 +30,7 @@ const ExpenseItem: FC<IExpenseItemProps> = ({expense, categoryName}) =>
         disabled
         style={styles.wrapper}
     >
-        <View style={{width: SCREEN_WIDTH / 2}}>
+        <View style={[styles.singleWrapper, {alignItems: 'flex-start'}]}>
             <RegularText>{categoryName}</RegularText>
             {
                 expense.name ?
@@ -35,11 +39,11 @@ const ExpenseItem: FC<IExpenseItemProps> = ({expense, categoryName}) =>
                     null
             }
         </View>
-        <View style={{width: SCREEN_WIDTH / 4}}>
+        <View style={styles.singleWrapper}>
             <RegularText>{formatExpenseDate(expense.date)}</RegularText>
         </View>
-        <View style={{width: SCREEN_WIDTH / 4}}>
-            <RegularText>{expense.amount.toFixed(2)}</RegularText>
+        <View style={styles.singleWrapper}>
+            <RegularText>{`$${expense.amount}`}</RegularText>
         </View>
     </CardView>;
 

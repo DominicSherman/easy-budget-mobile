@@ -5,13 +5,13 @@ import {ApolloProvider} from '@apollo/react-hooks';
 import {useSelector} from 'react-redux';
 import {createStackNavigator} from '@react-navigation/stack';
 
-import {Route} from './enums/routes';
+import {Route} from './enums/Route';
 import {getApolloClient} from './graphql/apollo-client';
 import {setAppState} from './redux/action-creators';
 import LoadingView from './components/generic/LoadingView';
 import Login from './screens/Login';
 import {IAppState} from './redux/reducer';
-import {AppStatus} from './enums/app-status';
+import {AppStatus} from './enums/AppStatus';
 import ErrorView from './components/generic/ErrorView';
 import {SCREEN_WIDTH} from './constants/dimensions';
 import {CloseIcon, HamburgerMenu} from './components/navigation/HeaderComponents';
@@ -61,7 +61,7 @@ const DrawerNavigator = (): JSX.Element =>
                             <Stack.Navigator>
                                 <Stack.Screen
                                     component={MAIN_SCREENS[route]}
-                                    name={Route.HOME}
+                                    name={route}
                                     options={screenOptions}
                                 />
                             </Stack.Navigator>

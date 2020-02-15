@@ -3,7 +3,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import {DrawerActions} from '@react-navigation/routers';
 
 import {CloseIcon, HamburgerMenu} from '../../../src/components/navigation/HeaderComponents';
-import {FeatherNames} from '../../../src/enums/icon-names';
+import {FeatherNames} from '../../../src/enums/IconNames';
 
 jest.mock('@react-navigation/native');
 

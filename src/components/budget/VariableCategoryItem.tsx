@@ -9,9 +9,8 @@ import CardView from '../generic/CardView';
 import {SCREEN_WIDTH} from '../../constants/dimensions';
 import {LargeText, RegularText, SmallText} from '../generic/Text';
 import {IExpense} from '../../../autogen/IExpense';
-import {FeatherNames} from '../../enums/icon-names';
-import {easeInTransition} from '../../services/animation-service';
-import {Route} from '../../enums/routes';
+import {FeatherNames} from '../../enums/IconNames';
+import {Route} from '../../enums/Route';
 import {usePrimaryColor} from '../../redux/hooks';
 
 const styles = StyleSheet.create({

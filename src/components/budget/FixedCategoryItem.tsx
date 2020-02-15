@@ -14,8 +14,8 @@ import {
 } from '../../../autogen/UpdateFixedCategoryMutation';
 import {updateFixedCategoryMutation} from '../../graphql/mutations';
 import CardView from '../generic/CardView';
-import {FeatherNames} from '../../enums/icon-names';
-import {Route} from '../../enums/routes';
+import {FeatherNames} from '../../enums/IconNames';
+import {Route} from '../../enums/Route';
 import {usePrimaryColor} from '../../redux/hooks';
 import {colors} from '../../constants/colors';
 import {easeInTransition} from '../../services/animation-service';

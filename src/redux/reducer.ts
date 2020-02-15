@@ -1,7 +1,7 @@
 import {User} from '@react-native-community/google-signin';
 
-import {AppStatus} from '../enums/app-status';
-import {Mode} from '../enums/mode';
+import {AppStatus} from '../enums/AppStatus';
+import {Mode} from '../enums/Mode';
 
 import {Actions} from './actions';
 

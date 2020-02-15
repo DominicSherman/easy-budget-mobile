@@ -6,7 +6,7 @@ import {IVariableCategory} from '../autogen/IVariableCategory';
 import {ITimePeriod} from '../autogen/ITimePeriod';
 import {IAppState} from '../src/redux/reducer';
 import {IErrorResponse, IOkResponse} from '../src/repositories/query-middleware';
-import {AppStatus} from '../src/enums/app-status';
+import {AppStatus} from '../src/enums/AppStatus';
 import {IFixedCategory} from '../autogen/IFixedCategory';
 import {IExpense} from '../autogen/IExpense';
 

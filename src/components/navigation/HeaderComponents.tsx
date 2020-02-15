@@ -4,7 +4,7 @@ import {useNavigation} from '@react-navigation/native';
 import {DrawerActions} from '@react-navigation/routers';
 import Touchable from 'react-native-platform-touchable';
 
-import {FeatherNames} from '../../enums/icon-names';
+import {FeatherNames} from '../../enums/IconNames';
 import {usePrimaryColor} from '../../redux/hooks';
 
 const iconStyle = {

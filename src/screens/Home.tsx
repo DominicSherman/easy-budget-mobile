@@ -1,5 +1,5 @@
 import React from 'react';
-import {SafeAreaView, StyleSheet, View} from 'react-native';
+import {SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
 import {useQuery} from '@apollo/react-hooks';
 import {useSelector} from 'react-redux';
 import {User} from '@react-native-community/google-signin';
@@ -15,6 +15,7 @@ import {IAppState} from '../redux/reducer';
 import {HomeScreenQuery, HomeScreenQueryVariables} from '../../autogen/HomeScreenQuery';
 import CardView from '../components/generic/CardView';
 import {SCREEN_WIDTH} from '../constants/dimensions';
+import CreateExpenseForm from '../components/budget/CreateExpenseForm';
 
 const styles = StyleSheet.create({
     bottomWrapper: {
@@ -72,72 +73,77 @@ const Home: React.FC = () => {
     const fixedExpensesTotal = fixedCategories.filter((category) => category.paid).reduce((total, fixedCategory) => total + fixedCategory.amount, 0);
 
     return (
-        <SafeAreaView style={{alignItems: 'center'}}>
-            <LargeText style={{marginTop: 16}}>
-                {`${formatTimePeriod(activeTimePeriod.beginDate)} - ${formatTimePeriod(activeTimePeriod.endDate)} (${moment(activeTimePeriod.endDate).diff(moment(activeTimePeriod.beginDate), 'd') + 1} days)`}
-            </LargeText>
-            <SmallText>
-                {`${moment().diff(moment(activeTimePeriod.beginDate), 'd')} days done, ${moment(activeTimePeriod.endDate).diff(moment(), 'd')} days remaining`}
-            </SmallText>
-            <TitleText style={{marginTop: 16}}>
-                {`Welcome, ${userInformation.user.givenName}!`}
-            </TitleText>
-            <View style={{marginTop: 32}}>
-                <CardView
-                    disabled
-                    shadow
-                    style={styles.wrapper}
-                >
-                    <View style={styles.titleWrapper}>
+        <SafeAreaView>
+            <ScrollView
+                contentContainerStyle={{alignItems: 'center'}}
+            >
+                <LargeText style={{marginTop: 16}}>
+                    {`${formatTimePeriod(activeTimePeriod.beginDate)} - ${formatTimePeriod(activeTimePeriod.endDate)} (${moment(activeTimePeriod.endDate).diff(moment(activeTimePeriod.beginDate), 'd') + 1} days)`}
+                </LargeText>
+                <SmallText>
+                    {`${moment().diff(moment(activeTimePeriod.beginDate), 'd')} days done, ${moment(activeTimePeriod.endDate).diff(moment(), 'd')} days remaining`}
+                </SmallText>
+                <TitleText style={{marginTop: 16}}>
+                    {`Welcome, ${userInformation.user.givenName}!`}
+                </TitleText>
+                <View style={{marginTop: 32}}>
+                    <CardView
+                        disabled
+                        shadow
+                        style={styles.wrapper}
+                    >
+                        <View style={styles.titleWrapper}>
 
-                        <LargeText>{'Variable Categories'}</LargeText>
-                    </View>
-                    <View style={styles.bottomWrapper}>
-                        <View style={styles.verticalCenter}>
-                            <RegularText>{`$${variableCategoriesTotal}`}</RegularText>
-                            <SmallText>{'budgeted'}</SmallText>
+                            <LargeText>{'Variable Categories'}</LargeText>
                         </View>
-                        <RegularText>{'-'}</RegularText>
-                        <View style={styles.verticalCenter}>
-                            <RegularText>{`$${expensesTotal}`}</RegularText>
-                            <SmallText>{'spent'}</SmallText>
+                        <View style={styles.bottomWrapper}>
+                            <View style={styles.verticalCenter}>
+                                <RegularText>{`$${variableCategoriesTotal}`}</RegularText>
+                                <SmallText>{'budgeted'}</SmallText>
+                            </View>
+                            <RegularText>{'-'}</RegularText>
+                            <View style={styles.verticalCenter}>
+                                <RegularText>{`$${expensesTotal}`}</RegularText>
+                                <SmallText>{'spent'}</SmallText>
+                            </View>
+                            <RegularText>{'='}</RegularText>
+                            <View style={styles.verticalCenter}>
+                                <RegularText>{`$${variableCategoriesTotal - expensesTotal}`}</RegularText>
+                                <SmallText>{'remaining'}</SmallText>
+                            </View>
                         </View>
-                        <RegularText>{'='}</RegularText>
-                        <View style={styles.verticalCenter}>
-                            <RegularText>{`$${variableCategoriesTotal - expensesTotal}`}</RegularText>
-                            <SmallText>{'remaining'}</SmallText>
-                        </View>
-                    </View>
-                </CardView>
-            </View>
-            <View style={{marginTop: 32}}>
-                <CardView
-                    disabled
-                    shadow
-                    style={styles.wrapper}
-                >
-                    <View style={styles.titleWrapper}>
+                    </CardView>
+                </View>
+                <View style={{marginVertical: 32}}>
+                    <CardView
+                        disabled
+                        shadow
+                        style={styles.wrapper}
+                    >
+                        <View style={styles.titleWrapper}>
 
-                        <LargeText>{'Fixed Categories'}</LargeText>
-                    </View>
-                    <View style={styles.bottomWrapper}>
-                        <View style={styles.verticalCenter}>
-                            <RegularText>{`$${fixedCategoriesTotal}`}</RegularText>
-                            <SmallText>{'to pay'}</SmallText>
+                            <LargeText>{'Fixed Categories'}</LargeText>
                         </View>
-                        <RegularText>{'-'}</RegularText>
-                        <View style={styles.verticalCenter}>
-                            <RegularText>{`$${fixedExpensesTotal}`}</RegularText>
-                            <SmallText>{'paid'}</SmallText>
+                        <View style={styles.bottomWrapper}>
+                            <View style={styles.verticalCenter}>
+                                <RegularText>{`$${fixedCategoriesTotal}`}</RegularText>
+                                <SmallText>{'to pay'}</SmallText>
+                            </View>
+                            <RegularText>{'-'}</RegularText>
+                            <View style={styles.verticalCenter}>
+                                <RegularText>{`$${fixedExpensesTotal}`}</RegularText>
+                                <SmallText>{'paid'}</SmallText>
+                            </View>
+                            <RegularText>{'='}</RegularText>
+                            <View style={styles.verticalCenter}>
+                                <RegularText>{`$${fixedCategoriesTotal - fixedExpensesTotal}`}</RegularText>
+                                <SmallText>{'still to pay'}</SmallText>
+                            </View>
                         </View>
-                        <RegularText>{'='}</RegularText>
-                        <View style={styles.verticalCenter}>
-                            <RegularText>{`$${fixedCategoriesTotal - fixedExpensesTotal}`}</RegularText>
-                            <SmallText>{'still to pay'}</SmallText>
-                        </View>
-                    </View>
-                </CardView>
-            </View>
+                    </CardView>
+                </View>
+                <CreateExpenseForm />
+            </ScrollView>
         </SafeAreaView>
     );
 };

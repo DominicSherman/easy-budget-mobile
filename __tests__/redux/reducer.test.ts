@@ -2,7 +2,7 @@ import {createRandomAppState, createRandomUserInformation} from '../models';
 import reducer, {IAppState} from '../../src/redux/reducer';
 import {chance} from '../chance';
 import {Actions} from '../../src/redux/actions';
-import {AppStatus} from '../../src/enums/app-status';
+import {AppStatus} from '../../src/enums/AppStatus';
 
 const defaultState: IAppState = {
     appStatus: AppStatus.LOADING,

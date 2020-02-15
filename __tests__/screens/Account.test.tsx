@@ -2,13 +2,13 @@ import TestRenderer from 'react-test-renderer';
 import React from 'react';
 import {SafeAreaView} from 'react-native';
 
-import Account from '../../src/screens/Account';
+import Settings from '../../src/screens/Settings';
 
-describe('Account', () => {
+describe('Settings', () => {
     let root;
 
     const render = (): void => {
-        root = TestRenderer.create(<Account />).root;
+        root = TestRenderer.create(<Settings />).root;
     };
 
     beforeEach(() => {

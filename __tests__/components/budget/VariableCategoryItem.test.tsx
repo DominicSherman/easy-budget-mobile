@@ -8,7 +8,7 @@ import VariableCategoryItem from '../../../src/components/budget/VariableCategor
 import {chance} from '../../chance';
 import {easeInTransition} from '../../../src/services/animation-service';
 import CardView from '../../../src/components/generic/CardView';
-import {Route} from '../../../src/enums/routes';
+import {Route} from '../../../src/enums/Route';
 
 jest.mock('../../../src/services/animation-service');
 

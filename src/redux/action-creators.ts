@@ -2,7 +2,7 @@ import {User} from '@react-native-community/google-signin';
 
 import {getActiveTimePeriod} from '../repositories/time-period-repository';
 import {getIsSignedIn, signInSilently} from '../services/auth-service';
-import {AppStatus} from '../enums/app-status';
+import {AppStatus} from '../enums/AppStatus';
 import {QueryResponse} from '../repositories/query-middleware';
 import {GetActiveTimePeriod} from '../../autogen/GetActiveTimePeriod';
 
