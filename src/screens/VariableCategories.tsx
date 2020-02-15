@@ -9,7 +9,7 @@ import {GetVariableCategories, GetVariableCategoriesVariables} from '../../autog
 import {IAppState} from '../redux/reducer';
 import {getEarlyReturn} from '../services/error-and-loading-service';
 import CreateVariableCategoryForm from '../components/budget/CreateVariableCategoryForm';
-import {sortByAmount, sortByName} from '../utils/sorting-utils';
+import {sortByAmount} from '../utils/sorting-utils';
 import NoActiveTimePeriod from '../components/budget/NoActiveTimePeriod';
 import VariableCategoryItem from '../components/budget/VariableCategoryItem';
 
@@ -31,7 +31,7 @@ const VariableCategories: React.FC = () => {
         return getEarlyReturn(queryResult);
     }
 
-    const {variableCategories, expenses} = queryResult.data;
+    const {variableCategories} = queryResult.data;
     const sortedVariableCategories = variableCategories.sort(sortByAmount);
 
     return (
@@ -42,7 +42,6 @@ const VariableCategories: React.FC = () => {
                 keyExtractor={(item): string => item.variableCategoryId}
                 renderItem={({item}): JSX.Element =>
                     <VariableCategoryItem
-                        expenses={expenses}
                         variableCategory={item}
                     />
                 }

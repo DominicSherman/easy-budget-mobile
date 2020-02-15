@@ -11,6 +11,7 @@ import {IFixedCategory} from '../autogen/IFixedCategory';
 import {IExpense} from '../autogen/IExpense';
 
 import {chance} from './chance';
+import {Mode} from '../src/enums/Mode';
 
 export const createError = (): ApolloError => new ApolloError({
     errorMessage: chance.string(),
@@ -113,6 +114,7 @@ export const createRandomUserInformation = (): User => ({
 
 export const createRandomAppState = (): IAppState => ({
     appStatus: AppStatus.LOADING,
+    mode: chance.pickone(Object.values(Mode)),
     timePeriodId: chance.guid(),
     userInformation: createRandomUserInformation()
 });

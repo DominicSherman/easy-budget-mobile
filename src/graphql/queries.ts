@@ -4,28 +4,20 @@ import {expenseFragment, fixedCategoryFragment, timePeriodFragment, variableCate
 
 export const getVariableCategoriesQuery = gql`
     ${variableCategoryFragment}
-    ${expenseFragment}
     
     query GetVariableCategories($userId: String!, $timePeriodId: String!) {
         variableCategories(userId: $userId, timePeriodId: $timePeriodId) {
             ...IVariableCategory
-        }
-        expenses(userId: $userId, timePeriodId: $timePeriodId) {
-            ...IExpense
         }
     }
 `;
 
 export const getVariableCategoryQuery = gql`
     ${variableCategoryFragment}
-    ${expenseFragment}
     
     query GetVariableCategory($userId: String!, $variableCategoryId: String!) {
         variableCategory(userId: $userId, variableCategoryId: $variableCategoryId) {
             ...IVariableCategory
-            expenses {
-                ...IExpense
-            }
         }
     }
 `;

@@ -18,22 +18,33 @@ const hitSlop = {
     top: 24
 };
 
+interface IIcon {
+    name: string
+    onPress: () => void
+}
+
+const Icon: FC<IIcon> = ({name, onPress}) =>
+    <Touchable
+        hitSlop={hitSlop}
+        onPress={onPress}
+    >
+        <Feather
+            color={usePrimaryColor()}
+            name={name}
+            size={25}
+            style={iconStyle}
+        />
+    </Touchable>;
+
 export const HamburgerMenu: FC = () => {
     const navigation = useNavigation();
     const openDrawer = (): void => navigation.dispatch(DrawerActions.openDrawer());
 
     return (
-        <Touchable
-            hitSlop={hitSlop}
+        <Icon
+            name={FeatherNames.MENU}
             onPress={openDrawer}
-        >
-            <Feather
-                color={usePrimaryColor()}
-                name={FeatherNames.MENU}
-                size={25}
-                style={iconStyle}
-            />
-        </Touchable>
+        />
     );
 };
 
@@ -41,16 +52,9 @@ export const CloseIcon: FC = () => {
     const navigation = useNavigation();
 
     return (
-        <Touchable
-            hitSlop={hitSlop}
+        <Icon
+            name={FeatherNames.X}
             onPress={navigation.goBack}
-        >
-            <Feather
-                color={usePrimaryColor()}
-                name={FeatherNames.X}
-                size={25}
-                style={iconStyle}
-            />
-        </Touchable>
+        />
     );
 };

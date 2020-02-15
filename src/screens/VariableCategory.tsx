@@ -11,6 +11,8 @@ import EditVariableCategoryForm from '../components/budget/EditVariableCategoryF
 import {GetVariableCategory, GetVariableCategoryVariables} from '../../autogen/GetVariableCategory';
 import ExpenseItem from '../components/budget/ExpenseItem';
 import {TitleText} from '../components/generic/Text';
+import {sortByDate} from '../utils/sorting-utils';
+import VariableCategoryDetails from '../components/budget/VariableCategoryDetails';
 
 export interface IVariableCategoryProps {
     variableCategoryId: string
@@ -35,13 +37,15 @@ const VariableCategory: IScreenFC<Route.VARIABLE_CATEGORY> = ({route: {params: {
             <FlatList
                 ListHeaderComponent={
                     <View style={{alignItems: 'center'}}>
+                        <TitleText style={{marginTop: 8}}>{variableCategory.name}</TitleText>
+                        <VariableCategoryDetails variableCategory={variableCategory} />
                         <EditVariableCategoryForm variableCategory={variableCategory} />
                         <TitleText style={{marginTop: 16}}>
                             {'Expenses'}
                         </TitleText>
                     </View>
                 }
-                data={variableCategory.expenses}
+                data={variableCategory.expenses.sort(sortByDate)}
                 keyExtractor={(item): string => item.expenseId}
                 renderItem={({item}): JSX.Element =>
                     <ExpenseItem

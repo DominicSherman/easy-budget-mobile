@@ -25,6 +25,17 @@ export interface HomeScreenQuery_expenses {
   name: string | null;
 }
 
+export interface HomeScreenQuery_variableCategories_expenses {
+  __typename: "Expense";
+  expenseId: string;
+  userId: string;
+  variableCategoryId: string;
+  timePeriodId: string;
+  amount: number;
+  date: string;
+  name: string | null;
+}
+
 export interface HomeScreenQuery_variableCategories {
   __typename: "VariableCategory";
   variableCategoryId: string;
@@ -32,6 +43,7 @@ export interface HomeScreenQuery_variableCategories {
   userId: string;
   amount: number;
   name: string;
+  expenses: HomeScreenQuery_variableCategories_expenses[];
 }
 
 export interface HomeScreenQuery_fixedCategories {
