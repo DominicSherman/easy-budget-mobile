@@ -1,11 +1,13 @@
 import {User} from '@react-native-community/google-signin';
 
 import {AppStatus} from '../enums/app-status';
+import {Mode} from '../enums/mode';
 
 import {Actions} from './actions';
 
 const defaultState: IAppState = {
     appStatus: AppStatus.LOADING,
+    mode: Mode.DARK,
     timePeriodId: '',
     userInformation: {
         idToken: '',
@@ -36,6 +38,7 @@ type ReducerMap = { [key in Actions]?: (state: IAppState, value: any) => IAppSta
 
 export interface IAppState {
     appStatus: AppStatus
+    mode: Mode
     timePeriodId: string
     userInformation: User
 }

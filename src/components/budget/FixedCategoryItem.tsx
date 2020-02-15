@@ -15,8 +15,8 @@ import {
 import {updateFixedCategoryMutation} from '../../graphql/mutations';
 import CardView from '../generic/CardView';
 import {FeatherNames} from '../../enums/icon-names';
-import {colors} from '../../constants/colors';
 import {Route} from '../../enums/routes';
+import {usePrimaryColor} from '../../redux/hooks';
 
 const styles = StyleSheet.create({
     rightWrapper: {
@@ -38,8 +38,6 @@ const FixedCategoryItem: FC<{ fixedCategory: IFixedCategory }> = ({fixedCategory
     const navigation = useNavigation();
     const [updateFixedCategory] = useMutation<UpdateFixedCategoryMutation, UpdateFixedCategoryMutationVariables>(updateFixedCategoryMutation);
     const iconName = paid ? FeatherNames.CHECK_SQUARE : FeatherNames.SQUARE;
-    const borderAndIconColor = paid ? colors.green : colors.lightGray;
-    const textColor = paid ? colors.green : colors.darkerGray;
     const togglePaid = (): void => {
         updateFixedCategory({
             optimisticResponse: {
@@ -70,13 +68,10 @@ const FixedCategoryItem: FC<{ fixedCategory: IFixedCategory }> = ({fixedCategory
         <CardView
             onPress={onPress}
             shadow
-            style={{
-                ...styles.wrapper,
-                borderColor: borderAndIconColor
-            }}
+            style={styles.wrapper}
         >
             <View style={{width: '60%'}}>
-                <TitleText style={{color: textColor}}>{name}</TitleText>
+                <TitleText>{name}</TitleText>
                 {
                     note ?
                         <SmallText style={{marginTop: 8}}>{note}</SmallText>
@@ -93,7 +88,7 @@ const FixedCategoryItem: FC<{ fixedCategory: IFixedCategory }> = ({fixedCategory
                     <Touchable onPress={togglePaid}>
                         <View>
                             <Feather
-                                color={borderAndIconColor}
+                                color={usePrimaryColor()}
                                 name={iconName}
                                 size={28}
                             />

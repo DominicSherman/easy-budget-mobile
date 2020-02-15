@@ -2,14 +2,13 @@ import React, {FC} from 'react';
 import {KeyboardTypeOptions, StyleSheet, TextInput, TextStyle, View} from 'react-native';
 
 import {textStyles} from '../../styles/text-styles';
-import {colors} from '../../constants/colors';
 import {SCREEN_WIDTH} from '../../constants/dimensions';
+import {usePrimaryColor, useTextColor} from '../../redux/hooks';
 
 import {RegularText} from './Text';
 
 const styles = StyleSheet.create({
     input: {
-        borderColor: colors.lightGray,
         borderRadius: 4,
         borderWidth: 1,
         height: 40,
@@ -19,7 +18,6 @@ const styles = StyleSheet.create({
         ...textStyles.regular
     },
     title: {
-        ...textStyles.regular,
         fontWeight: '600',
         marginLeft: 16,
         marginVertical: 8
@@ -40,7 +38,7 @@ const Input: FC<IInput> = ({style, title, onChange, keyboardType, value}) =>
         <TextInput
             keyboardType={keyboardType}
             onChangeText={onChange}
-            style={[styles.input, style]}
+            style={[styles.input, {borderColor: usePrimaryColor()}, useTextColor(), style]}
             value={value ? value : ''}
         />
     </View>;

@@ -19,8 +19,8 @@ const styles = StyleSheet.create({
     },
     wrapper: {
         alignItems: 'center',
-        backgroundColor: 'white',
-        borderColor: colors.lightGray,
+        backgroundColor: colors.darkGrey,
+        borderColor: colors.darkGrey,
         borderRadius: 4,
         borderWidth: 1,
         flexDirection: 'row',
