@@ -84,7 +84,7 @@ const Home: React.FC = () => {
                     {`${moment().diff(moment(activeTimePeriod.beginDate), 'd')} days done, ${moment(activeTimePeriod.endDate).diff(moment(), 'd')} days remaining`}
                 </SmallText>
                 <TitleText style={{marginTop: 16}}>
-                    {`Welcome, ${userInformation.user.givenName}!`}
+                    {`Welcome, ${userInformation.user.givenName}! 🎉`}
                 </TitleText>
                 <View style={{marginTop: 32}}>
                     <CardView

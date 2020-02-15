@@ -11,4 +11,7 @@ export const useMode = (): Mode =>
 export const usePrimaryColor = (): string =>
     useMode() === Mode.DARK ? colors.white : colors.dark;
 
+export const useBackgroundColor = (): string =>
+    useMode() === Mode.DARK ? colors.darkGrey : colors.white;
+
 export const useTextColor = (): {color: string} => ({color: usePrimaryColor()});

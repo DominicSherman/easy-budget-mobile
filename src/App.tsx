@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {DarkTheme, DefaultTheme, NavigationNativeContainer} from '@react-navigation/native';
+import {DefaultTheme, NavigationNativeContainer} from '@react-navigation/native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {ApolloProvider} from '@apollo/react-hooks';
 import {useSelector} from 'react-redux';
@@ -17,6 +17,8 @@ import {SCREEN_WIDTH} from './constants/dimensions';
 import {CloseIcon, HamburgerMenu} from './components/navigation/HeaderComponents';
 import {MAIN_SCREENS, MODALS} from './screens';
 import {colors} from './constants/colors';
+import {useMode} from './redux/hooks';
+import {Mode} from './enums/Mode';
 
 const LightThemeObject = {
     colors: {
@@ -78,11 +80,12 @@ const App: FC = () => {
         setAppState();
     }, []);
     const appStatus = useSelector((state: IAppState) => state.appStatus);
+    const theme = useMode() === Mode.DARK ? DarkThemeObject : LightThemeObject;
 
     switch (appStatus) {
         case AppStatus.LOGGED_IN:
             return (
-                <NavigationNativeContainer theme={DarkThemeObject}>
+                <NavigationNativeContainer theme={theme}>
                     <ApolloProvider client={getApolloClient()}>
                         <RootStack.Navigator
                             headerMode={'screen'}

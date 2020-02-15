@@ -7,7 +7,7 @@ import {RegularText} from './Text';
 
 const ErrorView: FC = () =>
     <View style={screenWrapper}>
-        <RegularText>{'Whoops! Something went wrong.'}</RegularText>
+        <RegularText>{'🤒 Whoops! Something went wrong. 🤕'}</RegularText>
     </View>;
 
 export default ErrorView;

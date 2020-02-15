@@ -1,4 +1,5 @@
 import {StyleProp, ViewStyle} from 'react-native';
+
 import {colors} from '../constants/colors';
 
 export const screenWrapper: StyleProp<ViewStyle> = {
