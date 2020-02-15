@@ -1,20 +1,19 @@
 import React from 'react';
 import {FlatList, SafeAreaView} from 'react-native';
 import {useQuery} from '@apollo/react-hooks';
-import {useSelector} from 'react-redux';
 
 import {getVariableCategoriesQuery} from '../graphql/queries';
 import {getUserId} from '../services/auth-service';
 import {GetVariableCategories, GetVariableCategoriesVariables} from '../../autogen/GetVariableCategories';
-import {IAppState} from '../redux/reducer';
 import {getEarlyReturn} from '../services/error-and-loading-service';
 import CreateVariableCategoryForm from '../components/budget/CreateVariableCategoryForm';
 import {sortByAmount} from '../utils/sorting-utils';
 import NoActiveTimePeriod from '../components/budget/NoActiveTimePeriod';
 import VariableCategoryItem from '../components/budget/VariableCategoryItem';
+import {useTimePeriodId} from '../redux/hooks';
 
 const VariableCategories: React.FC = () => {
-    const timePeriodId = useSelector<IAppState, string>((state) => state.timePeriodId);
+    const timePeriodId = useTimePeriodId();
     const queryResult = useQuery<GetVariableCategories, GetVariableCategoriesVariables>(getVariableCategoriesQuery, {
         skip: !timePeriodId,
         variables: {

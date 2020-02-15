@@ -1,12 +1,10 @@
 import TestRenderer from 'react-test-renderer';
 import React from 'react';
 import * as reactHooks from '@apollo/react-hooks';
-import * as reactRedux from 'react-redux';
 import {FlatList} from 'react-native';
 
 import VariableCategories from '../../src/screens/VariableCategories';
 import {
-    createRandomAppState,
     createRandomExpense,
     createRandomQueryResult,
     createRandomVariableCategories,
@@ -19,15 +17,17 @@ import {sortByName} from '../../src/utils/sorting-utils';
 import {IVariableCategory} from '../../autogen/IVariableCategory';
 import NoActiveTimePeriod from '../../src/components/budget/NoActiveTimePeriod';
 import VariableCategoryItem from '../../src/components/budget/VariableCategoryItem';
+import * as hooks from '../../src/redux/hooks';
 
 jest.mock('@apollo/react-hooks');
 jest.mock('react-redux');
 jest.mock('@react-navigation/native');
 jest.mock('../../src/services/auth-service');
+jest.mock('../../src/redux/hooks');
 
 describe('VariableCategories', () => {
     const {useQuery, useMutation} = reactHooks as jest.Mocked<typeof reactHooks>;
-    const {useSelector} = reactRedux as jest.Mocked<typeof reactRedux>;
+    const {useTimePeriodId} = hooks as jest.Mocked<typeof hooks>;
 
     let expectedTimePeriodId,
         expectedData,
@@ -51,8 +51,8 @@ describe('VariableCategories', () => {
         });
         expectedTimePeriodId = chance.guid();
 
+        useTimePeriodId.mockReturnValue(expectedTimePeriodId);
         useQuery.mockReturnValue(expectedData);
-        useSelector.mockReturnValue(expectedTimePeriodId);
         // @ts-ignore
         useMutation.mockReturnValue([jest.fn(), {loading: chance.bool()}]);
 
@@ -63,15 +63,12 @@ describe('VariableCategories', () => {
         jest.resetAllMocks();
     });
 
-    it('should call useSelector', () => {
-        const expectedState = createRandomAppState();
-        const selector = useSelector.mock.calls[0][0](expectedState);
-
-        expect(selector).toBe(expectedState.timePeriodId);
+    it('should call useTimePeriodId', () => {
+        expect(useTimePeriodId).toHaveBeenCalledTimes(1);
     });
 
     it('should return early if there is no time period', () => {
-        useSelector.mockReturnValue(null);
+        useTimePeriodId.mockReturnValue('');
         render();
 
         root.findByType(NoActiveTimePeriod);

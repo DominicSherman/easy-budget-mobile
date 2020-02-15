@@ -15,3 +15,6 @@ export const useBackgroundColor = (): string =>
     useMode() === Mode.DARK ? colors.darkGrey : colors.white;
 
 export const useTextColor = (): {color: string} => ({color: usePrimaryColor()});
+
+export const useTimePeriodId = (): string =>
+    useSelector<IAppState, string>((state) => state.timePeriodId);
