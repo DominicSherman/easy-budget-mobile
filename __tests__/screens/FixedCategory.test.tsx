@@ -12,6 +12,7 @@ import EditFixedCategoryForm from '../../src/components/budget/EditFixedCategory
 
 jest.mock('@apollo/react-hooks');
 jest.mock('../../src/services/auth-service');
+jest.mock('../../src/redux/hooks');
 
 describe('FixedCategory', () => {
     const {useQuery} = apolloReactHooks as jest.Mocked<typeof apolloReactHooks>;

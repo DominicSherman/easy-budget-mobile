@@ -6,11 +6,10 @@ import * as reactNavigationNative from '@react-navigation/native';
 import {createRandomExpense, createRandomExpenses, createRandomVariableCategory} from '../../models';
 import VariableCategoryItem from '../../../src/components/budget/VariableCategoryItem';
 import {chance} from '../../chance';
-import {easeInTransition} from '../../../src/services/animation-service';
 import CardView from '../../../src/components/generic/CardView';
 import {Route} from '../../../src/enums/Route';
 
-jest.mock('../../../src/services/animation-service');
+jest.mock('../../../src/redux/hooks');
 
 describe('VariableCategoryItem', () => {
     let root,
@@ -65,8 +64,6 @@ describe('VariableCategoryItem', () => {
         act(() => {
             renderedTouchable.props.onPress();
         });
-
-        expect(easeInTransition).toHaveBeenCalledTimes(1);
 
         root.findByProps({children: 'budgeted'});
         root.findByProps({children: 'spent'});

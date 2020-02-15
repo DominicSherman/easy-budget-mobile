@@ -21,12 +21,15 @@ describe('action creators', () => {
     const {getIsSignedIn, signInSilently} = authService as jest.Mocked<typeof authService>;
 
     describe('setAppState', () => {
-        let expectedTimePeriods: ITimePeriod[],
+        let AsyncStorage,
+            expectedTimePeriods: ITimePeriod[],
             expectedUser;
 
         beforeEach(() => {
             expectedUser = createRandomUserInformation();
             expectedTimePeriods = createRandomTimePeriods();
+            AsyncStorage = require('react-native').AsyncStorage;
+            AsyncStorage.getItem = jest.fn();
 
             signInSilently.mockResolvedValue(expectedUser);
             getActiveTimePeriod.mockResolvedValue(createRandomOkResponse({

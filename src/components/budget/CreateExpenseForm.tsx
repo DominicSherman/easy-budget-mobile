@@ -23,8 +23,8 @@ const CreateExpenseForm: FC = () => {
     const [name, setName] = useState('');
     const [amount, setAmount] = useState('');
     const [categoryId, setCategoryId] = useState<string | null>(null);
-    const color = usePrimaryColor();
     const timePeriodId = useSelector<IAppState, string>((state) => state.timePeriodId);
+    const color = usePrimaryColor();
     const queryResult = useQuery<GetExpenses, GetExpensesVariables>(getExpensesQuery, {
         variables: {
             timePeriodId,

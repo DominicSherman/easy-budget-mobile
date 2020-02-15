@@ -67,7 +67,6 @@ describe('Home', () => {
     });
 
     it('should query for the active time period data', () => {
-        expect(useQuery).toHaveBeenCalledTimes(1);
         expect(useQuery).toHaveBeenCalledWith(homeScreenQuery, {
             variables: {
                 date: getRoundedDate(),

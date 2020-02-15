@@ -6,6 +6,8 @@ import {chance} from '../../chance';
 import ExpenseItem from '../../../src/components/budget/ExpenseItem';
 import {SmallText} from '../../../src/components/generic/Text';
 
+jest.mock('../../../src/redux/hooks');
+
 describe('ExpenseItem', () => {
     let root,
         expectedVariableCategory,
@@ -20,15 +22,16 @@ describe('ExpenseItem', () => {
     beforeEach(() => {
         expectedVariableCategory = createRandomVariableCategory();
         expectedProps = {
-            expense: createRandomExpense({variableCategoryId: expectedVariableCategory.variableCategoryId}),
-            variableCategories: chance.shuffle([...createRandomVariableCategories(), expectedVariableCategory])
+            categoryName: chance.string(),
+            expense: createRandomExpense({variableCategoryId: expectedVariableCategory.variableCategoryId})
         };
 
         render();
     });
 
-    it('should render the category name', () => {
-        root.findByProps({children: expectedVariableCategory.name});
+    it('should render the category name and expense name', () => {
+        root.findByProps({children: expectedProps.categoryName});
+        root.findByProps({children: expectedProps.expense.name});
     });
 
     it('should **not** render the expense name if there is not one', () => {

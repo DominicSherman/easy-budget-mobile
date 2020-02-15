@@ -12,6 +12,7 @@ import EditVariableCategoryForm from '../../src/components/budget/EditVariableCa
 
 jest.mock('@apollo/react-hooks');
 jest.mock('../../src/services/auth-service');
+jest.mock('../../src/redux/hooks');
 
 describe('VariableCategory', () => {
     const {useQuery} = apolloReactHooks as jest.Mocked<typeof apolloReactHooks>;

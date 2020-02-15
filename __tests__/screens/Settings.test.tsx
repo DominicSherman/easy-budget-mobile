@@ -4,6 +4,8 @@ import {SafeAreaView} from 'react-native';
 
 import Settings from '../../src/screens/Settings';
 
+jest.mock('../../src/redux/hooks');
+
 describe('Settings', () => {
     let root;
 

@@ -20,11 +20,11 @@ const ModeSelector: FC = () => {
         >
             <TitleText style={{marginBottom: 8}}>{'Dark Mode'}</TitleText>
             <Switch
-                onValueChange={(value): void => {
+                onValueChange={async (value): Promise<void> => {
                     const mode = value ? Mode.DARK : Mode.LIGHT;
 
-                    AsyncStorage.setItem(AsyncStorageKey.MODE, mode);
                     dispatchAction(Actions.SET_MODE, mode);
+                    await AsyncStorage.setItem(AsyncStorageKey.MODE, mode);
                 }}
                 value={mode === Mode.DARK}
             />

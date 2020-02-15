@@ -1,5 +1,4 @@
 import * as reactNavigationNative from '@react-navigation/native';
-import Feather from 'react-native-vector-icons/Feather';
 import {DrawerActions} from '@react-navigation/routers';
 
 import {CloseIcon, HamburgerMenu} from '../../../src/components/navigation/HeaderComponents';
@@ -24,13 +23,9 @@ describe('HeaderComponents', () => {
         it('should render a Feather component', () => {
             const renderedComponent = HamburgerMenu({})!;
 
-            expect(renderedComponent.type).toEqual(Feather);
             expect(renderedComponent.props).toEqual({
-                allowFontScaling: false,
                 name: FeatherNames.MENU,
-                onPress: expect.any(Function),
-                size: 25,
-                style: expect.any(Object)
+                onPress: expect.any(Function)
             });
 
             renderedComponent.props.onPress();
@@ -54,13 +49,9 @@ describe('HeaderComponents', () => {
         it('should render a Feather component', () => {
             const renderedComponent = CloseIcon({})!;
 
-            expect(renderedComponent.type).toEqual(Feather);
             expect(renderedComponent.props).toEqual({
-                allowFontScaling: false,
                 name: FeatherNames.X,
-                onPress: expectedNavigation.goBack,
-                size: 25,
-                style: expect.any(Object)
+                onPress: expectedNavigation.goBack
             });
         });
     });
