@@ -1,11 +1,12 @@
 import React, {FC} from 'react';
-import {Switch, View} from 'react-native';
+import {AsyncStorage, Switch, View} from 'react-native';
 
 import {useMode} from '../../redux/hooks';
 import {TitleText} from '../generic/Text';
 import {Mode} from '../../enums/Mode';
 import {dispatchAction} from '../../redux/store';
 import {Actions} from '../../redux/actions';
+import {AsyncStorageKey} from '../../enums/AsyncStorageKey';
 
 const ModeSelector: FC = () => {
     const mode = useMode();
@@ -20,7 +21,10 @@ const ModeSelector: FC = () => {
             <TitleText style={{marginBottom: 8}}>{'Dark Mode'}</TitleText>
             <Switch
                 onValueChange={(value): void => {
-                    dispatchAction(Actions.SET_MODE, value ? Mode.DARK : Mode.LIGHT);
+                    const mode = value ? Mode.DARK : Mode.LIGHT;
+
+                    AsyncStorage.setItem(AsyncStorageKey.MODE, mode);
+                    dispatchAction(Actions.SET_MODE, mode);
                 }}
                 value={mode === Mode.DARK}
             />

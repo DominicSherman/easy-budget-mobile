@@ -1,10 +1,12 @@
 import {User} from '@react-native-community/google-signin';
+import {AsyncStorage} from 'react-native';
 
 import {getActiveTimePeriod} from '../repositories/time-period-repository';
 import {getIsSignedIn, signInSilently} from '../services/auth-service';
 import {AppStatus} from '../enums/AppStatus';
 import {QueryResponse} from '../repositories/query-middleware';
 import {GetActiveTimePeriod} from '../../autogen/GetActiveTimePeriod';
+import {AsyncStorageKey} from '../enums/AsyncStorageKey';
 
 import {dispatchAction} from './store';
 import {Actions} from './actions';
@@ -12,7 +14,12 @@ import {Actions} from './actions';
 export const setAppState = async (): Promise<void> => {
     dispatchAction(Actions.SET_APP_STATUS, AppStatus.LOADING);
 
-    const isSignedIn = await getIsSignedIn();
+    const [isSignedIn, mode] = await Promise.all([
+        getIsSignedIn(),
+        AsyncStorage.getItem(AsyncStorageKey.MODE)
+    ]);
+
+    dispatchAction(Actions.SET_MODE, mode);
 
     if (isSignedIn) {
         const [user, result] = await Promise.all<User | null, QueryResponse<GetActiveTimePeriod>>([
