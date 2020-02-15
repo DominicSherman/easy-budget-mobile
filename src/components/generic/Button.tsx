@@ -9,13 +9,12 @@ import {LargeText} from './Text';
 
 const styles = StyleSheet.create({
     disabled: {
+        backgroundColor: colors.lightGrey
     },
     wrapper: {
         alignItems: 'center',
         backgroundColor: colors.orange,
-        borderColor: colors.orange,
         borderRadius: 10,
-        borderWidth: 1,
         justifyContent: 'center',
         padding: 16,
         width: SCREEN_WIDTH / 1.5
@@ -41,7 +40,7 @@ const Button: FC<IButton> = ({disabled, onPress, text, textStyle, loading, wrapp
             loading ?
                 <ActivityIndicator />
                 :
-                <LargeText style={textStyle}>
+                <LargeText style={[disabled && {color: colors.darkGrey}, textStyle]}>
                     {text}
                 </LargeText>
         }

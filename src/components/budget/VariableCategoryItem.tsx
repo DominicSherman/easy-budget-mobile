@@ -10,9 +10,9 @@ import {SCREEN_WIDTH} from '../../constants/dimensions';
 import {LargeText, RegularText, SmallText} from '../generic/Text';
 import {IExpense} from '../../../autogen/IExpense';
 import {FeatherNames} from '../../enums/icon-names';
-import {colors} from '../../constants/colors';
 import {easeInTransition} from '../../services/animation-service';
 import {Route} from '../../enums/routes';
+import {usePrimaryColor} from '../../redux/hooks';
 
 const styles = StyleSheet.create({
     bottomWrapper: {
@@ -53,14 +53,13 @@ const VariableCategoryItem: FC<IVariableCategoryItemProps> = ({expenses, variabl
     const sum = calculateTotal(categoryExpenses);
     const [isVisible, setIsVisible] = useState(false);
     const toggle = (): void => {
-        easeInTransition();
         setIsVisible(!isVisible);
     };
     const hitSlop = {
-        bottom: 16,
-        left: 15,
-        right: 16,
-        top: 16
+        bottom: 24,
+        left: 24,
+        right: 24,
+        top: 24
     };
     const onPress = (): void => {
         navigation.navigate({
@@ -93,7 +92,7 @@ const VariableCategoryItem: FC<IVariableCategoryItemProps> = ({expenses, variabl
                     onPress={toggle}
                 >
                     <Feather
-                        color={colors.darkerGray}
+                        color={usePrimaryColor()}
                         name={isVisible ? FeatherNames.CHEVRON_DOWN : FeatherNames.CHEVRON_UP}
                         size={32}
                     />

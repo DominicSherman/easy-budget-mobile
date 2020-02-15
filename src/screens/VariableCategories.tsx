@@ -9,7 +9,7 @@ import {GetVariableCategories, GetVariableCategoriesVariables} from '../../autog
 import {IAppState} from '../redux/reducer';
 import {getEarlyReturn} from '../services/error-and-loading-service';
 import CreateVariableCategoryForm from '../components/budget/CreateVariableCategoryForm';
-import {sortByName} from '../utils/sorting-utils';
+import {sortByAmount, sortByName} from '../utils/sorting-utils';
 import NoActiveTimePeriod from '../components/budget/NoActiveTimePeriod';
 import VariableCategoryItem from '../components/budget/VariableCategoryItem';
 
@@ -32,7 +32,7 @@ const VariableCategories: React.FC = () => {
     }
 
     const {variableCategories, expenses} = queryResult.data;
-    const sortedVariableCategories = variableCategories.sort(sortByName);
+    const sortedVariableCategories = variableCategories.sort(sortByAmount);
 
     return (
         <SafeAreaView>
