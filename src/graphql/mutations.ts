@@ -1,13 +1,13 @@
 import {gql} from 'apollo-boost';
 
-import {expenseFragment, fixedCategoryFragment, timePeriodFragment, variableCategoryFragment} from './fragments';
+import {createVariableCategoryFragment, expenseFragment, fixedCategoryFragment, timePeriodFragment} from './fragments';
 
 export const createVariableCategoryMutation = gql`
-    ${variableCategoryFragment}
+    ${createVariableCategoryFragment}
     
     mutation CreateVariableCategoryMutation($variableCategory: CreateVariableCategory!) {
         createVariableCategory(variableCategory: $variableCategory) {
-            ...IVariableCategory
+            ...ICreateVariableCategory
         }
     } 
 `;
@@ -33,11 +33,11 @@ export const updateFixedCategoryMutation = gql`
 `;
 
 export const updateVariableCategoryMutation = gql`
-    ${variableCategoryFragment}
+    ${createVariableCategoryFragment}
     
     mutation UpdateVariableCategoryMutation($variableCategory: UpdateVariableCategory!) {
         updateVariableCategory(variableCategory: $variableCategory) {
-            ...IVariableCategory
+            ...ICreateVariableCategory
         }
     }
 `;

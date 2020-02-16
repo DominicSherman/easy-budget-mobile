@@ -39,6 +39,16 @@ export const variableCategoryFragment = gql`
     }
 `;
 
+export const createVariableCategoryFragment = gql`
+    fragment ICreateVariableCategory on VariableCategory {
+        variableCategoryId
+        timePeriodId
+        userId
+        amount
+        name
+    }
+`;
+
 export const timePeriodFragment = gql`
     fragment ITimePeriod on TimePeriod {
         timePeriodId
