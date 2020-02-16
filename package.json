@@ -8,7 +8,8 @@
     "start": "react-native start",
     "coverage": "jest --coverage",
     "lint": "eslint . --ext .json --ext .js --ext .ts --ext .tsx",
-    "test": "yarn lint && yarn coverage"
+    "test": "yarn lint && yarn coverage",
+    "release": "release-it"
   },
   "dependencies": {
     "@apollo/react-common": "3.1.3",

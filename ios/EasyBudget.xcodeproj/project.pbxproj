@@ -373,7 +373,7 @@
 			baseConfigurationReference = D92DB21E408614AA113EB931 /* Pods-EasyBudget.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 936DG5J788;
 				INFOPLIST_FILE = EasyBudget/Info.plist;
@@ -394,7 +394,7 @@
 			baseConfigurationReference = 9DA2AD2B003672617A77EA50 /* Pods-EasyBudget.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 936DG5J788;
 				INFOPLIST_FILE = EasyBudget/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -405,7 +405,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.reactnative.easybudget;
 				PRODUCT_NAME = EasyBudget;
-				PROVISIONING_PROFILE = "7860253c-7f62-41d7-a478-a492f7c474d5";
+				PROVISIONING_PROFILE = "04b65ed3-dc8d-4083-880b-4c10ef6682c0";
 				PROVISIONING_PROFILE_SPECIFIER = "com.reactnative.easybudget AppStore";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
