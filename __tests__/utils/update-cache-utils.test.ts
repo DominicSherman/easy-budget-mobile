@@ -71,7 +71,10 @@ describe('update cache utils', () => {
                 data: {
                     variableCategories: [
                         ...expectedReadQuery.variableCategories,
-                        expectedMutationResult.data.createVariableCategory
+                        {
+                            ...expectedMutationResult.data.createVariableCategory,
+                            expenses: []
+                        }
                     ]
                 },
                 query: getVariableCategoriesQuery,
