@@ -1,5 +1,8 @@
 import {
-    createRandomAppState, createRandomExpense, createRandomExpenses, createRandomFixedCategories,
+    createRandomAppState,
+    createRandomExpense,
+    createRandomExpenses,
+    createRandomFixedCategories,
     createRandomFixedCategory,
     createRandomVariableCategories,
     createRandomVariableCategory
