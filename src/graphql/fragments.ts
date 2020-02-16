@@ -1,15 +1,5 @@
 import {gql} from 'apollo-boost';
 
-export const variableCategoryFragment = gql`
-    fragment IVariableCategory on VariableCategory {
-        variableCategoryId
-        timePeriodId
-        userId
-        amount
-        name
-    }
-`;
-
 export const fixedCategoryFragment = gql`
     fragment IFixedCategory on FixedCategory {
         fixedCategoryId
@@ -31,6 +21,31 @@ export const expenseFragment = gql`
         amount
         date
         name    
+    }
+`;
+
+export const variableCategoryFragment = gql`
+    ${expenseFragment}
+    
+    fragment IVariableCategory on VariableCategory {
+        variableCategoryId
+        timePeriodId
+        userId
+        amount
+        name
+        expenses {
+            ...IExpense
+        }   
+    }
+`;
+
+export const createVariableCategoryFragment = gql`
+    fragment ICreateVariableCategory on VariableCategory {
+        variableCategoryId
+        timePeriodId
+        userId
+        amount
+        name
     }
 `;
 

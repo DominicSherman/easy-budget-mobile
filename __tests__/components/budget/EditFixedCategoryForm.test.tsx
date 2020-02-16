@@ -1,6 +1,7 @@
 import TestRenderer, {act} from 'react-test-renderer';
 import React from 'react';
 import * as reactHooks from '@apollo/react-hooks';
+import * as reactNavigation from '@react-navigation/native';
 
 import {chance} from '../../chance';
 import {createRandomFixedCategory} from '../../models';
@@ -9,13 +10,17 @@ import {updateFixedCategoryMutation} from '../../../src/graphql/mutations';
 import CreateEditCategoryForm from '../../../src/components/budget/CreateEditCategoryForm';
 
 jest.mock('@apollo/react-hooks');
+jest.mock('@react-navigation/native');
 jest.mock('../../../src/services/auth-service');
+jest.mock('../../../src/redux/hooks');
 
 describe('EditFixedCategoryForm', () => {
     const {useMutation} = reactHooks as jest.Mocked<typeof reactHooks>;
+    const {useNavigation} = reactNavigation as jest.Mocked<typeof reactNavigation>;
 
     let testRenderer,
         testInstance,
+        expectedNavigation,
         expectedProps,
         expectedName,
         expectedAmount,
@@ -55,9 +60,13 @@ describe('EditFixedCategoryForm', () => {
         expectedName = chance.string();
         expectedAmount = chance.natural().toString();
         expectedNote = chance.string();
+        expectedNavigation = {
+            goBack: jest.fn()
+        };
 
         // @ts-ignore
         useMutation.mockReturnValue([updateFixedCategory]);
+        useNavigation.mockReturnValue(expectedNavigation);
 
         render();
     });

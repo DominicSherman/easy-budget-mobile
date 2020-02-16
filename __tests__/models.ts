@@ -6,9 +6,10 @@ import {IVariableCategory} from '../autogen/IVariableCategory';
 import {ITimePeriod} from '../autogen/ITimePeriod';
 import {IAppState} from '../src/redux/reducer';
 import {IErrorResponse, IOkResponse} from '../src/repositories/query-middleware';
-import {AppStatus} from '../src/enums/app-status';
+import {AppStatus} from '../src/enums/AppStatus';
 import {IFixedCategory} from '../autogen/IFixedCategory';
 import {IExpense} from '../autogen/IExpense';
+import {Mode} from '../src/enums/Mode';
 
 import {chance} from './chance';
 
@@ -20,9 +21,22 @@ export const createError = (): ApolloError => new ApolloError({
     networkError: new Error(chance.string())
 });
 
+export const createRandomExpense = (expense = {}): IExpense => ({
+    __typename: 'Expense',
+    amount: chance.natural(),
+    date: chance.date().toISOString(),
+    expenseId: chance.guid(),
+    name: chance.string(),
+    timePeriodId: chance.guid(),
+    userId: chance.string(),
+    variableCategoryId: chance.guid(),
+    ...expense
+});
+
 export const createRandomVariableCategory = (variableCategory = {}): IVariableCategory => ({
     __typename: 'VariableCategory',
     amount: chance.natural(),
+    expenses: chance.n(createRandomExpense, chance.d6()),
     name: chance.string(),
     timePeriodId: chance.guid(),
     userId: chance.string(),
@@ -45,18 +59,6 @@ export const createRandomFixedCategory = (fixedCategory = {}): IFixedCategory =>
 });
 
 export const createRandomFixedCategories = (): IFixedCategory[] => chance.n(createRandomFixedCategory, chance.d6());
-
-export const createRandomExpense = (expense = {}): IExpense => ({
-    __typename: 'Expense',
-    amount: chance.natural(),
-    date: chance.date().toISOString(),
-    expenseId: chance.guid(),
-    name: chance.string(),
-    timePeriodId: chance.guid(),
-    userId: chance.string(),
-    variableCategoryId: chance.guid(),
-    ...expense
-});
 
 export const createRandomExpenses = (): IExpense[] => chance.n(createRandomExpense, chance.d6());
 
@@ -113,6 +115,7 @@ export const createRandomUserInformation = (): User => ({
 
 export const createRandomAppState = (): IAppState => ({
     appStatus: AppStatus.LOADING,
+    mode: chance.pickone(Object.values(Mode)),
     timePeriodId: chance.guid(),
     userInformation: createRandomUserInformation()
 });

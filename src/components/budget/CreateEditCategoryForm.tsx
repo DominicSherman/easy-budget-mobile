@@ -6,9 +6,9 @@ import {textStyles} from '../../styles/text-styles';
 import {RegularText} from '../generic/Text';
 import Button from '../generic/Button';
 import Input from '../generic/Input';
-import {colors} from '../../constants/colors';
-import {FeatherNames} from '../../enums/icon-names';
+import {FeatherNames} from '../../enums/IconNames';
 import {easeInTransition} from '../../services/animation-service';
+import {usePrimaryColor} from '../../redux/hooks';
 
 const styles = StyleSheet.create({
     buttonWrapper: {
@@ -64,13 +64,20 @@ interface IToggleIconProps extends ICreateCategoryFormProps {
     setVisible: () => void
 }
 
-const ToggleIcon: FC<IToggleIconProps> = ({toggleable, isVisible, setVisible}) => toggleable ?
+const Icon: FC<IToggleIconProps> = ({isVisible, setVisible}) =>
+    <Feather
+        color={usePrimaryColor()}
+        name={isVisible ? FeatherNames.X_CIRCLE : FeatherNames.PLUS_CIRCLE}
+        onPress={setVisible}
+        size={50}
+    />;
+
+const ToggleIcon: FC<IToggleIconProps> = ({toggleable, isVisible, setVisible, ...props}) => toggleable ?
     <View style={styles.buttonWrapper}>
-        <Feather
-            color={colors.darkerGray}
-            name={isVisible ? FeatherNames.X_CIRCLE : FeatherNames.PLUS_CIRCLE}
-            onPress={setVisible}
-            size={50}
+        <Icon
+            isVisible={isVisible}
+            setVisible={setVisible}
+            {...props}
         />
     </View> : null;
 

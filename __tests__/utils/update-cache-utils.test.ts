@@ -1,5 +1,7 @@
 import {
-    createRandomAppState, createRandomExpense, createRandomExpenses, createRandomFixedCategories,
+    createRandomAppState,
+    createRandomExpense,
+    createRandomFixedCategories,
     createRandomFixedCategory,
     createRandomVariableCategories,
     createRandomVariableCategory
@@ -40,7 +42,6 @@ describe('update cache utils', () => {
                 }
             };
             expectedReadQuery = {
-                expenses: createRandomExpenses(),
                 variableCategories: createRandomVariableCategories()
             };
             expectedState = createRandomAppState();
@@ -68,10 +69,12 @@ describe('update cache utils', () => {
             expect(cache.writeQuery).toHaveBeenCalledTimes(1);
             expect(cache.writeQuery).toHaveBeenCalledWith({
                 data: {
-                    expenses: expectedReadQuery.expenses,
                     variableCategories: [
                         ...expectedReadQuery.variableCategories,
-                        expectedMutationResult.data.createVariableCategory
+                        {
+                            ...expectedMutationResult.data.createVariableCategory,
+                            expenses: []
+                        }
                     ]
                 },
                 query: getVariableCategoriesQuery,

@@ -1,17 +1,28 @@
 import * as reactNavigationNative from '@react-navigation/native';
-import Feather from 'react-native-vector-icons/Feather';
 import {DrawerActions} from '@react-navigation/routers';
+import TestRenderer from 'react-test-renderer';
+import React from 'react';
+import Touchable from 'react-native-platform-touchable';
 
+import {FeatherNames} from '../../../src/enums/IconNames';
 import {CloseIcon, HamburgerMenu} from '../../../src/components/navigation/HeaderComponents';
-import {FeatherNames} from '../../../src/enums/icon-names';
 
 jest.mock('@react-navigation/native');
+jest.mock('../../../src/redux/hooks');
 
 describe('HeaderComponents', () => {
     const {useNavigation} = reactNavigationNative as jest.Mocked<typeof reactNavigationNative>;
 
+    let root;
+
     describe('HamburgerMenu', () => {
         let expectedNavigation;
+
+        const render = (): void => {
+            root = TestRenderer.create(
+                <HamburgerMenu />
+            ).root;
+        };
 
         beforeEach(() => {
             expectedNavigation = {
@@ -19,21 +30,16 @@ describe('HeaderComponents', () => {
             };
 
             useNavigation.mockReturnValue(expectedNavigation);
+
+            render();
         });
 
         it('should render a Feather component', () => {
-            const renderedComponent = HamburgerMenu({})!;
+            root.findByProps({name: FeatherNames.MENU});
 
-            expect(renderedComponent.type).toEqual(Feather);
-            expect(renderedComponent.props).toEqual({
-                allowFontScaling: false,
-                name: FeatherNames.MENU,
-                onPress: expect.any(Function),
-                size: 25,
-                style: expect.any(Object)
-            });
+            const renderedTouchable = root.findByType(Touchable);
 
-            renderedComponent.props.onPress();
+            renderedTouchable.props.onPress();
 
             expect(expectedNavigation.dispatch).toHaveBeenCalledTimes(1);
             expect(expectedNavigation.dispatch).toHaveBeenCalledWith(DrawerActions.openDrawer());
@@ -43,25 +49,28 @@ describe('HeaderComponents', () => {
     describe('CloseIcon', () => {
         let expectedNavigation;
 
+        const render = (): void => {
+            root = TestRenderer.create(
+                <CloseIcon />
+            ).root;
+        };
+
         beforeEach(() => {
             expectedNavigation = {
                 goBack: jest.fn()
             };
 
             useNavigation.mockReturnValue(expectedNavigation);
+
+            render();
         });
 
         it('should render a Feather component', () => {
-            const renderedComponent = CloseIcon({})!;
+            root.findByProps({name: FeatherNames.X});
 
-            expect(renderedComponent.type).toEqual(Feather);
-            expect(renderedComponent.props).toEqual({
-                allowFontScaling: false,
-                name: FeatherNames.X,
-                onPress: expectedNavigation.goBack,
-                size: 25,
-                style: expect.any(Object)
-            });
+            const renderedTouchable = root.findByType(Touchable);
+
+            expect(renderedTouchable.props.onPress).toBe(expectedNavigation.goBack);
         });
     });
 });

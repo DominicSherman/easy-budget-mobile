@@ -4,6 +4,7 @@ import TestRenderer from 'react-test-renderer';
 import {Animated, Text, View} from 'react-native';
 import Touchable from 'react-native-platform-touchable';
 
+import * as hooks from '../../../src/redux/hooks';
 import CardView from '../../../src/components/generic/CardView';
 import {colors} from '../../../src/constants/colors';
 
@@ -16,9 +17,14 @@ jest.mock('react-native/Libraries/Animated/src/Animated', () => ({
     sequence: jest.fn(),
     timing: jest.fn()
 }));
+jest.mock('../../../src/redux/hooks');
+
 describe('CardView', () => {
     const mockAnimated = Animated as jest.Mocked<typeof Animated>;
+    const {useBackgroundColor} = hooks as jest.Mocked<typeof hooks>;
+
     let expectedProps,
+        expectedBackgroundColor,
         testRenderer,
         testInstance,
         startSpy,
@@ -60,6 +66,7 @@ describe('CardView', () => {
                 [chance.string()]: chance.string()
             }
         };
+        expectedBackgroundColor = chance.pickone(Object.values(colors));
         startSpy = jest.fn();
         mockAnimated.timing.mockReturnValue({
             start: startSpy,
@@ -69,6 +76,8 @@ describe('CardView', () => {
             start: startSpy,
             stop: jest.fn()
         });
+
+        useBackgroundColor.mockReturnValue(expectedBackgroundColor);
         createTestRenderer();
     });
 
@@ -82,8 +91,10 @@ describe('CardView', () => {
         expect(renderedComponent.props.accessibilityLabel).toBe(expectedProps.accessibilityLabel);
         expect(renderedComponent.props.accessibilityRole).toBe('button');
         expect(renderedComponent.props.onPress).toBe(expectedProps.onPress);
+
         renderedComponent.props.onPressIn();
         renderedComponent.props.onPressOut();
+
         expect(Animated.timing).toHaveBeenCalledTimes(3);
         expect(Animated.sequence).toHaveBeenCalledTimes(1);
         expect(Animated.timing).toHaveBeenCalledWith(expect.any(Animated.Value), {
@@ -101,10 +112,14 @@ describe('CardView', () => {
 
     it('should render the root <Touchable> component when disableAnimation is true', () => {
         expectedProps.disableAnimation = true;
+
         updateComponent();
+
         expect(renderedComponent.type).toBe(Touchable);
+
         renderedComponent.props.onPressIn();
         renderedComponent.props.onPressOut();
+
         expect(Animated.timing).not.toHaveBeenCalled();
         expect(Animated.sequence).not.toHaveBeenCalled();
         expect(startSpy).not.toHaveBeenCalled();
@@ -112,12 +127,15 @@ describe('CardView', () => {
 
     it('should render a wrapper view with the correct styles', () => {
         expect(renderedWrapperView.type).toBe(Animated.View);
+        expect(renderedWrapperView.props.style[0]).toEqual({backgroundColor: expectedBackgroundColor});
     });
 
     it('should render a wrapper view with the correct styles when shadow is true', () => {
         expectedProps.shadow = true;
+
         updateComponent();
-        expect(renderedWrapperView.props.style[3]).toEqual({
+
+        expect(renderedWrapperView.props.style[4]).toEqual({
             borderColor: colors.white,
             borderWidth: 0,
             elevation: 3,

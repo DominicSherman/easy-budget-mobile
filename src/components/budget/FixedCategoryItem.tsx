@@ -14,9 +14,11 @@ import {
 } from '../../../autogen/UpdateFixedCategoryMutation';
 import {updateFixedCategoryMutation} from '../../graphql/mutations';
 import CardView from '../generic/CardView';
-import {FeatherNames} from '../../enums/icon-names';
+import {FeatherNames} from '../../enums/IconNames';
+import {Route} from '../../enums/Route';
+import {usePrimaryColor} from '../../redux/hooks';
 import {colors} from '../../constants/colors';
-import {Route} from '../../enums/routes';
+import {easeInTransition} from '../../services/animation-service';
 
 const styles = StyleSheet.create({
     rightWrapper: {
@@ -28,6 +30,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column'
     },
     wrapper: {
+        borderWidth: 1,
         marginHorizontal: 8,
         width: SCREEN_WIDTH - 16
     }
@@ -37,10 +40,11 @@ const FixedCategoryItem: FC<{ fixedCategory: IFixedCategory }> = ({fixedCategory
     const {name, amount, paid, note, userId, fixedCategoryId} = fixedCategory;
     const navigation = useNavigation();
     const [updateFixedCategory] = useMutation<UpdateFixedCategoryMutation, UpdateFixedCategoryMutationVariables>(updateFixedCategoryMutation);
+    const primaryColor = usePrimaryColor();
+    const color = paid ? colors.orange : primaryColor;
     const iconName = paid ? FeatherNames.CHECK_SQUARE : FeatherNames.SQUARE;
-    const borderAndIconColor = paid ? colors.green : colors.lightGray;
-    const textColor = paid ? colors.green : colors.darkerGray;
     const togglePaid = (): void => {
+        easeInTransition();
         updateFixedCategory({
             optimisticResponse: {
                 updateFixedCategory: {
@@ -70,13 +74,10 @@ const FixedCategoryItem: FC<{ fixedCategory: IFixedCategory }> = ({fixedCategory
         <CardView
             onPress={onPress}
             shadow
-            style={{
-                ...styles.wrapper,
-                borderColor: borderAndIconColor
-            }}
+            style={[styles.wrapper, {borderColor: color}]}
         >
             <View style={{width: '60%'}}>
-                <TitleText style={{color: textColor}}>{name}</TitleText>
+                <TitleText style={[{color}, paid && {textDecorationLine: 'line-through'}]}>{name}</TitleText>
                 {
                     note ?
                         <SmallText style={{marginTop: 8}}>{note}</SmallText>
@@ -86,14 +87,14 @@ const FixedCategoryItem: FC<{ fixedCategory: IFixedCategory }> = ({fixedCategory
             </View>
             <View style={styles.rightWrapper}>
                 <View style={[styles.verticalCenter, {marginRight: 32}]}>
-                    <LargeText>{`$${amount}`}</LargeText>
+                    <LargeText style={{color}}>{`$${amount}`}</LargeText>
                     <SmallText>{'amount'}</SmallText>
                 </View>
                 <View style={styles.verticalCenter}>
                     <Touchable onPress={togglePaid}>
                         <View>
                             <Feather
-                                color={borderAndIconColor}
+                                color={color}
                                 name={iconName}
                                 size={28}
                             />

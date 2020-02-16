@@ -5,24 +5,38 @@ import {ApolloProvider} from '@apollo/react-hooks';
 import {useSelector} from 'react-redux';
 import {createStackNavigator} from '@react-navigation/stack';
 
-import {Route} from './enums/routes';
+import {Route} from './enums/Route';
 import {getApolloClient} from './graphql/apollo-client';
 import {setAppState} from './redux/action-creators';
 import LoadingView from './components/generic/LoadingView';
 import Login from './screens/Login';
 import {IAppState} from './redux/reducer';
-import {AppStatus} from './enums/app-status';
+import {AppStatus} from './enums/AppStatus';
 import ErrorView from './components/generic/ErrorView';
 import {SCREEN_WIDTH} from './constants/dimensions';
 import {CloseIcon, HamburgerMenu} from './components/navigation/HeaderComponents';
 import {MAIN_SCREENS, MODALS} from './screens';
+import {colors} from './constants/colors';
+import {useMode} from './redux/hooks';
+import {Mode} from './enums/Mode';
 
-const LightTheme = {
+const LightThemeObject = {
     colors: {
         ...DefaultTheme.colors,
         background: 'rgb(255, 255, 255)'
     },
     dark: false
+};
+
+const DarkThemeObject = {
+    colors: {
+        background: colors.dark,
+        border: colors.black,
+        card: colors.black,
+        primary: colors.white,
+        text: colors.white
+    },
+    dark: true
 };
 
 const Stack = createStackNavigator();
@@ -37,7 +51,10 @@ const modalOptions = {
 };
 
 const DrawerNavigator = (): JSX.Element =>
-    <Drawer.Navigator edgeWidth={SCREEN_WIDTH / 3}>
+    <Drawer.Navigator
+        drawerType={'slide'}
+        edgeWidth={SCREEN_WIDTH / 3}
+    >
         {
             Object.keys(MAIN_SCREENS).map<JSX.Element>((route) =>
                 <Drawer.Screen
@@ -46,7 +63,7 @@ const DrawerNavigator = (): JSX.Element =>
                             <Stack.Navigator>
                                 <Stack.Screen
                                     component={MAIN_SCREENS[route]}
-                                    name={Route.HOME}
+                                    name={route}
                                     options={screenOptions}
                                 />
                             </Stack.Navigator>
@@ -63,11 +80,12 @@ const App: FC = () => {
         setAppState();
     }, []);
     const appStatus = useSelector((state: IAppState) => state.appStatus);
+    const theme = useMode() === Mode.DARK ? DarkThemeObject : LightThemeObject;
 
     switch (appStatus) {
         case AppStatus.LOGGED_IN:
             return (
-                <NavigationNativeContainer theme={LightTheme}>
+                <NavigationNativeContainer theme={theme}>
                     <ApolloProvider client={getApolloClient()}>
                         <RootStack.Navigator
                             headerMode={'screen'}

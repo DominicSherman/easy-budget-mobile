@@ -4,13 +4,15 @@ import {SafeAreaView} from 'react-native';
 import Button from '../components/generic/Button';
 import {signOut} from '../services/auth-service';
 import {screenWrapper} from '../styles/shared-styles';
+import ModeSelector from '../components/budget/ModeSelector';
 
-const Account: FC = () =>
-    <SafeAreaView style={screenWrapper}>
+const Settings: FC = () =>
+    <SafeAreaView style={[screenWrapper, {height: '60%'}]}>
+        <ModeSelector />
         <Button
             onPress={signOut}
             text={'Log Out'}
         />
     </SafeAreaView>;
 
-export default Account;
+export default Settings;

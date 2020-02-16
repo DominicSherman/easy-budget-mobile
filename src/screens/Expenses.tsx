@@ -33,6 +33,9 @@ const Expenses: FC = () => {
 
     const {expenses, variableCategories} = queryResult.data;
     const sortedExpenses = expenses.sort(sortByDate);
+    const getCategoryName = (variableCategoryId: string): string | undefined => variableCategories.find(
+        (variableCategory) => variableCategory.variableCategoryId === variableCategoryId
+    )?.name;
 
     return (
         <SafeAreaView>
@@ -42,8 +45,8 @@ const Expenses: FC = () => {
                 keyExtractor={(item): string => item.expenseId}
                 renderItem={({item}): JSX.Element =>
                     <ExpenseItem
+                        categoryName={getCategoryName(item.variableCategoryId)}
                         expense={item}
-                        variableCategories={variableCategories}
                     />
                 }
             />

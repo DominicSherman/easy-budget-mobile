@@ -17,12 +17,14 @@ import {SCREEN_WIDTH} from '../../constants/dimensions';
 import {createExpenseMutation} from '../../graphql/mutations';
 import {CreateExpenseMutation, CreateExpenseMutationVariables} from '../../../autogen/CreateExpenseMutation';
 import {createExpenseUpdate} from '../../utils/update-cache-utils';
+import {usePrimaryColor} from '../../redux/hooks';
 
 const CreateExpenseForm: FC = () => {
     const [name, setName] = useState('');
     const [amount, setAmount] = useState('');
     const [categoryId, setCategoryId] = useState<string | null>(null);
     const timePeriodId = useSelector<IAppState, string>((state) => state.timePeriodId);
+    const color = usePrimaryColor();
     const queryResult = useQuery<GetExpenses, GetExpensesVariables>(getExpensesQuery, {
         variables: {
             timePeriodId,
@@ -92,6 +94,7 @@ const CreateExpenseForm: FC = () => {
                 {
                     sortedVariableCategories.map((variableCategory) =>
                         <Picker.Item
+                            color={color}
                             key={variableCategory.variableCategoryId}
                             label={variableCategory.name}
                             value={variableCategory.variableCategoryId}

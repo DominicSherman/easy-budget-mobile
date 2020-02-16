@@ -10,7 +10,7 @@ import {dispatchAction} from '../../src/redux/store';
 import {Actions} from '../../src/redux/actions';
 import {ITimePeriod} from '../../autogen/ITimePeriod';
 import * as authService from '../../src/services/auth-service';
-import {AppStatus} from '../../src/enums/app-status';
+import {AppStatus} from '../../src/enums/AppStatus';
 
 jest.mock('../../src/repositories/time-period-repository');
 jest.mock('../../src/redux/store');
@@ -21,12 +21,15 @@ describe('action creators', () => {
     const {getIsSignedIn, signInSilently} = authService as jest.Mocked<typeof authService>;
 
     describe('setAppState', () => {
-        let expectedTimePeriods: ITimePeriod[],
+        let AsyncStorage,
+            expectedTimePeriods: ITimePeriod[],
             expectedUser;
 
         beforeEach(() => {
             expectedUser = createRandomUserInformation();
             expectedTimePeriods = createRandomTimePeriods();
+            AsyncStorage = require('react-native').AsyncStorage;
+            AsyncStorage.getItem = jest.fn();
 
             signInSilently.mockResolvedValue(expectedUser);
             getActiveTimePeriod.mockResolvedValue(createRandomOkResponse({

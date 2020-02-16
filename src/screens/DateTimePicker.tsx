@@ -8,7 +8,7 @@ import {RegularText} from '../components/generic/Text';
 import {textStyles} from '../styles/text-styles';
 import Button from '../components/generic/Button';
 import {IScreenFC} from '../types/global';
-import {Route} from '../enums/routes';
+import {Route} from '../enums/Route';
 
 const styles = StyleSheet.create({
     centerWrapper: {

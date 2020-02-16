@@ -301,6 +301,8 @@ PODS:
     - React-cxxreact (= 0.61.1)
     - React-jsi (= 0.61.1)
     - ReactCommon/jscallinvoker (= 0.61.1)
+  - ReactNativeDarkMode (0.2.2):
+    - React
   - RNCMaskedView (0.1.6):
     - React
   - RNDateTimePicker (2.1.0):
@@ -359,6 +361,7 @@ DEPENDENCIES:
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - ReactCommon/jscallinvoker (from `../node_modules/react-native/ReactCommon`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
+  - ReactNativeDarkMode (from `../node_modules/react-native-dark-mode`)
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
   - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
   - RNFirebase (from `../node_modules/react-native-firebase/ios`)
@@ -439,6 +442,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/Libraries/Vibration"
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
+  ReactNativeDarkMode:
+    :path: "../node_modules/react-native-dark-mode"
   RNCMaskedView:
     :path: "../node_modules/@react-native-community/masked-view"
   RNDateTimePicker:
@@ -500,6 +505,7 @@ SPEC CHECKSUMS:
   React-RCTText: 3f24042210886ee8c02613758013010be04b291e
   React-RCTVibration: d55e1365be416980217914fe009e9d55dec02e03
   ReactCommon: eb96b70a2a5bed775e919151fd77699fed52944c
+  ReactNativeDarkMode: 41231d558f749b69879b5fcc2f47fb5970d5dc40
   RNCMaskedView: 13dedff7c0722ffbb7349c489705be7eba428711
   RNDateTimePicker: 49219e524b0be99b4b0b92717ac691608adae46b
   RNFirebase: ca408d6bee0ca9383bd0cfe84f40b01370b8ad4d

@@ -1,14 +1,18 @@
 import React from 'react';
-import {View} from 'react-native';
+import {FlatList, SafeAreaView, View} from 'react-native';
 import {useQuery} from '@apollo/react-hooks';
 
 import {IScreenFC} from '../types/global';
-import {Route} from '../enums/routes';
+import {Route} from '../enums/Route';
 import {getEarlyReturn} from '../services/error-and-loading-service';
 import {getUserId} from '../services/auth-service';
 import {getVariableCategoryQuery} from '../graphql/queries';
 import EditVariableCategoryForm from '../components/budget/EditVariableCategoryForm';
 import {GetVariableCategory, GetVariableCategoryVariables} from '../../autogen/GetVariableCategory';
+import ExpenseItem from '../components/budget/ExpenseItem';
+import {TitleText} from '../components/generic/Text';
+import {sortByDate} from '../utils/sorting-utils';
+import VariableCategoryDetails from '../components/budget/VariableCategoryDetails';
 
 export interface IVariableCategoryProps {
     variableCategoryId: string
@@ -29,9 +33,28 @@ const VariableCategory: IScreenFC<Route.VARIABLE_CATEGORY> = ({route: {params: {
     const {variableCategory} = queryResult.data;
 
     return (
-        <View style={{alignItems: 'center'}}>
-            <EditVariableCategoryForm variableCategory={variableCategory} />
-        </View>
+        <SafeAreaView style={{alignItems: 'center'}}>
+            <FlatList
+                ListHeaderComponent={
+                    <View style={{alignItems: 'center'}}>
+                        <TitleText style={{marginTop: 8}}>{variableCategory.name}</TitleText>
+                        <VariableCategoryDetails variableCategory={variableCategory} />
+                        <EditVariableCategoryForm variableCategory={variableCategory} />
+                        <TitleText style={{marginTop: 16}}>
+                            {'Expenses'}
+                        </TitleText>
+                    </View>
+                }
+                data={variableCategory.expenses.sort(sortByDate)}
+                keyExtractor={(item): string => item.expenseId}
+                renderItem={({item}): JSX.Element =>
+                    <ExpenseItem
+                        categoryName={variableCategory.name}
+                        expense={item}
+                    />
+                }
+            />
+        </SafeAreaView>
     );
 };
 

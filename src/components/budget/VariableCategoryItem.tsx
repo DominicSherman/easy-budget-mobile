@@ -7,21 +7,15 @@ import {useNavigation} from '@react-navigation/native';
 import {IVariableCategory} from '../../../autogen/IVariableCategory';
 import CardView from '../generic/CardView';
 import {SCREEN_WIDTH} from '../../constants/dimensions';
-import {LargeText, RegularText, SmallText} from '../generic/Text';
-import {IExpense} from '../../../autogen/IExpense';
-import {FeatherNames} from '../../enums/icon-names';
-import {colors} from '../../constants/colors';
-import {easeInTransition} from '../../services/animation-service';
-import {Route} from '../../enums/routes';
+import {LargeText, SmallText} from '../generic/Text';
+import {FeatherNames} from '../../enums/IconNames';
+import {Route} from '../../enums/Route';
+import {usePrimaryColor} from '../../redux/hooks';
+import {calculateTotal} from '../../utils/utils';
+
+import VariableCategoryDetails from './VariableCategoryDetails';
 
 const styles = StyleSheet.create({
-    bottomWrapper: {
-        alignItems: 'center',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginTop: 16,
-        width: '80%'
-    },
     titleWrapper: {
         alignItems: 'center',
         flexDirection: 'row',
@@ -41,26 +35,20 @@ const styles = StyleSheet.create({
 });
 
 interface IVariableCategoryItemProps {
-    expenses: IExpense[]
     variableCategory: IVariableCategory
 }
 
-const calculateTotal = (expenses: IExpense[]): number => expenses.reduce((total, expense) => total + expense.amount, 0);
-
-const VariableCategoryItem: FC<IVariableCategoryItemProps> = ({expenses, variableCategory}) => {
+const VariableCategoryItem: FC<IVariableCategoryItemProps> = ({variableCategory}) => {
     const navigation = useNavigation();
-    const categoryExpenses = expenses.filter((expense) => expense.variableCategoryId === variableCategory.variableCategoryId);
-    const sum = calculateTotal(categoryExpenses);
     const [isVisible, setIsVisible] = useState(false);
     const toggle = (): void => {
-        easeInTransition();
         setIsVisible(!isVisible);
     };
     const hitSlop = {
-        bottom: 16,
-        left: 15,
-        right: 16,
-        top: 16
+        bottom: 24,
+        left: 24,
+        right: 24,
+        top: 24
     };
     const onPress = (): void => {
         navigation.navigate({
@@ -84,7 +72,7 @@ const VariableCategoryItem: FC<IVariableCategoryItemProps> = ({expenses, variabl
                 {
                     !isVisible &&
                         <View style={styles.verticalCenter}>
-                            <LargeText>{`$${variableCategory.amount - sum}`}</LargeText>
+                            <LargeText>{`$${variableCategory.amount - calculateTotal(variableCategory.expenses)}`}</LargeText>
                             <SmallText>{'remaining'}</SmallText>
                         </View>
                 }
@@ -93,7 +81,7 @@ const VariableCategoryItem: FC<IVariableCategoryItemProps> = ({expenses, variabl
                     onPress={toggle}
                 >
                     <Feather
-                        color={colors.darkerGray}
+                        color={usePrimaryColor()}
                         name={isVisible ? FeatherNames.CHEVRON_DOWN : FeatherNames.CHEVRON_UP}
                         size={32}
                     />
@@ -101,22 +89,7 @@ const VariableCategoryItem: FC<IVariableCategoryItemProps> = ({expenses, variabl
             </View>
             {
                 isVisible &&
-                    <View style={styles.bottomWrapper}>
-                        <View style={styles.verticalCenter}>
-                            <RegularText>{`$${variableCategory.amount}`}</RegularText>
-                            <SmallText>{'budgeted'}</SmallText>
-                        </View>
-                        <RegularText>{'-'}</RegularText>
-                        <View style={styles.verticalCenter}>
-                            <RegularText>{`$${sum}`}</RegularText>
-                            <SmallText>{'spent'}</SmallText>
-                        </View>
-                        <RegularText>{'='}</RegularText>
-                        <View style={styles.verticalCenter}>
-                            <LargeText>{`$${variableCategory.amount - sum}`}</LargeText>
-                            <SmallText>{'remaining'}</SmallText>
-                        </View>
-                    </View>
+                    <VariableCategoryDetails variableCategory={variableCategory} />
             }
         </CardView>
     );

@@ -6,7 +6,7 @@ import {NavigationNativeContainer} from '@react-navigation/native';
 import * as apolloClient from '../src/graphql/apollo-client';
 import App from '../src/App';
 import {setAppState} from '../src/redux/action-creators';
-import {AppStatus} from '../src/enums/app-status';
+import {AppStatus} from '../src/enums/AppStatus';
 import Login from '../src/screens/Login';
 import ErrorView from '../src/components/generic/ErrorView';
 import LoadingView from '../src/components/generic/LoadingView';

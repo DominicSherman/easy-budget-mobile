@@ -14,6 +14,7 @@ jest.mock('@apollo/react-hooks');
 jest.mock('@react-navigation/native');
 jest.mock('../../../src/redux/action-creators');
 jest.mock('../../../src/services/auth-service');
+jest.mock('../../../src/redux/hooks');
 
 describe('NoActiveTimePeriod', () => {
     const {useMutation} = reactHooks as jest.Mocked<typeof reactHooks>;

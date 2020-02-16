@@ -3,6 +3,8 @@ import React from 'react';
 
 import ErrorView from '../../../src/components/generic/ErrorView';
 
+jest.mock('../../../src/redux/hooks');
+
 describe('ErrorView', () => {
     let testInstance;
 
@@ -17,6 +19,6 @@ describe('ErrorView', () => {
     });
 
     it('should render error text', () => {
-        testInstance.findByProps({children: 'Whoops! Something went wrong.'});
+        testInstance.findByProps({children: '🤒 Whoops! Something went wrong. 🤕'});
     });
 });

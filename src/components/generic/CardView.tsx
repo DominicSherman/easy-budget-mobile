@@ -3,6 +3,7 @@ import {Animated, StyleProp, StyleSheet, ViewStyle} from 'react-native';
 import Touchable from 'react-native-platform-touchable';
 
 import {colors} from '../../constants/colors';
+import {useBackgroundColor} from '../../redux/hooks';
 
 const styles = StyleSheet.create({
     shadow: {
@@ -19,8 +20,7 @@ const styles = StyleSheet.create({
     },
     wrapper: {
         alignItems: 'center',
-        backgroundColor: 'white',
-        borderColor: colors.lightGray,
+        borderColor: colors.lightGrey,
         borderRadius: 4,
         borderWidth: 1,
         flexDirection: 'row',
@@ -50,8 +50,10 @@ const CardView: FC<ICardViewProps> = (props) => {
         onPress,
         testID
     } = props;
+    const color = useBackgroundColor();
     const getShadowStyles = (): ViewStyle => props.shadow ? styles.shadow : {};
     const getWrapperStyles = (): any => [
+        {backgroundColor: color},
         styles.wrapper,
         props.style,
         {transform: [{scale}]},

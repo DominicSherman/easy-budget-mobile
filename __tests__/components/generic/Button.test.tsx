@@ -3,8 +3,10 @@ import React from 'react';
 import {ActivityIndicator} from 'react-native';
 
 import {chance} from '../../chance';
-import {RegularText} from '../../../src/components/generic/Text';
+import {LargeText} from '../../../src/components/generic/Text';
 import Button from '../../../src/components/generic/Button';
+
+jest.mock('../../../src/redux/hooks');
 
 describe('Button', () => {
     let expectedProps,
@@ -28,7 +30,7 @@ describe('Button', () => {
     });
 
     it('should render text if loading is false', () => {
-        const renderedText = root.findByType(RegularText);
+        const renderedText = root.findByType(LargeText);
 
         expect(renderedText.props.children).toBe(expectedProps.text);
     });

@@ -4,6 +4,8 @@ import {ActivityIndicator} from 'react-native';
 
 import LoadingView from '../../../src/components/generic/LoadingView';
 
+jest.mock('../../../src/redux/hooks');
+
 describe('LoadingView', () => {
     let testInstance;
 

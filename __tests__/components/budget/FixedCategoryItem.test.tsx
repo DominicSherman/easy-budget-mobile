@@ -9,10 +9,12 @@ import {createRandomFixedCategory} from '../../models';
 import {updateFixedCategoryMutation} from '../../../src/graphql/mutations';
 import FixedCategoryItem from '../../../src/components/budget/FixedCategoryItem';
 import CardView from '../../../src/components/generic/CardView';
-import {Route} from '../../../src/enums/routes';
+import {Route} from '../../../src/enums/Route';
 
 jest.mock('@react-navigation/native');
 jest.mock('@apollo/react-hooks');
+jest.mock('../../../src/services/animation-service');
+jest.mock('../../../src/redux/hooks');
 
 describe('FixedCategoryItem', () => {
     let root,

@@ -3,25 +3,18 @@ import {ActivityIndicator, StyleSheet, TextStyle, ViewStyle} from 'react-native'
 import Touchable from 'react-native-platform-touchable';
 
 import {colors} from '../../constants/colors';
-import {textStyles} from '../../styles/text-styles';
 import {SCREEN_WIDTH} from '../../constants/dimensions';
 
-import {RegularText} from './Text';
+import {LargeText} from './Text';
 
 const styles = StyleSheet.create({
     disabled: {
-        backgroundColor: colors.lightGray,
-        borderColor: colors.lightGray
-    },
-    text: {
-        ...textStyles.large,
-        color: colors.green
+        backgroundColor: colors.lightGrey
     },
     wrapper: {
         alignItems: 'center',
-        borderColor: colors.green,
+        backgroundColor: colors.orange,
         borderRadius: 10,
-        borderWidth: 1,
         justifyContent: 'center',
         padding: 16,
         width: SCREEN_WIDTH / 1.5
@@ -47,14 +40,9 @@ const Button: FC<IButton> = ({disabled, onPress, text, textStyle, loading, wrapp
             loading ?
                 <ActivityIndicator />
                 :
-                <RegularText
-                    style={[
-                        styles.text,
-                        textStyle
-                    ]}
-                >
+                <LargeText style={[disabled && {color: colors.darkGrey}, textStyle]}>
                     {text}
-                </RegularText>
+                </LargeText>
         }
     </Touchable>;
 

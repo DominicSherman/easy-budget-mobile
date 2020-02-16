@@ -2,10 +2,12 @@ import {createRandomAppState, createRandomUserInformation} from '../models';
 import reducer, {IAppState} from '../../src/redux/reducer';
 import {chance} from '../chance';
 import {Actions} from '../../src/redux/actions';
-import {AppStatus} from '../../src/enums/app-status';
+import {AppStatus} from '../../src/enums/AppStatus';
+import {Mode} from '../../src/enums/Mode';
 
 const defaultState: IAppState = {
     appStatus: AppStatus.LOADING,
+    mode: Mode.DARK,
     timePeriodId: '',
     userInformation: {
         idToken: '',
@@ -49,6 +51,20 @@ describe('reducer', () => {
         expect(actualState).toEqual({
             ...expectedAppState,
             appStatus
+        });
+    });
+
+    it('should set the mode if the action is SET_MODE', () => {
+        const mode = chance.string();
+
+        const actualState = reducer(expectedAppState, {
+            data: mode,
+            type: Actions.SET_MODE
+        });
+
+        expect(actualState).toEqual({
+            ...expectedAppState,
+            mode
         });
     });
 

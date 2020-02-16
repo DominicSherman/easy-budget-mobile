@@ -1,15 +1,9 @@
 export const colors = {
-    backgroundGray: '#F5F5F5',
-    black: '#000',
-    borderGray: '#B8B8B8',
-    darkerGray: '#3F3F3F',
-    darkFont: '#3F3F3F',
-    darkGray: '#747474',
-    green: '#2E8331',
-    hyveeRed: '#E21C11',
-    lightFont: '#757575',
-    lightGray: '#F4F4F4',
-    maroon: '#8B0000',
-    mediumGray: '#9e9e9e',
+    black: '#111111',
+    dark: '#1D1D1D',
+    darkBlue: '#2D2F43',
+    darkGrey: '#303030',
+    lightGrey: '#bebebe',
+    orange: '#FFC689',
     white: '#FFF'
 };

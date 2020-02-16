@@ -3,7 +3,7 @@ import {View} from 'react-native';
 import {useQuery} from '@apollo/react-hooks';
 
 import {IScreenFC} from '../types/global';
-import {Route} from '../enums/routes';
+import {Route} from '../enums/Route';
 import {getFixedCategoryQuery} from '../graphql/queries';
 import {getUserId} from '../services/auth-service';
 import {getEarlyReturn} from '../services/error-and-loading-service';

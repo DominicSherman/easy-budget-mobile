@@ -10,8 +10,7 @@ module.exports = {
     },
     NavigationNativeContainer: (): JSX.Element => <></>,
     useNavigation: jest.fn(() => ({
-        navigation: {
-            navigate: jest.fn()
-        }
+        goBack: jest.fn(),
+        navigate: jest.fn()
     }))
 };
