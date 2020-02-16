@@ -36,13 +36,30 @@ describe('ModeSelector', () => {
         render();
     });
 
-    it('should render a Switch', async () => {
+    afterEach(() => {
+        jest.resetAllMocks();
+    });
+
+    it('should render a Switch to toggle off', async () => {
         const renderedSwitch = root.findByType(Switch);
 
         expect(renderedSwitch.props.value).toBe(expectedMode === Mode.DARK);
 
-        const expectedBool = chance.bool();
-        const expectedNewMode = expectedBool ? Mode.DARK : Mode.LIGHT;
+        const expectedBool = false;
+        const expectedNewMode = Mode.LIGHT;
+
+        await renderedSwitch.props.onValueChange(expectedBool);
+
+        expect(dispatchAction).toHaveBeenCalledTimes(1);
+        expect(dispatchAction).toHaveBeenCalledWith(Actions.SET_MODE, expectedNewMode);
+        expect(AsyncStorage.setItem).toHaveBeenCalledTimes(1);
+        expect(AsyncStorage.setItem).toHaveBeenCalledWith(AsyncStorageKey.MODE, expectedNewMode);
+    });
+
+    it('should render a Switch to toggle on', async () => {
+        const renderedSwitch = root.findByType(Switch);
+        const expectedBool = true;
+        const expectedNewMode = Mode.DARK;
 
         await renderedSwitch.props.onValueChange(expectedBool);
 

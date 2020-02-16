@@ -1,7 +1,7 @@
 import TestRenderer from 'react-test-renderer';
 import React from 'react';
 
-import {createRandomExpense, createRandomVariableCategories, createRandomVariableCategory} from '../../models';
+import {createRandomExpense, createRandomVariableCategory} from '../../models';
 import {chance} from '../../chance';
 import ExpenseItem from '../../../src/components/budget/ExpenseItem';
 import {SmallText} from '../../../src/components/generic/Text';

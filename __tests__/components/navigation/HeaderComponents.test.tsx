@@ -1,16 +1,28 @@
 import * as reactNavigationNative from '@react-navigation/native';
 import {DrawerActions} from '@react-navigation/routers';
+import TestRenderer from 'react-test-renderer';
+import React from 'react';
+import Touchable from 'react-native-platform-touchable';
 
-import {CloseIcon, HamburgerMenu} from '../../../src/components/navigation/HeaderComponents';
 import {FeatherNames} from '../../../src/enums/IconNames';
+import {CloseIcon, HamburgerMenu} from '../../../src/components/navigation/HeaderComponents';
 
 jest.mock('@react-navigation/native');
+jest.mock('../../../src/redux/hooks');
 
 describe('HeaderComponents', () => {
     const {useNavigation} = reactNavigationNative as jest.Mocked<typeof reactNavigationNative>;
 
+    let root;
+
     describe('HamburgerMenu', () => {
         let expectedNavigation;
+
+        const render = (): void => {
+            root = TestRenderer.create(
+                <HamburgerMenu />
+            ).root;
+        };
 
         beforeEach(() => {
             expectedNavigation = {
@@ -18,17 +30,16 @@ describe('HeaderComponents', () => {
             };
 
             useNavigation.mockReturnValue(expectedNavigation);
+
+            render();
         });
 
         it('should render a Feather component', () => {
-            const renderedComponent = HamburgerMenu({})!;
+            root.findByProps({name: FeatherNames.MENU});
 
-            expect(renderedComponent.props).toEqual({
-                name: FeatherNames.MENU,
-                onPress: expect.any(Function)
-            });
+            const renderedTouchable = root.findByType(Touchable);
 
-            renderedComponent.props.onPress();
+            renderedTouchable.props.onPress();
 
             expect(expectedNavigation.dispatch).toHaveBeenCalledTimes(1);
             expect(expectedNavigation.dispatch).toHaveBeenCalledWith(DrawerActions.openDrawer());
@@ -38,21 +49,28 @@ describe('HeaderComponents', () => {
     describe('CloseIcon', () => {
         let expectedNavigation;
 
+        const render = (): void => {
+            root = TestRenderer.create(
+                <CloseIcon />
+            ).root;
+        };
+
         beforeEach(() => {
             expectedNavigation = {
                 goBack: jest.fn()
             };
 
             useNavigation.mockReturnValue(expectedNavigation);
+
+            render();
         });
 
         it('should render a Feather component', () => {
-            const renderedComponent = CloseIcon({})!;
+            root.findByProps({name: FeatherNames.X});
 
-            expect(renderedComponent.props).toEqual({
-                name: FeatherNames.X,
-                onPress: expectedNavigation.goBack
-            });
+            const renderedTouchable = root.findByType(Touchable);
+
+            expect(renderedTouchable.props.onPress).toBe(expectedNavigation.goBack);
         });
     });
 });
