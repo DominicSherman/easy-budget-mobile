@@ -78,11 +78,25 @@ export const createExpenseUpdate = (cache: DataProxy, mutationResult: FetchResul
 
     if (result && data) {
         const updatedExpenses = [...result.expenses, data.createExpense];
+        const variableCategory = result.variableCategories.find((category) => category.variableCategoryId === data.createExpense.variableCategoryId)!;
+        const index = result.variableCategories.indexOf(variableCategory);
+        const updatedCategory = {
+            ...variableCategory,
+            expenses: [
+                ...variableCategory.expenses,
+                data.createExpense
+            ]
+        };
+        const updatedCategories = [
+            ...result.variableCategories.slice(0, index),
+            updatedCategory,
+            ...result.variableCategories.slice(index + 1, result.variableCategories.length)
+        ];
 
         cache.writeQuery<GetExpenses, GetExpensesVariables>({
             data: {
                 expenses: updatedExpenses,
-                variableCategories: result.variableCategories
+                variableCategories: updatedCategories
             },
             query,
             variables
