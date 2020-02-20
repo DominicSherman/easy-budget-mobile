@@ -9,7 +9,7 @@ import CreateFixedCategoryForm from '../../../src/components/budget/CreateFixedC
 import {createFixedCategoryMutation} from '../../../src/graphql/mutations';
 import {getUserId} from '../../../src/services/auth-service';
 import {createFixedCategoryUpdate} from '../../../src/utils/update-cache-utils';
-import CreateEditCategoryForm from '../../../src/components/budget/CreateEditCategoryForm';
+import CategoryForm from '../../../src/components/budget/CategoryForm';
 
 jest.mock('@apollo/react-hooks');
 jest.mock('react-redux');
@@ -34,7 +34,7 @@ describe('CreateFixedCategoryForm', () => {
     };
 
     const setStateData = (): void => {
-        const form = testInstance.findByType(CreateEditCategoryForm);
+        const form = testInstance.findByType(CategoryForm);
 
         act(() => {
             form.props.setName(expectedName);
@@ -103,8 +103,8 @@ describe('CreateFixedCategoryForm', () => {
         });
     });
 
-    it('should render a CreateEditCategoryForm with the correct values', () => {
-        const renderedCreateCategoryForm = testInstance.findByType(CreateEditCategoryForm);
+    it('should render a CategoryForm with the correct values', () => {
+        const renderedCreateCategoryForm = testInstance.findByType(CategoryForm);
 
         expect(renderedCreateCategoryForm.props.amount).toBe(expectedAmount);
         expect(renderedCreateCategoryForm.props.name).toBe(expectedName);

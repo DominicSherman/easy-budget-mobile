@@ -1,11 +1,13 @@
 import React, {FC} from 'react';
 import {StyleSheet, View} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
 import {IExpense} from '../../../autogen/IExpense';
 import {SCREEN_WIDTH} from '../../constants/dimensions';
 import {RegularText, SmallText} from '../generic/Text';
 import {formatExpenseDate} from '../../services/moment-service';
 import CardView from '../generic/CardView';
+import {Route} from '../../enums/Route';
 
 const styles = StyleSheet.create({
     singleWrapper: {
@@ -25,26 +27,39 @@ interface IExpenseItemProps {
     expense: IExpense
 }
 
-const ExpenseItem: FC<IExpenseItemProps> = ({expense, categoryName}) =>
-    <CardView
-        disabled
-        style={styles.wrapper}
-    >
-        <View style={[styles.singleWrapper, {alignItems: 'flex-start'}]}>
-            <RegularText>{categoryName}</RegularText>
-            {
-                expense.name ?
-                    <SmallText style={{marginTop: 8}}>{expense.name}</SmallText>
-                    :
-                    null
+const ExpenseItem: FC<IExpenseItemProps> = ({expense, categoryName}) => {
+    const navigation = useNavigation();
+    const onPress = (): void => {
+        navigation.navigate({
+            name: Route.EXPENSE,
+            params: {
+                expenseId: expense.expenseId
             }
-        </View>
-        <View style={styles.singleWrapper}>
-            <RegularText>{formatExpenseDate(expense.date)}</RegularText>
-        </View>
-        <View style={styles.singleWrapper}>
-            <RegularText>{`$${expense.amount}`}</RegularText>
-        </View>
-    </CardView>;
+        });
+    };
+
+    return (
+        <CardView
+            onPress={onPress}
+            style={styles.wrapper}
+        >
+            <View style={[styles.singleWrapper, {alignItems: 'flex-start'}]}>
+                <RegularText>{categoryName}</RegularText>
+                {
+                    expense.name ?
+                        <SmallText style={{marginTop: 8}}>{expense.name}</SmallText>
+                        :
+                        null
+                }
+            </View>
+            <View style={styles.singleWrapper}>
+                <RegularText>{formatExpenseDate(expense.date)}</RegularText>
+            </View>
+            <View style={styles.singleWrapper}>
+                <RegularText>{`$${expense.amount}`}</RegularText>
+            </View>
+        </CardView>
+    );
+};
 
 export default ExpenseItem;

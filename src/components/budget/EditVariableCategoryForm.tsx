@@ -9,7 +9,7 @@ import {
     UpdateVariableCategoryMutationVariables
 } from '../../../autogen/UpdateVariableCategoryMutation';
 
-import CreateEditCategoryForm from './CreateEditCategoryForm';
+import CategoryForm from './CategoryForm';
 
 const EditVariableCategoryForm: FC<{variableCategory: IVariableCategory}> = ({variableCategory}) => {
     const navigation = useNavigation();
@@ -46,7 +46,7 @@ const EditVariableCategoryForm: FC<{variableCategory: IVariableCategory}> = ({va
     const disabled = JSON.stringify(originalValues) === JSON.stringify(updatedValues);
 
     return (
-        <CreateEditCategoryForm
+        <CategoryForm
             amount={updatedAmount}
             disabled={disabled}
             headerText={'Edit Variable Category'}

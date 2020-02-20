@@ -10,7 +10,7 @@ import {getVariableCategoryQuery} from '../graphql/queries';
 import EditVariableCategoryForm from '../components/budget/EditVariableCategoryForm';
 import {GetVariableCategory, GetVariableCategoryVariables} from '../../autogen/GetVariableCategory';
 import ExpenseItem from '../components/budget/ExpenseItem';
-import {TitleText} from '../components/generic/Text';
+import {RegularText, TitleText} from '../components/generic/Text';
 import {sortByDate} from '../utils/sorting-utils';
 import VariableCategoryDetails from '../components/budget/VariableCategoryDetails';
 
@@ -35,6 +35,11 @@ const VariableCategory: IScreenFC<Route.VARIABLE_CATEGORY> = ({route: {params: {
     return (
         <SafeAreaView style={{alignItems: 'center'}}>
             <FlatList
+                ListEmptyComponent={
+                    <View style={{alignItems: 'center'}}>
+                        <RegularText style={{margin: 32}}>{'No expenses for this category yet! 🚀'}</RegularText>
+                    </View>
+                }
                 ListHeaderComponent={
                     <View style={{alignItems: 'center'}}>
                         <TitleText style={{marginTop: 8}}>{variableCategory.name}</TitleText>

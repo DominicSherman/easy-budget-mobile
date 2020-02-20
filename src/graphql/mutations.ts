@@ -42,6 +42,16 @@ export const updateVariableCategoryMutation = gql`
     }
 `;
 
+export const updateExpenseMutation = gql`
+    ${expenseFragment}
+    
+    mutation UpdateExpenseMutation($expense: UpdateExpense!) {
+        updateExpense(expense: $expense) {
+            ...IExpense
+        }
+    }
+`;
+
 export const createExpenseMutation = gql`
     ${expenseFragment}
     

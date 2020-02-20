@@ -41,6 +41,14 @@ export interface CreateVariableCategory {
   name: string;
 }
 
+export interface UpdateExpense {
+  expenseId: string;
+  userId: string;
+  amount?: number | null;
+  date?: string | null;
+  name?: string | null;
+}
+
 export interface UpdateFixedCategory {
   fixedCategoryId: string;
   userId: string;

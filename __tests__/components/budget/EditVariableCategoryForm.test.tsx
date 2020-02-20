@@ -7,7 +7,7 @@ import {chance} from '../../chance';
 import {createRandomVariableCategory} from '../../models';
 import EditVariableCategoryForm from '../../../src/components/budget/EditVariableCategoryForm';
 import {updateVariableCategoryMutation} from '../../../src/graphql/mutations';
-import CreateEditCategoryForm from '../../../src/components/budget/CreateEditCategoryForm';
+import CategoryForm from '../../../src/components/budget/CategoryForm';
 
 jest.mock('@apollo/react-hooks');
 jest.mock('@react-navigation/native');
@@ -33,7 +33,7 @@ describe('EditVariableCategoryForm', () => {
     };
 
     const setStateData = (): void => {
-        const form = testInstance.findByType(CreateEditCategoryForm);
+        const form = testInstance.findByType(CategoryForm);
 
         act(() => {
             form.props.setName(expectedName);
@@ -94,8 +94,8 @@ describe('EditVariableCategoryForm', () => {
         });
     });
 
-    it('should render a CreateEditCategoryForm with the correct values', () => {
-        const renderedCreateCategoryForm = testInstance.findByType(CreateEditCategoryForm);
+    it('should render a CategoryForm with the correct values', () => {
+        const renderedCreateCategoryForm = testInstance.findByType(CategoryForm);
 
         expect(renderedCreateCategoryForm.props.amount).toBe(expectedAmount);
         expect(renderedCreateCategoryForm.props.name).toBe(expectedName);

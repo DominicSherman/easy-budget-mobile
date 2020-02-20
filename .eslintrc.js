@@ -54,11 +54,7 @@ module.exports = {
       rules: {
         "@typescript-eslint/interface-name-prefix": [2, {prefixWithI: 'always'}],
         "@typescript-eslint/consistent-type-definitions": ["error", "interface"],
-        "@typescript-eslint/no-unused-vars": ["error", {
-          "vars": "all",
-          "args": "after-used",
-          "ignoreRestSiblings": false
-        }],
+        "@typescript-eslint/no-unused-vars": ["error"],
         "@typescript-eslint/member-delimiter-style": [2, {
           multiline: {
             "delimiter": "none",
