@@ -1,9 +1,10 @@
 import React from 'react';
-import {SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
+import {SafeAreaView, StyleSheet, View} from 'react-native';
 import {useQuery} from '@apollo/react-hooks';
 import {useSelector} from 'react-redux';
 import {User} from '@react-native-community/google-signin';
 import moment from 'moment';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 import {LargeText, RegularText, SmallText, TitleText} from '../components/generic/Text';
 import {getUserId} from '../services/auth-service';
@@ -74,7 +75,7 @@ const Home: React.FC = () => {
 
     return (
         <SafeAreaView>
-            <ScrollView
+            <KeyboardAwareScrollView
                 contentContainerStyle={{alignItems: 'center'}}
             >
                 <LargeText style={{marginTop: 16}}>
@@ -143,7 +144,7 @@ const Home: React.FC = () => {
                     </CardView>
                 </View>
                 <CreateExpenseForm />
-            </ScrollView>
+            </KeyboardAwareScrollView>
         </SafeAreaView>
     );
 };

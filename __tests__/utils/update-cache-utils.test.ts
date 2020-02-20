@@ -168,7 +168,9 @@ describe('update cache utils', () => {
     });
 
     describe('createExpenseUpdate', () => {
-        let expectedReadQuery,
+        let expectedCategory,
+            updatedVariableCategories,
+            expectedReadQuery,
             expectedMutationResult,
             expectedState;
 
@@ -178,10 +180,27 @@ describe('update cache utils', () => {
                     createExpense: createRandomExpense()
                 }
             };
+            expectedCategory = createRandomVariableCategory({variableCategoryId: expectedMutationResult.data.createExpense.variableCategoryId});
             expectedReadQuery = {
-                expenses: createRandomFixedCategories()
+                expenses: createRandomFixedCategories(),
+                variableCategories: [...createRandomVariableCategories(), expectedCategory]
             };
             expectedState = createRandomAppState();
+
+            const index = expectedReadQuery.variableCategories.indexOf(expectedCategory);
+            const updatedCategory = {
+                ...expectedCategory,
+                expenses: [
+                    ...expectedCategory.expenses,
+                    expectedMutationResult.data.createExpense
+                ]
+            };
+
+            updatedVariableCategories = [
+                ...expectedReadQuery.variableCategories.slice(0, index),
+                updatedCategory,
+                ...expectedReadQuery.variableCategories.slice(index + 1, expectedReadQuery.variableCategories.length)
+            ];
 
             cache.readQuery.mockReturnValue(expectedReadQuery);
             getState.mockReturnValue(expectedState);
@@ -209,7 +228,8 @@ describe('update cache utils', () => {
                     expenses: [
                         ...expectedReadQuery.expenses,
                         expectedMutationResult.data.createExpense
-                    ]
+                    ],
+                    variableCategories: updatedVariableCategories
                 },
                 query: getExpensesQuery,
                 variables: {
