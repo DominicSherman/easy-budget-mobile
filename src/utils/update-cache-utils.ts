@@ -78,6 +78,7 @@ export const createExpenseUpdate = (cache: DataProxy, mutationResult: FetchResul
 
     if (result && data) {
         const updatedExpenses = [...result.expenses, data.createExpense];
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const variableCategory = result.variableCategories.find((category) => category.variableCategoryId === data.createExpense.variableCategoryId)!;
         const index = result.variableCategories.indexOf(variableCategory);
         const updatedCategory = {

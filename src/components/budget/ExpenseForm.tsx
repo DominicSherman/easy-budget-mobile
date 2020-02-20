@@ -7,12 +7,6 @@ import Input from '../generic/Input';
 import {SCREEN_WIDTH} from '../../constants/dimensions';
 import {usePrimaryColor} from '../../redux/hooks';
 import {IVariableCategory} from '../../../autogen/IVariableCategory';
-import {useSelector} from 'react-redux';
-import {IAppState} from '../../redux/reducer';
-import {useQuery} from '@apollo/react-hooks';
-import {GetExpenses, GetExpensesVariables} from '../../../autogen/GetExpenses';
-import {getExpensesQuery} from '../../graphql/queries';
-import {getUserId} from '../../services/auth-service';
 
 const styles = StyleSheet.create({
     picker: {
