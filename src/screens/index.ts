@@ -8,6 +8,7 @@ import Settings from './Settings';
 import DateTimePicker from './DateTimePicker';
 import FixedCategories from './FixedCategories';
 import VariableCategory from './VariableCategory';
+import Expense from './Expense';
 
 export const MAIN_SCREENS = {
     [Route.HOME]: Home,
@@ -20,5 +21,6 @@ export const MAIN_SCREENS = {
 export const MODALS = {
     [Route.DATE_PICKER]: DateTimePicker,
     [Route.FIXED_CATEGORY]: FixedCategory,
-    [Route.VARIABLE_CATEGORY]: VariableCategory
+    [Route.VARIABLE_CATEGORY]: VariableCategory,
+    [Route.EXPENSE]: Expense
 };

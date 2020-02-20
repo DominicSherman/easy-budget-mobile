@@ -9,7 +9,7 @@ import CreateVariableCategoryForm from '../../../src/components/budget/CreateVar
 import {createVariableCategoryMutation} from '../../../src/graphql/mutations';
 import {getUserId} from '../../../src/services/auth-service';
 import {createVariableCategoryUpdate} from '../../../src/utils/update-cache-utils';
-import CreateEditCategoryForm from '../../../src/components/budget/CreateEditCategoryForm';
+import CategoryForm from '../../../src/components/budget/CategoryForm';
 
 jest.mock('@apollo/react-hooks');
 jest.mock('react-redux');
@@ -33,7 +33,7 @@ describe('CreateVariableCategoryForm', () => {
     };
 
     const setStateData = (): void => {
-        const form = testInstance.findByType(CreateEditCategoryForm);
+        const form = testInstance.findByType(CategoryForm);
 
         act(() => {
             form.props.setName(expectedName);
@@ -98,8 +98,8 @@ describe('CreateVariableCategoryForm', () => {
         });
     });
 
-    it('should render a CreateEditCategoryForm with the correct values', () => {
-        const renderedCreateCategoryForm = testInstance.findByType(CreateEditCategoryForm);
+    it('should render a CategoryForm with the correct values', () => {
+        const renderedCreateCategoryForm = testInstance.findByType(CategoryForm);
 
         const expectedAmount = chance.string();
         const expectedName = chance.string();

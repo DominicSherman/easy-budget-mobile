@@ -5,6 +5,7 @@ export enum Route {
     LOGIN = 'Login',
     VARIABLE_CATEGORIES = 'Variable Categories',
     EXPENSES = 'Expenses',
+    EXPENSE = 'Expense',
     DATE_PICKER = 'Date Picker',
     SETTINGS = 'Settings',
     VARIABLE_CATEGORY = 'Variable Category'

@@ -56,6 +56,16 @@ export const getExpensesQuery = gql`
     }
 `;
 
+export const getExpenseQuery = gql`
+    ${expenseFragment}
+    
+    query GetExpense($userId: String!, $expenseId: String!) {
+        expense(userId: $userId, expenseId: $expenseId) {
+            ...IExpense
+        }
+    }
+`;
+
 export const homeScreenQuery = gql`
     ${timePeriodFragment}
     ${fixedCategoryFragment}

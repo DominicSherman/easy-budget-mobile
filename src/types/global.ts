@@ -5,6 +5,7 @@ import {Route} from '../enums/Route';
 import {IDateTimePickerProps} from '../screens/DateTimePicker';
 import {IFixedCategoryProps} from '../screens/FixedCategory';
 import {IVariableCategoryProps} from '../screens/VariableCategory';
+import {IExpenseProps} from '../screens/Expense';
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type StackParams = {
@@ -13,6 +14,7 @@ export type StackParams = {
   [Route.FIXED_CATEGORIES]: undefined
   [Route.VARIABLE_CATEGORIES]: undefined
   [Route.EXPENSES]: undefined
+  [Route.EXPENSE]: IExpenseProps
   [Route.DATE_PICKER]: IDateTimePickerProps
   [Route.SETTINGS]: undefined
   [Route.VARIABLE_CATEGORY]: IVariableCategoryProps

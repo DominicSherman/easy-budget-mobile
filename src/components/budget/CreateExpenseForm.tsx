@@ -1,30 +1,25 @@
 import React, {FC, useState} from 'react';
-import {Picker, View} from 'react-native';
 import {useSelector} from 'react-redux';
 import {useMutation, useQuery} from '@apollo/react-hooks';
 import uuid from 'uuid';
 import moment from 'moment';
 
-import {LargeText} from '../generic/Text';
-import Button from '../generic/Button';
-import Input from '../generic/Input';
 import {IAppState} from '../../redux/reducer';
 import {getExpensesQuery} from '../../graphql/queries';
 import {getUserId} from '../../services/auth-service';
 import {GetExpenses, GetExpensesVariables} from '../../../autogen/GetExpenses';
 import {sortByDate, sortByName} from '../../utils/sorting-utils';
-import {SCREEN_WIDTH} from '../../constants/dimensions';
 import {createExpenseMutation} from '../../graphql/mutations';
 import {CreateExpenseMutation, CreateExpenseMutationVariables} from '../../../autogen/CreateExpenseMutation';
 import {createExpenseUpdate} from '../../utils/update-cache-utils';
-import {usePrimaryColor} from '../../redux/hooks';
+
+import ExpenseForm from './ExpenseForm';
 
 const CreateExpenseForm: FC = () => {
     const [name, setName] = useState('');
     const [amount, setAmount] = useState('');
     const [categoryId, setCategoryId] = useState<string | null>(null);
     const timePeriodId = useSelector<IAppState, string>((state) => state.timePeriodId);
-    const color = usePrimaryColor();
     const queryResult = useQuery<GetExpenses, GetExpensesVariables>(getExpensesQuery, {
         variables: {
             timePeriodId,
@@ -72,54 +67,17 @@ const CreateExpenseForm: FC = () => {
     }
 
     return (
-        <View
-            style={{
-                alignItems: 'center',
-                marginVertical: 8,
-                width: '100%'
-            }}
-        >
-            <View style={{justifyContent: 'center'}}>
-                <LargeText>{'Add Expense'}</LargeText>
-            </View>
-            <Picker
-                onValueChange={(value): void => setCategoryId(value)}
-                selectedValue={categoryId}
-                style={{
-                    height: 180,
-                    marginBottom: 32,
-                    width: SCREEN_WIDTH
-                }}
-            >
-                {
-                    sortedVariableCategories.map((variableCategory) =>
-                        <Picker.Item
-                            color={color}
-                            key={variableCategory.variableCategoryId}
-                            label={variableCategory.name}
-                            value={variableCategory.variableCategoryId}
-                        />
-                    )
-                }
-            </Picker>
-            <Input
-                keyboardType={'number-pad'}
-                onChange={setAmount}
-                title={'Expense Amount *'}
-                value={amount}
-            />
-            <Input
-                onChange={setName}
-                title={'Expense Description'}
-                value={name}
-            />
-            <Button
-                disabled={!categoryId || amount === ''}
-                onPress={onPress}
-                text={'Submit'}
-                wrapperStyle={{marginTop: 16}}
-            />
-        </View>
+        <ExpenseForm
+            amount={amount}
+            headerText={'Create Expense'}
+            name={name}
+            onPress={onPress}
+            setAmount={setAmount}
+            setName={setName}
+            setVariableCategoryId={setCategoryId}
+            variableCategories={sortedVariableCategories}
+            variableCategoryId={categoryId}
+        />
     );
 };
 

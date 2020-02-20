@@ -9,7 +9,7 @@ import {
     UpdateFixedCategoryMutationVariables
 } from '../../../autogen/UpdateFixedCategoryMutation';
 
-import CreateEditCategoryForm from './CreateEditCategoryForm';
+import CategoryForm from './CategoryForm';
 
 const EditFixedCategoryForm: FC<{fixedCategory: IFixedCategory}> = ({fixedCategory}) => {
     const navigation = useNavigation();
@@ -49,7 +49,7 @@ const EditFixedCategoryForm: FC<{fixedCategory: IFixedCategory}> = ({fixedCatego
     const disabled = JSON.stringify(originalValues) === JSON.stringify(updatedValues);
 
     return (
-        <CreateEditCategoryForm
+        <CategoryForm
             amount={updatedAmount}
             disabled={disabled}
             headerText={'Edit Fixed Category'}

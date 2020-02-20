@@ -23,7 +23,7 @@ const cache = new InMemoryCache({
     }
 });
 const link = new HttpLink({
-    uri: PROD
+    uri: LOCAL_HOST
 });
 
 const initializeApolloClient = (): ApolloClient<any> => {

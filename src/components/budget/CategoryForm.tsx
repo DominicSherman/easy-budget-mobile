@@ -37,7 +37,7 @@ interface ICreateCategoryFormProps {
     toggleable?: boolean
 }
 
-const CreateEditCategoryForm: FC<ICreateCategoryFormProps> = (props) => {
+const CategoryForm: FC<ICreateCategoryFormProps> = (props) => {
     const [isVisible, setIsVisible] = useState(false);
     const setVisible = (): void => {
         easeInTransition();
@@ -140,4 +140,4 @@ const DropdownForm: FC<IDropdownProps> = (props) => {
     );
 };
 
-export default CreateEditCategoryForm;
+export default CategoryForm;
