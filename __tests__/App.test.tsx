@@ -1,5 +1,5 @@
 import TestRenderer from 'react-test-renderer';
-import React, {Component} from 'react';
+import React from 'react';
 import * as reactRedux from 'react-redux';
 import {NavigationNativeContainer} from '@react-navigation/native';
 
@@ -7,12 +7,8 @@ import * as apolloClient from '../src/graphql/apollo-client';
 import App from '../src/App';
 import {setAppState} from '../src/redux/action-creators';
 import {AppStatus} from '../src/enums/AppStatus';
-import Login from '../src/screens/Login';
-import ErrorView from '../src/components/generic/ErrorView';
-import LoadingView from '../src/components/generic/LoadingView';
 
 import {chance} from './chance';
-import {Route} from '../src/enums/Route';
 
 jest.mock('../src/redux/action-creators');
 jest.mock('../src/graphql/apollo-client');
@@ -52,25 +48,28 @@ describe('App', () => {
         useSelector.mockReturnValue(AppStatus.LOGGED_IN);
         render();
 
-        root.findByProps({name: Route.HOME});
+        root.findByType(NavigationNativeContainer);
     });
 
     it('should render the Login screen if the app status is logged out', () => {
         useSelector.mockReturnValue(AppStatus.LOGGED_OUT);
         render();
 
-        root.findByProps({component: Login});
+        root.findByType(NavigationNativeContainer);
     });
 
     it('should render an ErrorView if the app status error', () => {
         useSelector.mockReturnValue(AppStatus.ERROR);
         render();
 
-        root.findByProps({name: 'Error'});
+        root.findByType(NavigationNativeContainer);
     });
 
     it('should render a LoadingView otherwise', () => {
-        root.findByProps({name: ''});
+        useSelector.mockReturnValue(AppStatus.LOADING);
+        render();
+
+        root.findByType(NavigationNativeContainer);
     });
 
     it('should call setAppState', () => {

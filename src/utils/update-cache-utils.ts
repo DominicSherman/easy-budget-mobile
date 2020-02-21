@@ -10,6 +10,7 @@ import {CreateFixedCategoryMutation} from '../../autogen/CreateFixedCategoryMuta
 import {GetFixedCategories, GetFixedCategoriesVariables} from '../../autogen/GetFixedCategories';
 import {CreateExpenseMutation} from '../../autogen/CreateExpenseMutation';
 import {GetExpenses, GetExpensesVariables} from '../../autogen/GetExpenses';
+import {DeleteExpenseMutation} from '../../autogen/DeleteExpenseMutation';
 
 export const createVariableCategoryUpdate = (cache: DataProxy, mutationResult: FetchResult<CreateVariableCategoryMutation>): void => {
     const query = getVariableCategoriesQuery;
@@ -87,6 +88,47 @@ export const createExpenseUpdate = (cache: DataProxy, mutationResult: FetchResul
                 ...variableCategory.expenses,
                 data.createExpense
             ]
+        };
+        const updatedCategories = [
+            ...result.variableCategories.slice(0, index),
+            updatedCategory,
+            ...result.variableCategories.slice(index + 1, result.variableCategories.length)
+        ];
+
+        cache.writeQuery<GetExpenses, GetExpensesVariables>({
+            data: {
+                expenses: updatedExpenses,
+                variableCategories: updatedCategories
+            },
+            query,
+            variables
+        });
+    }
+};
+
+export const deleteExpenseUpdate = (cache: DataProxy, mutationResult: FetchResult<DeleteExpenseMutation>): void => {
+    const query = getExpensesQuery;
+    const variables = {
+        timePeriodId: getState().timePeriodId,
+        userId: getUserId()
+    };
+    const {data} = mutationResult;
+    const result = cache.readQuery<GetExpenses, GetExpensesVariables>({
+        query,
+        variables
+    });
+
+    if (result && data) {
+        const filterExpense = (expense): boolean => expense.expenseId !== data.deleteExpense;
+        const updatedExpenses = result.expenses.filter(filterExpense);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const deletedExpense = result.expenses.find((expense) => expense.expenseId === data.deleteExpense)!;
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const variableCategory = result.variableCategories.find((category) => category.variableCategoryId === deletedExpense.variableCategoryId)!;
+        const index = result.variableCategories.indexOf(variableCategory);
+        const updatedCategory = {
+            ...variableCategory,
+            expenses: variableCategory.expenses.filter(filterExpense)
         };
         const updatedCategories = [
             ...result.variableCategories.slice(0, index),

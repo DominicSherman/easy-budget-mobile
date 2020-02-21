@@ -2,43 +2,21 @@ import {gql} from 'apollo-boost';
 
 import {createVariableCategoryFragment, expenseFragment, fixedCategoryFragment, timePeriodFragment} from './fragments';
 
-export const createVariableCategoryMutation = gql`
-    ${createVariableCategoryFragment}
-    
-    mutation CreateVariableCategoryMutation($variableCategory: CreateVariableCategory!) {
-        createVariableCategory(variableCategory: $variableCategory) {
-            ...ICreateVariableCategory
-        }
-    } 
-`;
+/* Expense */
 
-export const createFixedCategoryMutation = gql`
-    ${fixedCategoryFragment}
+export const createExpenseMutation = gql`
+    ${expenseFragment}
     
-    mutation CreateFixedCategoryMutation($fixedCategory: CreateFixedCategory!) {
-        createFixedCategory(fixedCategory: $fixedCategory) {
-            ...IFixedCategory
-        }
-    } 
-`;
-
-export const updateFixedCategoryMutation = gql`
-    ${fixedCategoryFragment}
-    
-    mutation UpdateFixedCategoryMutation($fixedCategory: UpdateFixedCategory!) {
-        updateFixedCategory(fixedCategory: $fixedCategory) {
-            ...IFixedCategory
+    mutation CreateExpenseMutation($expense: CreateExpense!) {
+        createExpense(expense: $expense) {
+            ...IExpense
         }
     }
 `;
 
-export const updateVariableCategoryMutation = gql`
-    ${createVariableCategoryFragment}
-    
-    mutation UpdateVariableCategoryMutation($variableCategory: UpdateVariableCategory!) {
-        updateVariableCategory(variableCategory: $variableCategory) {
-            ...ICreateVariableCategory
-        }
+export const deleteExpenseMutation = gql`
+    mutation DeleteExpenseMutation($userId: String!, $expenseId: String!) {
+        deleteExpense(userId: $userId, expenseId: $expenseId)
     }
 `;
 
@@ -52,15 +30,63 @@ export const updateExpenseMutation = gql`
     }
 `;
 
-export const createExpenseMutation = gql`
-    ${expenseFragment}
+/* Fixed Category */
+
+export const createFixedCategoryMutation = gql`
+    ${fixedCategoryFragment}
     
-    mutation CreateExpenseMutation($expense: CreateExpense!) {
-        createExpense(expense: $expense) {
-            ...IExpense
+    mutation CreateFixedCategoryMutation($fixedCategory: CreateFixedCategory!) {
+        createFixedCategory(fixedCategory: $fixedCategory) {
+            ...IFixedCategory
+        }
+    } 
+`;
+
+export const deleteFixedCategoryMutation = gql`
+    mutation DeleteFixedCategoryMutation($userId: String!, $fixedCategoryId: String!) {
+        deleteFixedCategory(userId: $userId, fixedCategoryId: $fixedCategoryId) 
+    }
+`;
+
+export const updateFixedCategoryMutation = gql`
+    ${fixedCategoryFragment}
+    
+    mutation UpdateFixedCategoryMutation($fixedCategory: UpdateFixedCategory!) {
+        updateFixedCategory(fixedCategory: $fixedCategory) {
+            ...IFixedCategory
         }
     }
 `;
+
+/* Variable Category */
+
+export const createVariableCategoryMutation = gql`
+    ${createVariableCategoryFragment}
+    
+    mutation CreateVariableCategoryMutation($variableCategory: CreateVariableCategory!) {
+        createVariableCategory(variableCategory: $variableCategory) {
+            ...ICreateVariableCategory
+        }
+    } 
+`;
+
+export const deleteVariableCategoryMutation = gql`
+    mutation DeleteVariableCategoryMutation($userId: String!, $variableCategoryId: String!) {
+        deleteVariableCategory(userId: $userId, variableCategoryId: $variableCategoryId)
+    }
+`;
+
+export const updateVariableCategoryMutation = gql`
+    ${createVariableCategoryFragment}
+    
+    mutation UpdateVariableCategoryMutation($variableCategory: UpdateVariableCategory!) {
+        updateVariableCategory(variableCategory: $variableCategory) {
+            ...ICreateVariableCategory
+        }
+    }
+`;
+
+/* Time Period */
 
 export const createTimePeriodMutation = gql`
     ${timePeriodFragment}
