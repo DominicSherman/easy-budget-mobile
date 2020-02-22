@@ -80,7 +80,6 @@ const App: FC = () => {
         setAppState();
     }, []);
     const appStatus = useSelector((state: IAppState) => state.appStatus);
-    const theme = useMode() === Mode.DARK ? DarkThemeObject : LightThemeObject;
 
     const AppStatusToComponent = {
         [AppStatus.LOADING]: (): JSX.Element =>
@@ -127,6 +126,7 @@ const App: FC = () => {
             </RootStack.Navigator>
     };
     const Component = AppStatusToComponent[appStatus];
+    const theme = useMode() === Mode.DARK ? DarkThemeObject : LightThemeObject;
 
     return (
         <NavigationNativeContainer theme={theme}>

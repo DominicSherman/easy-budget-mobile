@@ -1,6 +1,7 @@
 import {
     createRandomAppState,
     createRandomExpense,
+    createRandomExpenses,
     createRandomFixedCategories,
     createRandomFixedCategory,
     createRandomVariableCategories,
@@ -10,7 +11,8 @@ import * as reduxStore from '../../src/redux/store';
 import {
     createExpenseUpdate,
     createFixedCategoryUpdate,
-    createVariableCategoryUpdate
+    createVariableCategoryUpdate,
+    deleteExpenseUpdate
 } from '../../src/utils/update-cache-utils';
 import {getExpensesQuery, getFixedCategoriesQuery, getVariableCategoriesQuery} from '../../src/graphql/queries';
 import {getUserId} from '../../src/services/auth-service';
@@ -182,7 +184,7 @@ describe('update cache utils', () => {
             };
             expectedCategory = createRandomVariableCategory({variableCategoryId: expectedMutationResult.data.createExpense.variableCategoryId});
             expectedReadQuery = {
-                expenses: createRandomFixedCategories(),
+                expenses: createRandomExpenses(),
                 variableCategories: [...createRandomVariableCategories(), expectedCategory]
             };
             expectedState = createRandomAppState();
@@ -249,6 +251,89 @@ describe('update cache utils', () => {
 
         it('should **not** call write query if there is not data', () => {
             createExpenseUpdate(cache, {data: null});
+
+            expect(cache.writeQuery).not.toHaveBeenCalled();
+        });
+    });
+
+    describe('deleteExpenseUpdate', () => {
+        let expectedCategory,
+            updatedVariableCategories,
+            expectedReadQuery,
+            expectedExpense,
+            expectedMutationResult,
+            expectedState;
+
+        beforeEach(() => {
+            expectedExpense = createRandomExpense();
+            expectedMutationResult = {
+                data: {
+                    deleteExpense: expectedExpense.expenseId
+                }
+            };
+            expectedCategory = createRandomVariableCategory({variableCategoryId: expectedExpense.variableCategoryId});
+            expectedReadQuery = {
+                expenses: [...createRandomExpenses(), expectedExpense],
+                variableCategories: [...createRandomVariableCategories(), expectedCategory]
+            };
+            expectedState = createRandomAppState();
+
+            const index = expectedReadQuery.variableCategories.indexOf(expectedCategory);
+            const updatedCategory = {
+                ...expectedCategory,
+                expenses: expectedCategory.expenses.filter((expense) => expense.expenseId !== expectedMutationResult.data.deleteExpense)
+            };
+
+            updatedVariableCategories = [
+                ...expectedReadQuery.variableCategories.slice(0, index),
+                updatedCategory,
+                ...expectedReadQuery.variableCategories.slice(index + 1, expectedReadQuery.variableCategories.length)
+            ];
+
+            cache.readQuery.mockReturnValue(expectedReadQuery);
+            getState.mockReturnValue(expectedState);
+        });
+
+        it('should call readQuery', () => {
+            deleteExpenseUpdate(cache, expectedMutationResult);
+
+            expect(cache.readQuery).toHaveBeenCalledTimes(1);
+            expect(cache.readQuery).toHaveBeenCalledWith({
+                query: getExpensesQuery,
+                variables: {
+                    timePeriodId: expectedState.timePeriodId,
+                    userId: getUserId()
+                }
+            });
+        });
+
+        it('should call write query if there is a result and data', () => {
+            deleteExpenseUpdate(cache, expectedMutationResult);
+
+            expect(cache.writeQuery).toHaveBeenCalledTimes(1);
+            expect(cache.writeQuery).toHaveBeenCalledWith({
+                data: {
+                    expenses: expectedReadQuery.expenses.filter((expense) => expense.expenseId !== expectedExpense.expenseId),
+                    variableCategories: updatedVariableCategories
+                },
+                query: getExpensesQuery,
+                variables: {
+                    timePeriodId: expectedState.timePeriodId,
+                    userId: getUserId()
+                }
+            });
+        });
+
+        it('should **not** call write query if there is not a result', () => {
+            cache.readQuery.mockReturnValue(null);
+
+            deleteExpenseUpdate(cache, expectedMutationResult);
+
+            expect(cache.writeQuery).not.toHaveBeenCalled();
+        });
+
+        it('should **not** call write query if there is not data', () => {
+            deleteExpenseUpdate(cache, {data: null});
 
             expect(cache.writeQuery).not.toHaveBeenCalled();
         });
