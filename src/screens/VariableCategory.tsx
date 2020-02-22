@@ -7,12 +7,12 @@ import {Route} from '../enums/Route';
 import {getEarlyReturn} from '../services/error-and-loading-service';
 import {getUserId} from '../services/auth-service';
 import {getVariableCategoryQuery} from '../graphql/queries';
-import EditVariableCategoryForm from '../components/budget/EditVariableCategoryForm';
+import EditVariableCategoryForm from '../components/variable-category/EditVariableCategoryForm';
 import {GetVariableCategory, GetVariableCategoryVariables} from '../../autogen/GetVariableCategory';
-import ExpenseItem from '../components/budget/ExpenseItem';
+import ExpenseItem from '../components/expense/ExpenseItem';
 import {RegularText, TitleText} from '../components/generic/Text';
 import {sortByDate} from '../utils/sorting-utils';
-import VariableCategoryDetails from '../components/budget/VariableCategoryDetails';
+import VariableCategoryDetails from '../components/variable-category/VariableCategoryDetails';
 
 export interface IVariableCategoryProps {
     variableCategoryId: string

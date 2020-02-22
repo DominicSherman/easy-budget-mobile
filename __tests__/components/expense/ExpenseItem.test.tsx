@@ -4,7 +4,7 @@ import * as navigation from '@react-navigation/native';
 
 import {createRandomExpense, createRandomVariableCategory} from '../../models';
 import {chance} from '../../chance';
-import ExpenseItem from '../../../src/components/budget/ExpenseItem';
+import ExpenseItem from '../../../src/components/expense/ExpenseItem';
 import {SmallText} from '../../../src/components/generic/Text';
 import CardView from '../../../src/components/generic/CardView';
 import {Route} from '../../../src/enums/Route';

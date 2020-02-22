@@ -5,9 +5,9 @@ import * as reactNavigation from '@react-navigation/native';
 
 import {chance} from '../../chance';
 import {createRandomExpense, createRandomQueryResult, createRandomVariableCategories} from '../../models';
-import EditExpenseForm from '../../../src/components/budget/EditExpenseForm';
+import EditExpenseForm from '../../../src/components/expense/EditExpenseForm';
 import {updateExpenseMutation} from '../../../src/graphql/mutations';
-import ExpenseForm from '../../../src/components/budget/ExpenseForm';
+import ExpenseForm from '../../../src/components/expense/ExpenseForm';
 
 jest.mock('@apollo/react-hooks');
 jest.mock('@react-navigation/native');

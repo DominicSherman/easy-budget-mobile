@@ -17,7 +17,7 @@ import {
 import {homeScreenQuery} from '../../src/graphql/queries';
 import {getRoundedDate} from '../../src/services/moment-service';
 import {getEarlyReturn} from '../../src/services/error-and-loading-service';
-import NoActiveTimePeriod from '../../src/components/budget/NoActiveTimePeriod';
+import NoActiveTimePeriod from '../../src/components/time-period/NoActiveTimePeriod';
 import {chance} from '../chance';
 
 jest.mock('@apollo/react-hooks');

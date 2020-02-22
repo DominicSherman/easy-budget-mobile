@@ -12,7 +12,7 @@ import {
 } from '../../../autogen/CreateFixedCategoryMutation';
 import {createFixedCategoryUpdate} from '../../utils/update-cache-utils';
 
-import CategoryForm from './CategoryForm';
+import CategoryForm from '../generic/CategoryForm';
 
 const CreateFixedCategoryForm: FC = () => {
     const timePeriodId = useSelector<IAppState, string>((state) => state.timePeriodId);

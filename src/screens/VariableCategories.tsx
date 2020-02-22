@@ -6,10 +6,10 @@ import {getVariableCategoriesQuery} from '../graphql/queries';
 import {getUserId} from '../services/auth-service';
 import {GetVariableCategories, GetVariableCategoriesVariables} from '../../autogen/GetVariableCategories';
 import {getEarlyReturn} from '../services/error-and-loading-service';
-import CreateVariableCategoryForm from '../components/budget/CreateVariableCategoryForm';
+import CreateVariableCategoryForm from '../components/variable-category/CreateVariableCategoryForm';
 import {sortByAmount} from '../utils/sorting-utils';
-import NoActiveTimePeriod from '../components/budget/NoActiveTimePeriod';
-import VariableCategoryItem from '../components/budget/VariableCategoryItem';
+import NoActiveTimePeriod from '../components/time-period/NoActiveTimePeriod';
+import VariableCategoryItem from '../components/variable-category/VariableCategoryItem';
 import {useTimePeriodId} from '../redux/hooks';
 
 const VariableCategories: React.FC = () => {

@@ -1,34 +1,34 @@
 import TestRenderer, {act} from 'react-test-renderer';
 import React from 'react';
 import * as reactHooks from '@apollo/react-hooks';
-import * as reactRedux from 'react-redux';
+import * as reactNavigation from '@react-navigation/native';
 
 import {chance} from '../../chance';
-import {createRandomAppState} from '../../models';
-import CreateFixedCategoryForm from '../../../src/components/budget/CreateFixedCategoryForm';
-import {createFixedCategoryMutation} from '../../../src/graphql/mutations';
-import {getUserId} from '../../../src/services/auth-service';
-import {createFixedCategoryUpdate} from '../../../src/utils/update-cache-utils';
-import CategoryForm from '../../../src/components/budget/CategoryForm';
+import {createRandomFixedCategory} from '../../models';
+import EditFixedCategoryForm from '../../../src/components/fixed-category/EditFixedCategoryForm';
+import {updateFixedCategoryMutation} from '../../../src/graphql/mutations';
+import CategoryForm from '../../../src/components/generic/CategoryForm';
 
 jest.mock('@apollo/react-hooks');
-jest.mock('react-redux');
+jest.mock('@react-navigation/native');
 jest.mock('../../../src/services/auth-service');
+jest.mock('../../../src/redux/hooks');
 
-describe('CreateFixedCategoryForm', () => {
+describe('EditFixedCategoryForm', () => {
     const {useMutation} = reactHooks as jest.Mocked<typeof reactHooks>;
-    const {useSelector} = reactRedux as jest.Mocked<typeof reactRedux>;
+    const {useNavigation} = reactNavigation as jest.Mocked<typeof reactNavigation>;
 
     let testRenderer,
         testInstance,
+        expectedNavigation,
+        expectedProps,
         expectedName,
         expectedAmount,
         expectedNote,
-        expectedTimePeriodId,
-        createFixedCategory;
+        updateFixedCategory;
 
     const updateComponent = (): void => {
-        testRenderer.update(<CreateFixedCategoryForm />);
+        testRenderer.update(<EditFixedCategoryForm {...expectedProps} />);
 
         testInstance = testRenderer.root;
     };
@@ -46,22 +46,27 @@ describe('CreateFixedCategoryForm', () => {
     };
 
     const render = (): void => {
-        testRenderer = TestRenderer.create(<CreateFixedCategoryForm />);
+        testRenderer = TestRenderer.create(<EditFixedCategoryForm {...expectedProps} />);
 
         testInstance = testRenderer.root;
         setStateData();
     };
 
     beforeEach(() => {
-        expectedTimePeriodId = chance.guid();
-        createFixedCategory = jest.fn();
+        expectedProps = {
+            fixedCategory: createRandomFixedCategory()
+        };
+        updateFixedCategory = jest.fn();
         expectedName = chance.string();
         expectedAmount = chance.natural().toString();
         expectedNote = chance.string();
+        expectedNavigation = {
+            goBack: jest.fn()
+        };
 
-        useSelector.mockReturnValue(expectedTimePeriodId);
         // @ts-ignore
-        useMutation.mockReturnValue([createFixedCategory]);
+        useMutation.mockReturnValue([updateFixedCategory]);
+        useNavigation.mockReturnValue(expectedNavigation);
 
         render();
     });
@@ -70,35 +75,27 @@ describe('CreateFixedCategoryForm', () => {
         jest.resetAllMocks();
     });
 
-    it('should call useSelector', () => {
-        const expectedState = createRandomAppState();
-
-        const actualTimePeriodId = useSelector.mock.calls[0][0](expectedState);
-
-        expect(actualTimePeriodId).toEqual(expectedState.timePeriodId);
-    });
-
     it('should call useMutation', () => {
-        const fixedCategory = {
+        const updatedValues = {
             amount: Number(expectedAmount),
-            fixedCategoryId: expect.any(String),
             name: expectedName,
-            note: expectedNote,
-            paid: false,
-            timePeriodId: expectedTimePeriodId,
-            userId: getUserId()
+            note: expectedNote
         };
 
-        expect(useMutation).toHaveBeenCalledWith(createFixedCategoryMutation, {
+        expect(useMutation).toHaveBeenCalledWith(updateFixedCategoryMutation, {
             optimisticResponse: {
-                createFixedCategory: {
+                updateFixedCategory: {
                     __typename: 'FixedCategory',
-                    ...fixedCategory
+                    ...expectedProps.fixedCategory,
+                    ...updatedValues
                 }
             },
-            update: createFixedCategoryUpdate,
             variables: {
-                fixedCategory
+                fixedCategory: {
+                    fixedCategoryId: expectedProps.fixedCategory.fixedCategoryId,
+                    userId: expectedProps.fixedCategory.userId,
+                    ...updatedValues
+                }
             }
         });
     });
@@ -115,9 +112,6 @@ describe('CreateFixedCategoryForm', () => {
         });
         updateComponent();
 
-        expect(createFixedCategory).toHaveBeenCalledTimes(1);
-        expect(renderedCreateCategoryForm.props.amount).toBe('');
-        expect(renderedCreateCategoryForm.props.name).toBe('');
-        expect(renderedCreateCategoryForm.props.note).toBe('');
+        expect(updateFixedCategory).toHaveBeenCalledTimes(1);
     });
 });

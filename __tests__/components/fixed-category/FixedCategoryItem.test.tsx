@@ -7,7 +7,7 @@ import * as reactNavigationNative from '@react-navigation/native';
 
 import {createRandomFixedCategory} from '../../models';
 import {updateFixedCategoryMutation} from '../../../src/graphql/mutations';
-import FixedCategoryItem from '../../../src/components/budget/FixedCategoryItem';
+import FixedCategoryItem from '../../../src/components/fixed-category/FixedCategoryItem';
 import CardView from '../../../src/components/generic/CardView';
 import {Route} from '../../../src/enums/Route';
 

@@ -8,8 +8,8 @@ import {getExpenseQuery} from '../graphql/queries';
 import {getUserId} from '../services/auth-service';
 import {getEarlyReturn} from '../services/error-and-loading-service';
 import {GetExpense, GetExpenseVariables} from '../../autogen/GetExpense';
-import EditExpenseForm from '../components/budget/EditExpenseForm';
-import DeleteExpenseButton from '../components/budget/DeleteExpenseButton';
+import EditExpenseForm from '../components/expense/EditExpenseForm';
+import DeleteExpenseButton from '../components/expense/DeleteExpenseButton';
 
 export interface IExpenseProps {
     expenseId: string

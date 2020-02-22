@@ -3,9 +3,9 @@ import {StyleSheet, View} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 
 import {textStyles} from '../../styles/text-styles';
-import {RegularText} from '../generic/Text';
-import Button from '../generic/Button';
-import Input from '../generic/Input';
+import {RegularText} from './Text';
+import Button from './Button';
+import Input from './Input';
 import {FeatherNames} from '../../enums/IconNames';
 import {easeInTransition} from '../../services/animation-service';
 import {usePrimaryColor} from '../../redux/hooks';

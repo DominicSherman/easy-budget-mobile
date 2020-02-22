@@ -2,7 +2,7 @@ import React, {FC} from 'react';
 import {AsyncStorage, Switch, View} from 'react-native';
 
 import {useMode} from '../../redux/hooks';
-import {TitleText} from '../generic/Text';
+import {TitleText} from './Text';
 import {Mode} from '../../enums/Mode';
 import {dispatchAction} from '../../redux/store';
 import {Actions} from '../../redux/actions';

@@ -4,7 +4,7 @@ import Touchable from 'react-native-platform-touchable';
 import * as reactNavigationNative from '@react-navigation/native';
 
 import {createRandomExpense, createRandomExpenses, createRandomVariableCategory} from '../../models';
-import VariableCategoryItem from '../../../src/components/budget/VariableCategoryItem';
+import VariableCategoryItem from '../../../src/components/variable-category/VariableCategoryItem';
 import {chance} from '../../chance';
 import CardView from '../../../src/components/generic/CardView';
 import {Route} from '../../../src/enums/Route';

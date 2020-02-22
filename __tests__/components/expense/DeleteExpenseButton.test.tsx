@@ -7,7 +7,7 @@ import {MutationResult} from '@apollo/react-common';
 import {chance} from '../../chance';
 import {deleteExpenseMutation} from '../../../src/graphql/mutations';
 import {getUserId} from '../../../src/services/auth-service';
-import DeleteExpenseButton from '../../../src/components/budget/DeleteExpenseButton';
+import DeleteExpenseButton from '../../../src/components/expense/DeleteExpenseButton';
 
 jest.mock('../../../src/services/auth-service');
 jest.mock('../../../src/utils/update-cache-utils');

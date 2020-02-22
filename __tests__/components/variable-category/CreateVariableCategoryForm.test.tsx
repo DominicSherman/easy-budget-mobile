@@ -5,11 +5,11 @@ import * as reactRedux from 'react-redux';
 
 import {chance} from '../../chance';
 import {createRandomAppState} from '../../models';
-import CreateVariableCategoryForm from '../../../src/components/budget/CreateVariableCategoryForm';
+import CreateVariableCategoryForm from '../../../src/components/variable-category/CreateVariableCategoryForm';
 import {createVariableCategoryMutation} from '../../../src/graphql/mutations';
 import {getUserId} from '../../../src/services/auth-service';
 import {createVariableCategoryUpdate} from '../../../src/utils/update-cache-utils';
-import CategoryForm from '../../../src/components/budget/CategoryForm';
+import CategoryForm from '../../../src/components/generic/CategoryForm';
 
 jest.mock('@apollo/react-hooks');
 jest.mock('react-redux');

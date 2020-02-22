@@ -2,48 +2,45 @@ import React, {FC, useState} from 'react';
 import {useMutation} from '@apollo/react-hooks';
 import {useNavigation} from '@react-navigation/native';
 
-import {IFixedCategory} from '../../../autogen/IFixedCategory';
-import {updateFixedCategoryMutation} from '../../graphql/mutations';
+import {IVariableCategory} from '../../../autogen/IVariableCategory';
+import {updateVariableCategoryMutation} from '../../graphql/mutations';
 import {
-    UpdateFixedCategoryMutation,
-    UpdateFixedCategoryMutationVariables
-} from '../../../autogen/UpdateFixedCategoryMutation';
+    UpdateVariableCategoryMutation,
+    UpdateVariableCategoryMutationVariables
+} from '../../../autogen/UpdateVariableCategoryMutation';
 
-import CategoryForm from './CategoryForm';
+import CategoryForm from '../generic/CategoryForm';
 
-const EditFixedCategoryForm: FC<{fixedCategory: IFixedCategory}> = ({fixedCategory}) => {
+const EditVariableCategoryForm: FC<{variableCategory: IVariableCategory}> = ({variableCategory}) => {
     const navigation = useNavigation();
-    const {amount, name, note, fixedCategoryId, userId} = fixedCategory;
+    const {amount, name, variableCategoryId, userId} = variableCategory;
     const [updatedAmount, setUpdatedAmount] = useState(amount.toString());
     const [updatedName, setUpdatedName] = useState(name);
-    const [updatedNote, setUpdatedNote] = useState(note);
     const originalValues = {
         amount,
-        name,
-        note
+        name
     };
     const updatedValues = {
         amount: Number(updatedAmount),
-        name: updatedName,
-        note: updatedNote
+        name: updatedName
     };
-    const [updateFixedCategory] = useMutation<UpdateFixedCategoryMutation, UpdateFixedCategoryMutationVariables>(updateFixedCategoryMutation, {
+    const [updateVariableCategory] = useMutation<UpdateVariableCategoryMutation, UpdateVariableCategoryMutationVariables>(updateVariableCategoryMutation, {
         optimisticResponse: {
-            updateFixedCategory: {
-                ...fixedCategory,
+            updateVariableCategory: {
+                ...variableCategory,
                 ...updatedValues
             }
         },
         variables: {
-            fixedCategory: {
-                fixedCategoryId,
+            variableCategory: {
                 userId,
+                variableCategoryId,
                 ...updatedValues
             }
         }
     });
     const onPress = (): void => {
-        updateFixedCategory();
+        updateVariableCategory();
         navigation.goBack();
     };
     const disabled = JSON.stringify(originalValues) === JSON.stringify(updatedValues);
@@ -52,15 +49,13 @@ const EditFixedCategoryForm: FC<{fixedCategory: IFixedCategory}> = ({fixedCatego
         <CategoryForm
             amount={updatedAmount}
             disabled={disabled}
-            headerText={'Edit Fixed Category'}
+            headerText={'Edit Variable Category'}
             name={updatedName}
-            note={updatedNote}
             onPress={onPress}
             setAmount={setUpdatedAmount}
             setName={setUpdatedName}
-            setNote={setUpdatedNote}
         />
     );
 };
 
-export default EditFixedCategoryForm;
+export default EditVariableCategoryForm;

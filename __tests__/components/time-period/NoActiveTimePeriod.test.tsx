@@ -6,7 +6,7 @@ import * as navigation from '@react-navigation/native';
 import {chance} from '../../chance';
 import {createTimePeriodMutation} from '../../../src/graphql/mutations';
 import {getUserId} from '../../../src/services/auth-service';
-import NoActiveTimePeriod from '../../../src/components/budget/NoActiveTimePeriod';
+import NoActiveTimePeriod from '../../../src/components/time-period/NoActiveTimePeriod';
 import * as actionCreators from '../../../src/redux/action-creators';
 import Button from '../../../src/components/generic/Button';
 

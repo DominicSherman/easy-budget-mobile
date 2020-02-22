@@ -12,11 +12,11 @@ import {
 } from '../models';
 import {chance} from '../chance';
 import {getEarlyReturn} from '../../src/services/error-and-loading-service';
-import CreateVariableCategoryForm from '../../src/components/budget/CreateVariableCategoryForm';
+import CreateVariableCategoryForm from '../../src/components/variable-category/CreateVariableCategoryForm';
 import {sortByName} from '../../src/utils/sorting-utils';
 import {IVariableCategory} from '../../autogen/IVariableCategory';
-import NoActiveTimePeriod from '../../src/components/budget/NoActiveTimePeriod';
-import VariableCategoryItem from '../../src/components/budget/VariableCategoryItem';
+import NoActiveTimePeriod from '../../src/components/time-period/NoActiveTimePeriod';
+import VariableCategoryItem from '../../src/components/variable-category/VariableCategoryItem';
 import * as hooks from '../../src/redux/hooks';
 
 jest.mock('@apollo/react-hooks');

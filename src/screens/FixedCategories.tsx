@@ -9,9 +9,9 @@ import {getFixedCategoriesQuery} from '../graphql/queries';
 import {getUserId} from '../services/auth-service';
 import {getEarlyReturn} from '../services/error-and-loading-service';
 import {sortByAmount, sortByPaid} from '../utils/sorting-utils';
-import NoActiveTimePeriod from '../components/budget/NoActiveTimePeriod';
-import FixedCategoryItem from '../components/budget/FixedCategoryItem';
-import CreateFixedCategoryForm from '../components/budget/CreateFixedCategoryForm';
+import NoActiveTimePeriod from '../components/time-period/NoActiveTimePeriod';
+import FixedCategoryItem from '../components/fixed-category/FixedCategoryItem';
+import CreateFixedCategoryForm from '../components/fixed-category/CreateFixedCategoryForm';
 
 const FixedCategories: React.FC = () => {
     const timePeriodId = useSelector<IAppState, string>((state) => state.timePeriodId);
