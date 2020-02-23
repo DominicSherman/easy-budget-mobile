@@ -11,7 +11,6 @@ import {
 } from '../../../autogen/CreateVariableCategoryMutation';
 import {createVariableCategoryUpdate} from '../../utils/update-cache-utils';
 import {IAppState} from '../../redux/reducer';
-
 import CategoryForm from '../generic/CategoryForm';
 
 const CreateVariableCategoryForm: FC = () => {

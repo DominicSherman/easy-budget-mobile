@@ -11,7 +11,6 @@ import {
     CreateFixedCategoryMutationVariables
 } from '../../../autogen/CreateFixedCategoryMutation';
 import {createFixedCategoryUpdate} from '../../utils/update-cache-utils';
-
 import CategoryForm from '../generic/CategoryForm';
 
 const CreateFixedCategoryForm: FC = () => {

@@ -8,7 +8,6 @@ import {
     UpdateFixedCategoryMutation,
     UpdateFixedCategoryMutationVariables
 } from '../../../autogen/UpdateFixedCategoryMutation';
-
 import CategoryForm from '../generic/CategoryForm';
 
 const EditFixedCategoryForm: FC<{fixedCategory: IFixedCategory}> = ({fixedCategory}) => {
