@@ -1,5 +1,5 @@
 import React from 'react';
-import {View} from 'react-native';
+import {ScrollView} from 'react-native';
 import {useQuery} from '@apollo/react-hooks';
 
 import {IScreenFC} from '../types/global';
@@ -9,6 +9,7 @@ import {getUserId} from '../services/auth-service';
 import {getEarlyReturn} from '../services/error-and-loading-service';
 import {GetFixedCategory, GetFixedCategoryVariables} from '../../autogen/GetFixedCategory';
 import EditFixedCategoryForm from '../components/fixed-category/EditFixedCategoryForm';
+import DeleteFixedCategoryButton from '../components/fixed-category/DeleteFixedCategoryButton';
 
 export interface IFixedCategoryProps {
     fixedCategoryId: string
@@ -29,9 +30,13 @@ const FixedCategory: IScreenFC<Route.FIXED_CATEGORY> = ({route: {params: {fixedC
     const {fixedCategory} = queryResult.data;
 
     return (
-        <View style={{alignItems: 'center'}}>
+        <ScrollView
+            contentContainerStyle={{alignItems: 'center'}}
+            style={{height: '100%'}}
+        >
             <EditFixedCategoryForm fixedCategory={fixedCategory} />
-        </View>
+            <DeleteFixedCategoryButton fixedCategoryId={fixedCategoryId} />
+        </ScrollView>
     );
 };
 

@@ -11,6 +11,25 @@ const LOCAL_HOST = 'http://localhost:5000/easy-budget-2f9aa/us-central1/graphql'
 const PROD = 'https://us-central1-easy-budget-2f9aa.cloudfunctions.net/graphql';
 
 const cache = new InMemoryCache({
+    cacheRedirects: {
+        Query: {
+            expense: (_, args, {getCacheKey}): any =>
+                getCacheKey({
+                    __typename: 'Expense',
+                    id: args.expenseId
+                }),
+            fixedCategory: (_, args, {getCacheKey}): any =>
+                getCacheKey({
+                    __typename: 'FixedCategory',
+                    id: args.fixedCategoryId
+                }),
+            variableCategory: (_, args, {getCacheKey}): any =>
+                getCacheKey({
+                    __typename: 'VariableCategory',
+                    id: args.variableCategoryId
+                })
+        }
+    },
     dataIdFromObject: (object: {[key: string]: any}): string | null => {
         const type = object.__typename.charAt(0).toLowerCase() + object.__typename.slice(1);
         const value = object[`${type}Id`];

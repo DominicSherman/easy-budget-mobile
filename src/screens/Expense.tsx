@@ -30,13 +30,12 @@ const Expense: IScreenFC<Route.EXPENSE> = ({route: {params: {expenseId}}}) => {
     const {expense} = queryResult.data;
 
     return (
-
         <ScrollView
             contentContainerStyle={{alignItems: 'center'}}
             style={{height: '100%'}}
         >
             <EditExpenseForm expense={expense} />
-            <DeleteExpenseButton expenseId={expense.expenseId} />
+            <DeleteExpenseButton expenseId={expenseId} />
         </ScrollView>
     );
 };

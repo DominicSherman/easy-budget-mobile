@@ -51,6 +51,7 @@ const EditFixedCategoryForm: FC<{fixedCategory: IFixedCategory}> = ({fixedCatego
     return (
         <CategoryForm
             amount={updatedAmount}
+            buttonText={'Update'}
             disabled={disabled}
             headerText={'Edit Fixed Category'}
             name={updatedName}

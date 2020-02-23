@@ -11,6 +11,8 @@ import {GetFixedCategories, GetFixedCategoriesVariables} from '../../autogen/Get
 import {CreateExpenseMutation} from '../../autogen/CreateExpenseMutation';
 import {GetExpenses, GetExpensesVariables} from '../../autogen/GetExpenses';
 import {DeleteExpenseMutation} from '../../autogen/DeleteExpenseMutation';
+import {DeleteFixedCategoryMutation} from '../../autogen/DeleteFixedCategoryMutation';
+import {DeleteVariableCategoryMutation} from '../../autogen/DeleteVariableCategoryMutation';
 
 export const createVariableCategoryUpdate = (cache: DataProxy, mutationResult: FetchResult<CreateVariableCategoryMutation>): void => {
     const query = getVariableCategoriesQuery;
@@ -139,6 +141,56 @@ export const deleteExpenseUpdate = (cache: DataProxy, mutationResult: FetchResul
         cache.writeQuery<GetExpenses, GetExpensesVariables>({
             data: {
                 expenses: updatedExpenses,
+                variableCategories: updatedCategories
+            },
+            query,
+            variables
+        });
+    }
+};
+
+export const deleteFixedCategoryUpdate = (cache: DataProxy, mutationResult: FetchResult<DeleteFixedCategoryMutation>): void => {
+    const query = getFixedCategoriesQuery;
+    const variables = {
+        timePeriodId: getState().timePeriodId,
+        userId: getUserId()
+    };
+    const {data} = mutationResult;
+    const result = cache.readQuery<GetFixedCategories, GetFixedCategoriesVariables>({
+        query,
+        variables
+    });
+
+    if (result && data) {
+        const updatedCategories = result.fixedCategories.filter((category) => category.fixedCategoryId !== data.deleteFixedCategory);
+
+        cache.writeQuery<GetFixedCategories, GetFixedCategoriesVariables>({
+            data: {
+                fixedCategories: updatedCategories
+            },
+            query,
+            variables
+        });
+    }
+};
+
+export const deleteVariableCategoryUpdate = (cache: DataProxy, mutationResult: FetchResult<DeleteVariableCategoryMutation>): void => {
+    const query = getVariableCategoriesQuery;
+    const variables = {
+        timePeriodId: getState().timePeriodId,
+        userId: getUserId()
+    };
+    const {data} = mutationResult;
+    const result = cache.readQuery<GetVariableCategories, GetVariableCategoriesVariables>({
+        query,
+        variables
+    });
+
+    if (result && data) {
+        const updatedCategories = result.variableCategories.filter((category) => category.variableCategoryId !== data.deleteVariableCategory);
+
+        cache.writeQuery<GetVariableCategories, GetVariableCategoriesVariables>({
+            data: {
                 variableCategories: updatedCategories
             },
             query,

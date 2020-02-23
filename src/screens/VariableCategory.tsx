@@ -13,6 +13,7 @@ import ExpenseItem from '../components/expense/ExpenseItem';
 import {RegularText, TitleText} from '../components/generic/Text';
 import {sortByDate} from '../utils/sorting-utils';
 import VariableCategoryDetails from '../components/variable-category/VariableCategoryDetails';
+import DeleteVariableCategoryButton from '../components/variable-category/DeleteVariableCategoryButton';
 
 export interface IVariableCategoryProps {
     variableCategoryId: string
@@ -40,14 +41,16 @@ const VariableCategory: IScreenFC<Route.VARIABLE_CATEGORY> = ({route: {params: {
                         <RegularText style={{margin: 32}}>{'No expenses for this category yet! 🚀'}</RegularText>
                     </View>
                 }
+                ListFooterComponent={
+                    <View style={{alignItems: 'center'}}>
+                        <EditVariableCategoryForm variableCategory={variableCategory} />
+                        <DeleteVariableCategoryButton variableCategoryId={variableCategoryId} />
+                    </View>
+                }
                 ListHeaderComponent={
                     <View style={{alignItems: 'center'}}>
-                        <TitleText style={{marginTop: 8}}>{variableCategory.name}</TitleText>
+                        <TitleText style={{marginVertical: 8}}>{variableCategory.name}</TitleText>
                         <VariableCategoryDetails variableCategory={variableCategory} />
-                        <EditVariableCategoryForm variableCategory={variableCategory} />
-                        <TitleText style={{marginTop: 16}}>
-                            {'Expenses'}
-                        </TitleText>
                     </View>
                 }
                 data={variableCategory.expenses.sort(sortByDate)}

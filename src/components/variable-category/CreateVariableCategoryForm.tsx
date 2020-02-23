@@ -47,6 +47,7 @@ const CreateVariableCategoryForm: FC = () => {
     return (
         <CategoryForm
             amount={amount}
+            buttonText={'Create'}
             headerText={'Create Variable Category'}
             name={name}
             onPress={onPress}

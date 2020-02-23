@@ -51,6 +51,7 @@ const CreateFixedCategoryForm: FC = () => {
     return (
         <CategoryForm
             amount={amount}
+            buttonText={'Create'}
             headerText={'Create Fixed Category'}
             name={name}
             note={note}
