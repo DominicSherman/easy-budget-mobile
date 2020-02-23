@@ -11,12 +11,12 @@ import {getUserId} from '../services/auth-service';
 import {homeScreenQuery} from '../graphql/queries';
 import {formatTimePeriod, getRoundedDate} from '../services/moment-service';
 import {getEarlyReturn} from '../services/error-and-loading-service';
-import NoActiveTimePeriod from '../components/budget/NoActiveTimePeriod';
+import NoActiveTimePeriod from '../components/time-period/NoActiveTimePeriod';
 import {IAppState} from '../redux/reducer';
 import {HomeScreenQuery, HomeScreenQueryVariables} from '../../autogen/HomeScreenQuery';
 import CardView from '../components/generic/CardView';
 import {SCREEN_WIDTH} from '../constants/dimensions';
-import CreateExpenseForm from '../components/budget/CreateExpenseForm';
+import CreateExpenseForm from '../components/expense/CreateExpenseForm';
 
 const styles = StyleSheet.create({
     bottomWrapper: {

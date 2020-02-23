@@ -47,6 +47,7 @@ export interface UpdateExpense {
   amount?: number | null;
   date?: string | null;
   name?: string | null;
+  variableCategoryId?: string | null;
 }
 
 export interface UpdateFixedCategory {

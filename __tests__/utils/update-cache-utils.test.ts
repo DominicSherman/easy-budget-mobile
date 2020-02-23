@@ -1,6 +1,7 @@
 import {
     createRandomAppState,
     createRandomExpense,
+    createRandomExpenses,
     createRandomFixedCategories,
     createRandomFixedCategory,
     createRandomVariableCategories,
@@ -10,7 +11,8 @@ import * as reduxStore from '../../src/redux/store';
 import {
     createExpenseUpdate,
     createFixedCategoryUpdate,
-    createVariableCategoryUpdate
+    createVariableCategoryUpdate,
+    deleteExpenseUpdate, deleteFixedCategoryUpdate, deleteVariableCategoryUpdate
 } from '../../src/utils/update-cache-utils';
 import {getExpensesQuery, getFixedCategoriesQuery, getVariableCategoriesQuery} from '../../src/graphql/queries';
 import {getUserId} from '../../src/services/auth-service';
@@ -182,7 +184,7 @@ describe('update cache utils', () => {
             };
             expectedCategory = createRandomVariableCategory({variableCategoryId: expectedMutationResult.data.createExpense.variableCategoryId});
             expectedReadQuery = {
-                expenses: createRandomFixedCategories(),
+                expenses: createRandomExpenses(),
                 variableCategories: [...createRandomVariableCategories(), expectedCategory]
             };
             expectedState = createRandomAppState();
@@ -249,6 +251,221 @@ describe('update cache utils', () => {
 
         it('should **not** call write query if there is not data', () => {
             createExpenseUpdate(cache, {data: null});
+
+            expect(cache.writeQuery).not.toHaveBeenCalled();
+        });
+    });
+
+    describe('deleteExpenseUpdate', () => {
+        let expectedCategory,
+            updatedVariableCategories,
+            expectedReadQuery,
+            expectedExpense,
+            expectedMutationResult,
+            expectedState;
+
+        beforeEach(() => {
+            expectedExpense = createRandomExpense();
+            expectedMutationResult = {
+                data: {
+                    deleteExpense: expectedExpense.expenseId
+                }
+            };
+            expectedCategory = createRandomVariableCategory({variableCategoryId: expectedExpense.variableCategoryId});
+            expectedReadQuery = {
+                expenses: [...createRandomExpenses(), expectedExpense],
+                variableCategories: [...createRandomVariableCategories(), expectedCategory]
+            };
+            expectedState = createRandomAppState();
+
+            const index = expectedReadQuery.variableCategories.indexOf(expectedCategory);
+            const updatedCategory = {
+                ...expectedCategory,
+                expenses: expectedCategory.expenses.filter((expense) => expense.expenseId !== expectedMutationResult.data.deleteExpense)
+            };
+
+            updatedVariableCategories = [
+                ...expectedReadQuery.variableCategories.slice(0, index),
+                updatedCategory,
+                ...expectedReadQuery.variableCategories.slice(index + 1, expectedReadQuery.variableCategories.length)
+            ];
+
+            cache.readQuery.mockReturnValue(expectedReadQuery);
+            getState.mockReturnValue(expectedState);
+        });
+
+        it('should call readQuery', () => {
+            deleteExpenseUpdate(cache, expectedMutationResult);
+
+            expect(cache.readQuery).toHaveBeenCalledTimes(1);
+            expect(cache.readQuery).toHaveBeenCalledWith({
+                query: getExpensesQuery,
+                variables: {
+                    timePeriodId: expectedState.timePeriodId,
+                    userId: getUserId()
+                }
+            });
+        });
+
+        it('should call write query if there is a result and data', () => {
+            deleteExpenseUpdate(cache, expectedMutationResult);
+
+            expect(cache.writeQuery).toHaveBeenCalledTimes(1);
+            expect(cache.writeQuery).toHaveBeenCalledWith({
+                data: {
+                    expenses: expectedReadQuery.expenses.filter((expense) => expense.expenseId !== expectedExpense.expenseId),
+                    variableCategories: updatedVariableCategories
+                },
+                query: getExpensesQuery,
+                variables: {
+                    timePeriodId: expectedState.timePeriodId,
+                    userId: getUserId()
+                }
+            });
+        });
+
+        it('should **not** call write query if there is not a result', () => {
+            cache.readQuery.mockReturnValue(null);
+
+            deleteExpenseUpdate(cache, expectedMutationResult);
+
+            expect(cache.writeQuery).not.toHaveBeenCalled();
+        });
+
+        it('should **not** call write query if there is not data', () => {
+            deleteExpenseUpdate(cache, {data: null});
+
+            expect(cache.writeQuery).not.toHaveBeenCalled();
+        });
+    });
+
+    describe('deleteFixedCategoryUpdate', () => {
+        let expectedReadQuery,
+            expectedFixedCategory,
+            expectedMutationResult,
+            expectedState;
+
+        beforeEach(() => {
+            expectedFixedCategory = createRandomFixedCategory();
+            expectedMutationResult = {
+                data: {
+                    deleteFixedCategory: expectedFixedCategory.fixedCategoryId
+                }
+            };
+            expectedReadQuery = {
+                fixedCategories: [...createRandomFixedCategories(), expectedFixedCategory]
+            };
+            expectedState = createRandomAppState();
+
+            cache.readQuery.mockReturnValue(expectedReadQuery);
+            getState.mockReturnValue(expectedState);
+        });
+
+        it('should call readQuery', () => {
+            deleteFixedCategoryUpdate(cache, expectedMutationResult);
+
+            expect(cache.readQuery).toHaveBeenCalledTimes(1);
+            expect(cache.readQuery).toHaveBeenCalledWith({
+                query: getFixedCategoriesQuery,
+                variables: {
+                    timePeriodId: expectedState.timePeriodId,
+                    userId: getUserId()
+                }
+            });
+        });
+
+        it('should call write query if there is a result and data', () => {
+            deleteFixedCategoryUpdate(cache, expectedMutationResult);
+
+            expect(cache.writeQuery).toHaveBeenCalledTimes(1);
+            expect(cache.writeQuery).toHaveBeenCalledWith({
+                data: {
+                    fixedCategories: expectedReadQuery.fixedCategories.filter((fixedCategory) => fixedCategory.fixedCategoryId !== expectedFixedCategory.fixedCategoryId)
+                },
+                query: getFixedCategoriesQuery,
+                variables: {
+                    timePeriodId: expectedState.timePeriodId,
+                    userId: getUserId()
+                }
+            });
+        });
+
+        it('should **not** call write query if there is not a result', () => {
+            cache.readQuery.mockReturnValue(null);
+
+            deleteFixedCategoryUpdate(cache, expectedMutationResult);
+
+            expect(cache.writeQuery).not.toHaveBeenCalled();
+        });
+
+        it('should **not** call write query if there is not data', () => {
+            deleteFixedCategoryUpdate(cache, {data: null});
+
+            expect(cache.writeQuery).not.toHaveBeenCalled();
+        });
+    });
+
+    describe('deleteVariableCategoryUpdate', () => {
+        let expectedReadQuery,
+            expectedVariableCategory,
+            expectedMutationResult,
+            expectedState;
+
+        beforeEach(() => {
+            expectedVariableCategory = createRandomVariableCategory();
+            expectedMutationResult = {
+                data: {
+                    deleteVariableCategory: expectedVariableCategory.variableCategoryId
+                }
+            };
+            expectedReadQuery = {
+                variableCategories: [...createRandomVariableCategories(), expectedVariableCategory]
+            };
+            expectedState = createRandomAppState();
+
+            cache.readQuery.mockReturnValue(expectedReadQuery);
+            getState.mockReturnValue(expectedState);
+        });
+
+        it('should call readQuery', () => {
+            deleteVariableCategoryUpdate(cache, expectedMutationResult);
+
+            expect(cache.readQuery).toHaveBeenCalledTimes(1);
+            expect(cache.readQuery).toHaveBeenCalledWith({
+                query: getVariableCategoriesQuery,
+                variables: {
+                    timePeriodId: expectedState.timePeriodId,
+                    userId: getUserId()
+                }
+            });
+        });
+
+        it('should call write query if there is a result and data', () => {
+            deleteVariableCategoryUpdate(cache, expectedMutationResult);
+
+            expect(cache.writeQuery).toHaveBeenCalledTimes(1);
+            expect(cache.writeQuery).toHaveBeenCalledWith({
+                data: {
+                    variableCategories: expectedReadQuery.variableCategories.filter((variableCategory) => variableCategory.variableCategoryId !== expectedVariableCategory.variableCategoryId)
+                },
+                query: getVariableCategoriesQuery,
+                variables: {
+                    timePeriodId: expectedState.timePeriodId,
+                    userId: getUserId()
+                }
+            });
+        });
+
+        it('should **not** call write query if there is not a result', () => {
+            cache.readQuery.mockReturnValue(null);
+
+            deleteVariableCategoryUpdate(cache, expectedMutationResult);
+
+            expect(cache.writeQuery).not.toHaveBeenCalled();
+        });
+
+        it('should **not** call write query if there is not data', () => {
+            deleteVariableCategoryUpdate(cache, {data: null});
 
             expect(cache.writeQuery).not.toHaveBeenCalled();
         });

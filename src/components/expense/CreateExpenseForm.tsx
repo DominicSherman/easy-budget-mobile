@@ -69,6 +69,7 @@ const CreateExpenseForm: FC = () => {
     return (
         <ExpenseForm
             amount={amount}
+            buttonText={'Create'}
             headerText={'Create Expense'}
             name={name}
             onPress={onPress}

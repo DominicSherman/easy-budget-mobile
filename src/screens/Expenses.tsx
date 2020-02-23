@@ -9,9 +9,9 @@ import {getUserId} from '../services/auth-service';
 import {getEarlyReturn} from '../services/error-and-loading-service';
 import {GetExpenses, GetExpensesVariables} from '../../autogen/GetExpenses';
 import {sortByDate} from '../utils/sorting-utils';
-import CreateExpenseForm from '../components/budget/CreateExpenseForm';
-import NoActiveTimePeriod from '../components/budget/NoActiveTimePeriod';
-import ExpenseItem from '../components/budget/ExpenseItem';
+import CreateExpenseForm from '../components/expense/CreateExpenseForm';
+import NoActiveTimePeriod from '../components/time-period/NoActiveTimePeriod';
+import ExpenseItem from '../components/expense/ExpenseItem';
 
 const Expenses: FC = () => {
     const timePeriodId = useSelector<IAppState, string>((state) => state.timePeriodId);

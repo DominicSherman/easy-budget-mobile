@@ -8,7 +8,7 @@ import {chance} from '../chance';
 import {getVariableCategoryQuery} from '../../src/graphql/queries';
 import {getUserId} from '../../src/services/auth-service';
 import {getEarlyReturn} from '../../src/services/error-and-loading-service';
-import EditVariableCategoryForm from '../../src/components/budget/EditVariableCategoryForm';
+import EditVariableCategoryForm from '../../src/components/variable-category/EditVariableCategoryForm';
 
 jest.mock('@apollo/react-hooks');
 jest.mock('../../src/services/auth-service');

@@ -8,7 +8,7 @@ import * as hooks from '../../../src/redux/hooks';
 import {AsyncStorageKey} from '../../../src/enums/AsyncStorageKey';
 import {dispatchAction} from '../../../src/redux/store';
 import {Actions} from '../../../src/redux/actions';
-import ModeSelector from '../../../src/components/budget/ModeSelector';
+import ModeSelector from '../../../src/components/generic/ModeSelector';
 
 jest.mock('../../../src/redux/hooks');
 jest.mock('../../../src/redux/store');

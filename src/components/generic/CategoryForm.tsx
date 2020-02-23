@@ -3,12 +3,13 @@ import {StyleSheet, View} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 
 import {textStyles} from '../../styles/text-styles';
-import {RegularText} from '../generic/Text';
-import Button from '../generic/Button';
-import Input from '../generic/Input';
 import {FeatherNames} from '../../enums/IconNames';
 import {easeInTransition} from '../../services/animation-service';
 import {usePrimaryColor} from '../../redux/hooks';
+
+import {RegularText} from './Text';
+import Button from './Button';
+import Input from './Input';
 
 const styles = StyleSheet.create({
     buttonWrapper: {
@@ -25,6 +26,7 @@ const styles = StyleSheet.create({
 });
 
 interface ICreateCategoryFormProps {
+    buttonText: string
     disabled?: boolean
     headerText: string
     setName: Dispatch<SetStateAction<any>>
@@ -87,6 +89,7 @@ interface IDropdownProps extends ICreateCategoryFormProps {
 
 const DropdownForm: FC<IDropdownProps> = (props) => {
     const {
+        buttonText,
         isVisible,
         disabled,
         headerText,
@@ -133,7 +136,7 @@ const DropdownForm: FC<IDropdownProps> = (props) => {
             <Button
                 disabled={disabled || !name.length || !amount.length}
                 onPress={onPress}
-                text={'Submit'}
+                text={buttonText}
                 wrapperStyle={{marginTop: 16}}
             />
         </View>

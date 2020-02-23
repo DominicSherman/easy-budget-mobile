@@ -17,9 +17,9 @@ import {chance} from '../chance';
 import {getEarlyReturn} from '../../src/services/error-and-loading-service';
 import {sortByDate} from '../../src/utils/sorting-utils';
 import {IExpense} from '../../autogen/IExpense';
-import CreateExpenseForm from '../../src/components/budget/CreateExpenseForm';
-import NoActiveTimePeriod from '../../src/components/budget/NoActiveTimePeriod';
-import ExpenseItem from '../../src/components/budget/ExpenseItem';
+import CreateExpenseForm from '../../src/components/expense/CreateExpenseForm';
+import NoActiveTimePeriod from '../../src/components/time-period/NoActiveTimePeriod';
+import ExpenseItem from '../../src/components/expense/ExpenseItem';
 
 jest.mock('@apollo/react-hooks');
 jest.mock('react-redux');

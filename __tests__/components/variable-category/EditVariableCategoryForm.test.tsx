@@ -4,17 +4,17 @@ import * as reactHooks from '@apollo/react-hooks';
 import * as reactNavigation from '@react-navigation/native';
 
 import {chance} from '../../chance';
-import {createRandomFixedCategory} from '../../models';
-import EditFixedCategoryForm from '../../../src/components/budget/EditFixedCategoryForm';
-import {updateFixedCategoryMutation} from '../../../src/graphql/mutations';
-import CategoryForm from '../../../src/components/budget/CategoryForm';
+import {createRandomVariableCategory} from '../../models';
+import EditVariableCategoryForm from '../../../src/components/variable-category/EditVariableCategoryForm';
+import {updateVariableCategoryMutation} from '../../../src/graphql/mutations';
+import CategoryForm from '../../../src/components/generic/CategoryForm';
 
 jest.mock('@apollo/react-hooks');
 jest.mock('@react-navigation/native');
 jest.mock('../../../src/services/auth-service');
 jest.mock('../../../src/redux/hooks');
 
-describe('EditFixedCategoryForm', () => {
+describe('EditVariableCategoryForm', () => {
     const {useMutation} = reactHooks as jest.Mocked<typeof reactHooks>;
     const {useNavigation} = reactNavigation as jest.Mocked<typeof reactNavigation>;
 
@@ -24,11 +24,10 @@ describe('EditFixedCategoryForm', () => {
         expectedProps,
         expectedName,
         expectedAmount,
-        expectedNote,
-        updateFixedCategory;
+        updateVariableCategory;
 
     const updateComponent = (): void => {
-        testRenderer.update(<EditFixedCategoryForm {...expectedProps} />);
+        testRenderer.update(<EditVariableCategoryForm {...expectedProps} />);
 
         testInstance = testRenderer.root;
     };
@@ -39,14 +38,13 @@ describe('EditFixedCategoryForm', () => {
         act(() => {
             form.props.setName(expectedName);
             form.props.setAmount(expectedAmount);
-            form.props.setNote(expectedNote);
         });
 
         updateComponent();
     };
 
     const render = (): void => {
-        testRenderer = TestRenderer.create(<EditFixedCategoryForm {...expectedProps} />);
+        testRenderer = TestRenderer.create(<EditVariableCategoryForm {...expectedProps} />);
 
         testInstance = testRenderer.root;
         setStateData();
@@ -54,18 +52,15 @@ describe('EditFixedCategoryForm', () => {
 
     beforeEach(() => {
         expectedProps = {
-            fixedCategory: createRandomFixedCategory()
+            variableCategory: createRandomVariableCategory()
         };
-        updateFixedCategory = jest.fn();
+        expectedNavigation = {goBack: jest.fn()};
+        updateVariableCategory = jest.fn();
         expectedName = chance.string();
         expectedAmount = chance.natural().toString();
-        expectedNote = chance.string();
-        expectedNavigation = {
-            goBack: jest.fn()
-        };
 
         // @ts-ignore
-        useMutation.mockReturnValue([updateFixedCategory]);
+        useMutation.mockReturnValue([updateVariableCategory]);
         useNavigation.mockReturnValue(expectedNavigation);
 
         render();
@@ -78,22 +73,21 @@ describe('EditFixedCategoryForm', () => {
     it('should call useMutation', () => {
         const updatedValues = {
             amount: Number(expectedAmount),
-            name: expectedName,
-            note: expectedNote
+            name: expectedName
         };
 
-        expect(useMutation).toHaveBeenCalledWith(updateFixedCategoryMutation, {
+        expect(useMutation).toHaveBeenCalledWith(updateVariableCategoryMutation, {
             optimisticResponse: {
-                updateFixedCategory: {
-                    __typename: 'FixedCategory',
-                    ...expectedProps.fixedCategory,
+                updateVariableCategory: {
+                    __typename: 'VariableCategory',
+                    ...expectedProps.variableCategory,
                     ...updatedValues
                 }
             },
             variables: {
-                fixedCategory: {
-                    fixedCategoryId: expectedProps.fixedCategory.fixedCategoryId,
-                    userId: expectedProps.fixedCategory.userId,
+                variableCategory: {
+                    userId: expectedProps.variableCategory.userId,
+                    variableCategoryId: expectedProps.variableCategory.variableCategoryId,
                     ...updatedValues
                 }
             }
@@ -105,13 +99,12 @@ describe('EditFixedCategoryForm', () => {
 
         expect(renderedCreateCategoryForm.props.amount).toBe(expectedAmount);
         expect(renderedCreateCategoryForm.props.name).toBe(expectedName);
-        expect(renderedCreateCategoryForm.props.note).toBe(expectedNote);
 
         act(() => {
             renderedCreateCategoryForm.props.onPress();
         });
         updateComponent();
 
-        expect(updateFixedCategory).toHaveBeenCalledTimes(1);
+        expect(updateVariableCategory).toHaveBeenCalledTimes(1);
     });
 });

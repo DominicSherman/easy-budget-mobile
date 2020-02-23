@@ -8,8 +8,7 @@ import {
     UpdateFixedCategoryMutation,
     UpdateFixedCategoryMutationVariables
 } from '../../../autogen/UpdateFixedCategoryMutation';
-
-import CategoryForm from './CategoryForm';
+import CategoryForm from '../generic/CategoryForm';
 
 const EditFixedCategoryForm: FC<{fixedCategory: IFixedCategory}> = ({fixedCategory}) => {
     const navigation = useNavigation();
@@ -51,6 +50,7 @@ const EditFixedCategoryForm: FC<{fixedCategory: IFixedCategory}> = ({fixedCatego
     return (
         <CategoryForm
             amount={updatedAmount}
+            buttonText={'Update'}
             disabled={disabled}
             headerText={'Edit Fixed Category'}
             name={updatedName}

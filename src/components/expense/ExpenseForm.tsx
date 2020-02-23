@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
 });
 
 interface IExpenseFormProps {
+    buttonText: string
     disabled?: boolean
     headerText: string
     amount: string
@@ -36,6 +37,7 @@ interface IExpenseFormProps {
 
 const ExpenseForm: FC<IExpenseFormProps> = (props) => {
     const {
+        buttonText,
         headerText,
         amount,
         setAmount,
@@ -83,7 +85,7 @@ const ExpenseForm: FC<IExpenseFormProps> = (props) => {
             <Button
                 disabled={!variableCategoryId || amount === ''}
                 onPress={onPress}
-                text={'Submit'}
+                text={buttonText}
                 wrapperStyle={{marginTop: 16}}
             />
         </View>

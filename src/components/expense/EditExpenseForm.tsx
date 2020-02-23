@@ -13,7 +13,7 @@ import {sortByName} from '../../utils/sorting-utils';
 
 import ExpenseForm from './ExpenseForm';
 
-const EditExpenseForm: FC<{expense: IExpense}> = ({expense}) => {
+const EditExpenseForm: FC<{ expense: IExpense }> = ({expense}) => {
     const navigation = useNavigation();
     const {amount, name, variableCategoryId, expenseId, userId} = expense;
     const [updatedAmount, setUpdatedAmount] = useState(amount.toString());
@@ -51,7 +51,7 @@ const EditExpenseForm: FC<{expense: IExpense}> = ({expense}) => {
             }
         }
     });
-    const onPress = (): void => {
+    const onPressUpdate = (): void => {
         updateExpense();
         navigation.goBack();
     };
@@ -64,10 +64,11 @@ const EditExpenseForm: FC<{expense: IExpense}> = ({expense}) => {
     return (
         <ExpenseForm
             amount={updatedAmount}
+            buttonText={'Update'}
             disabled={disabled}
             headerText={'Edit Fixed Category'}
             name={updatedName}
-            onPress={onPress}
+            onPress={onPressUpdate}
             setAmount={setUpdatedAmount}
             setName={setUpdatedName}
             setVariableCategoryId={setUpdatedCategoryId}

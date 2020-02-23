@@ -8,11 +8,11 @@ import FixedCategories from '../../src/screens/FixedCategories';
 import {createRandomAppState, createRandomFixedCategories, createRandomQueryResult} from '../models';
 import {chance} from '../chance';
 import {getEarlyReturn} from '../../src/services/error-and-loading-service';
-import CreateFixedCategoryForm from '../../src/components/budget/CreateFixedCategoryForm';
+import CreateFixedCategoryForm from '../../src/components/fixed-category/CreateFixedCategoryForm';
 import {sortByName} from '../../src/utils/sorting-utils';
 import {IFixedCategory} from '../../autogen/IFixedCategory';
-import NoActiveTimePeriod from '../../src/components/budget/NoActiveTimePeriod';
-import FixedCategoryItem from '../../src/components/budget/FixedCategoryItem';
+import NoActiveTimePeriod from '../../src/components/time-period/NoActiveTimePeriod';
+import FixedCategoryItem from '../../src/components/fixed-category/FixedCategoryItem';
 
 jest.mock('@apollo/react-hooks');
 jest.mock('react-redux');

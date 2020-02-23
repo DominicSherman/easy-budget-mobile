@@ -11,8 +11,7 @@ import {
 } from '../../../autogen/CreateVariableCategoryMutation';
 import {createVariableCategoryUpdate} from '../../utils/update-cache-utils';
 import {IAppState} from '../../redux/reducer';
-
-import CategoryForm from './CategoryForm';
+import CategoryForm from '../generic/CategoryForm';
 
 const CreateVariableCategoryForm: FC = () => {
     const timePeriodId = useSelector<IAppState, string>((state) => state.timePeriodId);
@@ -47,6 +46,7 @@ const CreateVariableCategoryForm: FC = () => {
     return (
         <CategoryForm
             amount={amount}
+            buttonText={'Create'}
             headerText={'Create Variable Category'}
             name={name}
             onPress={onPress}

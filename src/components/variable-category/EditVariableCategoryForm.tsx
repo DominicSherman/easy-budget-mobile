@@ -8,8 +8,7 @@ import {
     UpdateVariableCategoryMutation,
     UpdateVariableCategoryMutationVariables
 } from '../../../autogen/UpdateVariableCategoryMutation';
-
-import CategoryForm from './CategoryForm';
+import CategoryForm from '../generic/CategoryForm';
 
 const EditVariableCategoryForm: FC<{variableCategory: IVariableCategory}> = ({variableCategory}) => {
     const navigation = useNavigation();
@@ -48,6 +47,7 @@ const EditVariableCategoryForm: FC<{variableCategory: IVariableCategory}> = ({va
     return (
         <CategoryForm
             amount={updatedAmount}
+            buttonText={'Update'}
             disabled={disabled}
             headerText={'Edit Variable Category'}
             name={updatedName}

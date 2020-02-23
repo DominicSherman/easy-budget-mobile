@@ -40,6 +40,61 @@ describe('Apollo Client', () => {
         expect(InMemoryCache).toHaveBeenCalledTimes(1);
     });
 
+    describe('cacheRedirects', () => {
+        let args,
+            getCacheKey,
+            cacheRedirectsSpy;
+
+        beforeEach(() => {
+            getCacheKey = jest.fn();
+            getApolloClient();
+            // @ts-ignore
+            cacheRedirectsSpy = InMemoryCache.mock.calls[0][0].cacheRedirects;
+        });
+
+        it('should redirect expense', () => {
+            args = {
+                expenseId: chance.guid()
+            };
+
+            cacheRedirectsSpy.Query.expense(null, args, {getCacheKey});
+
+            expect(getCacheKey).toHaveBeenCalledTimes(1);
+            expect(getCacheKey).toHaveBeenCalledWith({
+                __typename: 'Expense',
+                id: args.expenseId
+            });
+        });
+
+        it('should redirect fixedCategory', () => {
+            args = {
+                fixedCategoryId: chance.guid()
+            };
+
+            cacheRedirectsSpy.Query.fixedCategory(null, args, {getCacheKey});
+
+            expect(getCacheKey).toHaveBeenCalledTimes(1);
+            expect(getCacheKey).toHaveBeenCalledWith({
+                __typename: 'FixedCategory',
+                id: args.fixedCategoryId
+            });
+        });
+
+        it('should redirect variableCategory', () => {
+            args = {
+                variableCategoryId: chance.guid()
+            };
+
+            cacheRedirectsSpy.Query.variableCategory(null, args, {getCacheKey});
+
+            expect(getCacheKey).toHaveBeenCalledTimes(1);
+            expect(getCacheKey).toHaveBeenCalledWith({
+                __typename: 'VariableCategory',
+                id: args.variableCategoryId
+            });
+        });
+    });
+
     describe('dataIdFromObject', () => {
         let expectedTypename,
             expectedValue,

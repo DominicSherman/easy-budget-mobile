@@ -3,7 +3,7 @@ import React from 'react';
 import Feather from 'react-native-vector-icons/Feather';
 
 import {chance} from '../../chance';
-import CategoryForm from '../../../src/components/budget/CategoryForm';
+import CategoryForm from '../../../src/components/generic/CategoryForm';
 import Button from '../../../src/components/generic/Button';
 import Input from '../../../src/components/generic/Input';
 

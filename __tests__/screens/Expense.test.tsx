@@ -13,7 +13,7 @@ import {chance} from '../chance';
 import {getExpenseQuery} from '../../src/graphql/queries';
 import {getUserId} from '../../src/services/auth-service';
 import {getEarlyReturn} from '../../src/services/error-and-loading-service';
-import EditExpenseForm from '../../src/components/budget/EditExpenseForm';
+import EditExpenseForm from '../../src/components/expense/EditExpenseForm';
 
 jest.mock('@apollo/react-hooks');
 jest.mock('../../src/services/auth-service');

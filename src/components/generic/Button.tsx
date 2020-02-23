@@ -40,7 +40,7 @@ const Button: FC<IButton> = ({disabled, onPress, text, textStyle, loading, wrapp
             loading ?
                 <ActivityIndicator />
                 :
-                <LargeText style={[disabled && {color: colors.darkGrey}, textStyle]}>
+                <LargeText style={[{color: colors.white}, textStyle]}>
                     {text}
                 </LargeText>
         }

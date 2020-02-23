@@ -8,17 +8,17 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {Route} from './enums/Route';
 import {getApolloClient} from './graphql/apollo-client';
 import {setAppState} from './redux/action-creators';
-import LoadingView from './components/generic/LoadingView';
-import Login from './screens/Login';
 import {IAppState} from './redux/reducer';
-import {AppStatus} from './enums/AppStatus';
-import ErrorView from './components/generic/ErrorView';
 import {SCREEN_WIDTH} from './constants/dimensions';
 import {CloseIcon, HamburgerMenu} from './components/navigation/HeaderComponents';
 import {MAIN_SCREENS, MODALS} from './screens';
 import {colors} from './constants/colors';
 import {useMode} from './redux/hooks';
 import {Mode} from './enums/Mode';
+import {AppStatus} from './enums/AppStatus';
+import LoadingView from './components/generic/LoadingView';
+import ErrorView from './components/generic/ErrorView';
+import Login from './screens/Login';
 
 const LightThemeObject = {
     colors: {
@@ -80,43 +80,61 @@ const App: FC = () => {
         setAppState();
     }, []);
     const appStatus = useSelector((state: IAppState) => state.appStatus);
+
+    const AppStatusToComponent = {
+        [AppStatus.LOADING]: (): JSX.Element =>
+            <RootStack.Navigator>
+                <RootStack.Screen
+                    component={LoadingView}
+                    name={''}
+                />
+            </RootStack.Navigator>,
+        [AppStatus.ERROR]: (): JSX.Element =>
+            <RootStack.Navigator>
+                <RootStack.Screen
+                    component={ErrorView}
+                    name={'Error'}
+                />
+            </RootStack.Navigator>,
+        [AppStatus.LOGGED_OUT]: (): JSX.Element =>
+            <RootStack.Navigator>
+                <RootStack.Screen
+                    component={Login}
+                    name={Route.LOGIN}
+                />
+            </RootStack.Navigator>,
+        [AppStatus.LOGGED_IN]: (): JSX.Element =>
+            <RootStack.Navigator
+                headerMode={'screen'}
+                mode={'modal'}
+            >
+                <RootStack.Screen
+                    component={DrawerNavigator}
+                    name={Route.HOME}
+                    options={{headerShown: false}}
+                />
+                {
+                    Object.keys(MODALS).map<JSX.Element>((route) =>
+                        <RootStack.Screen
+                            component={MODALS[route]}
+                            key={route}
+                            name={route}
+                            options={modalOptions}
+                        />
+                    )
+                }
+            </RootStack.Navigator>
+    };
+    const Component = AppStatusToComponent[appStatus];
     const theme = useMode() === Mode.DARK ? DarkThemeObject : LightThemeObject;
 
-    switch (appStatus) {
-        case AppStatus.LOGGED_IN:
-            return (
-                <NavigationNativeContainer theme={theme}>
-                    <ApolloProvider client={getApolloClient()}>
-                        <RootStack.Navigator
-                            headerMode={'screen'}
-                            mode={'modal'}
-                        >
-                            <RootStack.Screen
-                                component={DrawerNavigator}
-                                name={Route.HOME}
-                                options={{headerShown: false}}
-                            />
-                            {
-                                Object.keys(MODALS).map<JSX.Element>((route) =>
-                                    <RootStack.Screen
-                                        component={MODALS[route]}
-                                        key={route}
-                                        name={route}
-                                        options={modalOptions}
-                                    />
-                                )
-                            }
-                        </RootStack.Navigator>
-                    </ApolloProvider>
-                </NavigationNativeContainer>
-            );
-        case AppStatus.LOGGED_OUT:
-            return <Login />;
-        case AppStatus.ERROR:
-            return <ErrorView />;
-        default:
-            return <LoadingView />;
-    }
+    return (
+        <NavigationNativeContainer theme={theme}>
+            <ApolloProvider client={getApolloClient()}>
+                <Component />
+            </ApolloProvider>
+        </NavigationNativeContainer>
+    );
 };
 
 export default App;

@@ -6,7 +6,7 @@ import {Picker, View} from 'react-native';
 
 import {chance} from '../../chance';
 import {createRandomAppState, createRandomExpenses, createRandomVariableCategories} from '../../models';
-import CreateExpenseForm from '../../../src/components/budget/CreateExpenseForm';
+import CreateExpenseForm from '../../../src/components/expense/CreateExpenseForm';
 import {createExpenseMutation} from '../../../src/graphql/mutations';
 import {getUserId} from '../../../src/services/auth-service';
 import {createExpenseUpdate} from '../../../src/utils/update-cache-utils';

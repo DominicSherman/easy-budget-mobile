@@ -7,9 +7,6 @@ import * as apolloClient from '../src/graphql/apollo-client';
 import App from '../src/App';
 import {setAppState} from '../src/redux/action-creators';
 import {AppStatus} from '../src/enums/AppStatus';
-import Login from '../src/screens/Login';
-import ErrorView from '../src/components/generic/ErrorView';
-import LoadingView from '../src/components/generic/LoadingView';
 
 import {chance} from './chance';
 
@@ -58,18 +55,21 @@ describe('App', () => {
         useSelector.mockReturnValue(AppStatus.LOGGED_OUT);
         render();
 
-        root.findByType(Login);
+        root.findByType(NavigationNativeContainer);
     });
 
     it('should render an ErrorView if the app status error', () => {
         useSelector.mockReturnValue(AppStatus.ERROR);
         render();
 
-        root.findByType(ErrorView);
+        root.findByType(NavigationNativeContainer);
     });
 
     it('should render a LoadingView otherwise', () => {
-        root.findByType(LoadingView);
+        useSelector.mockReturnValue(AppStatus.LOADING);
+        render();
+
+        root.findByType(NavigationNativeContainer);
     });
 
     it('should call setAppState', () => {
