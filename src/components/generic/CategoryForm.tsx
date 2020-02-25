@@ -1,6 +1,7 @@
 import React, {Dispatch, FC, SetStateAction, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 import {textStyles} from '../../styles/text-styles';
 import {FeatherNames} from '../../enums/IconNames';
@@ -23,8 +24,7 @@ const styles = StyleSheet.create({
     },
     wrapper: {
         alignItems: 'center',
-        marginBottom: 8,
-        paddingBottom: 80,
+        paddingBottom: 40,
         width: '100%'
     }
 });
@@ -115,7 +115,10 @@ const DropdownForm: FC<IDropdownProps> = (props) => {
     }
 
     return (
-        <View style={styles.wrapper}>
+        <KeyboardAwareScrollView
+            contentContainerStyle={styles.wrapper}
+            style={{height: 425}}
+        >
             <View style={{justifyContent: 'center'}}>
                 <RegularText style={textStyles.large}>{headerText}</RegularText>
             </View>
@@ -146,7 +149,7 @@ const DropdownForm: FC<IDropdownProps> = (props) => {
                 text={buttonText}
                 wrapperStyle={{marginTop: 16}}
             />
-        </View>
+        </KeyboardAwareScrollView>
     );
 };
 
