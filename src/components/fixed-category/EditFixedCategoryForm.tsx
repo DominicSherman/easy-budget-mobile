@@ -52,7 +52,6 @@ const EditFixedCategoryForm: FC<{fixedCategory: IFixedCategory}> = ({fixedCatego
             amount={updatedAmount}
             buttonText={'Update'}
             disabled={disabled}
-            headerText={'Edit Fixed Category'}
             name={updatedName}
             note={updatedNote}
             onPress={onPress}
