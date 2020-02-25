@@ -3,6 +3,7 @@ import React from 'react';
 import * as reactHooks from '@apollo/react-hooks';
 import * as reactRedux from 'react-redux';
 import {MutationResult} from '@apollo/react-common';
+import * as reactNavigation from '@react-navigation/native';
 
 import Home from '../../src/screens/Home';
 import {getUserId} from '../../src/services/auth-service';
@@ -11,7 +12,8 @@ import {
     createRandomExpenses,
     createRandomFixedCategories,
     createRandomQueryResult,
-    createRandomTimePeriods, createRandomUserInformation,
+    createRandomTimePeriods,
+    createRandomUserInformation,
     createRandomVariableCategories
 } from '../models';
 import {homeScreenQuery} from '../../src/graphql/queries';
@@ -19,6 +21,9 @@ import {getRoundedDate} from '../../src/services/moment-service';
 import {getEarlyReturn} from '../../src/services/error-and-loading-service';
 import NoActiveTimePeriod from '../../src/components/time-period/NoActiveTimePeriod';
 import {chance} from '../chance';
+import CardView from '../../src/components/generic/CardView';
+import {Route} from '../../src/enums/Route';
+import Button from '../../src/components/generic/Button';
 
 jest.mock('@apollo/react-hooks');
 jest.mock('react-redux');
@@ -28,8 +33,10 @@ jest.mock('../../src/services/auth-service');
 describe('Home', () => {
     const {useQuery, useMutation} = reactHooks as jest.Mocked<typeof reactHooks>;
     const {useSelector} = reactRedux as jest.Mocked<typeof reactRedux>;
+    const {useNavigation} = reactNavigation as jest.Mocked<typeof reactNavigation>;
 
     let root,
+        expectedNavigation,
         expectedTimePeriodId,
         expectedUserInformation,
         expectedData;
@@ -47,10 +54,14 @@ describe('Home', () => {
             timePeriods: createRandomTimePeriods(),
             variableCategories: createRandomVariableCategories()
         });
+        expectedNavigation = {
+            navigate: jest.fn()
+        };
 
         useSelector.mockReturnValue([expectedTimePeriodId, expectedUserInformation]);
         useQuery.mockReturnValue(expectedData);
         useMutation.mockReturnValue([jest.fn(), {} as MutationResult]);
+        useNavigation.mockReturnValue(expectedNavigation);
 
         render();
     });
@@ -95,5 +106,37 @@ describe('Home', () => {
         render();
 
         root.findByType(NoActiveTimePeriod);
+    });
+
+    it('should render two CardViews', () => {
+        const [
+            renderedVariableCategories,
+            renderedFixedCategories
+        ] = root.findAllByType(CardView);
+
+        renderedVariableCategories.props.onPress();
+        renderedFixedCategories.props.onPress();
+
+        expect(expectedNavigation.navigate).toHaveBeenCalledTimes(2);
+        expect(expectedNavigation.navigate).toHaveBeenCalledWith({
+            name: Route.VARIABLE_CATEGORIES,
+            params: {}
+        });
+        expect(expectedNavigation.navigate).toHaveBeenCalledWith({
+            name: Route.FIXED_CATEGORIES,
+            params: {}
+        });
+    });
+
+    it('should render a button', () => {
+        const renderedButton = root.findByType(Button);
+
+        renderedButton.props.onPress();
+
+        expect(expectedNavigation.navigate).toHaveBeenCalledTimes(1);
+        expect(expectedNavigation.navigate).toHaveBeenCalledWith({
+            name: Route.EXPENSES,
+            params: {}
+        });
     });
 });
