@@ -35,15 +35,15 @@ const FixedCategories: React.FC = () => {
     const sortedFixedCategories = fixedCategories.sort(sortByAmount).sort(sortByPaid);
 
     return (
-        <SafeAreaView>
+        <SafeAreaView style={{height: '100%'}}>
             <FlatList
-                ListHeaderComponent={<CreateFixedCategoryForm />}
                 data={sortedFixedCategories}
                 keyExtractor={(item): string => item.fixedCategoryId}
                 renderItem={({item}): JSX.Element =>
                     <FixedCategoryItem fixedCategory={item} />
                 }
             />
+            <CreateFixedCategoryForm />
         </SafeAreaView>
     );
 };

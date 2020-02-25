@@ -12,7 +12,6 @@ import {
 } from '../models';
 import {chance} from '../chance';
 import {getEarlyReturn} from '../../src/services/error-and-loading-service';
-import CreateVariableCategoryForm from '../../src/components/variable-category/CreateVariableCategoryForm';
 import {sortByName} from '../../src/utils/sorting-utils';
 import {IVariableCategory} from '../../autogen/IVariableCategory';
 import NoActiveTimePeriod from '../../src/components/time-period/NoActiveTimePeriod';
@@ -88,7 +87,6 @@ describe('VariableCategories', () => {
     it('should render a FlatList', () => {
         const renderedFlatList = root.findByType(FlatList);
 
-        expect(renderedFlatList.props.ListHeaderComponent.type).toBe(CreateVariableCategoryForm);
         expect(renderedFlatList.props.data).toBe(expectedData.data.variableCategories.sort(sortByName));
 
         const expectedItem = chance.pickone<IVariableCategory>(expectedData.data.variableCategories);
