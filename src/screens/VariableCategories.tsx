@@ -34,9 +34,8 @@ const VariableCategories: React.FC = () => {
     const sortedVariableCategories = variableCategories.sort(sortByAmount);
 
     return (
-        <SafeAreaView>
+        <SafeAreaView style={{height: '100%'}}>
             <FlatList
-                ListHeaderComponent={<CreateVariableCategoryForm />}
                 data={sortedVariableCategories}
                 keyExtractor={(item): string => item.variableCategoryId}
                 renderItem={({item}): JSX.Element =>
@@ -45,6 +44,7 @@ const VariableCategories: React.FC = () => {
                     />
                 }
             />
+            <CreateVariableCategoryForm />
         </SafeAreaView>
     );
 };

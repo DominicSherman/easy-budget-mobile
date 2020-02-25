@@ -66,7 +66,7 @@ const EditExpenseForm: FC<{ expense: IExpense }> = ({expense}) => {
             amount={updatedAmount}
             buttonText={'Update'}
             disabled={disabled}
-            headerText={'Edit Fixed Category'}
+            headerText={'Edit Expense'}
             name={updatedName}
             onPress={onPressUpdate}
             setAmount={setUpdatedAmount}

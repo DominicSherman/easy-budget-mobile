@@ -5,7 +5,8 @@ import Feather from 'react-native-vector-icons/Feather';
 import {textStyles} from '../../styles/text-styles';
 import {FeatherNames} from '../../enums/IconNames';
 import {easeInTransition} from '../../services/animation-service';
-import {usePrimaryColor} from '../../redux/hooks';
+import {useBackgroundColor, usePrimaryColor} from '../../redux/hooks';
+import {SCREEN_WIDTH} from '../../constants/dimensions';
 
 import {RegularText} from './Text';
 import Button from './Button';
@@ -13,14 +14,17 @@ import Input from './Input';
 
 const styles = StyleSheet.create({
     buttonWrapper: {
-        marginLeft: '80%',
-        marginTop: 8,
-        width: '100%'
+        borderRadius: 400,
+        borderWidth: 3,
+        bottom: 24,
+        left: SCREEN_WIDTH - 72,
+        paddingHorizontal: 2,
+        position: 'absolute'
     },
     wrapper: {
         alignItems: 'center',
         marginBottom: 8,
-        paddingBottom: 8,
+        paddingBottom: 80,
         width: '100%'
     }
 });
@@ -48,13 +52,13 @@ const CategoryForm: FC<ICreateCategoryFormProps> = (props) => {
 
     return (
         <View style={{marginTop: 16}}>
+            <DropdownForm
+                isVisible={isVisible}
+                {...props}
+            />
             <ToggleIcon
                 isVisible={isVisible}
                 setVisible={setVisible}
-                {...props}
-            />
-            <DropdownForm
-                isVisible={isVisible}
                 {...props}
             />
         </View>
@@ -66,22 +70,25 @@ interface IToggleIconProps extends ICreateCategoryFormProps {
     setVisible: () => void
 }
 
-const Icon: FC<IToggleIconProps> = ({isVisible, setVisible}) =>
-    <Feather
-        color={usePrimaryColor()}
-        name={isVisible ? FeatherNames.X_CIRCLE : FeatherNames.PLUS_CIRCLE}
-        onPress={setVisible}
-        size={50}
-    />;
+const ToggleIcon: FC<IToggleIconProps> = ({toggleable, isVisible, setVisible}) => {
+    const primaryColor = usePrimaryColor();
+    const themeStyles = {
+        backgroundColor: useBackgroundColor(),
+        borderColor: primaryColor
+    };
 
-const ToggleIcon: FC<IToggleIconProps> = ({toggleable, isVisible, setVisible, ...props}) => toggleable ?
-    <View style={styles.buttonWrapper}>
-        <Icon
-            isVisible={isVisible}
-            setVisible={setVisible}
-            {...props}
-        />
-    </View> : null;
+    return (
+        toggleable ?
+            <View style={[styles.buttonWrapper, themeStyles]}>
+                <Feather
+                    color={primaryColor}
+                    name={isVisible ? FeatherNames.X : FeatherNames.PLUS}
+                    onPress={setVisible}
+                    size={40}
+                />
+            </View> : null
+    );
+};
 
 interface IDropdownProps extends ICreateCategoryFormProps {
     isVisible: boolean
