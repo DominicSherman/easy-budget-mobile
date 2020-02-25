@@ -1,10 +1,10 @@
 import React from 'react';
-import {SafeAreaView, StyleSheet, View} from 'react-native';
+import {SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
 import {useQuery} from '@apollo/react-hooks';
 import {useSelector} from 'react-redux';
 import {User} from '@react-native-community/google-signin';
 import moment from 'moment';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {useNavigation} from '@react-navigation/native';
 
 import {LargeText, RegularText, SmallText, TitleText} from '../components/generic/Text';
 import {getUserId} from '../services/auth-service';
@@ -16,7 +16,8 @@ import {IAppState} from '../redux/reducer';
 import {HomeScreenQuery, HomeScreenQueryVariables} from '../../autogen/HomeScreenQuery';
 import CardView from '../components/generic/CardView';
 import {SCREEN_WIDTH} from '../constants/dimensions';
-import CreateExpenseForm from '../components/expense/CreateExpenseForm';
+import {Route} from '../enums/Route';
+import Button from '../components/generic/Button';
 
 const styles = StyleSheet.create({
     bottomWrapper: {
@@ -54,6 +55,7 @@ const Home: React.FC = () => {
             userId: getUserId()
         }
     });
+    const navigation = useNavigation();
 
     if (!queryResult.data) {
         return getEarlyReturn(queryResult);
@@ -75,21 +77,29 @@ const Home: React.FC = () => {
 
     return (
         <SafeAreaView>
-            <KeyboardAwareScrollView
-                contentContainerStyle={{alignItems: 'center'}}
+            <ScrollView
+                contentContainerStyle={{
+                    alignItems: 'center',
+                    height: '100%'
+                }}
             >
                 <LargeText style={{marginTop: 16}}>
                     {`${formatTimePeriod(activeTimePeriod.beginDate)} - ${formatTimePeriod(activeTimePeriod.endDate)} (${moment(activeTimePeriod.endDate).diff(moment(activeTimePeriod.beginDate), 'd') + 1} days)`}
                 </LargeText>
                 <SmallText>
-                    {`${moment().diff(moment(activeTimePeriod.beginDate), 'd')} days done, ${moment(activeTimePeriod.endDate).diff(moment(), 'd')} days remaining`}
+                    {`${moment().diff(moment(activeTimePeriod.beginDate), 'd')} days done, ${moment(activeTimePeriod.endDate).diff(moment(), 'd') + 1} days remaining`}
                 </SmallText>
                 <TitleText style={{marginTop: 16}}>
                     {`Welcome, ${userInformation.user.givenName}! 🎉`}
                 </TitleText>
                 <View style={{marginTop: 32}}>
                     <CardView
-                        disabled
+                        onPress={(): void => {
+                            navigation.navigate({
+                                name: Route.VARIABLE_CATEGORIES,
+                                params: {}
+                            });
+                        }}
                         shadow
                         style={styles.wrapper}
                     >
@@ -117,7 +127,12 @@ const Home: React.FC = () => {
                 </View>
                 <View style={{marginVertical: 32}}>
                     <CardView
-                        disabled
+                        onPress={(): void => {
+                            navigation.navigate({
+                                name: Route.FIXED_CATEGORIES,
+                                params: {}
+                            });
+                        }}
                         shadow
                         style={styles.wrapper}
                     >
@@ -143,8 +158,16 @@ const Home: React.FC = () => {
                         </View>
                     </CardView>
                 </View>
-                <CreateExpenseForm />
-            </KeyboardAwareScrollView>
+                <Button
+                    onPress={(): void => {
+                        navigation.navigate({
+                            name: Route.EXPENSES,
+                            params: {}
+                        });
+                    }}
+                    text={'Create Expense'}
+                />
+            </ScrollView>
         </SafeAreaView>
     );
 };
