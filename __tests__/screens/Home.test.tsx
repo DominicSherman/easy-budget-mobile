@@ -4,6 +4,7 @@ import * as reactHooks from '@apollo/react-hooks';
 import * as reactRedux from 'react-redux';
 import {MutationResult} from '@apollo/react-common';
 import * as reactNavigation from '@react-navigation/native';
+import moment from 'moment';
 
 import Home from '../../src/screens/Home';
 import {getUserId} from '../../src/services/auth-service';
@@ -24,7 +25,6 @@ import {chance} from '../chance';
 import CardView from '../../src/components/generic/CardView';
 import {Route} from '../../src/enums/Route';
 import Button from '../../src/components/generic/Button';
-import moment from 'moment';
 import {SmallText} from '../../src/components/generic/Text';
 
 jest.mock('@apollo/react-hooks');
