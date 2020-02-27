@@ -4,6 +4,7 @@ import * as reactHooks from '@apollo/react-hooks';
 import * as reactRedux from 'react-redux';
 import {MutationResult} from '@apollo/react-common';
 import * as reactNavigation from '@react-navigation/native';
+import moment from 'moment';
 
 import Home from '../../src/screens/Home';
 import {getUserId} from '../../src/services/auth-service';
@@ -24,6 +25,7 @@ import {chance} from '../chance';
 import CardView from '../../src/components/generic/CardView';
 import {Route} from '../../src/enums/Route';
 import Button from '../../src/components/generic/Button';
+import {SmallText} from '../../src/components/generic/Text';
 
 jest.mock('@apollo/react-hooks');
 jest.mock('react-redux');
@@ -138,5 +140,14 @@ describe('Home', () => {
             name: Route.EXPENSES,
             params: {}
         });
+    });
+
+    it('should use the correct text if there is only one day remaining', () => {
+        expectedData.data.timePeriods[0].endDate = moment().add(5, 'm').toISOString();
+        render();
+
+        const renderedText = root.findAllByType(SmallText)[0];
+
+        expect(renderedText.props.children).toBe(`${moment().diff(moment(expectedData.data.timePeriods[0].beginDate), 'd')} days done, final day today`);
     });
 });
