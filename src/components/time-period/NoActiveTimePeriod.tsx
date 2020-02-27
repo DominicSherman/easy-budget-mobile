@@ -16,7 +16,7 @@ import {CreateTimePeriodMutation, CreateTimePeriodMutationVariables} from '../..
 import {setAppState} from '../../redux/action-creators';
 
 const now = moment().startOf('day').toISOString();
-const fourWeeks = moment().startOf('day').add(4, 'w').subtract(1, 'd').toISOString();
+const fourWeeks = moment().startOf('day').add(4, 'w').toISOString();
 const formats = {
     nextDay: '[Tomorrow]',
     nextWeek: 'dddd',
@@ -30,7 +30,7 @@ const NoActiveTimePeriod: FC = () => {
     const navigation = useNavigation();
     const timePeriod = {
         beginDate: moment(beginDate).toISOString(),
-        endDate: moment(endDate).toISOString(),
+        endDate: moment(endDate).add(1, 'd').toISOString(),
         timePeriodId: uuid.v4(),
         userId: getUserId()
     };

@@ -74,6 +74,8 @@ const Home: React.FC = () => {
     const fixedCategoriesTotal = fixedCategories.reduce((total, fixedCategory) => total + fixedCategory.amount, 0);
     const expensesTotal = expenses.reduce((total, expense) => total + expense.amount, 0);
     const fixedExpensesTotal = fixedCategories.filter((category) => category.paid).reduce((total, fixedCategory) => total + fixedCategory.amount, 0);
+    const daysRemaining = moment(activeTimePeriod.endDate).diff(moment(), 'd') + 1;
+    const daysRemainingText = daysRemaining > 1 ? `${daysRemaining} days remaining` : 'final day today';
 
     return (
         <SafeAreaView>
@@ -84,10 +86,10 @@ const Home: React.FC = () => {
                 }}
             >
                 <LargeText style={{marginTop: 16}}>
-                    {`${formatTimePeriod(activeTimePeriod.beginDate)} - ${formatTimePeriod(activeTimePeriod.endDate)} (${moment(activeTimePeriod.endDate).diff(moment(activeTimePeriod.beginDate), 'd') + 1} days)`}
+                    {`${formatTimePeriod(activeTimePeriod.beginDate)} - ${formatTimePeriod(moment(activeTimePeriod.endDate).subtract(1, 'd').toISOString())} (${moment(activeTimePeriod.endDate).diff(moment(activeTimePeriod.beginDate), 'd')} days)`}
                 </LargeText>
                 <SmallText>
-                    {`${moment().diff(moment(activeTimePeriod.beginDate), 'd')} days done, ${moment(activeTimePeriod.endDate).diff(moment(), 'd') + 1} days remaining`}
+                    {`${moment().diff(moment(activeTimePeriod.beginDate), 'd')} days done, ${daysRemainingText}`}
                 </SmallText>
                 <TitleText style={{marginTop: 16}}>
                     {`Welcome, ${userInformation.user.givenName}! 🎉`}
