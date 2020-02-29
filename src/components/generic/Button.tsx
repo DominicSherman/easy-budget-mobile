@@ -4,6 +4,7 @@ import Touchable from 'react-native-platform-touchable';
 
 import {colors} from '../../constants/colors';
 import {SCREEN_WIDTH} from '../../constants/dimensions';
+import {shadow} from '../../styles/shared-styles';
 
 import {LargeText} from './Text';
 
@@ -34,7 +35,7 @@ const Button: FC<IButton> = ({disabled, onPress, text, textStyle, loading, wrapp
     <Touchable
         disabled={disabled || loading}
         onPress={onPress}
-        style={[styles.wrapper, disabled && styles.disabled, wrapperStyle]}
+        style={[styles.wrapper, disabled && styles.disabled, shadow, wrapperStyle]}
     >
         {
             loading ?

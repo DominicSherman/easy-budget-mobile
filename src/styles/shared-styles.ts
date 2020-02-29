@@ -26,10 +26,10 @@ export const centeredColumn: Record<string, any> = {
 };
 
 export const shadow = {
-    borderColor: colors.white,
+    borderColor: colors.black,
     borderWidth: 0,
     elevation: 3,
-    shadowColor: colors.white,
+    shadowColor: colors.black,
     shadowOffset: {
         height: 2,
         width: 0

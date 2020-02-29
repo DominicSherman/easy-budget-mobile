@@ -1,13 +1,21 @@
 import React, {FC, useState} from 'react';
 import {useMutation} from '@apollo/react-hooks';
+import {Alert} from 'react-native';
 
 import {IFixedCategory} from '../../../autogen/IFixedCategory';
-import {updateFixedCategoryMutation} from '../../graphql/mutations';
+import {deleteFixedCategoryMutation, updateFixedCategoryMutation} from '../../graphql/mutations';
 import {
     UpdateFixedCategoryMutation,
     UpdateFixedCategoryMutationVariables
 } from '../../../autogen/UpdateFixedCategoryMutation';
 import CategoryForm from '../generic/CategoryForm';
+import {
+    DeleteFixedCategoryMutation,
+    DeleteFixedCategoryMutationVariables
+} from '../../../autogen/DeleteFixedCategoryMutation';
+import {deleteFixedCategoryUpdate} from '../../utils/update-cache-utils';
+import {getUserId} from '../../services/auth-service';
+import {easeInTransition} from '../../services/animation-service';
 
 interface IEditFixedCategoryFormProps {
     fixedCategory: IFixedCategory
@@ -51,6 +59,32 @@ const EditFixedCategoryForm: FC<IEditFixedCategoryFormProps> = ({fixedCategory, 
             onUpdate();
         }
     };
+    const [deleteFixedCategory] = useMutation<DeleteFixedCategoryMutation, DeleteFixedCategoryMutationVariables>(deleteFixedCategoryMutation, {
+        optimisticResponse: {
+            deleteFixedCategory: fixedCategoryId
+        },
+        update: deleteFixedCategoryUpdate,
+        variables: {
+            fixedCategoryId,
+            userId: getUserId()
+        }
+    });
+    const onPressDelete = (): void => {
+        Alert.alert(
+            `Delete ${fixedCategory.name}?`,
+            '',
+            [
+                {text: 'Cancel'},
+                {
+                    onPress: (): void => {
+                        easeInTransition();
+                        deleteFixedCategory();
+                    },
+                    text: 'Confirm'
+                }
+            ]
+        );
+    };
     const disabled = JSON.stringify(originalValues) === JSON.stringify(updatedValues);
 
     return (
@@ -61,6 +95,8 @@ const EditFixedCategoryForm: FC<IEditFixedCategoryFormProps> = ({fixedCategory, 
             name={updatedName}
             note={updatedNote}
             onPress={onPress}
+            secondButtonText={'Delete'}
+            secondOnPress={onPressDelete}
             setAmount={setUpdatedAmount}
             setName={setUpdatedName}
             setNote={setUpdatedNote}

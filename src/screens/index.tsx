@@ -137,6 +137,7 @@ export const RootNavigator: FC<{ appStatus: AppStatus }> = ({appStatus}) =>
                 <Stack.Screen
                     component={LoadingView}
                     name={Route.LOADING}
+                    options={{headerTitle: ''}}
                 /> : null
         }
         {

@@ -4,6 +4,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 import {textStyles} from '../../styles/text-styles';
 import {easeInTransition} from '../../services/animation-service';
+import {colors} from '../../constants/colors';
 
 import {RegularText} from './Text';
 import Button from './Button';
@@ -19,6 +20,7 @@ const styles = StyleSheet.create({
 
 interface ICreateCategoryFormProps {
     buttonText: string
+    secondButtonText?: string
     disabled?: boolean
     headerText?: string
     setName: Dispatch<SetStateAction<any>>
@@ -28,6 +30,7 @@ interface ICreateCategoryFormProps {
     note?: string | null
     setNote?: Dispatch<SetStateAction<any>>
     onPress: () => void
+    secondOnPress?: () => void
     toggleable?: boolean
 }
 
@@ -80,7 +83,9 @@ const DropdownForm: FC<IDropdownProps> = (props) => {
         onPress,
         note,
         setNote,
-        toggleable
+        toggleable,
+        secondButtonText,
+        secondOnPress
     } = props;
 
     if (toggleable && !isVisible) {
@@ -116,12 +121,43 @@ const DropdownForm: FC<IDropdownProps> = (props) => {
                     :
                     null
             }
-            <Button
-                disabled={disabled || !name.length || !amount.length}
-                onPress={onPress}
-                text={buttonText}
-                wrapperStyle={{marginTop: 16}}
-            />
+            {
+                secondButtonText && secondOnPress ?
+
+                    <View
+                        style={{
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            width: '100%'
+                        }}
+                    >
+                        <Button
+                            onPress={secondOnPress}
+                            text={secondButtonText}
+                            wrapperStyle={{
+                                backgroundColor: colors.red,
+                                marginTop: 16,
+                                width: '48%'
+                            }}
+                        />
+                        <Button
+                            disabled={disabled || !name.length || !amount.length}
+                            onPress={onPress}
+                            text={buttonText}
+                            wrapperStyle={{
+                                marginTop: 16,
+                                width: '48%'
+                            }}
+                        />
+                    </View>
+                    :
+                    <Button
+                        disabled={disabled || !name.length || !amount.length}
+                        onPress={onPress}
+                        text={buttonText}
+                        wrapperStyle={{marginTop: 16}}
+                    />
+            }
         </View>
     );
 };
