@@ -1,6 +1,5 @@
 import React, {FC, useState} from 'react';
 import {useMutation} from '@apollo/react-hooks';
-import {useNavigation} from '@react-navigation/native';
 
 import {IFixedCategory} from '../../../autogen/IFixedCategory';
 import {updateFixedCategoryMutation} from '../../graphql/mutations';
@@ -10,8 +9,12 @@ import {
 } from '../../../autogen/UpdateFixedCategoryMutation';
 import CategoryForm from '../generic/CategoryForm';
 
-const EditFixedCategoryForm: FC<{fixedCategory: IFixedCategory}> = ({fixedCategory}) => {
-    const navigation = useNavigation();
+interface IEditFixedCategoryFormProps {
+    fixedCategory: IFixedCategory
+    onUpdate?: () => void
+}
+
+const EditFixedCategoryForm: FC<IEditFixedCategoryFormProps> = ({fixedCategory, onUpdate}) => {
     const {amount, name, note, fixedCategoryId, userId} = fixedCategory;
     const [updatedAmount, setUpdatedAmount] = useState(amount.toString());
     const [updatedName, setUpdatedName] = useState(name);
@@ -43,7 +46,10 @@ const EditFixedCategoryForm: FC<{fixedCategory: IFixedCategory}> = ({fixedCatego
     });
     const onPress = (): void => {
         updateFixedCategory();
-        navigation.goBack();
+
+        if (onUpdate) {
+            onUpdate();
+        }
     };
     const disabled = JSON.stringify(originalValues) === JSON.stringify(updatedValues);
 

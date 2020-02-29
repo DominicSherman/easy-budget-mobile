@@ -113,20 +113,23 @@ const FixedCategoryItem: FC<{ fixedCategory: IFixedCategory }> = ({fixedCategory
                         hitSlop={hitSlop}
                         onPress={toggleExpanded}
                     >
-                        <View style={styles.verticalCenter}>
+                        <View style={[styles.verticalCenter, {width: 36}]}>
                             <Feather
                                 color={color}
-                                name={FeatherNames.EDIT}
+                                name={expanded ? FeatherNames.X : FeatherNames.EDIT}
                                 size={20}
                             />
-                            <SmallText>{'edit'}</SmallText>
+                            <SmallText>{expanded ? 'close' : 'edit'}</SmallText>
                         </View>
                     </Touchable>
                 </View>
             </View>
             {
                 expanded &&
-                    <EditFixedCategoryForm fixedCategory={fixedCategory} />
+                    <EditFixedCategoryForm
+                        fixedCategory={fixedCategory}
+                        onUpdate={toggleExpanded}
+                    />
             }
         </CardView>
     );
