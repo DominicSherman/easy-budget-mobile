@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginTop: 16,
+        marginVertical: 16,
         width: '80%'
     },
     verticalCenter: {

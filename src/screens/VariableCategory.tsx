@@ -1,5 +1,5 @@
 import React from 'react';
-import {FlatList, SafeAreaView, View} from 'react-native';
+import {FlatList, SafeAreaView, StyleSheet, View} from 'react-native';
 import {useQuery} from '@apollo/react-hooks';
 
 import {IScreenFC} from '../types/global';
@@ -7,13 +7,18 @@ import {Route} from '../enums/Route';
 import {getEarlyReturn} from '../services/error-and-loading-service';
 import {getUserId} from '../services/auth-service';
 import {getVariableCategoryQuery} from '../graphql/queries';
-import EditVariableCategoryForm from '../components/variable-category/EditVariableCategoryForm';
 import {GetVariableCategory, GetVariableCategoryVariables} from '../../autogen/GetVariableCategory';
 import ExpenseItem from '../components/expense/ExpenseItem';
 import {RegularText, TitleText} from '../components/generic/Text';
 import {sortByDate} from '../utils/sorting-utils';
 import VariableCategoryDetails from '../components/variable-category/VariableCategoryDetails';
-import DeleteVariableCategoryButton from '../components/variable-category/DeleteVariableCategoryButton';
+
+const styles = StyleSheet.create({
+    wrapper: {
+        alignItems: 'center',
+        height: '100%'
+    }
+});
 
 export interface IVariableCategoryProps {
     variableCategoryId: string
@@ -34,17 +39,11 @@ const VariableCategory: IScreenFC<Route.VARIABLE_CATEGORY> = ({route: {params: {
     const {variableCategory} = queryResult.data;
 
     return (
-        <SafeAreaView style={{alignItems: 'center'}}>
+        <SafeAreaView style={styles.wrapper}>
             <FlatList
                 ListEmptyComponent={
                     <View style={{alignItems: 'center'}}>
                         <RegularText style={{margin: 32}}>{'No expenses for this category yet! 🚀'}</RegularText>
-                    </View>
-                }
-                ListFooterComponent={
-                    <View style={{alignItems: 'center'}}>
-                        <EditVariableCategoryForm variableCategory={variableCategory} />
-                        <DeleteVariableCategoryButton variableCategoryId={variableCategoryId} />
                     </View>
                 }
                 ListHeaderComponent={
