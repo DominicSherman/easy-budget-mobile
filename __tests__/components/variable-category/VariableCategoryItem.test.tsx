@@ -1,6 +1,5 @@
 import TestRenderer, {act} from 'react-test-renderer';
 import React from 'react';
-import Touchable from 'react-native-platform-touchable';
 import * as reactNavigationNative from '@react-navigation/native';
 
 import {createRandomExpense, createRandomExpenses, createRandomVariableCategory} from '../../models';
@@ -8,8 +7,12 @@ import VariableCategoryItem from '../../../src/components/variable-category/Vari
 import {chance} from '../../chance';
 import CardView from '../../../src/components/generic/CardView';
 import {Route} from '../../../src/enums/Route';
+import EditIcon from '../../../src/components/generic/EditIcon';
+import EditVariableCategoryForm from '../../../src/components/variable-category/EditVariableCategoryForm';
 
 jest.mock('../../../src/redux/hooks');
+jest.mock('../../../src/services/animation-service');
+jest.mock('../../../src/services/auth-service');
 
 describe('VariableCategoryItem', () => {
     let root,
@@ -58,14 +61,13 @@ describe('VariableCategoryItem', () => {
         root.findByProps({children: 'remaining'});
     });
 
-    it('should render a touchable to toggle visibility', () => {
-        const renderedTouchable = root.findAllByType(Touchable)[1];
+    it('should render an edit icon to toggle the edit form', () => {
+        const renderedTouchable = root.findByType(EditIcon);
 
         act(() => {
             renderedTouchable.props.onPress();
         });
 
-        root.findByProps({children: 'budgeted'});
-        root.findByProps({children: 'spent'});
+        root.findByType(EditVariableCategoryForm);
     });
 });

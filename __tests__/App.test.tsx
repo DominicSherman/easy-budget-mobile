@@ -1,7 +1,7 @@
 import TestRenderer from 'react-test-renderer';
 import React from 'react';
 import * as reactRedux from 'react-redux';
-import {NavigationNativeContainer} from '@react-navigation/native';
+import {NavigationContainer} from '@react-navigation/native';
 
 import * as apolloClient from '../src/graphql/apollo-client';
 import App from '../src/App';
@@ -16,7 +16,7 @@ jest.mock('@react-navigation/native', () => ({
     DefaultTheme: {
         colors: ['']
     },
-    NavigationNativeContainer: (): JSX.Element => <></>
+    NavigationContainer: (): JSX.Element => <></>
 }));
 jest.mock('@react-navigation/drawer', () => ({
     createDrawerNavigator: jest.fn(() => ({
@@ -44,32 +44,11 @@ describe('App', () => {
         render();
     });
 
-    it('should render a NavigationNativeContainer if the app status is logged in', () => {
+    it('should render a NavigationContainer', () => {
         useSelector.mockReturnValue(AppStatus.LOGGED_IN);
         render();
 
-        root.findByType(NavigationNativeContainer);
-    });
-
-    it('should render the Login screen if the app status is logged out', () => {
-        useSelector.mockReturnValue(AppStatus.LOGGED_OUT);
-        render();
-
-        root.findByType(NavigationNativeContainer);
-    });
-
-    it('should render an ErrorView if the app status error', () => {
-        useSelector.mockReturnValue(AppStatus.ERROR);
-        render();
-
-        root.findByType(NavigationNativeContainer);
-    });
-
-    it('should render a LoadingView otherwise', () => {
-        useSelector.mockReturnValue(AppStatus.LOADING);
-        render();
-
-        root.findByType(NavigationNativeContainer);
+        root.findByType(NavigationContainer);
     });
 
     it('should call setAppState', () => {

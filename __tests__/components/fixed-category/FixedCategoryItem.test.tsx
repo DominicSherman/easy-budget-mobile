@@ -9,7 +9,6 @@ import {createRandomFixedCategory} from '../../models';
 import {updateFixedCategoryMutation} from '../../../src/graphql/mutations';
 import FixedCategoryItem from '../../../src/components/fixed-category/FixedCategoryItem';
 import CardView from '../../../src/components/generic/CardView';
-import {Route} from '../../../src/enums/Route';
 
 jest.mock('@react-navigation/native');
 jest.mock('@apollo/react-hooks');
@@ -58,15 +57,7 @@ describe('FixedCategoryItem', () => {
     it('should render a CardView', () => {
         const renderedCardView = root.findByType(CardView);
 
-        renderedCardView.props.onPress();
-
-        expect(expectedNavigation.navigate).toHaveBeenCalledTimes(1);
-        expect(expectedNavigation.navigate).toHaveBeenCalledWith({
-            name: Route.FIXED_CATEGORY,
-            params: {
-                fixedCategoryId: expectedProps.fixedCategory.fixedCategoryId
-            }
-        });
+        expect(renderedCardView.props.disabled).toBe(true);
     });
 
     it('should render the note if there is one', () => {

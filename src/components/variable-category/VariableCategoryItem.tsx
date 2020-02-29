@@ -11,6 +11,7 @@ import {usePrimaryColor} from '../../redux/hooks';
 import {calculateTotal} from '../../utils/utils';
 import {easeInTransition} from '../../services/animation-service';
 import EditIcon from '../generic/EditIcon';
+
 import EditVariableCategoryForm from './EditVariableCategoryForm';
 
 const styles = StyleSheet.create({

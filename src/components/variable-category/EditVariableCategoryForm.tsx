@@ -1,5 +1,6 @@
 import React, {FC, useState} from 'react';
 import {useMutation} from '@apollo/react-hooks';
+import {Alert} from 'react-native';
 
 import {IVariableCategory} from '../../../autogen/IVariableCategory';
 import {deleteVariableCategoryMutation, updateVariableCategoryMutation} from '../../graphql/mutations';
@@ -14,7 +15,6 @@ import {
 } from '../../../autogen/DeleteVariableCategoryMutation';
 import {deleteVariableCategoryUpdate} from '../../utils/update-cache-utils';
 import {getUserId} from '../../services/auth-service';
-import {Alert} from 'react-native';
 import {easeInTransition} from '../../services/animation-service';
 
 interface IEditVariableCategoryFormProps {
