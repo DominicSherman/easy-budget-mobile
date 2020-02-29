@@ -34,6 +34,13 @@ const styles = StyleSheet.create({
     }
 });
 
+const hitSlop = {
+    bottom: 24,
+    left: 24,
+    right: 24,
+    top: 24
+};
+
 interface IVariableCategoryItemProps {
     variableCategory: IVariableCategory
 }
@@ -43,12 +50,6 @@ const VariableCategoryItem: FC<IVariableCategoryItemProps> = ({variableCategory}
     const [isVisible, setIsVisible] = useState(false);
     const toggle = (): void => {
         setIsVisible(!isVisible);
-    };
-    const hitSlop = {
-        bottom: 24,
-        left: 24,
-        right: 24,
-        top: 24
     };
     const onPress = (): void => {
         navigation.navigate({

@@ -21,19 +21,36 @@ import {easeInTransition} from '../../services/animation-service';
 import EditFixedCategoryForm from './EditFixedCategoryForm';
 
 const styles = StyleSheet.create({
+    amountWrapper: {
+        justifyContent: 'center',
+        marginRight: 24,
+        width: '45%'
+    },
+    editWrapper: {
+        width: 36
+    },
+    paidWrapper: {
+        marginRight: 24
+    },
     rightWrapper: {
         alignItems: 'flex-end',
-        flexDirection: 'row'
+        flexDirection: 'row',
+        width: '55%'
+    },
+    titleWrapper: {
+        width: '45%'
     },
     topWrapper: {
         alignItems: 'center',
-        flexDirection: 'row'
+        flexDirection: 'row',
+        width: '100%'
     },
     verticalCenter: {
         alignItems: 'center',
         flexDirection: 'column'
     },
     wrapper: {
+        alignItems: 'flex-start',
         borderWidth: 1,
         flexDirection: 'column',
         marginHorizontal: 8,
@@ -85,7 +102,7 @@ const FixedCategoryItem: FC<{ fixedCategory: IFixedCategory }> = ({fixedCategory
             style={styles.wrapper}
         >
             <View style={styles.topWrapper}>
-                <View style={{width: '45%'}}>
+                <View style={styles.titleWrapper}>
                     <LargeText style={[{color}, paid && {textDecorationLine: 'line-through'}]}>{name}</LargeText>
                     {
                         note ?
@@ -95,12 +112,12 @@ const FixedCategoryItem: FC<{ fixedCategory: IFixedCategory }> = ({fixedCategory
                     }
                 </View>
                 <View style={styles.rightWrapper}>
-                    <View style={[styles.verticalCenter, {marginRight: 32}]}>
+                    <View style={[styles.verticalCenter, styles.amountWrapper]}>
                         <LargeText style={{color}}>{`$${amount}`}</LargeText>
                         <SmallText>{'amount'}</SmallText>
                     </View>
                     <Touchable onPress={togglePaid}>
-                        <View style={[styles.verticalCenter, {marginRight: 40}]}>
+                        <View style={[styles.verticalCenter, styles.paidWrapper]}>
                             <Feather
                                 color={color}
                                 name={iconName}
@@ -113,7 +130,7 @@ const FixedCategoryItem: FC<{ fixedCategory: IFixedCategory }> = ({fixedCategory
                         hitSlop={hitSlop}
                         onPress={toggleExpanded}
                     >
-                        <View style={[styles.verticalCenter, {width: 36}]}>
+                        <View style={[styles.verticalCenter, styles.editWrapper]}>
                             <Feather
                                 color={color}
                                 name={expanded ? FeatherNames.X : FeatherNames.EDIT}
