@@ -26,6 +26,7 @@ export const signIn = async (): Promise<void> => {
 
 export const signOut = async (): Promise<void> => {
     await GoogleSignin.signOut();
+    console.log('here');
     setAppState();
 };
 

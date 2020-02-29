@@ -3,21 +3,22 @@ import {FC} from 'react';
 
 import {Route} from '../enums/Route';
 import {IDateTimePickerProps} from '../screens/DateTimePicker';
-import {IFixedCategoryProps} from '../screens/FixedCategory';
 import {IVariableCategoryProps} from '../screens/VariableCategory';
 import {IExpenseProps} from '../screens/Expense';
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type StackParams = {
   [Route.HOME]: undefined
-  [Route.FIXED_CATEGORY]: IFixedCategoryProps
   [Route.FIXED_CATEGORIES]: undefined
   [Route.VARIABLE_CATEGORIES]: undefined
   [Route.EXPENSES]: undefined
   [Route.EXPENSE]: IExpenseProps
   [Route.DATE_PICKER]: IDateTimePickerProps
   [Route.SETTINGS]: undefined
-  [Route.VARIABLE_CATEGORY]: IVariableCategoryProps
+  [Route.VARIABLE_CATEGORY]: IVariableCategoryProps,
+  [Route.LOADING]: undefined,
+  [Route.ERROR]: undefined,
+  [Route.LOGIN]: undefined
 }
 
 export type IScreenFC<RouteName extends Route> = FC<{
