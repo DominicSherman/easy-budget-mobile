@@ -1,5 +1,5 @@
 import React, {FC, useState} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleProp, StyleSheet, TextStyle, View} from 'react-native';
 import {useMutation} from '@apollo/react-hooks';
 import Feather from 'react-native-vector-icons/Feather';
 import Touchable from 'react-native-platform-touchable';
@@ -17,6 +17,8 @@ import {FeatherNames} from '../../enums/IconNames';
 import {usePrimaryColor} from '../../redux/hooks';
 import {colors} from '../../constants/colors';
 import {easeInTransition} from '../../services/animation-service';
+import {centeredColumn} from '../../styles/shared-styles';
+import EditIcon from '../generic/EditIcon';
 
 import EditFixedCategoryForm from './EditFixedCategoryForm';
 
@@ -25,9 +27,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         marginRight: 24,
         width: '45%'
-    },
-    editWrapper: {
-        width: 36
     },
     paidWrapper: {
         marginRight: 24
@@ -45,10 +44,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         width: '100%'
     },
-    verticalCenter: {
-        alignItems: 'center',
-        flexDirection: 'column'
-    },
     wrapper: {
         alignItems: 'flex-start',
         borderWidth: 1,
@@ -58,20 +53,17 @@ const styles = StyleSheet.create({
     }
 });
 
-const hitSlop = {
-    bottom: 24,
-    left: 24,
-    right: 24,
-    top: 24
-};
-
-const FixedCategoryItem: FC<{ fixedCategory: IFixedCategory }> = ({fixedCategory}) => {
+const FixedCategoryItem: FC<{fixedCategory: IFixedCategory}> = ({fixedCategory}) => {
     const [expanded, setExpanded] = useState(false);
     const {name, amount, paid, note, userId, fixedCategoryId} = fixedCategory;
     const [updateFixedCategory] = useMutation<UpdateFixedCategoryMutation, UpdateFixedCategoryMutationVariables>(updateFixedCategoryMutation);
     const primaryColor = usePrimaryColor();
     const color = paid ? colors.orange : primaryColor;
     const iconName = paid ? FeatherNames.CHECK_SQUARE : FeatherNames.SQUARE;
+    const titleStyle: StyleProp<TextStyle> = [
+        {color},
+        paid && {textDecorationLine: 'line-through'}
+    ];
     const toggleExpanded = (): void => {
         easeInTransition();
         setExpanded(!expanded);
@@ -103,7 +95,7 @@ const FixedCategoryItem: FC<{ fixedCategory: IFixedCategory }> = ({fixedCategory
         >
             <View style={styles.topWrapper}>
                 <View style={styles.titleWrapper}>
-                    <LargeText style={[{color}, paid && {textDecorationLine: 'line-through'}]}>{name}</LargeText>
+                    <LargeText style={titleStyle}>{name}</LargeText>
                     {
                         note ?
                             <SmallText style={{marginTop: 8}}>{note}</SmallText>
@@ -112,12 +104,12 @@ const FixedCategoryItem: FC<{ fixedCategory: IFixedCategory }> = ({fixedCategory
                     }
                 </View>
                 <View style={styles.rightWrapper}>
-                    <View style={[styles.verticalCenter, styles.amountWrapper]}>
+                    <View style={[centeredColumn, styles.amountWrapper]}>
                         <LargeText style={{color}}>{`$${amount}`}</LargeText>
                         <SmallText>{'amount'}</SmallText>
                     </View>
                     <Touchable onPress={togglePaid}>
-                        <View style={[styles.verticalCenter, styles.paidWrapper]}>
+                        <View style={[centeredColumn, styles.paidWrapper]}>
                             <Feather
                                 color={color}
                                 name={iconName}
@@ -126,19 +118,11 @@ const FixedCategoryItem: FC<{ fixedCategory: IFixedCategory }> = ({fixedCategory
                             <SmallText>{'paid'}</SmallText>
                         </View>
                     </Touchable>
-                    <Touchable
-                        hitSlop={hitSlop}
+                    <EditIcon
+                        color={color}
+                        isOpen={expanded}
                         onPress={toggleExpanded}
-                    >
-                        <View style={[styles.verticalCenter, styles.editWrapper]}>
-                            <Feather
-                                color={color}
-                                name={expanded ? FeatherNames.X : FeatherNames.EDIT}
-                                size={20}
-                            />
-                            <SmallText>{expanded ? 'close' : 'edit'}</SmallText>
-                        </View>
-                    </Touchable>
+                    />
                 </View>
             </View>
             {

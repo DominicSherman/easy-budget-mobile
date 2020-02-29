@@ -12,7 +12,6 @@ export const screenWrapper: StyleProp<ViewStyle> = {
 
 const centered: Record<string, any> = {
     alignItems: 'center',
-    display: 'flex',
     justifyContent: 'center'
 };
 

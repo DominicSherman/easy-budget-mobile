@@ -1,22 +1,20 @@
 import React, {FC, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
-import Feather from 'react-native-vector-icons/Feather';
-import Touchable from 'react-native-platform-touchable';
 import {useNavigation} from '@react-navigation/native';
 
 import {IVariableCategory} from '../../../autogen/IVariableCategory';
 import CardView from '../generic/CardView';
 import {SCREEN_WIDTH} from '../../constants/dimensions';
 import {LargeText, SmallText} from '../generic/Text';
-import {FeatherNames} from '../../enums/IconNames';
 import {Route} from '../../enums/Route';
 import {usePrimaryColor} from '../../redux/hooks';
 import {calculateTotal} from '../../utils/utils';
-
-import VariableCategoryDetails from './VariableCategoryDetails';
+import {easeInTransition} from '../../services/animation-service';
+import EditIcon from '../generic/EditIcon';
+import EditVariableCategoryForm from './EditVariableCategoryForm';
 
 const styles = StyleSheet.create({
-    titleWrapper: {
+    topWrapper: {
         alignItems: 'center',
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -34,22 +32,16 @@ const styles = StyleSheet.create({
     }
 });
 
-const hitSlop = {
-    bottom: 24,
-    left: 24,
-    right: 24,
-    top: 24
-};
-
 interface IVariableCategoryItemProps {
     variableCategory: IVariableCategory
 }
 
 const VariableCategoryItem: FC<IVariableCategoryItemProps> = ({variableCategory}) => {
     const navigation = useNavigation();
-    const [isVisible, setIsVisible] = useState(false);
-    const toggle = (): void => {
-        setIsVisible(!isVisible);
+    const [expanded, setExpanded] = useState(false);
+    const toggleExpanded = (): void => {
+        easeInTransition();
+        setExpanded(!expanded);
     };
     const onPress = (): void => {
         navigation.navigate({
@@ -66,31 +58,26 @@ const VariableCategoryItem: FC<IVariableCategoryItemProps> = ({variableCategory}
             shadow
             style={styles.wrapper}
         >
-            <View style={styles.titleWrapper}>
+            <View style={styles.topWrapper}>
                 <View style={{width: '50%'}}>
                     <LargeText>{variableCategory.name}</LargeText>
                 </View>
-                {
-                    !isVisible &&
-                        <View style={styles.verticalCenter}>
-                            <LargeText>{`$${variableCategory.amount - calculateTotal(variableCategory.expenses)}`}</LargeText>
-                            <SmallText>{'remaining'}</SmallText>
-                        </View>
-                }
-                <Touchable
-                    hitSlop={hitSlop}
-                    onPress={toggle}
-                >
-                    <Feather
-                        color={usePrimaryColor()}
-                        name={isVisible ? FeatherNames.CHEVRON_DOWN : FeatherNames.CHEVRON_UP}
-                        size={32}
-                    />
-                </Touchable>
+                <View style={styles.verticalCenter}>
+                    <LargeText>{`$${variableCategory.amount - calculateTotal(variableCategory.expenses)}`}</LargeText>
+                    <SmallText>{'remaining'}</SmallText>
+                </View>
+                <EditIcon
+                    color={usePrimaryColor()}
+                    isOpen={expanded}
+                    onPress={toggleExpanded}
+                />
             </View>
             {
-                isVisible &&
-                    <VariableCategoryDetails variableCategory={variableCategory} />
+                expanded &&
+                    <EditVariableCategoryForm
+                        onUpdate={toggleExpanded}
+                        variableCategory={variableCategory}
+                    />
             }
         </CardView>
     );
