@@ -1,6 +1,7 @@
 import React from 'react';
 import {FlatList, SafeAreaView} from 'react-native';
 import {useQuery} from '@apollo/react-hooks';
+import {useNavigation} from '@react-navigation/native';
 
 import {getVariableCategoriesQuery} from '../graphql/queries';
 import {getUserId} from '../services/auth-service';
@@ -11,6 +12,9 @@ import {sortByAmount} from '../utils/sorting-utils';
 import NoActiveTimePeriod from '../components/time-period/NoActiveTimePeriod';
 import VariableCategoryItem from '../components/variable-category/VariableCategoryItem';
 import {useTimePeriodId} from '../redux/hooks';
+import EmptyScreen from '../components/generic/EmptyScreen';
+import {Route} from '../enums/Route';
+import {colors} from '../constants/colors';
 
 const VariableCategories: React.FC = () => {
     const timePeriodId = useTimePeriodId();
@@ -20,6 +24,11 @@ const VariableCategories: React.FC = () => {
             timePeriodId,
             userId: getUserId()
         }
+    });
+    const navigation = useNavigation();
+    const onPressSubText = (): void => navigation.navigate({
+        name: Route.VARIABLE_CATEGORY_INFO,
+        params: {}
     });
 
     if (!timePeriodId) {
@@ -36,6 +45,14 @@ const VariableCategories: React.FC = () => {
     return (
         <SafeAreaView style={{height: '100%'}}>
             <FlatList
+                ListEmptyComponent={
+                    <EmptyScreen
+                        onPressSubText={onPressSubText}
+                        subText={'What is a variable category?'}
+                        subTextStyle={{color: colors.lightGrey}}
+                        titleText={'You haven\'t created any variable categories yet!'}
+                    />
+                }
                 data={sortedVariableCategories}
                 keyExtractor={(item): string => item.variableCategoryId}
                 renderItem={({item}): JSX.Element =>

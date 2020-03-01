@@ -1,8 +1,8 @@
-import {StyleProp, ViewStyle} from 'react-native';
+import {ViewStyle} from 'react-native';
 
 import {colors} from '../constants/colors';
 
-export const screenWrapper: StyleProp<ViewStyle> = {
+export const screenWrapper: ViewStyle = {
     alignItems: 'center',
     flexDirection: 'column',
     height: '100%',

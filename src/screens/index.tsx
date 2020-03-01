@@ -3,7 +3,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 
 import {Route} from '../enums/Route';
-import {CloseIcon, HamburgerMenu} from '../components/navigation/HeaderComponents';
+import {CloseIcon, HamburgerMenu, InfoIcon} from '../components/navigation/HeaderComponents';
 import {SCREEN_WIDTH} from '../constants/dimensions';
 import {StackParams} from '../types/global';
 import {AppStatus} from '../enums/AppStatus';
@@ -19,6 +19,7 @@ import Settings from './Settings';
 import DateTimePicker from './DateTimePicker';
 import Expense from './Expense';
 import Login from './Login';
+import VariableCategoryInfo from './VariableCategoryInfo';
 
 const screenOptions = {
     headerLeft: (): JSX.Element => <HamburgerMenu />
@@ -45,12 +46,19 @@ const VariableCategoriesStack: FC = () =>
         <Stack.Screen
             component={VariableCategories}
             name={Route.VARIABLE_CATEGORIES}
-            options={screenOptions}
+            options={{
+                ...screenOptions,
+                headerRight: (): JSX.Element => <InfoIcon route={Route.VARIABLE_CATEGORY_INFO} />
+            }}
         />
         <Stack.Screen
             component={VariableCategory}
             name={Route.VARIABLE_CATEGORY}
             options={{headerTitle: ''}}
+        />
+        <Stack.Screen
+            component={VariableCategoryInfo}
+            name={Route.VARIABLE_CATEGORY_INFO}
         />
     </Stack.Navigator>;
 

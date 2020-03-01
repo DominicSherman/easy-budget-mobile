@@ -19,6 +19,7 @@ export type StackParams = {
   [Route.LOADING]: undefined
   [Route.ERROR]: undefined
   [Route.LOGIN]: undefined
+  [Route.VARIABLE_CATEGORY_INFO]: undefined
 }
 
 export type IScreenFC<RouteName extends Route> = FC<{

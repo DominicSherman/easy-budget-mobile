@@ -6,9 +6,10 @@ import Touchable from 'react-native-platform-touchable';
 
 import {FeatherNames} from '../../enums/IconNames';
 import {usePrimaryColor} from '../../redux/hooks';
+import {Route} from '../../enums/Route';
 
 const iconStyle = {
-    marginLeft: 16
+    marginHorizontal: 16
 };
 
 const hitSlop = {
@@ -55,6 +56,23 @@ export const CloseIcon: FC = () => {
         <Icon
             name={FeatherNames.X}
             onPress={navigation.goBack}
+        />
+    );
+};
+
+export const InfoIcon: FC<{route: Route}> = ({route}) => {
+    const navigation = useNavigation();
+    const onPress = (): void => {
+        navigation.navigate({
+            name: route,
+            params: {}
+        });
+    };
+
+    return (
+        <Icon
+            name={FeatherNames.INFO}
+            onPress={onPress}
         />
     );
 };
