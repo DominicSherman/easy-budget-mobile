@@ -11,6 +11,7 @@ import {createExpenseMutation} from '../../../src/graphql/mutations';
 import {getUserId} from '../../../src/services/auth-service';
 import {createExpenseUpdate} from '../../../src/utils/update-cache-utils';
 import Button from '../../../src/components/generic/Button';
+import {sortByName} from '../../../src/utils/sorting-utils';
 
 jest.mock('@apollo/react-hooks');
 jest.mock('react-redux');
@@ -116,6 +117,22 @@ describe('CreateExpenseForm', () => {
                 expense
             }
         });
+    });
+
+    it('should pass the category id when there is no category id in state and there are no expenses', () => {
+        expectedUseQuery.data.expenses = [];
+        useQuery.mockReturnValue(expectedUseQuery);
+        render();
+        const sortedCategories = expectedUseQuery.data.variableCategories.sort(sortByName);
+
+        testInstance.findByProps({variableCategoryId: sortedCategories[0].variableCategoryId});
+    });
+
+    it('should not blow up if there are no expenses or categories', () => {
+        expectedUseQuery.data.expenses = [];
+        expectedUseQuery.data.variableCategories = [];
+        useQuery.mockReturnValue(expectedUseQuery);
+        render();
     });
 
     it('should render a Picker', () => {

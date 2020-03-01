@@ -1,4 +1,4 @@
-import TestRenderer from 'react-test-renderer';
+import TestRenderer, {act} from 'react-test-renderer';
 import * as reactHooks from '@apollo/react-hooks';
 import React from 'react';
 import {MutationResult} from '@apollo/react-common';
@@ -9,10 +9,13 @@ import {createRandomFixedCategory} from '../../models';
 import {updateFixedCategoryMutation} from '../../../src/graphql/mutations';
 import FixedCategoryItem from '../../../src/components/fixed-category/FixedCategoryItem';
 import CardView from '../../../src/components/generic/CardView';
+import EditIcon from '../../../src/components/generic/EditIcon';
+import EditFixedCategoryForm from '../../../src/components/fixed-category/EditFixedCategoryForm';
 
 jest.mock('@react-navigation/native');
 jest.mock('@apollo/react-hooks');
 jest.mock('../../../src/services/animation-service');
+jest.mock('../../../src/services/auth-service');
 jest.mock('../../../src/redux/hooks');
 
 describe('FixedCategoryItem', () => {
@@ -92,5 +95,15 @@ describe('FixedCategoryItem', () => {
                 }
             }
         });
+    });
+
+    it('should render an edit icon to toggle the edit form', () => {
+        const renderedTouchable = root.findByType(EditIcon);
+
+        act(() => {
+            renderedTouchable.props.onPress();
+        });
+
+        root.findByType(EditFixedCategoryForm);
     });
 });

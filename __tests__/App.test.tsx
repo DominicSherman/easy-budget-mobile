@@ -18,12 +18,6 @@ jest.mock('@react-navigation/native', () => ({
     },
     NavigationContainer: (): JSX.Element => <></>
 }));
-jest.mock('@react-navigation/drawer', () => ({
-    createDrawerNavigator: jest.fn(() => ({
-        Navigator: (): JSX.Element => <></>,
-        Screen: (): JSX.Element => <></>
-    }))
-}));
 jest.mock('react-redux');
 
 describe('App', () => {
