@@ -14,14 +14,10 @@ import {Actions} from './actions';
 export const setAppState = async (): Promise<void> => {
     dispatchAction(Actions.SET_APP_STATUS, AppStatus.LOADING);
 
-    console.log('here 2');
-
     const [isSignedIn, mode] = await Promise.all([
         getIsSignedIn(),
         AsyncStorage.getItem(AsyncStorageKey.MODE)
     ]);
-
-    console.log('isSignedIn', isSignedIn);
 
     dispatchAction(Actions.SET_MODE, mode);
 

@@ -15,9 +15,9 @@ export type StackParams = {
   [Route.EXPENSE]: IExpenseProps
   [Route.DATE_PICKER]: IDateTimePickerProps
   [Route.SETTINGS]: undefined
-  [Route.VARIABLE_CATEGORY]: IVariableCategoryProps,
-  [Route.LOADING]: undefined,
-  [Route.ERROR]: undefined,
+  [Route.VARIABLE_CATEGORY]: IVariableCategoryProps
+  [Route.LOADING]: undefined
+  [Route.ERROR]: undefined
   [Route.LOGIN]: undefined
 }
 

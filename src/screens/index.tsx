@@ -130,7 +130,7 @@ const RootStack: FC = () =>
         />
     </Stack.Navigator>;
 
-export const RootNavigator: FC<{ appStatus: AppStatus }> = ({appStatus}) =>
+export const RootNavigator: FC<{appStatus: AppStatus}> = ({appStatus}) =>
     <Stack.Navigator>
         {
             appStatus === AppStatus.LOADING ?

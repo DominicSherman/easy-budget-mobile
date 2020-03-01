@@ -2,7 +2,14 @@ import * as reactRedux from 'react-redux';
 
 import {chance} from '../chance';
 import {createRandomAppState} from '../models';
-import {useBackgroundColor, useMode, usePrimaryColor, useTextColor, useTimePeriodId} from '../../src/redux/hooks';
+import {
+    useBackgroundColor,
+    useMode,
+    usePrimaryColor,
+    useTextColor,
+    useTimePeriodId,
+    useUserInformation
+} from '../../src/redux/hooks';
 import {Mode} from '../../src/enums/Mode';
 import {colors} from '../../src/constants/colors';
 
@@ -88,6 +95,17 @@ describe('hooks', () => {
 
             expect(actualValue).toBe(expectedSelection);
             expect(returnValue).toEqual(expectedState.timePeriodId);
+        });
+    });
+
+    describe('useUserInformation', () => {
+        it('should return the timePeriodId from state', () => {
+            const actualValue = useUserInformation();
+            const selector = useSelector.mock.calls[0][0];
+            const returnValue = selector(expectedState);
+
+            expect(actualValue).toBe(expectedSelection);
+            expect(returnValue).toEqual(expectedState.userInformation);
         });
     });
 });
