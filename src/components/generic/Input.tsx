@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
         height: 40,
         marginHorizontal: 16,
         padding: 8,
-        width: SCREEN_WIDTH - 32,
+        width: SCREEN_WIDTH - 64,
         ...textStyles.regular
     },
     title: {

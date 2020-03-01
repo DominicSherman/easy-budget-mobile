@@ -10,7 +10,8 @@ module.exports = {
         '<rootDir>/src/constants',
         '<rootDir>/src/types',
         '<rootDir>/src/graphql/queries',
-        '<rootDir>/src/styles'
+        '<rootDir>/src/styles',
+        '<rootDir>/src/screens/index.tsx'
     ],
     'coverageThreshold': {
         'global': {

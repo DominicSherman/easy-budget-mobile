@@ -1,12 +1,11 @@
-import React, {FC} from 'react';
-import {StyleSheet, View} from 'react-native';
+import React, {FC, useState} from 'react';
+import {StyleProp, StyleSheet, TextStyle, View} from 'react-native';
 import {useMutation} from '@apollo/react-hooks';
 import Feather from 'react-native-vector-icons/Feather';
 import Touchable from 'react-native-platform-touchable';
-import {useNavigation} from '@react-navigation/native';
 
 import {IFixedCategory} from '../../../autogen/IFixedCategory';
-import {LargeText, SmallText, TitleText} from '../generic/Text';
+import {LargeText, SmallText} from '../generic/Text';
 import {SCREEN_WIDTH} from '../../constants/dimensions';
 import {
     UpdateFixedCategoryMutation,
@@ -15,34 +14,60 @@ import {
 import {updateFixedCategoryMutation} from '../../graphql/mutations';
 import CardView from '../generic/CardView';
 import {FeatherNames} from '../../enums/IconNames';
-import {Route} from '../../enums/Route';
 import {usePrimaryColor} from '../../redux/hooks';
 import {colors} from '../../constants/colors';
 import {easeInTransition} from '../../services/animation-service';
+import {centeredColumn} from '../../styles/shared-styles';
+import EditIcon from '../generic/EditIcon';
+
+import EditFixedCategoryForm from './EditFixedCategoryForm';
 
 const styles = StyleSheet.create({
+    amountWrapper: {
+        justifyContent: 'center',
+        marginRight: 24,
+        width: '45%'
+    },
+    paidWrapper: {
+        marginRight: 24
+    },
     rightWrapper: {
         alignItems: 'flex-end',
-        flexDirection: 'row'
+        flexDirection: 'row',
+        width: '55%'
     },
-    verticalCenter: {
+    titleWrapper: {
+        width: '45%'
+    },
+    topWrapper: {
         alignItems: 'center',
-        flexDirection: 'column'
+        flexDirection: 'row',
+        width: '100%'
     },
     wrapper: {
+        alignItems: 'flex-start',
         borderWidth: 1,
+        flexDirection: 'column',
         marginHorizontal: 8,
         width: SCREEN_WIDTH - 16
     }
 });
 
-const FixedCategoryItem: FC<{ fixedCategory: IFixedCategory }> = ({fixedCategory}) => {
+const FixedCategoryItem: FC<{fixedCategory: IFixedCategory}> = ({fixedCategory}) => {
+    const [expanded, setExpanded] = useState(false);
     const {name, amount, paid, note, userId, fixedCategoryId} = fixedCategory;
-    const navigation = useNavigation();
     const [updateFixedCategory] = useMutation<UpdateFixedCategoryMutation, UpdateFixedCategoryMutationVariables>(updateFixedCategoryMutation);
     const primaryColor = usePrimaryColor();
     const color = paid ? colors.orange : primaryColor;
     const iconName = paid ? FeatherNames.CHECK_SQUARE : FeatherNames.SQUARE;
+    const titleStyle: StyleProp<TextStyle> = [
+        {color},
+        paid && {textDecorationLine: 'line-through'}
+    ];
+    const toggleExpanded = (): void => {
+        easeInTransition();
+        setExpanded(!expanded);
+    };
     const togglePaid = (): void => {
         easeInTransition();
         updateFixedCategory({
@@ -61,48 +86,52 @@ const FixedCategoryItem: FC<{ fixedCategory: IFixedCategory }> = ({fixedCategory
             }
         });
     };
-    const onPress = (): void => {
-        navigation.navigate({
-            name: Route.FIXED_CATEGORY,
-            params: {
-                fixedCategoryId
-            }
-        });
-    };
 
     return (
         <CardView
-            onPress={onPress}
+            disabled
             shadow
-            style={[styles.wrapper, {borderColor: color}]}
+            style={styles.wrapper}
         >
-            <View style={{width: '60%'}}>
-                <TitleText style={[{color}, paid && {textDecorationLine: 'line-through'}]}>{name}</TitleText>
-                {
-                    note ?
-                        <SmallText style={{marginTop: 8}}>{note}</SmallText>
-                        :
-                        null
-                }
-            </View>
-            <View style={styles.rightWrapper}>
-                <View style={[styles.verticalCenter, {marginRight: 32}]}>
-                    <LargeText style={{color}}>{`$${amount}`}</LargeText>
-                    <SmallText>{'amount'}</SmallText>
+            <View style={styles.topWrapper}>
+                <View style={styles.titleWrapper}>
+                    <LargeText style={titleStyle}>{name}</LargeText>
+                    {
+                        note ?
+                            <SmallText style={{marginTop: 8}}>{note}</SmallText>
+                            :
+                            null
+                    }
                 </View>
-                <View style={styles.verticalCenter}>
+                <View style={styles.rightWrapper}>
+                    <View style={[centeredColumn, styles.amountWrapper]}>
+                        <LargeText style={{color}}>{`$${amount}`}</LargeText>
+                        <SmallText>{'amount'}</SmallText>
+                    </View>
                     <Touchable onPress={togglePaid}>
-                        <View>
+                        <View style={[centeredColumn, styles.paidWrapper]}>
                             <Feather
                                 color={color}
                                 name={iconName}
-                                size={28}
+                                size={20}
                             />
                             <SmallText>{'paid'}</SmallText>
                         </View>
                     </Touchable>
+                    <EditIcon
+                        color={color}
+                        isOpen={expanded}
+                        onPress={toggleExpanded}
+                    />
                 </View>
             </View>
+            {
+                expanded &&
+                    <EditFixedCategoryForm
+                        fixedCategory={fixedCategory}
+                        onUpdate={toggleExpanded}
+                    />
+            }
         </CardView>
     );
 };

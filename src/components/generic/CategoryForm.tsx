@@ -1,38 +1,28 @@
 import React, {Dispatch, FC, SetStateAction, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
-import Feather from 'react-native-vector-icons/Feather';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 import {textStyles} from '../../styles/text-styles';
-import {FeatherNames} from '../../enums/IconNames';
 import {easeInTransition} from '../../services/animation-service';
-import {useBackgroundColor, usePrimaryColor} from '../../redux/hooks';
-import {SCREEN_WIDTH} from '../../constants/dimensions';
+import {colors} from '../../constants/colors';
 
 import {RegularText} from './Text';
 import Button from './Button';
 import Input from './Input';
+import PlusMinusIcon from './PlusMinusIcon';
 
 const styles = StyleSheet.create({
-    buttonWrapper: {
-        borderRadius: 400,
-        borderWidth: 3,
-        bottom: 24,
-        left: SCREEN_WIDTH - 72,
-        paddingHorizontal: 2,
-        position: 'absolute'
-    },
     wrapper: {
         alignItems: 'center',
-        paddingBottom: 40,
         width: '100%'
     }
 });
 
 interface ICreateCategoryFormProps {
     buttonText: string
+    secondButtonText?: string
     disabled?: boolean
-    headerText: string
+    headerText?: string
     setName: Dispatch<SetStateAction<any>>
     name: string
     setAmount: Dispatch<SetStateAction<any>>
@@ -40,6 +30,7 @@ interface ICreateCategoryFormProps {
     note?: string | null
     setNote?: Dispatch<SetStateAction<any>>
     onPress: () => void
+    secondOnPress?: () => void
     toggleable?: boolean
 }
 
@@ -50,43 +41,28 @@ const CategoryForm: FC<ICreateCategoryFormProps> = (props) => {
         setIsVisible(!isVisible);
     };
 
-    return (
-        <View style={{marginTop: 16}}>
-            <DropdownForm
-                isVisible={isVisible}
-                {...props}
-            />
-            <ToggleIcon
-                isVisible={isVisible}
-                setVisible={setVisible}
-                {...props}
-            />
-        </View>
-    );
-};
-
-interface IToggleIconProps extends ICreateCategoryFormProps {
-    isVisible: boolean
-    setVisible: () => void
-}
-
-const ToggleIcon: FC<IToggleIconProps> = ({toggleable, isVisible, setVisible}) => {
-    const primaryColor = usePrimaryColor();
-    const themeStyles = {
-        backgroundColor: useBackgroundColor(),
-        borderColor: primaryColor
-    };
-
-    return (
-        toggleable ?
-            <View style={[styles.buttonWrapper, themeStyles]}>
-                <Feather
-                    color={primaryColor}
-                    name={isVisible ? FeatherNames.X : FeatherNames.PLUS}
-                    onPress={setVisible}
-                    size={40}
+    if (props.toggleable) {
+        return (
+            <View>
+                <KeyboardAwareScrollView style={{marginTop: 16}}>
+                    <DropdownForm
+                        isVisible={isVisible}
+                        {...props}
+                    />
+                </KeyboardAwareScrollView>
+                <PlusMinusIcon
+                    isOpen={isVisible}
+                    setOpen={setVisible}
                 />
-            </View> : null
+            </View>
+        );
+    }
+
+    return (
+        <DropdownForm
+            isVisible={isVisible}
+            {...props}
+        />
     );
 };
 
@@ -107,7 +83,9 @@ const DropdownForm: FC<IDropdownProps> = (props) => {
         onPress,
         note,
         setNote,
-        toggleable
+        toggleable,
+        secondButtonText,
+        secondOnPress
     } = props;
 
     if (toggleable && !isVisible) {
@@ -115,13 +93,13 @@ const DropdownForm: FC<IDropdownProps> = (props) => {
     }
 
     return (
-        <KeyboardAwareScrollView
-            contentContainerStyle={styles.wrapper}
-            style={{height: 425}}
-        >
-            <View style={{justifyContent: 'center'}}>
-                <RegularText style={textStyles.large}>{headerText}</RegularText>
-            </View>
+        <View style={[styles.wrapper, toggleable && {paddingBottom: 80}]}>
+            {
+                headerText &&
+                    <View style={{justifyContent: 'center'}}>
+                        <RegularText style={textStyles.large}>{headerText}</RegularText>
+                    </View>
+            }
             <Input
                 onChange={setName}
                 title={'Category Name *'}
@@ -143,13 +121,44 @@ const DropdownForm: FC<IDropdownProps> = (props) => {
                     :
                     null
             }
-            <Button
-                disabled={disabled || !name.length || !amount.length}
-                onPress={onPress}
-                text={buttonText}
-                wrapperStyle={{marginTop: 16}}
-            />
-        </KeyboardAwareScrollView>
+            {
+                secondButtonText && secondOnPress ?
+
+                    <View
+                        style={{
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            width: '100%'
+                        }}
+                    >
+                        <Button
+                            onPress={secondOnPress}
+                            text={secondButtonText}
+                            wrapperStyle={{
+                                backgroundColor: colors.red,
+                                marginTop: 16,
+                                width: '48%'
+                            }}
+                        />
+                        <Button
+                            disabled={disabled || !name.length || !amount.length}
+                            onPress={onPress}
+                            text={buttonText}
+                            wrapperStyle={{
+                                marginTop: 16,
+                                width: '48%'
+                            }}
+                        />
+                    </View>
+                    :
+                    <Button
+                        disabled={disabled || !name.length || !amount.length}
+                        onPress={onPress}
+                        text={buttonText}
+                        wrapperStyle={{marginTop: 16}}
+                    />
+            }
+        </View>
     );
 };
 

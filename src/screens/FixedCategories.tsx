@@ -37,6 +37,7 @@ const FixedCategories: React.FC = () => {
     return (
         <SafeAreaView style={{height: '100%'}}>
             <FlatList
+                contentContainerStyle={{paddingBottom: 50}}
                 data={sortedFixedCategories}
                 keyExtractor={(item): string => item.fixedCategoryId}
                 renderItem={({item}): JSX.Element =>

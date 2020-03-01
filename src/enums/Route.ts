@@ -8,5 +8,7 @@ export enum Route {
     EXPENSE = 'Expense',
     DATE_PICKER = 'Date Picker',
     SETTINGS = 'Settings',
-    VARIABLE_CATEGORY = 'Variable Category'
+    VARIABLE_CATEGORY = 'Variable Category',
+    ERROR = 'Error',
+    LOADING = 'Loading'
 }

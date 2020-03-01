@@ -1,17 +1,28 @@
 import React, {FC, useState} from 'react';
 import {useMutation} from '@apollo/react-hooks';
-import {useNavigation} from '@react-navigation/native';
+import {Alert} from 'react-native';
 
 import {IVariableCategory} from '../../../autogen/IVariableCategory';
-import {updateVariableCategoryMutation} from '../../graphql/mutations';
+import {deleteVariableCategoryMutation, updateVariableCategoryMutation} from '../../graphql/mutations';
 import {
     UpdateVariableCategoryMutation,
     UpdateVariableCategoryMutationVariables
 } from '../../../autogen/UpdateVariableCategoryMutation';
 import CategoryForm from '../generic/CategoryForm';
+import {
+    DeleteVariableCategoryMutation,
+    DeleteVariableCategoryMutationVariables
+} from '../../../autogen/DeleteVariableCategoryMutation';
+import {deleteVariableCategoryUpdate} from '../../utils/update-cache-utils';
+import {getUserId} from '../../services/auth-service';
+import {easeInTransition} from '../../services/animation-service';
 
-const EditVariableCategoryForm: FC<{variableCategory: IVariableCategory}> = ({variableCategory}) => {
-    const navigation = useNavigation();
+interface IEditVariableCategoryFormProps {
+    onUpdate?: () => void
+    variableCategory: IVariableCategory
+}
+
+const EditVariableCategoryForm: FC<IEditVariableCategoryFormProps> = ({onUpdate, variableCategory}) => {
     const {amount, name, variableCategoryId, userId} = variableCategory;
     const [updatedAmount, setUpdatedAmount] = useState(amount.toString());
     const [updatedName, setUpdatedName] = useState(name);
@@ -40,7 +51,36 @@ const EditVariableCategoryForm: FC<{variableCategory: IVariableCategory}> = ({va
     });
     const onPress = (): void => {
         updateVariableCategory();
-        navigation.goBack();
+
+        if (onUpdate) {
+            onUpdate();
+        }
+    };
+    const [deleteVariableCategory] = useMutation<DeleteVariableCategoryMutation, DeleteVariableCategoryMutationVariables>(deleteVariableCategoryMutation, {
+        optimisticResponse: {
+            deleteVariableCategory: variableCategoryId
+        },
+        update: deleteVariableCategoryUpdate,
+        variables: {
+            userId: getUserId(),
+            variableCategoryId
+        }
+    });
+    const onPressDelete = (): void => {
+        Alert.alert(
+            `Delete ${variableCategory.name}?`,
+            '',
+            [
+                {text: 'Cancel'},
+                {
+                    onPress: (): void => {
+                        easeInTransition();
+                        deleteVariableCategory();
+                    },
+                    text: 'Confirm'
+                }
+            ]
+        );
     };
     const disabled = JSON.stringify(originalValues) === JSON.stringify(updatedValues);
 
@@ -49,9 +89,10 @@ const EditVariableCategoryForm: FC<{variableCategory: IVariableCategory}> = ({va
             amount={updatedAmount}
             buttonText={'Update'}
             disabled={disabled}
-            headerText={'Edit Variable Category'}
             name={updatedName}
             onPress={onPress}
+            secondButtonText={'Delete'}
+            secondOnPress={onPressDelete}
             setAmount={setUpdatedAmount}
             setName={setUpdatedName}
         />

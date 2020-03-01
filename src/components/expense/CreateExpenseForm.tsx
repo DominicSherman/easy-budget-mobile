@@ -60,10 +60,15 @@ const CreateExpenseForm: FC = () => {
     const {expenses, variableCategories} = queryResult.data;
     const sortedVariableCategories = variableCategories.sort(sortByName);
     const sortedExpenses = expenses.sort(sortByDate);
+    const firstCategory = sortedVariableCategories[0];
     const mostRecentExpense = sortedExpenses[0];
 
-    if (!categoryId && mostRecentExpense) {
-        setCategoryId(mostRecentExpense.variableCategoryId);
+    if (!categoryId) {
+        if (mostRecentExpense) {
+            setCategoryId(mostRecentExpense.variableCategoryId);
+        } else if (firstCategory) {
+            setCategoryId(firstCategory.variableCategoryId);
+        }
     }
 
     return (
