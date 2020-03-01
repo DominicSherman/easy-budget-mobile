@@ -14,7 +14,6 @@ import VariableCategoryItem from '../components/variable-category/VariableCatego
 import {useTimePeriodId} from '../redux/hooks';
 import EmptyScreen from '../components/generic/EmptyScreen';
 import {Route} from '../enums/Route';
-import {colors} from '../constants/colors';
 
 import {InformationRef} from './Information';
 
@@ -31,7 +30,7 @@ const VariableCategories: React.FC = () => {
     const onPressSubText = (): void => navigation.navigate({
         name: Route.INFORMATION,
         params: {
-            ref: InformationRef.EXPENSE
+            ref: InformationRef.VARIABLE
         }
     });
 
@@ -53,7 +52,6 @@ const VariableCategories: React.FC = () => {
                     <EmptyScreen
                         onPressSubText={onPressSubText}
                         subText={'What is a variable category?'}
-                        subTextStyle={{color: colors.lightGrey}}
                         titleText={'You haven\'t created any variable categories yet!'}
                     />
                 }

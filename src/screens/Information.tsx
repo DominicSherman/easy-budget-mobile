@@ -4,8 +4,13 @@ import {LayoutChangeEvent, ScrollView, StyleSheet, View} from 'react-native';
 import {RegularText, TitleText} from '../components/generic/Text';
 import {IScreenFC} from '../types/global';
 import {Route} from '../enums/Route';
+import {SCREEN_HEIGHT} from '../constants/dimensions';
 
 const styles = StyleSheet.create({
+    scrollWrapper: {
+        padding: 16,
+        paddingBottom: SCREEN_HEIGHT * 0.8
+    },
     subText: {
         marginTop: 16
     },
@@ -47,7 +52,7 @@ const Information: IScreenFC<Route.INFORMATION> = ({route: {params: {ref}}}) => 
                 scrollRef.scrollTo({
                     animated: true,
                     x: 0,
-                    y: values[ref]
+                    y: values[ref] - 16
                 });
             }
         }, 1000);
@@ -55,7 +60,7 @@ const Information: IScreenFC<Route.INFORMATION> = ({route: {params: {ref}}}) => 
 
     return (
         <ScrollView
-            contentContainerStyle={{padding: 16}}
+            contentContainerStyle={styles.scrollWrapper}
             ref={(ref): void => {
                 scrollRef = ref;
             }}
