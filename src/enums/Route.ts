@@ -11,5 +11,5 @@ export enum Route {
     VARIABLE_CATEGORY = 'Variable Category',
     ERROR = 'Error',
     LOADING = 'Loading',
-    VARIABLE_CATEGORY_INFO = 'About Variable Categories'
+    INFORMATION = 'Information'
 }

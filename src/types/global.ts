@@ -5,6 +5,7 @@ import {Route} from '../enums/Route';
 import {IDateTimePickerProps} from '../screens/DateTimePicker';
 import {IVariableCategoryProps} from '../screens/VariableCategory';
 import {IExpenseProps} from '../screens/Expense';
+import {IInformationProps} from '../screens/Information';
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type StackParams = {
@@ -19,7 +20,7 @@ export type StackParams = {
   [Route.LOADING]: undefined
   [Route.ERROR]: undefined
   [Route.LOGIN]: undefined
-  [Route.VARIABLE_CATEGORY_INFO]: undefined
+  [Route.INFORMATION]: IInformationProps
 }
 
 export type IScreenFC<RouteName extends Route> = FC<{

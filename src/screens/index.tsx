@@ -19,7 +19,7 @@ import Settings from './Settings';
 import DateTimePicker from './DateTimePicker';
 import Expense from './Expense';
 import Login from './Login';
-import VariableCategoryInfo from './VariableCategoryInfo';
+import Information from './Information';
 
 const screenOptions = {
     headerLeft: (): JSX.Element => <HamburgerMenu />
@@ -37,7 +37,10 @@ const HomeStack: FC = () =>
         <Stack.Screen
             component={Home}
             name={Route.HOME}
-            options={screenOptions}
+            options={{
+                ...screenOptions,
+                headerRight: (): JSX.Element => <InfoIcon route={Route.INFORMATION} />
+            }}
         />
     </Stack.Navigator>;
 
@@ -46,19 +49,12 @@ const VariableCategoriesStack: FC = () =>
         <Stack.Screen
             component={VariableCategories}
             name={Route.VARIABLE_CATEGORIES}
-            options={{
-                ...screenOptions,
-                headerRight: (): JSX.Element => <InfoIcon route={Route.VARIABLE_CATEGORY_INFO} />
-            }}
+            options={screenOptions}
         />
         <Stack.Screen
             component={VariableCategory}
             name={Route.VARIABLE_CATEGORY}
             options={{headerTitle: ''}}
-        />
-        <Stack.Screen
-            component={VariableCategoryInfo}
-            name={Route.VARIABLE_CATEGORY_INFO}
         />
     </Stack.Navigator>;
 
@@ -134,6 +130,11 @@ const RootStack: FC = () =>
         <Stack.Screen
             component={Expense}
             name={Route.EXPENSE}
+            options={modalOptions}
+        />
+        <Stack.Screen
+            component={Information}
+            name={Route.INFORMATION}
             options={modalOptions}
         />
     </Stack.Navigator>;

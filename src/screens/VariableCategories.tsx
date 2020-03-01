@@ -16,6 +16,8 @@ import EmptyScreen from '../components/generic/EmptyScreen';
 import {Route} from '../enums/Route';
 import {colors} from '../constants/colors';
 
+import {InformationRef} from './Information';
+
 const VariableCategories: React.FC = () => {
     const timePeriodId = useTimePeriodId();
     const queryResult = useQuery<GetVariableCategories, GetVariableCategoriesVariables>(getVariableCategoriesQuery, {
@@ -27,8 +29,10 @@ const VariableCategories: React.FC = () => {
     });
     const navigation = useNavigation();
     const onPressSubText = (): void => navigation.navigate({
-        name: Route.VARIABLE_CATEGORY_INFO,
-        params: {}
+        name: Route.INFORMATION,
+        params: {
+            ref: InformationRef.EXPENSE
+        }
     });
 
     if (!timePeriodId) {
