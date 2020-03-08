@@ -32,10 +32,12 @@ interface ICreateCategoryFormProps {
     onPress: () => void
     secondOnPress?: () => void
     toggleable?: boolean
+    showCreateForm?: boolean
 }
 
 const CategoryForm: FC<ICreateCategoryFormProps> = (props) => {
-    const [isVisible, setIsVisible] = useState(false);
+    const showCreateForm = Boolean(props.showCreateForm);
+    const [isVisible, setIsVisible] = useState(showCreateForm);
     const setVisible = (): void => {
         easeInTransition();
         setIsVisible(!isVisible);

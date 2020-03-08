@@ -76,15 +76,6 @@ const Information: IScreenFC<Route.INFORMATION> = ({route: {params: {ref}}}) => 
             </View>
             <View
                 onLayout={(event: LayoutChangeEvent): void => {
-                    values[InformationRef.EXPENSE] = event.nativeEvent.layout.y;
-                }}
-                style={styles.wrapper}
-            >
-                <TitleText>{'Expense'}</TitleText>
-                <RegularText style={styles.subText}>{information.expense}</RegularText>
-            </View>
-            <View
-                onLayout={(event: LayoutChangeEvent): void => {
                     values[InformationRef.FIXED] = event.nativeEvent.layout.y;
                 }}
                 style={styles.wrapper}
@@ -100,6 +91,15 @@ const Information: IScreenFC<Route.INFORMATION> = ({route: {params: {ref}}}) => 
             >
                 <TitleText>{'Variable Category'}</TitleText>
                 <RegularText style={styles.subText}>{information.variable}</RegularText>
+            </View>
+            <View
+                onLayout={(event: LayoutChangeEvent): void => {
+                    values[InformationRef.EXPENSE] = event.nativeEvent.layout.y;
+                }}
+                style={styles.wrapper}
+            >
+                <TitleText>{'Expense'}</TitleText>
+                <RegularText style={styles.subText}>{information.expense}</RegularText>
             </View>
         </ScrollView>
     );

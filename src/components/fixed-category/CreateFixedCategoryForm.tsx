@@ -13,7 +13,11 @@ import {
 import {createFixedCategoryUpdate} from '../../utils/update-cache-utils';
 import CategoryForm from '../generic/CategoryForm';
 
-const CreateFixedCategoryForm: FC = () => {
+interface ICreateFixedCategoryFormProps {
+    showCreateForm?: boolean
+}
+
+const CreateFixedCategoryForm: FC<ICreateFixedCategoryFormProps> = ({showCreateForm}) => {
     const timePeriodId = useSelector<IAppState, string>((state) => state.timePeriodId);
     const [name, setName] = useState('');
     const [amount, setAmount] = useState('');
@@ -58,6 +62,7 @@ const CreateFixedCategoryForm: FC = () => {
             setAmount={setAmount}
             setName={setName}
             setNote={setNote}
+            showCreateForm={showCreateForm}
             toggleable
         />
     );
