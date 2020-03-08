@@ -5,7 +5,7 @@ import {useSelector} from 'react-redux';
 
 import {getApolloClient} from './graphql/apollo-client';
 import {setAppState} from './redux/action-creators';
-import {RootNavigator} from './screens';
+import {RootNavigator} from './StacksOnStacksOnStacks';
 import {Color} from './constants/color';
 import {useMode} from './redux/hooks';
 import {Mode} from './enums/Mode';

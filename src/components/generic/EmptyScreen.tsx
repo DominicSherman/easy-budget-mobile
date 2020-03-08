@@ -20,8 +20,8 @@ const styles = StyleSheet.create({
 });
 
 interface IEmptyScreenProps {
-    subText?: string
     onPressSubText?: () => void
+    subText?: string
     titleText: string
 }
 

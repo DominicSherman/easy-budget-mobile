@@ -60,12 +60,12 @@ export const CloseIcon: FC = () => {
     );
 };
 
-export const InfoIcon: FC<{route: Route}> = ({route}) => {
+export const InfoIcon: FC = () => {
     const navigation = useNavigation();
     const onPress = (): void => {
         navigation.navigate({
-            name: route,
-            params: {}
+            name: Route.INFORMATION,
+            params: undefined
         });
     };
 

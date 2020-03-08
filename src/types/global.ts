@@ -24,7 +24,5 @@ export type StackParams = {
 }
 
 export type IScreenFC<RouteName extends Route> = FC<{
-  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-  // @ts-ignore
   route: RouteProp<StackParams, RouteName>
 }>

@@ -2,6 +2,8 @@ import TestRenderer from 'react-test-renderer';
 import React from 'react';
 import * as reactHooks from '@apollo/react-hooks';
 import * as navigation from '@react-navigation/native';
+import Touchable from 'react-native-platform-touchable';
+import {MutationResult} from '@apollo/react-common';
 
 import {chance} from '../../chance';
 import {createTimePeriodMutation} from '../../../src/graphql/mutations';
@@ -9,6 +11,8 @@ import {getUserId} from '../../../src/services/auth-service';
 import NoActiveTimePeriod from '../../../src/components/time-period/NoActiveTimePeriod';
 import * as actionCreators from '../../../src/redux/action-creators';
 import Button from '../../../src/components/generic/Button';
+import {InformationRef} from '../../../src/screens/Information';
+import {Route} from '../../../src/enums/Route';
 
 jest.mock('@apollo/react-hooks');
 jest.mock('@react-navigation/native');
@@ -40,8 +44,7 @@ describe('NoActiveTimePeriod', () => {
             navigate: jest.fn()
         };
 
-        // @ts-ignore
-        useMutation.mockReturnValue([createTimePeriod, {loading: expectedLoading}]);
+        useMutation.mockReturnValue([createTimePeriod, {loading: expectedLoading} as MutationResult]);
         useNavigation.mockReturnValue(expectedNavigation);
 
         render();
@@ -71,6 +74,20 @@ describe('NoActiveTimePeriod', () => {
         useMutation.mock.calls[0][1]!.onCompleted!({});
 
         expect(setAppState).toHaveBeenCalledTimes(1);
+    });
+
+    it('should render a Touchable for what is a time period', () => {
+        const renderedTouchable = testInstance.findAllByType(Touchable)[0];
+
+        renderedTouchable.props.onPress();
+
+        expect(expectedNavigation.navigate).toHaveBeenCalledTimes(1);
+        expect(expectedNavigation.navigate).toHaveBeenCalledWith({
+            name: Route.INFORMATION,
+            params: {
+                ref: InformationRef.TIME_PERIOD
+            }
+        });
     });
 
     it('should render 3 buttons', () => {

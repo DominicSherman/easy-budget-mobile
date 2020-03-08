@@ -5,7 +5,8 @@ import React from 'react';
 import Touchable from 'react-native-platform-touchable';
 
 import {FeatherNames} from '../../../src/enums/IconNames';
-import {CloseIcon, HamburgerMenu} from '../../../src/components/navigation/HeaderComponents';
+import {CloseIcon, HamburgerMenu, InfoIcon} from '../../../src/components/navigation/HeaderComponents';
+import {Route} from '../../../src/enums/Route';
 
 jest.mock('@react-navigation/native');
 jest.mock('../../../src/redux/hooks');
@@ -71,6 +72,40 @@ describe('HeaderComponents', () => {
             const renderedTouchable = root.findByType(Touchable);
 
             expect(renderedTouchable.props.onPress).toBe(expectedNavigation.goBack);
+        });
+    });
+
+    describe('InfoIcon', () => {
+        let expectedNavigation;
+
+        const render = (): void => {
+            root = TestRenderer.create(
+                <InfoIcon />
+            ).root;
+        };
+
+        beforeEach(() => {
+            expectedNavigation = {
+                navigate: jest.fn()
+            };
+
+            useNavigation.mockReturnValue(expectedNavigation);
+
+            render();
+        });
+
+        it('should render a Feather component', () => {
+            root.findByProps({name: FeatherNames.INFO});
+
+            const renderedTouchable = root.findByType(Touchable);
+
+            renderedTouchable.props.onPress();
+
+            expect(expectedNavigation.navigate).toHaveBeenCalledTimes(1);
+            expect(expectedNavigation.navigate).toHaveBeenCalledWith({
+                name: Route.INFORMATION,
+                params: undefined
+            });
         });
     });
 });

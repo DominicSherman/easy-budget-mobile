@@ -11,7 +11,7 @@ module.exports = {
         '<rootDir>/src/types',
         '<rootDir>/src/graphql/queries',
         '<rootDir>/src/styles',
-        '<rootDir>/src/screens/index.tsx'
+        '<rootDir>/src/screens/StacksOnStacksOnStacks.tsx'
     ],
     'coverageThreshold': {
         'global': {
