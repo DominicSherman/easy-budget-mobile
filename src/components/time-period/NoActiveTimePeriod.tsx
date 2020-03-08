@@ -4,8 +4,9 @@ import moment from 'moment';
 import {useNavigation} from '@react-navigation/native';
 import uuid from 'uuid';
 import {useMutation} from '@apollo/react-hooks';
+import Touchable from 'react-native-platform-touchable';
 
-import {RegularText} from '../generic/Text';
+import {RegularText, TitleText} from '../generic/Text';
 import {textStyles} from '../../styles/text-styles';
 import Button from '../generic/Button';
 import {screenWrapper} from '../../styles/shared-styles';
@@ -14,6 +15,8 @@ import {getUserId} from '../../services/auth-service';
 import {createTimePeriodMutation} from '../../graphql/mutations';
 import {CreateTimePeriodMutation, CreateTimePeriodMutationVariables} from '../../../autogen/CreateTimePeriodMutation';
 import {setAppState} from '../../redux/action-creators';
+import {Color} from '../../constants/color';
+import {InformationRef} from '../../screens/Information';
 
 const now = moment().startOf('day').toISOString();
 const fourWeeks = moment().startOf('day').add(4, 'w').toISOString();
@@ -34,6 +37,14 @@ const NoActiveTimePeriod: FC = () => {
         timePeriodId: uuid.v4(),
         userId: getUserId()
     };
+    const goToInformation = (): void => {
+        navigation.navigate({
+            name: Route.INFORMATION,
+            params: {
+                ref: InformationRef.TIME_PERIOD
+            }
+        });
+    };
 
     const [createTimePeriod, {loading}] = useMutation<CreateTimePeriodMutation, CreateTimePeriodMutationVariables>(createTimePeriodMutation, {
         onCompleted: () => {
@@ -52,7 +63,10 @@ const NoActiveTimePeriod: FC = () => {
 
     return (
         <View style={screenWrapper}>
-            <RegularText style={textStyles.large}>{'Create New Time Period'}</RegularText>
+            <TitleText>{'Create New Time Period'}</TitleText>
+            <Touchable onPress={goToInformation}>
+                <RegularText style={{color: Color.lightGrey}}>{'What is a time period?'}</RegularText>
+            </Touchable>
             <RegularText style={{marginTop: 16}}>{'Beginning'}</RegularText>
             <Button
                 onPress={(): void => {

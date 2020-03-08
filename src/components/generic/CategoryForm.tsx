@@ -4,7 +4,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 import {textStyles} from '../../styles/text-styles';
 import {easeInTransition} from '../../services/animation-service';
-import {colors} from '../../constants/colors';
+import {Color} from '../../constants/color';
 
 import {RegularText} from './Text';
 import Button from './Button';
@@ -137,7 +137,7 @@ const DropdownForm: FC<IDropdownProps> = (props) => {
                             onPress={secondOnPress}
                             text={secondButtonText}
                             wrapperStyle={{
-                                backgroundColor: colors.red,
+                                backgroundColor: Color.red,
                                 marginTop: 16,
                                 width: '48%'
                             }}

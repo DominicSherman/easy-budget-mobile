@@ -11,7 +11,7 @@ import {
     useUserInformation
 } from '../../src/redux/hooks';
 import {Mode} from '../../src/enums/Mode';
-import {colors} from '../../src/constants/colors';
+import {Color} from '../../src/constants/color';
 
 jest.mock('react-redux');
 
@@ -49,7 +49,7 @@ describe('hooks', () => {
 
             const actualValue = usePrimaryColor();
 
-            expect(actualValue).toBe(colors.white);
+            expect(actualValue).toBe(Color.white);
         });
 
         it('should return dark if mode is light', () => {
@@ -57,7 +57,7 @@ describe('hooks', () => {
 
             const actualValue = usePrimaryColor();
 
-            expect(actualValue).toBe(colors.dark);
+            expect(actualValue).toBe(Color.dark);
         });
     });
 
@@ -67,7 +67,7 @@ describe('hooks', () => {
 
             const actualValue = useBackgroundColor();
 
-            expect(actualValue).toBe(colors.darkGrey);
+            expect(actualValue).toBe(Color.darkGrey);
         });
 
         it('should return white if mode is light', () => {
@@ -75,7 +75,7 @@ describe('hooks', () => {
 
             const actualValue = useBackgroundColor();
 
-            expect(actualValue).toBe(colors.white);
+            expect(actualValue).toBe(Color.white);
         });
     });
 
@@ -83,7 +83,7 @@ describe('hooks', () => {
         it('should return primary color in an object', () => {
             useSelector.mockReturnValue(Mode.DARK);
 
-            expect(useTextColor()).toEqual({color: colors.white});
+            expect(useTextColor()).toEqual({color: Color.white});
         });
     });
 

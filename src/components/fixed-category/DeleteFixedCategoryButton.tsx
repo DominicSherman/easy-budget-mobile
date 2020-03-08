@@ -5,7 +5,7 @@ import {useMutation} from '@apollo/react-hooks';
 import {DeleteFixedCategoryMutation, DeleteFixedCategoryMutationVariables} from '../../../autogen/DeleteFixedCategoryMutation';
 import {deleteFixedCategoryMutation} from '../../graphql/mutations';
 import {deleteFixedCategoryUpdate} from '../../utils/update-cache-utils';
-import {colors} from '../../constants/colors';
+import {Color} from '../../constants/color';
 import Button from '../generic/Button';
 import {getUserId} from '../../services/auth-service';
 
@@ -31,7 +31,7 @@ const DeleteFixedCategoryButton: FC<{fixedCategoryId: string}> = ({fixedCategory
             onPress={onPressDelete}
             text={'Delete'}
             wrapperStyle={{
-                backgroundColor: colors.red,
+                backgroundColor: Color.red,
                 marginTop: 32
             }}
         />

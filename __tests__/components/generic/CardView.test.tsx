@@ -6,7 +6,7 @@ import Touchable from 'react-native-platform-touchable';
 
 import * as hooks from '../../../src/redux/hooks';
 import CardView from '../../../src/components/generic/CardView';
-import {colors} from '../../../src/constants/colors';
+import {Color} from '../../../src/constants/color';
 
 const chance = new Chance();
 
@@ -66,7 +66,7 @@ describe('CardView', () => {
                 [chance.string()]: chance.string()
             }
         };
-        expectedBackgroundColor = chance.pickone(Object.values(colors));
+        expectedBackgroundColor = chance.pickone(Object.values(Color));
         startSpy = jest.fn();
         mockAnimated.timing.mockReturnValue({
             start: startSpy,
@@ -136,10 +136,10 @@ describe('CardView', () => {
         updateComponent();
 
         expect(renderedWrapperView.props.style[4]).toEqual({
-            borderColor: colors.white,
+            borderColor: Color.white,
             borderWidth: 0,
             elevation: 3,
-            shadowColor: colors.black,
+            shadowColor: Color.black,
             shadowOffset: {
                 height: 2,
                 width: 0

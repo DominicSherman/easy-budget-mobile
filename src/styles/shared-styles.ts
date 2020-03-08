@@ -1,6 +1,6 @@
 import {ViewStyle} from 'react-native';
 
-import {colors} from '../constants/colors';
+import {Color} from '../constants/color';
 
 export const screenWrapper: ViewStyle = {
     alignItems: 'center',
@@ -25,10 +25,10 @@ export const centeredColumn: Record<string, any> = {
 };
 
 export const shadow = {
-    borderColor: colors.black,
+    borderColor: Color.black,
     borderWidth: 0,
     elevation: 3,
-    shadowColor: colors.black,
+    shadowColor: Color.black,
     shadowOffset: {
         height: 2,
         width: 0

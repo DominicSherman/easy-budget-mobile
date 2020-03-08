@@ -15,7 +15,7 @@ import {updateFixedCategoryMutation} from '../../graphql/mutations';
 import CardView from '../generic/CardView';
 import {FeatherNames} from '../../enums/IconNames';
 import {usePrimaryColor} from '../../redux/hooks';
-import {colors} from '../../constants/colors';
+import {Color} from '../../constants/color';
 import {easeInTransition} from '../../services/animation-service';
 import {centeredColumn} from '../../styles/shared-styles';
 import EditIcon from '../generic/EditIcon';
@@ -58,7 +58,7 @@ const FixedCategoryItem: FC<{fixedCategory: IFixedCategory}> = ({fixedCategory})
     const {name, amount, paid, note, userId, fixedCategoryId} = fixedCategory;
     const [updateFixedCategory] = useMutation<UpdateFixedCategoryMutation, UpdateFixedCategoryMutationVariables>(updateFixedCategoryMutation);
     const primaryColor = usePrimaryColor();
-    const color = paid ? colors.orange : primaryColor;
+    const color = paid ? Color.orange : primaryColor;
     const iconName = paid ? FeatherNames.CHECK_SQUARE : FeatherNames.SQUARE;
     const titleStyle: StyleProp<TextStyle> = [
         {color},

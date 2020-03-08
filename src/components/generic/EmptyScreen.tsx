@@ -3,7 +3,7 @@ import React, {FC} from 'react';
 import Touchable from 'react-native-platform-touchable';
 
 import {SCREEN_HEIGHT} from '../../constants/dimensions';
-import {colors} from '../../constants/colors';
+import {Color} from '../../constants/color';
 
 import {RegularText, TitleText} from './Text';
 
@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
         paddingTop: SCREEN_HEIGHT * 0.1
     },
     subText: {
-        color: colors.lightGrey,
+        color: Color.lightGrey,
         marginTop: 16
     }
 });

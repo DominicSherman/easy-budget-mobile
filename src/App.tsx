@@ -6,7 +6,7 @@ import {useSelector} from 'react-redux';
 import {getApolloClient} from './graphql/apollo-client';
 import {setAppState} from './redux/action-creators';
 import {RootNavigator} from './screens';
-import {colors} from './constants/colors';
+import {Color} from './constants/color';
 import {useMode} from './redux/hooks';
 import {Mode} from './enums/Mode';
 import {IAppState} from './redux/reducer';
@@ -21,11 +21,11 @@ const LightThemeObject = {
 
 const DarkThemeObject = {
     colors: {
-        background: colors.dark,
-        border: colors.black,
-        card: colors.black,
-        primary: colors.white,
-        text: colors.white
+        background: Color.dark,
+        border: Color.black,
+        card: Color.black,
+        primary: Color.white,
+        text: Color.white
     },
     dark: true
 };

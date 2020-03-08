@@ -5,7 +5,7 @@ import {useMutation} from '@apollo/react-hooks';
 import {DeleteExpenseMutation, DeleteExpenseMutationVariables} from '../../../autogen/DeleteExpenseMutation';
 import {deleteExpenseMutation} from '../../graphql/mutations';
 import {deleteExpenseUpdate} from '../../utils/update-cache-utils';
-import {colors} from '../../constants/colors';
+import {Color} from '../../constants/color';
 import Button from '../generic/Button';
 import {getUserId} from '../../services/auth-service';
 
@@ -31,7 +31,7 @@ const DeleteExpenseButton: FC<{expenseId: string}> = ({expenseId}) => {
             onPress={onPressDelete}
             text={'Delete'}
             wrapperStyle={{
-                backgroundColor: colors.red,
+                backgroundColor: Color.red,
                 marginTop: 32
             }}
         />
