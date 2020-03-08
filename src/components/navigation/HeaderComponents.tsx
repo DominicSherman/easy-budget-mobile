@@ -65,7 +65,7 @@ export const InfoIcon: FC = () => {
     const onPress = (): void => {
         navigation.navigate({
             name: Route.INFORMATION,
-            params: undefined
+            params: {}
         });
     };
 
