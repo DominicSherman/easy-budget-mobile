@@ -6,8 +6,8 @@ import {getSavingCategoriesQuery} from '../graphql/queries';
 import {getUserId} from '../services/auth-service';
 import {getEarlyReturn} from '../services/error-and-loading-service';
 import {GetSavingCategories, GetSavingCategoriesVariables} from '../../autogen/GetSavingCategories';
-import {TitleText} from '../components/generic/Text';
 import CreateSavingCategoryForm from '../components/saving-category/CreateSavingCategoryForm';
+import SavingCategoryItem from '../components/saving-category/SavingCategoryItem';
 
 const Savings: FC = () => {
     const queryResult = useQuery<GetSavingCategories, GetSavingCategoriesVariables>(getSavingCategoriesQuery, {
@@ -28,7 +28,7 @@ const Savings: FC = () => {
                 data={savingCategories}
                 keyExtractor={(item): string => item.savingCategoryId}
                 renderItem={({item}): JSX.Element =>
-                    <TitleText>{item.name}</TitleText>
+                    <SavingCategoryItem savingCategory={item} />
                 }
             />
             <CreateSavingCategoryForm />

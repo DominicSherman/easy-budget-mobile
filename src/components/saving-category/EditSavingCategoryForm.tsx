@@ -2,80 +2,77 @@ import React, {FC, useState} from 'react';
 import {useMutation} from '@apollo/react-hooks';
 import {Alert} from 'react-native';
 
-import {IVariableCategory} from '../../../autogen/IVariableCategory';
-import {deleteVariableCategoryMutation, updateVariableCategoryMutation} from '../../graphql/mutations';
+import {ISavingCategory} from '../../../autogen/ISavingCategory';
+import {deleteSavingCategoryMutation, updateSavingCategoryMutation} from '../../graphql/mutations';
 import {
-    UpdateVariableCategoryMutation,
-    UpdateVariableCategoryMutationVariables
-} from '../../../autogen/UpdateVariableCategoryMutation';
+    UpdateSavingCategoryMutation,
+    UpdateSavingCategoryMutationVariables
+} from '../../../autogen/UpdateSavingCategoryMutation';
 import CategoryForm from '../generic/CategoryForm';
 import {
-    DeleteVariableCategoryMutation,
-    DeleteVariableCategoryMutationVariables
-} from '../../../autogen/DeleteVariableCategoryMutation';
-import {deleteVariableCategoryUpdate} from '../../utils/update-cache-utils';
+    DeleteSavingCategoryMutation,
+    DeleteSavingCategoryMutationVariables
+} from '../../../autogen/DeleteSavingCategoryMutation';
+import {deleteSavingCategoryUpdate} from '../../utils/update-cache-utils';
 import {getUserId} from '../../services/auth-service';
 import {easeInTransition} from '../../services/animation-service';
 
-interface IEditVariableCategoryFormProps {
+interface IEditSavingCategoryFormProps {
     onUpdate?: () => void
-    variableCategory: IVariableCategory
+    savingCategory: ISavingCategory
 }
 
-const EditSavingCategoryForm: FC<IEditVariableCategoryFormProps> = ({onUpdate, variableCategory}) => {
-    const {amount, name, variableCategoryId, userId} = variableCategory;
-    const [updatedAmount, setUpdatedAmount] = useState(amount.toString());
+const EditSavingCategoryForm: FC<IEditSavingCategoryFormProps> = ({onUpdate, savingCategory}) => {
+    const {name, savingCategoryId, userId} = savingCategory;
     const [updatedName, setUpdatedName] = useState(name);
     const originalValues = {
-        amount,
         name
     };
     const updatedValues = {
-        amount: Number(updatedAmount),
         name: updatedName
     };
-    const [updateVariableCategory] = useMutation<UpdateVariableCategoryMutation, UpdateVariableCategoryMutationVariables>(updateVariableCategoryMutation, {
+    const [updateSavingCategory] = useMutation<UpdateSavingCategoryMutation, UpdateSavingCategoryMutationVariables>(updateSavingCategoryMutation, {
         optimisticResponse: {
-            updateVariableCategory: {
-                ...variableCategory,
+            updateSavingCategory: {
+                ...savingCategory,
                 ...updatedValues
             }
         },
         variables: {
-            variableCategory: {
+            savingCategory: {
+                savingCategoryId,
                 userId,
-                variableCategoryId,
                 ...updatedValues
             }
         }
     });
     const onPress = (): void => {
-        updateVariableCategory();
+        updateSavingCategory();
 
         if (onUpdate) {
             onUpdate();
         }
     };
-    const [deleteVariableCategory] = useMutation<DeleteVariableCategoryMutation, DeleteVariableCategoryMutationVariables>(deleteVariableCategoryMutation, {
+    const [deleteSavingCategory] = useMutation<DeleteSavingCategoryMutation, DeleteSavingCategoryMutationVariables>(deleteSavingCategoryMutation, {
         optimisticResponse: {
-            deleteVariableCategory: variableCategoryId
+            deleteSavingCategory: savingCategoryId
         },
-        update: deleteVariableCategoryUpdate,
+        update: deleteSavingCategoryUpdate,
         variables: {
-            userId: getUserId(),
-            variableCategoryId
+            savingCategoryId,
+            userId: getUserId()
         }
     });
     const onPressDelete = (): void => {
         Alert.alert(
-            `Delete ${variableCategory.name}?`,
+            `Delete ${savingCategory.name}?`,
             '',
             [
                 {text: 'Cancel'},
                 {
                     onPress: (): void => {
                         easeInTransition();
-                        deleteVariableCategory();
+                        deleteSavingCategory();
                     },
                     text: 'Confirm'
                 }
@@ -86,14 +83,12 @@ const EditSavingCategoryForm: FC<IEditVariableCategoryFormProps> = ({onUpdate, v
 
     return (
         <CategoryForm
-            amount={updatedAmount}
             buttonText={'Update'}
             disabled={disabled}
             name={updatedName}
             onPress={onPress}
             secondButtonText={'Delete'}
             secondOnPress={onPressDelete}
-            setAmount={setUpdatedAmount}
             setName={setUpdatedName}
         />
     );

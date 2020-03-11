@@ -20,6 +20,7 @@ import {DeleteFixedCategoryMutation} from '../../autogen/DeleteFixedCategoryMuta
 import {DeleteVariableCategoryMutation} from '../../autogen/DeleteVariableCategoryMutation';
 import {CreateSavingCategoryMutation} from '../../autogen/CreateSavingCategoryMutation';
 import {GetSavingCategories, GetSavingCategoriesVariables} from '../../autogen/GetSavingCategories';
+import {DeleteSavingCategoryMutation} from '../../autogen/DeleteSavingCategoryMutation';
 
 export const createVariableCategoryUpdate = (cache: DataProxy, mutationResult: FetchResult<CreateVariableCategoryMutation>): void => {
     const query = getVariableCategoriesQuery;
@@ -226,6 +227,30 @@ export const deleteVariableCategoryUpdate = (cache: DataProxy, mutationResult: F
         cache.writeQuery<GetVariableCategories, GetVariableCategoriesVariables>({
             data: {
                 variableCategories: updatedCategories
+            },
+            query,
+            variables
+        });
+    }
+};
+
+export const deleteSavingCategoryUpdate = (cache: DataProxy, mutationResult: FetchResult<DeleteSavingCategoryMutation>): void => {
+    const query = getSavingCategoriesQuery;
+    const variables = {
+        userId: getUserId()
+    };
+    const {data} = mutationResult;
+    const result = cache.readQuery<GetSavingCategories, GetSavingCategoriesVariables>({
+        query,
+        variables
+    });
+
+    if (result && data) {
+        const updatedCategories = result.savingCategories.filter((category) => category.savingCategoryId !== data.deleteSavingCategory);
+
+        cache.writeQuery<GetSavingCategories, GetSavingCategoriesVariables>({
+            data: {
+                savingCategories: updatedCategories
             },
             query,
             variables
