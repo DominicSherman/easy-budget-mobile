@@ -19,6 +19,7 @@ import Settings from './Settings';
 import DateTimePicker from './DateTimePicker';
 import Expense from './Expense';
 import Login from './Login';
+import Savings from './Savings';
 
 const screenOptions = {
     headerLeft: (): JSX.Element => <HamburgerMenu />
@@ -81,6 +82,15 @@ const SettingsStack: FC = () =>
         />
     </Stack.Navigator>;
 
+const SavingsStack: FC = () =>
+    <Stack.Navigator>
+        <Stack.Screen
+            component={Savings}
+            name={Route.SAVINGS}
+            options={screenOptions}
+        />
+    </Stack.Navigator>;
+
 const DrawerNavigator: FC = () =>
     <Drawer.Navigator
         drawerType={'slide'}
@@ -101,6 +111,10 @@ const DrawerNavigator: FC = () =>
         <Drawer.Screen
             component={ExpensesStack}
             name={Route.EXPENSES}
+        />
+        <Drawer.Screen
+            component={SavingsStack}
+            name={Route.SAVINGS}
         />
         <Drawer.Screen
             component={SettingsStack}

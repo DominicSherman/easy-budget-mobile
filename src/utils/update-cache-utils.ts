@@ -2,7 +2,12 @@ import {DataProxy} from 'apollo-cache';
 import {FetchResult} from 'apollo-boost';
 
 import {GetVariableCategories, GetVariableCategoriesVariables} from '../../autogen/GetVariableCategories';
-import {getExpensesQuery, getFixedCategoriesQuery, getVariableCategoriesQuery} from '../graphql/queries';
+import {
+    getExpensesQuery,
+    getFixedCategoriesQuery,
+    getSavingCategoriesQuery,
+    getVariableCategoriesQuery
+} from '../graphql/queries';
 import {getUserId} from '../services/auth-service';
 import {CreateVariableCategoryMutation} from '../../autogen/CreateVariableCategoryMutation';
 import {getState} from '../redux/store';
@@ -13,6 +18,8 @@ import {GetExpenses, GetExpensesVariables} from '../../autogen/GetExpenses';
 import {DeleteExpenseMutation} from '../../autogen/DeleteExpenseMutation';
 import {DeleteFixedCategoryMutation} from '../../autogen/DeleteFixedCategoryMutation';
 import {DeleteVariableCategoryMutation} from '../../autogen/DeleteVariableCategoryMutation';
+import {CreateSavingCategoryMutation} from '../../autogen/CreateSavingCategoryMutation';
+import {GetSavingCategories, GetSavingCategoriesVariables} from '../../autogen/GetSavingCategories';
 
 export const createVariableCategoryUpdate = (cache: DataProxy, mutationResult: FetchResult<CreateVariableCategoryMutation>): void => {
     const query = getVariableCategoriesQuery;
@@ -35,6 +42,33 @@ export const createVariableCategoryUpdate = (cache: DataProxy, mutationResult: F
         cache.writeQuery<GetVariableCategories, GetVariableCategoriesVariables>({
             data: {
                 variableCategories: updatedVariableCategories
+            },
+            query,
+            variables
+        });
+    }
+};
+
+export const createSavingCategoryUpdate = (cache: DataProxy, mutationResult: FetchResult<CreateSavingCategoryMutation>): void => {
+    const query = getSavingCategoriesQuery;
+    const variables = {
+        userId: getUserId()
+    };
+    const {data} = mutationResult;
+    const result = cache.readQuery<GetSavingCategories, GetSavingCategoriesVariables>({
+        query,
+        variables
+    });
+
+    if (result && data) {
+        const updatedSavingCategories = [...result.savingCategories, {
+            ...data.createSavingCategory,
+            savings: []
+        }];
+
+        cache.writeQuery<GetSavingCategories, GetSavingCategoriesVariables>({
+            data: {
+                savingCategories: updatedSavingCategories
             },
             query,
             variables

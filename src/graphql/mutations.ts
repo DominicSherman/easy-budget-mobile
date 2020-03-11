@@ -1,6 +1,12 @@
 import {gql} from 'apollo-boost';
 
-import {createVariableCategoryFragment, expenseFragment, fixedCategoryFragment, timePeriodFragment} from './fragments';
+import {
+    createSavingCategoryFragment,
+    createVariableCategoryFragment,
+    expenseFragment,
+    fixedCategoryFragment,
+    timePeriodFragment
+} from './fragments';
 
 /* Expense */
 
@@ -54,6 +60,34 @@ export const updateFixedCategoryMutation = gql`
     mutation UpdateFixedCategoryMutation($fixedCategory: UpdateFixedCategory!) {
         updateFixedCategory(fixedCategory: $fixedCategory) {
             ...IFixedCategory
+        }
+    }
+`;
+
+/* Saving */
+
+export const createSavingCategoryMutation = gql`
+    ${createSavingCategoryFragment}
+    
+    mutation CreateSavingCategoryMutation($savingCategory: CreateSavingCategory!) {
+        createSavingCategory(savingCategory: $savingCategory) {
+            ...ICreateSavingCategory
+        }
+    } 
+`;
+
+export const deleteSavingCategoryMutation = gql`
+    mutation DeleteSavingCategoryMutation($userId: String!, $savingCategoryId: String!) {
+        deleteSavingCategory(userId: $userId, savingCategoryId: $savingCategoryId)
+    }
+`;
+
+export const updateSavingCategoryMutation = gql`
+    ${createSavingCategoryFragment}
+    
+    mutation UpdateSavingCategoryMutation($savingCategory: UpdateSavingCategory!) {
+        updateSavingCategory(savingCategory: $savingCategory) {
+            ...ICreateSavingCategory
         }
     }
 `;

@@ -10,5 +10,6 @@ export enum Route {
     SETTINGS = 'Settings',
     VARIABLE_CATEGORY = 'Variable Category',
     ERROR = 'Error',
-    LOADING = 'Loading'
+    LOADING = 'Loading',
+    SAVINGS = 'Savings'
 }

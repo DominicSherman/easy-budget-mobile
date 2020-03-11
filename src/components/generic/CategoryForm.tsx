@@ -25,8 +25,8 @@ interface ICreateCategoryFormProps {
     headerText?: string
     setName: Dispatch<SetStateAction<any>>
     name: string
-    setAmount: Dispatch<SetStateAction<any>>
-    amount: string
+    setAmount?: Dispatch<SetStateAction<any>>
+    amount?: string
     note?: string | null
     setNote?: Dispatch<SetStateAction<any>>
     onPress: () => void
@@ -105,12 +105,17 @@ const DropdownForm: FC<IDropdownProps> = (props) => {
                 title={'Category Name *'}
                 value={name}
             />
-            <Input
-                keyboardType={'number-pad'}
-                onChange={setAmount}
-                title={'Category Amount *'}
-                value={amount}
-            />
+            {
+                amount !== undefined && setAmount ?
+                    <Input
+                        keyboardType={'number-pad'}
+                        onChange={setAmount}
+                        title={'Category Amount *'}
+                        value={amount}
+                    />
+                    :
+                    null
+            }
             {
                 note !== undefined && setNote ?
                     <Input
@@ -141,7 +146,7 @@ const DropdownForm: FC<IDropdownProps> = (props) => {
                             }}
                         />
                         <Button
-                            disabled={disabled || !name.length || !amount.length}
+                            disabled={Boolean(disabled || !name.length || amount && !amount.length)}
                             onPress={onPress}
                             text={buttonText}
                             wrapperStyle={{
@@ -152,7 +157,7 @@ const DropdownForm: FC<IDropdownProps> = (props) => {
                     </View>
                     :
                     <Button
-                        disabled={disabled || !name.length || !amount.length}
+                        disabled={Boolean(disabled || !name.length || amount && !amount.length)}
                         onPress={onPress}
                         text={buttonText}
                         wrapperStyle={{marginTop: 16}}
