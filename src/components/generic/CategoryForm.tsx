@@ -128,7 +128,6 @@ const DropdownForm: FC<IDropdownProps> = (props) => {
             }
             {
                 secondButtonText && secondOnPress ?
-
                     <View
                         style={{
                             flexDirection: 'row',
@@ -146,7 +145,7 @@ const DropdownForm: FC<IDropdownProps> = (props) => {
                             }}
                         />
                         <Button
-                            disabled={Boolean(disabled || !name.length || amount && !amount.length)}
+                            disabled={Boolean(disabled || !name.length || amount !== undefined && !amount.length)}
                             onPress={onPress}
                             text={buttonText}
                             wrapperStyle={{
@@ -157,7 +156,7 @@ const DropdownForm: FC<IDropdownProps> = (props) => {
                     </View>
                     :
                     <Button
-                        disabled={Boolean(disabled || !name.length || amount && !amount.length)}
+                        disabled={Boolean(disabled || !name.length || amount !== undefined && !amount.length)}
                         onPress={onPress}
                         text={buttonText}
                         wrapperStyle={{marginTop: 16}}

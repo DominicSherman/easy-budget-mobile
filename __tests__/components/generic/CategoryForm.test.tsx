@@ -101,6 +101,15 @@ describe('CategoryForm', () => {
         expect(renderedButton.props.disabled).toBe(true);
     });
 
+    it('should pass disabled as false if amount is undefined', () => {
+        expectedProps.amount = undefined;
+        render();
+
+        const renderedButton = testInstance.findByType(Button);
+
+        expect(renderedButton.props.disabled).toBe(false);
+    });
+
     it('should pass disabled as true if there is no amount', () => {
         expectedProps.amount = '';
         render();
