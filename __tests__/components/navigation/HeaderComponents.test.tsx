@@ -104,7 +104,7 @@ describe('HeaderComponents', () => {
             expect(expectedNavigation.navigate).toHaveBeenCalledTimes(1);
             expect(expectedNavigation.navigate).toHaveBeenCalledWith({
                 name: Route.INFORMATION,
-                params: undefined
+                params: {}
             });
         });
     });

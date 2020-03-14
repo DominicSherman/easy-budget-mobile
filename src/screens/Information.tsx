@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {RefObject, useEffect} from 'react';
 import {LayoutChangeEvent, ScrollView, StyleSheet, View} from 'react-native';
 
 import {RegularText, TitleText} from '../components/generic/Text';
@@ -44,12 +44,15 @@ const Information: IScreenFC<Route.INFORMATION> = ({route: {params: {ref}}}) => 
         [InformationRef.TIME_PERIOD]: 0,
         [InformationRef.VARIABLE]: 0
     };
-    let scrollRef: ScrollView | null = null;
+    const scrollRef: RefObject<ScrollView> = React.createRef<ScrollView>();
+
+    console.log('scrollRef', scrollRef);
 
     useEffect(() => {
         setTimeout(() => {
-            if (ref && scrollRef) {
-                scrollRef.scrollTo({
+            if (ref && scrollRef.current) {
+                console.log('here');
+                scrollRef.current.scrollTo({
                     animated: true,
                     x: 0,
                     y: values[ref] - 16
@@ -61,15 +64,14 @@ const Information: IScreenFC<Route.INFORMATION> = ({route: {params: {ref}}}) => 
     return (
         <ScrollView
             contentContainerStyle={styles.scrollWrapper}
-            ref={(ref): void => {
-                scrollRef = ref;
-            }}
+            ref={scrollRef}
         >
             <View
                 onLayout={(event: LayoutChangeEvent): void => {
                     values[InformationRef.TIME_PERIOD] = event.nativeEvent.layout.y;
                 }}
                 style={styles.wrapper}
+                testID={'TimePeriodView'}
             >
                 <TitleText>{'Time Period'}</TitleText>
                 <RegularText style={styles.subText}>{information.timePeriod}</RegularText>
@@ -79,6 +81,7 @@ const Information: IScreenFC<Route.INFORMATION> = ({route: {params: {ref}}}) => 
                     values[InformationRef.FIXED] = event.nativeEvent.layout.y;
                 }}
                 style={styles.wrapper}
+                testID={'FixedCategoryView'}
             >
                 <TitleText>{'Fixed Category'}</TitleText>
                 <RegularText style={styles.subText}>{information.fixed}</RegularText>
@@ -88,6 +91,7 @@ const Information: IScreenFC<Route.INFORMATION> = ({route: {params: {ref}}}) => 
                     values[InformationRef.VARIABLE] = event.nativeEvent.layout.y;
                 }}
                 style={styles.wrapper}
+                testID={'VariableCategoryView'}
             >
                 <TitleText>{'Variable Category'}</TitleText>
                 <RegularText style={styles.subText}>{information.variable}</RegularText>
@@ -97,6 +101,7 @@ const Information: IScreenFC<Route.INFORMATION> = ({route: {params: {ref}}}) => 
                     values[InformationRef.EXPENSE] = event.nativeEvent.layout.y;
                 }}
                 style={styles.wrapper}
+                testID={'ExpenseView'}
             >
                 <TitleText>{'Expense'}</TitleText>
                 <RegularText style={styles.subText}>{information.expense}</RegularText>
