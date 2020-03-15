@@ -1,9 +1,10 @@
 import * as reactRedux from 'react-redux';
+import * as navigation from '@react-navigation/native';
 
 import {chance} from '../chance';
 import {createRandomAppState} from '../models';
 import {
-    useBackgroundColor,
+    useBackgroundColor, useBudgetNavigation,
     useMode,
     usePrimaryColor,
     useTextColor,
@@ -14,9 +15,11 @@ import {Mode} from '../../src/enums/Mode';
 import {Color} from '../../src/constants/color';
 
 jest.mock('react-redux');
+jest.mock('@react-navigation/native');
 
 describe('hooks', () => {
     const {useSelector} = reactRedux as jest.Mocked<typeof reactRedux>;
+    const {useNavigation} = navigation as jest.Mocked<typeof navigation>;
 
     let expectedSelection,
         expectedState;
@@ -106,6 +109,19 @@ describe('hooks', () => {
 
             expect(actualValue).toBe(expectedSelection);
             expect(returnValue).toEqual(expectedState.userInformation);
+        });
+    });
+
+    describe('useBudgetNavigation', () => {
+        it('should call useNavigation', () => {
+            const expectedNavigation = {
+                [chance.string()]: chance.string()
+            };
+
+            // @ts-ignore
+            useNavigation.mockReturnValue(expectedNavigation);
+
+            expect(useBudgetNavigation()).toEqual(expectedNavigation);
         });
     });
 });
