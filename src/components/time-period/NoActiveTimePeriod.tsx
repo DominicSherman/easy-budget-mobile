@@ -1,7 +1,6 @@
 import React, {FC, useState} from 'react';
 import {View} from 'react-native';
 import moment from 'moment';
-import {useNavigation} from '@react-navigation/native';
 import uuid from 'uuid';
 import {useMutation} from '@apollo/react-hooks';
 import Touchable from 'react-native-platform-touchable';
@@ -17,6 +16,7 @@ import {CreateTimePeriodMutation, CreateTimePeriodMutationVariables} from '../..
 import {setAppState} from '../../redux/action-creators';
 import {Color} from '../../constants/color';
 import {InformationRef} from '../../screens/Information';
+import {useBudgetNavigation} from '../../utils/hooks';
 
 const now = moment().startOf('day').toISOString();
 const fourWeeks = moment().startOf('day').add(4, 'w').toISOString();
@@ -30,7 +30,7 @@ const formats = {
 const NoActiveTimePeriod: FC = () => {
     const [beginDate, setBeginDate] = useState<Date>(new Date(now));
     const [endDate, setEndDate] = useState<Date>(new Date(fourWeeks));
-    const navigation = useNavigation();
+    const navigation = useBudgetNavigation();
     const timePeriod = {
         beginDate: moment(beginDate).toISOString(),
         endDate: moment(endDate).add(1, 'd').toISOString(),

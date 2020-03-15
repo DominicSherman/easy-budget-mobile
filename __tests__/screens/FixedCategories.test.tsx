@@ -3,7 +3,6 @@ import React from 'react';
 import * as reactHooks from '@apollo/react-hooks';
 import * as reactRedux from 'react-redux';
 import {FlatList} from 'react-native';
-import * as navigation from '@react-navigation/native';
 import {MutationResult} from '@apollo/react-common';
 
 import FixedCategories from '../../src/screens/FixedCategories';
@@ -17,16 +16,18 @@ import FixedCategoryItem from '../../src/components/fixed-category/FixedCategory
 import EmptyScreen from '../../src/components/generic/EmptyScreen';
 import {Route} from '../../src/enums/Route';
 import {InformationRef} from '../../src/screens/Information';
+import * as hooks from '../../src/utils/hooks';
 
 jest.mock('@apollo/react-hooks');
 jest.mock('react-redux');
 jest.mock('@react-navigation/native');
 jest.mock('../../src/services/auth-service');
+jest.mock('../../src/utils/hooks');
 
 describe('FixedCategories', () => {
     const {useQuery, useMutation} = reactHooks as jest.Mocked<typeof reactHooks>;
     const {useSelector} = reactRedux as jest.Mocked<typeof reactRedux>;
-    const {useNavigation} = navigation as jest.Mocked<typeof navigation>;
+    const {useBudgetNavigation} = hooks as jest.Mocked<typeof hooks>;
 
     let expectedTimePeriodId,
         expectedData,
@@ -51,7 +52,7 @@ describe('FixedCategories', () => {
         useQuery.mockReturnValue(expectedData);
         useSelector.mockReturnValue(expectedTimePeriodId);
         useMutation.mockReturnValue([jest.fn(), {loading: chance.bool()} as MutationResult]);
-        useNavigation.mockReturnValue(expectedNavigation);
+        useBudgetNavigation.mockReturnValue(expectedNavigation);
 
         render();
     });

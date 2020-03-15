@@ -1,5 +1,4 @@
 import React, {FC} from 'react';
-import {useNavigation} from '@react-navigation/native';
 import {useMutation} from '@apollo/react-hooks';
 
 import {DeleteVariableCategoryMutation, DeleteVariableCategoryMutationVariables} from '../../../autogen/DeleteVariableCategoryMutation';
@@ -8,9 +7,10 @@ import {deleteVariableCategoryUpdate} from '../../utils/update-cache-utils';
 import {Color} from '../../constants/color';
 import Button from '../generic/Button';
 import {getUserId} from '../../services/auth-service';
+import {useBudgetNavigation} from '../../utils/hooks';
 
 const DeleteVariableCategoryButton: FC<{variableCategoryId: string}> = ({variableCategoryId}) => {
-    const navigation = useNavigation();
+    const navigation = useBudgetNavigation();
     const [deleteVariableCategory] = useMutation<DeleteVariableCategoryMutation, DeleteVariableCategoryMutationVariables>(deleteVariableCategoryMutation, {
         optimisticResponse: {
             deleteVariableCategory: variableCategoryId

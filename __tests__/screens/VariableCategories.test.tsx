@@ -2,7 +2,6 @@ import TestRenderer from 'react-test-renderer';
 import React from 'react';
 import * as reactHooks from '@apollo/react-hooks';
 import {FlatList} from 'react-native';
-import * as navigation from '@react-navigation/native';
 import {MutationResult} from '@apollo/react-common';
 
 import VariableCategories from '../../src/screens/VariableCategories';
@@ -31,8 +30,7 @@ jest.mock('../../src/utils/hooks');
 
 describe('VariableCategories', () => {
     const {useQuery, useMutation} = reactHooks as jest.Mocked<typeof reactHooks>;
-    const {useTimePeriodId} = hooks as jest.Mocked<typeof hooks>;
-    const {useNavigation} = navigation as jest.Mocked<typeof navigation>;
+    const {useTimePeriodId, useBudgetNavigation} = hooks as jest.Mocked<typeof hooks>;
 
     let expectedTimePeriodId,
         expectedData,
@@ -63,7 +61,7 @@ describe('VariableCategories', () => {
         useTimePeriodId.mockReturnValue(expectedTimePeriodId);
         useQuery.mockReturnValue(expectedData);
         useMutation.mockReturnValue([jest.fn(), {loading: chance.bool()} as MutationResult]);
-        useNavigation.mockReturnValue(expectedNavigation);
+        useBudgetNavigation.mockReturnValue(expectedNavigation);
 
         render();
     });

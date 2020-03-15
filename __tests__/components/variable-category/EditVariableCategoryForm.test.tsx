@@ -1,7 +1,6 @@
 import TestRenderer, {act} from 'react-test-renderer';
 import React from 'react';
 import * as reactHooks from '@apollo/react-hooks';
-import * as reactNavigation from '@react-navigation/native';
 import {Alert} from 'react-native';
 import {MutationResult} from '@apollo/react-common';
 
@@ -10,6 +9,7 @@ import {createRandomVariableCategory} from '../../models';
 import EditVariableCategoryForm from '../../../src/components/variable-category/EditVariableCategoryForm';
 import {updateVariableCategoryMutation} from '../../../src/graphql/mutations';
 import CategoryForm from '../../../src/components/generic/CategoryForm';
+import * as hooks from '../../../src/utils/hooks';
 
 jest.mock('@apollo/react-hooks');
 jest.mock('@react-navigation/native');
@@ -19,7 +19,7 @@ jest.mock('../../../src/services/animation-service');
 
 describe('EditVariableCategoryForm', () => {
     const {useMutation} = reactHooks as jest.Mocked<typeof reactHooks>;
-    const {useNavigation} = reactNavigation as jest.Mocked<typeof reactNavigation>;
+    const {useBudgetNavigation} = hooks as jest.Mocked<typeof hooks>;
 
     let testRenderer,
         testInstance,
@@ -61,7 +61,7 @@ describe('EditVariableCategoryForm', () => {
         useMutation
             .mockReturnValueOnce([updateVariableCategory, {} as MutationResult])
             .mockReturnValue([deleteVariableCategory, {} as MutationResult]);
-        useNavigation.mockReturnValue(expectedNavigation);
+        useBudgetNavigation.mockReturnValue(expectedNavigation);
 
         render();
     });

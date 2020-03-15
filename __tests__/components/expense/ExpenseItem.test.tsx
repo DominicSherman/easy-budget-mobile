@@ -1,6 +1,5 @@
 import TestRenderer from 'react-test-renderer';
 import React from 'react';
-import * as navigation from '@react-navigation/native';
 
 import {createRandomExpense, createRandomVariableCategory} from '../../models';
 import {chance} from '../../chance';
@@ -8,12 +7,13 @@ import ExpenseItem from '../../../src/components/expense/ExpenseItem';
 import {SmallText} from '../../../src/components/generic/Text';
 import CardView from '../../../src/components/generic/CardView';
 import {Route} from '../../../src/enums/Route';
+import * as hooks from '../../../src/utils/hooks';
 
 jest.mock('@react-navigation/native');
 jest.mock('../../../src/utils/hooks');
 
 describe('ExpenseItem', () => {
-    const {useNavigation} = navigation as jest.Mocked<typeof navigation>;
+    const {useBudgetNavigation} = hooks as jest.Mocked<typeof hooks>;
 
     let root,
         expectedVariableCategory,
@@ -36,7 +36,7 @@ describe('ExpenseItem', () => {
             navigate: jest.fn()
         };
 
-        useNavigation.mockReturnValue(expectedNavigation);
+        useBudgetNavigation.mockReturnValue(expectedNavigation);
 
         render();
     });

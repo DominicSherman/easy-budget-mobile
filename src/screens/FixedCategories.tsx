@@ -2,8 +2,8 @@ import React from 'react';
 import {FlatList, SafeAreaView} from 'react-native';
 import {useSelector} from 'react-redux';
 import {useQuery} from '@apollo/react-hooks';
-import {useNavigation} from '@react-navigation/native';
 
+import {useBudgetNavigation} from '../utils/hooks';
 import {IAppState} from '../redux/reducer';
 import {GetFixedCategories, GetFixedCategoriesVariables} from '../../autogen/GetFixedCategories';
 import {getFixedCategoriesQuery} from '../graphql/queries';
@@ -27,7 +27,7 @@ const FixedCategories: React.FC = () => {
             userId: getUserId()
         }
     });
-    const navigation = useNavigation();
+    const navigation = useBudgetNavigation();
     const onPressSubText = (): void => navigation.navigate({
         name: Route.INFORMATION,
         params: {

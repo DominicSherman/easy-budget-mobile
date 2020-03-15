@@ -1,13 +1,13 @@
 import TestRenderer, {act} from 'react-test-renderer';
 import React from 'react';
 import * as reactHooks from '@apollo/react-hooks';
-import * as reactNavigation from '@react-navigation/native';
 import {MutationResult} from '@apollo/react-common';
 
 import {chance} from '../../chance';
 import {deleteExpenseMutation} from '../../../src/graphql/mutations';
 import {getUserId} from '../../../src/services/auth-service';
 import DeleteExpenseButton from '../../../src/components/expense/DeleteExpenseButton';
+import * as hooks from '../../../src/utils/hooks';
 
 jest.mock('../../../src/services/auth-service');
 jest.mock('../../../src/utils/update-cache-utils');
@@ -15,7 +15,7 @@ jest.mock('../../../src/utils/hooks');
 
 describe('DeleteExpenseButton', () => {
     const {useMutation} = reactHooks as jest.Mocked<typeof reactHooks>;
-    const {useNavigation} = reactNavigation as jest.Mocked<typeof reactNavigation>;
+    const {useBudgetNavigation} = hooks as jest.Mocked<typeof hooks>;
 
     let testRenderer,
         testInstance,
@@ -39,7 +39,7 @@ describe('DeleteExpenseButton', () => {
         };
 
         useMutation.mockReturnValue([deleteExpense, {} as MutationResult]);
-        useNavigation.mockReturnValue(expectedNavigation);
+        useBudgetNavigation.mockReturnValue(expectedNavigation);
 
         render();
     });

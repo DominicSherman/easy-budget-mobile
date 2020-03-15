@@ -1,13 +1,13 @@
 import TestRenderer, {act} from 'react-test-renderer';
 import React from 'react';
 import * as reactHooks from '@apollo/react-hooks';
-import * as reactNavigation from '@react-navigation/native';
 
 import {chance} from '../../chance';
 import {createRandomExpense, createRandomQueryResult, createRandomVariableCategories} from '../../models';
 import EditExpenseForm from '../../../src/components/expense/EditExpenseForm';
 import {updateExpenseMutation} from '../../../src/graphql/mutations';
 import ExpenseForm from '../../../src/components/expense/ExpenseForm';
+import * as hooks from '../../../src/utils/hooks';
 
 jest.mock('@apollo/react-hooks');
 jest.mock('@react-navigation/native');
@@ -16,7 +16,7 @@ jest.mock('../../../src/utils/hooks');
 
 describe('EditExpenseForm', () => {
     const {useMutation, useQuery} = reactHooks as jest.Mocked<typeof reactHooks>;
-    const {useNavigation} = reactNavigation as jest.Mocked<typeof reactNavigation>;
+    const {useBudgetNavigation} = hooks as jest.Mocked<typeof hooks>;
 
     let testRenderer,
         testInstance,
@@ -70,7 +70,7 @@ describe('EditExpenseForm', () => {
         // @ts-ignore
         useMutation.mockReturnValue([updateExpense]);
         useQuery.mockReturnValue(expectedQueryResult);
-        useNavigation.mockReturnValue(expectedNavigation);
+        useBudgetNavigation.mockReturnValue(expectedNavigation);
 
         render();
         setStateData();

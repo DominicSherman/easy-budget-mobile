@@ -3,7 +3,6 @@ import React from 'react';
 import * as reactHooks from '@apollo/react-hooks';
 import * as reactRedux from 'react-redux';
 import {FlatList} from 'react-native';
-import * as reactNavigation from '@react-navigation/native';
 import {MutationResult} from '@apollo/react-common';
 
 import Expenses from '../../src/screens/Expenses';
@@ -25,16 +24,18 @@ import ExpenseItem from '../../src/components/expense/ExpenseItem';
 import EmptyScreen from '../../src/components/generic/EmptyScreen';
 import {Route} from '../../src/enums/Route';
 import {InformationRef} from '../../src/screens/Information';
+import * as hooks from '../../src/utils/hooks';
 
 jest.mock('@apollo/react-hooks');
 jest.mock('react-redux');
 jest.mock('@react-navigation/native');
 jest.mock('../../src/services/auth-service');
+jest.mock('../../src/utils/hooks');
 
 describe('Expenses', () => {
     const {useQuery, useMutation} = reactHooks as jest.Mocked<typeof reactHooks>;
     const {useSelector} = reactRedux as jest.Mocked<typeof reactRedux>;
-    const {useNavigation} = reactNavigation as jest.Mocked<typeof reactNavigation>;
+    const {useBudgetNavigation} = hooks as jest.Mocked<typeof hooks>;
 
     let expectedTimePeriodId,
         expectedData,
@@ -62,7 +63,7 @@ describe('Expenses', () => {
         useQuery.mockReturnValue(expectedData);
         useSelector.mockReturnValue(expectedTimePeriodId);
         useMutation.mockReturnValue([jest.fn(), {loading: chance.bool()} as MutationResult]);
-        useNavigation.mockReturnValue(expectedNavigation);
+        useBudgetNavigation.mockReturnValue(expectedNavigation);
 
         render();
     });
@@ -109,7 +110,7 @@ describe('Expenses', () => {
         expect(expectedNavigation.navigate).toHaveBeenCalledTimes(1);
         expect(expectedNavigation.navigate).toHaveBeenCalledWith({
             name: Route.VARIABLE_CATEGORIES,
-            params: undefined
+            params: {}
         });
     });
 

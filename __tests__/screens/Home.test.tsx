@@ -3,7 +3,6 @@ import React from 'react';
 import * as reactHooks from '@apollo/react-hooks';
 import * as reactRedux from 'react-redux';
 import {MutationResult} from '@apollo/react-common';
-import * as reactNavigation from '@react-navigation/native';
 import moment from 'moment';
 
 import Home from '../../src/screens/Home';
@@ -26,16 +25,18 @@ import CardView from '../../src/components/generic/CardView';
 import {Route} from '../../src/enums/Route';
 import Button from '../../src/components/generic/Button';
 import {SmallText} from '../../src/components/generic/Text';
+import * as hooks from '../../src/utils/hooks';
 
 jest.mock('@apollo/react-hooks');
 jest.mock('react-redux');
 jest.mock('@react-navigation/native');
+jest.mock('../../src/utils/hooks');
 jest.mock('../../src/services/auth-service');
 
 describe('Home', () => {
     const {useQuery, useMutation} = reactHooks as jest.Mocked<typeof reactHooks>;
     const {useSelector} = reactRedux as jest.Mocked<typeof reactRedux>;
-    const {useNavigation} = reactNavigation as jest.Mocked<typeof reactNavigation>;
+    const {useBudgetNavigation} = hooks as jest.Mocked<typeof hooks>;
 
     let root,
         expectedNavigation,
@@ -63,7 +64,7 @@ describe('Home', () => {
         useSelector.mockReturnValue([expectedTimePeriodId, expectedUserInformation]);
         useQuery.mockReturnValue(expectedData);
         useMutation.mockReturnValue([jest.fn(), {} as MutationResult]);
-        useNavigation.mockReturnValue(expectedNavigation);
+        useBudgetNavigation.mockReturnValue(expectedNavigation);
 
         render();
     });

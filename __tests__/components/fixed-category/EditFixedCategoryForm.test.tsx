@@ -2,9 +2,9 @@ import TestRenderer, {act} from 'react-test-renderer';
 import {Alert} from 'react-native';
 import React from 'react';
 import * as reactHooks from '@apollo/react-hooks';
-import * as reactNavigation from '@react-navigation/native';
 import {MutationResult} from '@apollo/react-common';
 
+import * as hooks from '../../../src/utils/hooks';
 import {chance} from '../../chance';
 import {createRandomFixedCategory} from '../../models';
 import EditFixedCategoryForm from '../../../src/components/fixed-category/EditFixedCategoryForm';
@@ -19,7 +19,7 @@ jest.mock('../../../src/services/animation-service');
 
 describe('EditFixedCategoryForm', () => {
     const {useMutation} = reactHooks as jest.Mocked<typeof reactHooks>;
-    const {useNavigation} = reactNavigation as jest.Mocked<typeof reactNavigation>;
+    const {useBudgetNavigation} = hooks as jest.Mocked<typeof hooks>;
 
     let testRenderer,
         testInstance,
@@ -65,7 +65,7 @@ describe('EditFixedCategoryForm', () => {
         useMutation
             .mockReturnValueOnce([updateFixedCategory, {} as MutationResult])
             .mockReturnValue([deleteFixedCategory, {} as MutationResult]);
-        useNavigation.mockReturnValue(expectedNavigation);
+        useBudgetNavigation.mockReturnValue(expectedNavigation);
 
         render();
     });

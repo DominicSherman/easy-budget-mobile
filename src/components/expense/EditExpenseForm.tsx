@@ -1,6 +1,5 @@
 import React, {FC, useState} from 'react';
 import {useMutation, useQuery} from '@apollo/react-hooks';
-import {useNavigation} from '@react-navigation/native';
 
 import {updateExpenseMutation} from '../../graphql/mutations';
 import {IExpense} from '../../../autogen/IExpense';
@@ -8,13 +7,13 @@ import {UpdateExpenseMutation, UpdateExpenseMutationVariables} from '../../../au
 import {GetExpenses, GetExpensesVariables} from '../../../autogen/GetExpenses';
 import {getExpensesQuery} from '../../graphql/queries';
 import {getUserId} from '../../services/auth-service';
-import {useTimePeriodId} from '../../utils/hooks';
+import {useTimePeriodId, useBudgetNavigation} from '../../utils/hooks';
 import {sortByName} from '../../utils/sorting-utils';
 
 import ExpenseForm from './ExpenseForm';
 
 const EditExpenseForm: FC<{ expense: IExpense }> = ({expense}) => {
-    const navigation = useNavigation();
+    const navigation = useBudgetNavigation();
     const {amount, name, variableCategoryId, expenseId, userId} = expense;
     const [updatedAmount, setUpdatedAmount] = useState(amount.toString());
     const [updatedName, setUpdatedName] = useState(name);

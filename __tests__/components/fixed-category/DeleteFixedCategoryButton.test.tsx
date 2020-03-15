@@ -1,13 +1,13 @@
 import TestRenderer, {act} from 'react-test-renderer';
 import React from 'react';
 import * as reactHooks from '@apollo/react-hooks';
-import * as reactNavigation from '@react-navigation/native';
 import {MutationResult} from '@apollo/react-common';
 
 import {chance} from '../../chance';
 import {deleteFixedCategoryMutation} from '../../../src/graphql/mutations';
 import {getUserId} from '../../../src/services/auth-service';
 import DeleteFixedCategoryButton from '../../../src/components/fixed-category/DeleteFixedCategoryButton';
+import * as hooks from '../../../src/utils/hooks';
 
 jest.mock('../../../src/services/auth-service');
 jest.mock('../../../src/utils/update-cache-utils');
@@ -15,7 +15,7 @@ jest.mock('../../../src/utils/hooks');
 
 describe('DeleteFixedCategoryButton', () => {
     const {useMutation} = reactHooks as jest.Mocked<typeof reactHooks>;
-    const {useNavigation} = reactNavigation as jest.Mocked<typeof reactNavigation>;
+    const {useBudgetNavigation} = hooks as jest.Mocked<typeof hooks>;
 
     let testRenderer,
         testInstance,
@@ -39,7 +39,7 @@ describe('DeleteFixedCategoryButton', () => {
         };
 
         useMutation.mockReturnValue([deleteFixedCategory, {} as MutationResult]);
-        useNavigation.mockReturnValue(expectedNavigation);
+        useBudgetNavigation.mockReturnValue(expectedNavigation);
 
         render();
     });

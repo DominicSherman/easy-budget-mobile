@@ -29,17 +29,17 @@ const modalOptions = {
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type ScreenParams = {
-    [Route.HOME]: undefined
-    [Route.FIXED_CATEGORIES]: undefined
-    [Route.VARIABLE_CATEGORIES]: undefined
-    [Route.EXPENSES]: undefined
+    [Route.HOME]: {}
+    [Route.FIXED_CATEGORIES]: {}
+    [Route.VARIABLE_CATEGORIES]: {}
+    [Route.EXPENSES]: {}
     [Route.EXPENSE]: IExpenseProps
     [Route.DATE_PICKER]: IDateTimePickerProps
-    [Route.SETTINGS]: undefined
+    [Route.SETTINGS]: {}
     [Route.VARIABLE_CATEGORY]: IVariableCategoryProps
-    [Route.LOADING]: undefined
-    [Route.ERROR]: undefined
-    [Route.LOGIN]: undefined
+    [Route.LOADING]: {}
+    [Route.ERROR]: {}
+    [Route.LOGIN]: {}
     [Route.INFORMATION]: IInformationProps
 }
 

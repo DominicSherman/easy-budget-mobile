@@ -1,7 +1,6 @@
 import TestRenderer from 'react-test-renderer';
 import React from 'react';
 import * as reactHooks from '@apollo/react-hooks';
-import * as navigation from '@react-navigation/native';
 import Touchable from 'react-native-platform-touchable';
 import {MutationResult} from '@apollo/react-common';
 
@@ -13,6 +12,7 @@ import * as actionCreators from '../../../src/redux/action-creators';
 import Button from '../../../src/components/generic/Button';
 import {InformationRef} from '../../../src/screens/Information';
 import {Route} from '../../../src/enums/Route';
+import * as hooks from '../../../src/utils/hooks';
 
 jest.mock('@apollo/react-hooks');
 jest.mock('@react-navigation/native');
@@ -22,7 +22,7 @@ jest.mock('../../../src/utils/hooks');
 
 describe('NoActiveTimePeriod', () => {
     const {useMutation} = reactHooks as jest.Mocked<typeof reactHooks>;
-    const {useNavigation} = navigation as jest.Mocked<typeof navigation>;
+    const {useBudgetNavigation} = hooks as jest.Mocked<typeof hooks>;
     const {setAppState} = actionCreators as jest.Mocked<typeof actionCreators>;
 
     let testRenderer,
@@ -45,7 +45,7 @@ describe('NoActiveTimePeriod', () => {
         };
 
         useMutation.mockReturnValue([createTimePeriod, {loading: expectedLoading} as MutationResult]);
-        useNavigation.mockReturnValue(expectedNavigation);
+        useBudgetNavigation.mockReturnValue(expectedNavigation);
 
         render();
     });
