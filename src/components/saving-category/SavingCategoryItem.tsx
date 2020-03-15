@@ -5,9 +5,9 @@ import {ISavingCategory} from '../../../autogen/ISavingCategory';
 import CardView from '../generic/CardView';
 import {SCREEN_WIDTH} from '../../constants/dimensions';
 import {LargeText, SmallText} from '../generic/Text';
-import {usePrimaryColor} from '../../redux/hooks';
 import {easeInTransition} from '../../services/animation-service';
 import EditIcon from '../generic/EditIcon';
+import {usePrimaryColor} from '../../utils/hooks';
 
 import EditSavingCategoryForm from './EditSavingCategoryForm';
 
@@ -40,7 +40,6 @@ const SavingCategoryItem: FC<ISavingCategoryItemProps> = ({savingCategory}) => {
         easeInTransition();
         setExpanded(!expanded);
     };
-    const totalSavings = savingCategory.savings.reduce((total, saving) => total + saving.amount, 0);
 
     return (
         <CardView
@@ -53,7 +52,7 @@ const SavingCategoryItem: FC<ISavingCategoryItemProps> = ({savingCategory}) => {
                     <LargeText>{savingCategory.name}</LargeText>
                 </View>
                 <View style={styles.verticalCenter}>
-                    <LargeText>{`$${totalSavings}`}</LargeText>
+                    <LargeText>{`$${savingCategory.amount}`}</LargeText>
                     <SmallText>{'saved'}</SmallText>
                 </View>
                 <EditIcon

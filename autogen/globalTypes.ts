@@ -69,6 +69,7 @@ export interface UpdateSavingCategory {
   savingCategoryId: string;
   userId: string;
   name?: string | null;
+  amount?: number | null;
 }
 
 export interface UpdateVariableCategory {

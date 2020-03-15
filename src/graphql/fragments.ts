@@ -28,31 +28,14 @@ export const fixedCategoryFragment = gql`
     }
 `;
 
-/* Saving */
-
-export const savingFragment = gql`
-    fragment ISaving on Saving {
-        savingId
-        userId
-        savingCategoryId
-        amount
-        date
-        name    
-    }
-`;
-
 /* Saving Category */
 
 export const savingCategoryFragment = gql`
-    ${savingFragment}
-    
     fragment ISavingCategory on SavingCategory {
         savingCategoryId
         userId
-        name
-        savings {
-            ...ISaving
-        }   
+        name 
+        amount
     }
 `;
 

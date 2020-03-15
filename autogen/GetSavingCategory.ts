@@ -6,22 +6,12 @@
 // GraphQL query operation: GetSavingCategory
 // ====================================================
 
-export interface GetSavingCategory_savingCategory_savings {
-  __typename: "Saving";
-  savingId: string;
-  userId: string;
-  savingCategoryId: string;
-  amount: number;
-  date: string;
-  name: string | null;
-}
-
 export interface GetSavingCategory_savingCategory {
   __typename: "SavingCategory";
   savingCategoryId: string;
   userId: string;
   name: string;
-  savings: GetSavingCategory_savingCategory_savings[];
+  amount: number;
 }
 
 export interface GetSavingCategory {

@@ -64,7 +64,7 @@ export const createSavingCategoryUpdate = (cache: DataProxy, mutationResult: Fet
     if (result && data) {
         const updatedSavingCategories = [...result.savingCategories, {
             ...data.createSavingCategory,
-            savings: []
+            amount: 0
         }];
 
         cache.writeQuery<GetSavingCategories, GetSavingCategoriesVariables>({
