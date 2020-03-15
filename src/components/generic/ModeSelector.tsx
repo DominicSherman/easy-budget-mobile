@@ -1,7 +1,7 @@
 import React, {FC} from 'react';
 import {AsyncStorage, Switch, View} from 'react-native';
 
-import {useMode} from '../../redux/hooks';
+import {useMode} from '../../utils/hooks';
 import {Mode} from '../../enums/Mode';
 import {dispatchAction} from '../../redux/store';
 import {Actions} from '../../redux/actions';

@@ -9,7 +9,7 @@ import {
     useTextColor,
     useTimePeriodId,
     useUserInformation
-} from '../../src/redux/hooks';
+} from '../../src/utils/hooks';
 import {Mode} from '../../src/enums/Mode';
 import {Color} from '../../src/constants/color';
 

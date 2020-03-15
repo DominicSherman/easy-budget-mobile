@@ -5,7 +5,7 @@ import {TextInput} from 'react-native';
 import Input from '../../../src/components/generic/Input';
 import {chance} from '../../chance';
 
-jest.mock('../../../src/redux/hooks');
+jest.mock('../../../src/utils/hooks');
 
 describe('Input', () => {
     let testInstance,

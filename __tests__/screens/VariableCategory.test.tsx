@@ -11,7 +11,7 @@ import {getEarlyReturn} from '../../src/services/error-and-loading-service';
 
 jest.mock('@apollo/react-hooks');
 jest.mock('../../src/services/auth-service');
-jest.mock('../../src/redux/hooks');
+jest.mock('../../src/utils/hooks');
 
 describe('VariableCategory', () => {
     const {useQuery} = apolloReactHooks as jest.Mocked<typeof apolloReactHooks>;

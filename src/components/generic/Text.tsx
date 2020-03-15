@@ -2,7 +2,7 @@ import React, {FC, ReactNode} from 'react';
 import {StyleProp, Text, TextStyle} from 'react-native';
 
 import {textStyles} from '../../styles/text-styles';
-import {useTextColor} from '../../redux/hooks';
+import {useTextColor} from '../../utils/hooks';
 
 interface IDefaultText {
     children: ReactNode

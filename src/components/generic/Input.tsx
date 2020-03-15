@@ -3,7 +3,7 @@ import {KeyboardTypeOptions, StyleSheet, TextInput, TextStyle, View} from 'react
 
 import {textStyles} from '../../styles/text-styles';
 import {SCREEN_WIDTH} from '../../constants/dimensions';
-import {usePrimaryColor, useTextColor} from '../../redux/hooks';
+import {usePrimaryColor, useTextColor} from '../../utils/hooks';
 
 import {RegularText} from './Text';
 

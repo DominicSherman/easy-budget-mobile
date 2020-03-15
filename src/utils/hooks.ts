@@ -3,8 +3,7 @@ import {User} from '@react-native-community/google-signin';
 
 import {Mode} from '../enums/Mode';
 import {getBackgroundColor, getPrimaryColor} from '../services/theme-service';
-
-import {IAppState} from './reducer';
+import {IAppState} from '../redux/reducer';
 
 export const useMode = (): Mode =>
     useSelector<IAppState, Mode>((state) => state.mode);

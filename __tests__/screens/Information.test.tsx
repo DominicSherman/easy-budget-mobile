@@ -7,7 +7,7 @@ import {chance} from '../chance';
 import {informationScrollRef} from '../../src/utils/refs';
 
 jest.useFakeTimers();
-jest.mock('../../src/redux/hooks');
+jest.mock('../../src/utils/hooks');
 jest.mock('../../src/utils/refs', () => ({
     informationScrollRef: {
         current: {

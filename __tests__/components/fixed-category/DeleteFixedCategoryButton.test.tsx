@@ -11,7 +11,7 @@ import DeleteFixedCategoryButton from '../../../src/components/fixed-category/De
 
 jest.mock('../../../src/services/auth-service');
 jest.mock('../../../src/utils/update-cache-utils');
-jest.mock('../../../src/redux/hooks');
+jest.mock('../../../src/utils/hooks');
 
 describe('DeleteFixedCategoryButton', () => {
     const {useMutation} = reactHooks as jest.Mocked<typeof reactHooks>;

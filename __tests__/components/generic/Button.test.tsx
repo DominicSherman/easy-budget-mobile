@@ -6,7 +6,7 @@ import {chance} from '../../chance';
 import {LargeText} from '../../../src/components/generic/Text';
 import Button from '../../../src/components/generic/Button';
 
-jest.mock('../../../src/redux/hooks');
+jest.mock('../../../src/utils/hooks');
 
 describe('Button', () => {
     let expectedProps,

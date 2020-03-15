@@ -10,7 +10,7 @@ import Button from '../../src/components/generic/Button';
 import {createRouteProps} from '../models';
 
 jest.mock('@react-navigation/native');
-jest.mock('../../src/redux/hooks');
+jest.mock('../../src/utils/hooks');
 
 describe('DateTimePicker', () => {
     const {useNavigation} = reactNavigationNative as jest.Mocked<typeof reactNavigationNative>;

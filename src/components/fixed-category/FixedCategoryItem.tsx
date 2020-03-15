@@ -14,7 +14,7 @@ import {
 import {updateFixedCategoryMutation} from '../../graphql/mutations';
 import CardView from '../generic/CardView';
 import {FeatherNames} from '../../enums/IconNames';
-import {usePrimaryColor} from '../../redux/hooks';
+import {usePrimaryColor} from '../../utils/hooks';
 import {Color} from '../../constants/color';
 import {easeInTransition} from '../../services/animation-service';
 import {centeredColumn} from '../../styles/shared-styles';

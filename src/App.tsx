@@ -7,7 +7,7 @@ import {getApolloClient} from './graphql/apollo-client';
 import {setAppState} from './redux/action-creators';
 import {RootNavigator} from './StacksOnStacksOnStacks';
 import {Color} from './constants/color';
-import {useMode} from './redux/hooks';
+import {useMode} from './utils/hooks';
 import {Mode} from './enums/Mode';
 import {IAppState} from './redux/reducer';
 

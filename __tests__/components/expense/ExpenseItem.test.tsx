@@ -10,7 +10,7 @@ import CardView from '../../../src/components/generic/CardView';
 import {Route} from '../../../src/enums/Route';
 
 jest.mock('@react-navigation/native');
-jest.mock('../../../src/redux/hooks');
+jest.mock('../../../src/utils/hooks');
 
 describe('ExpenseItem', () => {
     const {useNavigation} = navigation as jest.Mocked<typeof navigation>;

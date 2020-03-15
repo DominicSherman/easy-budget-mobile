@@ -11,7 +11,7 @@ import DeleteExpenseButton from '../../../src/components/expense/DeleteExpenseBu
 
 jest.mock('../../../src/services/auth-service');
 jest.mock('../../../src/utils/update-cache-utils');
-jest.mock('../../../src/redux/hooks');
+jest.mock('../../../src/utils/hooks');
 
 describe('DeleteExpenseButton', () => {
     const {useMutation} = reactHooks as jest.Mocked<typeof reactHooks>;

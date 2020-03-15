@@ -7,7 +7,7 @@ import CardView from '../generic/CardView';
 import {SCREEN_WIDTH} from '../../constants/dimensions';
 import {LargeText, SmallText} from '../generic/Text';
 import {Route} from '../../enums/Route';
-import {usePrimaryColor} from '../../redux/hooks';
+import {usePrimaryColor} from '../../utils/hooks';
 import {calculateTotal} from '../../utils/utils';
 import {easeInTransition} from '../../services/animation-service';
 import EditIcon from '../generic/EditIcon';

@@ -9,7 +9,7 @@ import {CloseIcon, HamburgerMenu, InfoIcon} from '../../../src/components/naviga
 import {Route} from '../../../src/enums/Route';
 
 jest.mock('@react-navigation/native');
-jest.mock('../../../src/redux/hooks');
+jest.mock('../../../src/utils/hooks');
 
 describe('HeaderComponents', () => {
     const {useNavigation} = reactNavigationNative as jest.Mocked<typeof reactNavigationNative>;

@@ -18,7 +18,7 @@ import {sortByName} from '../../src/utils/sorting-utils';
 import {IVariableCategory} from '../../autogen/IVariableCategory';
 import NoActiveTimePeriod from '../../src/components/time-period/NoActiveTimePeriod';
 import VariableCategoryItem from '../../src/components/variable-category/VariableCategoryItem';
-import * as hooks from '../../src/redux/hooks';
+import * as hooks from '../../src/utils/hooks';
 import EmptyScreen from '../../src/components/generic/EmptyScreen';
 import {Route} from '../../src/enums/Route';
 import {InformationRef} from '../../src/screens/Information';
@@ -27,7 +27,7 @@ jest.mock('@apollo/react-hooks');
 jest.mock('react-redux');
 jest.mock('@react-navigation/native');
 jest.mock('../../src/services/auth-service');
-jest.mock('../../src/redux/hooks');
+jest.mock('../../src/utils/hooks');
 
 describe('VariableCategories', () => {
     const {useQuery, useMutation} = reactHooks as jest.Mocked<typeof reactHooks>;

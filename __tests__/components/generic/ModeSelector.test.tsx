@@ -4,13 +4,13 @@ import {Switch} from 'react-native';
 
 import {Mode} from '../../../src/enums/Mode';
 import {chance} from '../../chance';
-import * as hooks from '../../../src/redux/hooks';
+import * as hooks from '../../../src/utils/hooks';
 import {AsyncStorageKey} from '../../../src/enums/AsyncStorageKey';
 import {dispatchAction} from '../../../src/redux/store';
 import {Actions} from '../../../src/redux/actions';
 import ModeSelector from '../../../src/components/generic/ModeSelector';
 
-jest.mock('../../../src/redux/hooks');
+jest.mock('../../../src/utils/hooks');
 jest.mock('../../../src/redux/store');
 
 describe('ModeSelector', () => {

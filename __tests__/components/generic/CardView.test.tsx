@@ -4,7 +4,7 @@ import TestRenderer from 'react-test-renderer';
 import {Animated, Text, View} from 'react-native';
 import Touchable from 'react-native-platform-touchable';
 
-import * as hooks from '../../../src/redux/hooks';
+import * as hooks from '../../../src/utils/hooks';
 import CardView from '../../../src/components/generic/CardView';
 import {Color} from '../../../src/constants/color';
 
@@ -17,7 +17,7 @@ jest.mock('react-native/Libraries/Animated/src/Animated', () => ({
     sequence: jest.fn(),
     timing: jest.fn()
 }));
-jest.mock('../../../src/redux/hooks');
+jest.mock('../../../src/utils/hooks');
 
 describe('CardView', () => {
     const mockAnimated = Animated as jest.Mocked<typeof Animated>;

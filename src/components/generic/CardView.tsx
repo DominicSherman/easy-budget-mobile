@@ -3,7 +3,7 @@ import {Animated, StyleProp, StyleSheet, ViewStyle} from 'react-native';
 import Touchable from 'react-native-platform-touchable';
 
 import {Color} from '../../constants/color';
-import {useBackgroundColor} from '../../redux/hooks';
+import {useBackgroundColor} from '../../utils/hooks';
 
 const styles = StyleSheet.create({
     shadow: {

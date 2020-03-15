@@ -8,7 +8,7 @@ import {UpdateExpenseMutation, UpdateExpenseMutationVariables} from '../../../au
 import {GetExpenses, GetExpensesVariables} from '../../../autogen/GetExpenses';
 import {getExpensesQuery} from '../../graphql/queries';
 import {getUserId} from '../../services/auth-service';
-import {useTimePeriodId} from '../../redux/hooks';
+import {useTimePeriodId} from '../../utils/hooks';
 import {sortByName} from '../../utils/sorting-utils';
 
 import ExpenseForm from './ExpenseForm';

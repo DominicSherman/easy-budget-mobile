@@ -5,7 +5,7 @@ import {ScrollView} from 'react-native';
 import EmptyScreen from '../../../src/components/generic/EmptyScreen';
 import {chance} from '../../chance';
 
-jest.mock('../../../src/redux/hooks');
+jest.mock('../../../src/utils/hooks');
 
 describe('EmptyScreen', () => {
     let root,

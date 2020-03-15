@@ -11,7 +11,7 @@ import DeleteVariableCategoryButton from '../../../src/components/variable-categ
 
 jest.mock('../../../src/services/auth-service');
 jest.mock('../../../src/utils/update-cache-utils');
-jest.mock('../../../src/redux/hooks');
+jest.mock('../../../src/utils/hooks');
 
 describe('DeleteVariableCategoryButton', () => {
     const {useMutation} = reactHooks as jest.Mocked<typeof reactHooks>;

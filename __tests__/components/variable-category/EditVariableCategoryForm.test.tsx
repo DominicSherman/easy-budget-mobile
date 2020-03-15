@@ -14,7 +14,7 @@ import CategoryForm from '../../../src/components/generic/CategoryForm';
 jest.mock('@apollo/react-hooks');
 jest.mock('@react-navigation/native');
 jest.mock('../../../src/services/auth-service');
-jest.mock('../../../src/redux/hooks');
+jest.mock('../../../src/utils/hooks');
 jest.mock('../../../src/services/animation-service');
 
 describe('EditVariableCategoryForm', () => {

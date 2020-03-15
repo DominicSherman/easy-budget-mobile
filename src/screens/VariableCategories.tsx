@@ -11,7 +11,7 @@ import CreateVariableCategoryForm from '../components/variable-category/CreateVa
 import {sortByAmount} from '../utils/sorting-utils';
 import NoActiveTimePeriod from '../components/time-period/NoActiveTimePeriod';
 import VariableCategoryItem from '../components/variable-category/VariableCategoryItem';
-import {useTimePeriodId} from '../redux/hooks';
+import {useTimePeriodId} from '../utils/hooks';
 import EmptyScreen from '../components/generic/EmptyScreen';
 import {Route} from '../enums/Route';
 

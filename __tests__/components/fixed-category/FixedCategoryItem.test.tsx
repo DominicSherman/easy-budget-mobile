@@ -16,7 +16,7 @@ jest.mock('@react-navigation/native');
 jest.mock('@apollo/react-hooks');
 jest.mock('../../../src/services/animation-service');
 jest.mock('../../../src/services/auth-service');
-jest.mock('../../../src/redux/hooks');
+jest.mock('../../../src/utils/hooks');
 
 describe('FixedCategoryItem', () => {
     let root,
