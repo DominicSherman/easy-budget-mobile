@@ -1,9 +1,11 @@
 import {useSelector} from 'react-redux';
 import {User} from '@react-native-community/google-signin';
+import {useNavigation, NavigationProp} from '@react-navigation/native';
 
 import {Mode} from '../enums/Mode';
 import {getBackgroundColor, getPrimaryColor} from '../services/theme-service';
 import {IAppState} from '../redux/reducer';
+import {ScreenParams} from '../StacksOnStacksOnStacks';
 
 export const useMode = (): Mode =>
     useSelector<IAppState, Mode>((state) => state.mode);
@@ -21,3 +23,6 @@ export const useTimePeriodId = (): string =>
 
 export const useUserInformation = (): User =>
     useSelector<IAppState, User>((state) => state.userInformation);
+
+export const useBudgetNavigation = (): NavigationProp<ScreenParams> =>
+    useNavigation<NavigationProp<ScreenParams>>();

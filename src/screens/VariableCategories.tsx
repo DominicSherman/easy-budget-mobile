@@ -1,7 +1,6 @@
 import React from 'react';
 import {FlatList, SafeAreaView} from 'react-native';
 import {useQuery} from '@apollo/react-hooks';
-import {useNavigation} from '@react-navigation/native';
 
 import {getVariableCategoriesQuery} from '../graphql/queries';
 import {getUserId} from '../services/auth-service';
@@ -11,7 +10,7 @@ import CreateVariableCategoryForm from '../components/variable-category/CreateVa
 import {sortByAmount} from '../utils/sorting-utils';
 import NoActiveTimePeriod from '../components/time-period/NoActiveTimePeriod';
 import VariableCategoryItem from '../components/variable-category/VariableCategoryItem';
-import {useTimePeriodId} from '../utils/hooks';
+import {useBudgetNavigation, useTimePeriodId} from '../utils/hooks';
 import EmptyScreen from '../components/generic/EmptyScreen';
 import {Route} from '../enums/Route';
 
@@ -26,7 +25,7 @@ const VariableCategories: React.FC = () => {
             userId: getUserId()
         }
     });
-    const navigation = useNavigation();
+    const navigation = useBudgetNavigation();
     const onPressSubText = (): void => navigation.navigate({
         name: Route.INFORMATION,
         params: {
