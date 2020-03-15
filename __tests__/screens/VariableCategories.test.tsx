@@ -2,6 +2,7 @@ import TestRenderer from 'react-test-renderer';
 import React from 'react';
 import * as reactHooks from '@apollo/react-hooks';
 import {FlatList} from 'react-native';
+import {MutationResult} from '@apollo/react-common';
 
 import VariableCategories from '../../src/screens/VariableCategories';
 import {
@@ -16,20 +17,24 @@ import {sortByName} from '../../src/utils/sorting-utils';
 import {IVariableCategory} from '../../autogen/IVariableCategory';
 import NoActiveTimePeriod from '../../src/components/time-period/NoActiveTimePeriod';
 import VariableCategoryItem from '../../src/components/variable-category/VariableCategoryItem';
-import * as hooks from '../../src/redux/hooks';
+import * as hooks from '../../src/utils/hooks';
+import EmptyScreen from '../../src/components/generic/EmptyScreen';
+import {Route} from '../../src/enums/Route';
+import {InformationRef} from '../../src/screens/Information';
 
 jest.mock('@apollo/react-hooks');
 jest.mock('react-redux');
 jest.mock('@react-navigation/native');
 jest.mock('../../src/services/auth-service');
-jest.mock('../../src/redux/hooks');
+jest.mock('../../src/utils/hooks');
 
 describe('VariableCategories', () => {
     const {useQuery, useMutation} = reactHooks as jest.Mocked<typeof reactHooks>;
-    const {useTimePeriodId} = hooks as jest.Mocked<typeof hooks>;
+    const {useTimePeriodId, useBudgetNavigation} = hooks as jest.Mocked<typeof hooks>;
 
     let expectedTimePeriodId,
         expectedData,
+        expectedNavigation,
         root;
 
     const render = (): void => {
@@ -49,11 +54,14 @@ describe('VariableCategories', () => {
             ]
         });
         expectedTimePeriodId = chance.guid();
+        expectedNavigation = {
+            navigate: jest.fn()
+        };
 
         useTimePeriodId.mockReturnValue(expectedTimePeriodId);
         useQuery.mockReturnValue(expectedData);
-        // @ts-ignore
-        useMutation.mockReturnValue([jest.fn(), {loading: chance.bool()}]);
+        useMutation.mockReturnValue([jest.fn(), {loading: chance.bool()} as MutationResult]);
+        useBudgetNavigation.mockReturnValue(expectedNavigation);
 
         render();
     });
@@ -96,5 +104,21 @@ describe('VariableCategories', () => {
 
         expect(renderedItem.type).toBe(VariableCategoryItem);
         expect(key).toBe(expectedItem.variableCategoryId);
+
+        const renderedListEmptyComponent = renderedFlatList.props.ListEmptyComponent;
+
+        expect(renderedListEmptyComponent.type).toBe(EmptyScreen);
+        expect(renderedListEmptyComponent.props.subText).toBe('What is a variable category?');
+        expect(renderedListEmptyComponent.props.titleText).toBe('You haven\'t created any variable categories yet!');
+
+        renderedListEmptyComponent.props.onPressSubText();
+
+        expect(expectedNavigation.navigate).toHaveBeenCalledTimes(1);
+        expect(expectedNavigation.navigate).toHaveBeenCalledWith({
+            name: Route.INFORMATION,
+            params: {
+                ref: InformationRef.VARIABLE
+            }
+        });
     });
 });

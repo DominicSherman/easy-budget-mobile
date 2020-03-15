@@ -13,7 +13,11 @@ import {createVariableCategoryUpdate} from '../../utils/update-cache-utils';
 import {IAppState} from '../../redux/reducer';
 import CategoryForm from '../generic/CategoryForm';
 
-const CreateVariableCategoryForm: FC = () => {
+interface ICreateVariableCategoryFormProps {
+    showCreateForm?: boolean
+}
+
+const CreateVariableCategoryForm: FC<ICreateVariableCategoryFormProps> = ({showCreateForm}) => {
     const timePeriodId = useSelector<IAppState, string>((state) => state.timePeriodId);
     const [name, setName] = useState('');
     const [amount, setAmount] = useState('');
@@ -52,6 +56,7 @@ const CreateVariableCategoryForm: FC = () => {
             onPress={onPress}
             setAmount={setAmount}
             setName={setName}
+            showCreateForm={showCreateForm}
             toggleable
         />
     );

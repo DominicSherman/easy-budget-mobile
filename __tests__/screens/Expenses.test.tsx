@@ -3,6 +3,7 @@ import React from 'react';
 import * as reactHooks from '@apollo/react-hooks';
 import * as reactRedux from 'react-redux';
 import {FlatList} from 'react-native';
+import {MutationResult} from '@apollo/react-common';
 
 import Expenses from '../../src/screens/Expenses';
 import {
@@ -20,18 +21,25 @@ import {IExpense} from '../../autogen/IExpense';
 import CreateExpenseForm from '../../src/components/expense/CreateExpenseForm';
 import NoActiveTimePeriod from '../../src/components/time-period/NoActiveTimePeriod';
 import ExpenseItem from '../../src/components/expense/ExpenseItem';
+import EmptyScreen from '../../src/components/generic/EmptyScreen';
+import {Route} from '../../src/enums/Route';
+import {InformationRef} from '../../src/screens/Information';
+import * as hooks from '../../src/utils/hooks';
 
 jest.mock('@apollo/react-hooks');
 jest.mock('react-redux');
 jest.mock('@react-navigation/native');
 jest.mock('../../src/services/auth-service');
+jest.mock('../../src/utils/hooks');
 
 describe('Expenses', () => {
     const {useQuery, useMutation} = reactHooks as jest.Mocked<typeof reactHooks>;
     const {useSelector} = reactRedux as jest.Mocked<typeof reactRedux>;
+    const {useBudgetNavigation} = hooks as jest.Mocked<typeof hooks>;
 
     let expectedTimePeriodId,
         expectedData,
+        expectedNavigation,
         root;
 
     const render = (): void => {
@@ -48,11 +56,14 @@ describe('Expenses', () => {
             variableCategories: chance.shuffle([...createRandomVariableCategories(), createRandomVariableCategory({variableCategoryId: matchingCategoryId})])
         });
         expectedTimePeriodId = chance.guid();
+        expectedNavigation = {
+            navigate: jest.fn()
+        };
 
         useQuery.mockReturnValue(expectedData);
         useSelector.mockReturnValue(expectedTimePeriodId);
-        // @ts-ignore
-        useMutation.mockReturnValue([jest.fn(), {loading: chance.bool()}]);
+        useMutation.mockReturnValue([jest.fn(), {loading: chance.bool()} as MutationResult]);
+        useBudgetNavigation.mockReturnValue(expectedNavigation);
 
         render();
     });
@@ -86,6 +97,23 @@ describe('Expenses', () => {
         root.findByType(earlyReturn.type);
     });
 
+    it('should return early if there are no variable categories', () => {
+        expectedData.data.variableCategories = [];
+        useQuery.mockReturnValue(expectedData);
+
+        render();
+
+        const renderedEmptyScreen = root.findByType(EmptyScreen);
+
+        renderedEmptyScreen.props.onPressSubText();
+
+        expect(expectedNavigation.navigate).toHaveBeenCalledTimes(1);
+        expect(expectedNavigation.navigate).toHaveBeenCalledWith({
+            name: Route.VARIABLE_CATEGORIES,
+            params: {}
+        });
+    });
+
     it('should render a FlatList', () => {
         const renderedFlatList = root.findByType(FlatList);
 
@@ -99,5 +127,15 @@ describe('Expenses', () => {
 
         expect(renderedItem.type).toBe(ExpenseItem);
         expect(key).toBe(expectedItem.expenseId);
+
+        renderedFlatList.props.ListEmptyComponent.props.onPressSubText();
+
+        expect(expectedNavigation.navigate).toHaveBeenCalledTimes(1);
+        expect(expectedNavigation.navigate).toHaveBeenCalledWith({
+            name: Route.INFORMATION,
+            params: {
+                ref: InformationRef.EXPENSE
+            }
+        });
     });
 });

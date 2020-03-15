@@ -2,7 +2,7 @@ import React, {FC} from 'react';
 import {StyleSheet, View} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 
-import {useBackgroundColor, usePrimaryColor} from '../../redux/hooks';
+import {useBackgroundColor, usePrimaryColor} from '../../utils/hooks';
 import {FeatherNames} from '../../enums/IconNames';
 import {SCREEN_WIDTH} from '../../constants/dimensions';
 

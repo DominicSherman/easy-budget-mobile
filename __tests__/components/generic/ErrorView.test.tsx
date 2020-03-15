@@ -3,7 +3,7 @@ import React from 'react';
 
 import ErrorView from '../../../src/components/generic/ErrorView';
 
-jest.mock('../../../src/redux/hooks');
+jest.mock('../../../src/utils/hooks');
 
 describe('ErrorView', () => {
     let testInstance;

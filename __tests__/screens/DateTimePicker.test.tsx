@@ -1,19 +1,19 @@
 import TestRenderer from 'react-test-renderer';
 import React from 'react';
 import RNDatePicker from '@react-native-community/datetimepicker';
-import * as reactNavigationNative from '@react-navigation/native';
 
 import DateTimePicker from '../../src/screens/DateTimePicker';
 import {chance} from '../chance';
 import {RegularText} from '../../src/components/generic/Text';
 import Button from '../../src/components/generic/Button';
 import {createRouteProps} from '../models';
+import * as hooks from '../../src/utils/hooks';
 
 jest.mock('@react-navigation/native');
-jest.mock('../../src/redux/hooks');
+jest.mock('../../src/utils/hooks');
 
 describe('DateTimePicker', () => {
-    const {useNavigation} = reactNavigationNative as jest.Mocked<typeof reactNavigationNative>;
+    const {useBudgetNavigation} = hooks as jest.Mocked<typeof hooks>;
 
     let expectedProps,
         expectedNavigation,
@@ -36,7 +36,7 @@ describe('DateTimePicker', () => {
             goBack: jest.fn()
         };
 
-        useNavigation.mockReturnValue(expectedNavigation);
+        useBudgetNavigation.mockReturnValue(expectedNavigation);
 
         render();
     });
