@@ -1,10 +1,11 @@
-import React, {RefObject, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {LayoutChangeEvent, ScrollView, StyleSheet, View} from 'react-native';
 
 import {RegularText, TitleText} from '../components/generic/Text';
 import {IScreenFC} from '../types/global';
 import {Route} from '../enums/Route';
 import {SCREEN_HEIGHT} from '../constants/dimensions';
+import {informationScrollRef} from '../utils/refs';
 
 const styles = StyleSheet.create({
     scrollWrapper: {
@@ -44,27 +45,23 @@ const Information: IScreenFC<Route.INFORMATION> = ({route: {params: {ref}}}) => 
         [InformationRef.TIME_PERIOD]: 0,
         [InformationRef.VARIABLE]: 0
     };
-    const scrollRef: RefObject<ScrollView> = React.createRef<ScrollView>();
-
-    console.log('scrollRef', scrollRef);
 
     useEffect(() => {
         setTimeout(() => {
-            if (ref && scrollRef.current) {
-                console.log('here');
-                scrollRef.current.scrollTo({
+            if (ref && informationScrollRef.current) {
+                informationScrollRef.current.scrollTo({
                     animated: true,
                     x: 0,
                     y: values[ref] - 16
                 });
             }
         }, 1000);
-    }, [ref, scrollRef, values]);
+    }, [ref, values]);
 
     return (
         <ScrollView
             contentContainerStyle={styles.scrollWrapper}
-            ref={scrollRef}
+            ref={informationScrollRef}
         >
             <View
                 onLayout={(event: LayoutChangeEvent): void => {

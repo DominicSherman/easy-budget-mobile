@@ -3,6 +3,8 @@ import React from 'react';
 import * as reactHooks from '@apollo/react-hooks';
 import * as reactRedux from 'react-redux';
 import {FlatList} from 'react-native';
+import * as navigation from '@react-navigation/native';
+import {MutationResult} from '@apollo/react-common';
 
 import FixedCategories from '../../src/screens/FixedCategories';
 import {createRandomAppState, createRandomFixedCategories, createRandomQueryResult} from '../models';
@@ -12,6 +14,9 @@ import {sortByName} from '../../src/utils/sorting-utils';
 import {IFixedCategory} from '../../autogen/IFixedCategory';
 import NoActiveTimePeriod from '../../src/components/time-period/NoActiveTimePeriod';
 import FixedCategoryItem from '../../src/components/fixed-category/FixedCategoryItem';
+import EmptyScreen from '../../src/components/generic/EmptyScreen';
+import {Route} from '../../src/enums/Route';
+import {InformationRef} from '../../src/screens/Information';
 
 jest.mock('@apollo/react-hooks');
 jest.mock('react-redux');
@@ -21,9 +26,11 @@ jest.mock('../../src/services/auth-service');
 describe('FixedCategories', () => {
     const {useQuery, useMutation} = reactHooks as jest.Mocked<typeof reactHooks>;
     const {useSelector} = reactRedux as jest.Mocked<typeof reactRedux>;
+    const {useNavigation} = navigation as jest.Mocked<typeof navigation>;
 
     let expectedTimePeriodId,
         expectedData,
+        expectedNavigation,
         root;
 
     const render = (): void => {
@@ -37,11 +44,14 @@ describe('FixedCategories', () => {
             fixedCategories: createRandomFixedCategories()
         });
         expectedTimePeriodId = chance.guid();
+        expectedNavigation = {
+            navigate: jest.fn()
+        };
 
         useQuery.mockReturnValue(expectedData);
         useSelector.mockReturnValue(expectedTimePeriodId);
-        // @ts-ignore
-        useMutation.mockReturnValue([jest.fn(), {loading: chance.bool()}]);
+        useMutation.mockReturnValue([jest.fn(), {loading: chance.bool()} as MutationResult]);
+        useNavigation.mockReturnValue(expectedNavigation);
 
         render();
     });
@@ -87,5 +97,21 @@ describe('FixedCategories', () => {
 
         expect(renderedItem.type).toBe(FixedCategoryItem);
         expect(key).toBe(expectedItem.fixedCategoryId);
+
+        const renderedListEmptyComponent = renderedFlatList.props.ListEmptyComponent;
+
+        expect(renderedListEmptyComponent.type).toBe(EmptyScreen);
+        expect(renderedListEmptyComponent.props.subText).toBe('What is a fixed category?');
+        expect(renderedListEmptyComponent.props.titleText).toBe('You haven\'t created any fixed categories yet!');
+
+        renderedListEmptyComponent.props.onPressSubText();
+
+        expect(expectedNavigation.navigate).toHaveBeenCalledTimes(1);
+        expect(expectedNavigation.navigate).toHaveBeenCalledWith({
+            name: Route.INFORMATION,
+            params: {
+                ref: InformationRef.FIXED
+            }
+        });
     });
 });
