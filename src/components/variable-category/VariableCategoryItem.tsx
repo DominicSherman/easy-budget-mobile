@@ -1,13 +1,12 @@
 import React, {FC, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
 
 import {IVariableCategory} from '../../../autogen/IVariableCategory';
 import CardView from '../generic/CardView';
 import {SCREEN_WIDTH} from '../../constants/dimensions';
 import {LargeText, SmallText} from '../generic/Text';
 import {Route} from '../../enums/Route';
-import {usePrimaryColor} from '../../redux/hooks';
+import {usePrimaryColor, useBudgetNavigation} from '../../utils/hooks';
 import {calculateTotal} from '../../utils/utils';
 import {easeInTransition} from '../../services/animation-service';
 import EditIcon from '../generic/EditIcon';
@@ -38,7 +37,7 @@ interface IVariableCategoryItemProps {
 }
 
 const VariableCategoryItem: FC<IVariableCategoryItemProps> = ({variableCategory}) => {
-    const navigation = useNavigation();
+    const navigation = useBudgetNavigation();
     const [expanded, setExpanded] = useState(false);
     const toggleExpanded = (): void => {
         easeInTransition();

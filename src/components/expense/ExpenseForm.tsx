@@ -5,7 +5,7 @@ import {LargeText} from '../generic/Text';
 import Button from '../generic/Button';
 import Input from '../generic/Input';
 import {SCREEN_WIDTH} from '../../constants/dimensions';
-import {usePrimaryColor} from '../../redux/hooks';
+import {usePrimaryColor} from '../../utils/hooks';
 import {IVariableCategory} from '../../../autogen/IVariableCategory';
 
 const styles = StyleSheet.create({

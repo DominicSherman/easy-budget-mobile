@@ -1,22 +1,25 @@
 import * as reactRedux from 'react-redux';
+import * as navigation from '@react-navigation/native';
 
 import {chance} from '../chance';
 import {createRandomAppState} from '../models';
 import {
-    useBackgroundColor,
+    useBackgroundColor, useBudgetNavigation,
     useMode,
     usePrimaryColor,
     useTextColor,
     useTimePeriodId,
     useUserInformation
-} from '../../src/redux/hooks';
+} from '../../src/utils/hooks';
 import {Mode} from '../../src/enums/Mode';
-import {colors} from '../../src/constants/colors';
+import {Color} from '../../src/constants/color';
 
 jest.mock('react-redux');
+jest.mock('@react-navigation/native');
 
 describe('hooks', () => {
     const {useSelector} = reactRedux as jest.Mocked<typeof reactRedux>;
+    const {useNavigation} = navigation as jest.Mocked<typeof navigation>;
 
     let expectedSelection,
         expectedState;
@@ -49,7 +52,7 @@ describe('hooks', () => {
 
             const actualValue = usePrimaryColor();
 
-            expect(actualValue).toBe(colors.white);
+            expect(actualValue).toBe(Color.white);
         });
 
         it('should return dark if mode is light', () => {
@@ -57,7 +60,7 @@ describe('hooks', () => {
 
             const actualValue = usePrimaryColor();
 
-            expect(actualValue).toBe(colors.dark);
+            expect(actualValue).toBe(Color.dark);
         });
     });
 
@@ -67,7 +70,7 @@ describe('hooks', () => {
 
             const actualValue = useBackgroundColor();
 
-            expect(actualValue).toBe(colors.darkGrey);
+            expect(actualValue).toBe(Color.darkGrey);
         });
 
         it('should return white if mode is light', () => {
@@ -75,7 +78,7 @@ describe('hooks', () => {
 
             const actualValue = useBackgroundColor();
 
-            expect(actualValue).toBe(colors.white);
+            expect(actualValue).toBe(Color.white);
         });
     });
 
@@ -83,7 +86,7 @@ describe('hooks', () => {
         it('should return primary color in an object', () => {
             useSelector.mockReturnValue(Mode.DARK);
 
-            expect(useTextColor()).toEqual({color: colors.white});
+            expect(useTextColor()).toEqual({color: Color.white});
         });
     });
 
@@ -106,6 +109,19 @@ describe('hooks', () => {
 
             expect(actualValue).toBe(expectedSelection);
             expect(returnValue).toEqual(expectedState.userInformation);
+        });
+    });
+
+    describe('useBudgetNavigation', () => {
+        it('should call useNavigation', () => {
+            const expectedNavigation = {
+                [chance.string()]: chance.string()
+            };
+
+            // @ts-ignore
+            useNavigation.mockReturnValue(expectedNavigation);
+
+            expect(useBudgetNavigation()).toEqual(expectedNavigation);
         });
     });
 });

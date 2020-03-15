@@ -17,7 +17,7 @@ import EditExpenseForm from '../../src/components/expense/EditExpenseForm';
 
 jest.mock('@apollo/react-hooks');
 jest.mock('../../src/services/auth-service');
-jest.mock('../../src/redux/hooks');
+jest.mock('../../src/utils/hooks');
 
 describe('Expense', () => {
     const {useQuery} = apolloReactHooks as jest.Mocked<typeof apolloReactHooks>;

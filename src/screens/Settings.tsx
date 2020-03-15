@@ -6,7 +6,7 @@ import {signOut} from '../services/auth-service';
 import {screenWrapper} from '../styles/shared-styles';
 import ModeSelector from '../components/generic/ModeSelector';
 import {LargeText} from '../components/generic/Text';
-import {useUserInformation} from '../redux/hooks';
+import {useUserInformation} from '../utils/hooks';
 
 const Settings: FC = () => {
     const userInformation = useUserInformation();

@@ -3,7 +3,6 @@ import * as reactHooks from '@apollo/react-hooks';
 import React from 'react';
 import {MutationResult} from '@apollo/react-common';
 import Touchable from 'react-native-platform-touchable';
-import * as reactNavigationNative from '@react-navigation/native';
 
 import {createRandomFixedCategory} from '../../models';
 import {updateFixedCategoryMutation} from '../../../src/graphql/mutations';
@@ -11,12 +10,13 @@ import FixedCategoryItem from '../../../src/components/fixed-category/FixedCateg
 import CardView from '../../../src/components/generic/CardView';
 import EditIcon from '../../../src/components/generic/EditIcon';
 import EditFixedCategoryForm from '../../../src/components/fixed-category/EditFixedCategoryForm';
+import * as hooks from '../../../src/utils/hooks';
 
 jest.mock('@react-navigation/native');
 jest.mock('@apollo/react-hooks');
 jest.mock('../../../src/services/animation-service');
 jest.mock('../../../src/services/auth-service');
-jest.mock('../../../src/redux/hooks');
+jest.mock('../../../src/utils/hooks');
 
 describe('FixedCategoryItem', () => {
     let root,
@@ -25,7 +25,7 @@ describe('FixedCategoryItem', () => {
         expectedProps;
 
     const {useMutation} = reactHooks as jest.Mocked<typeof reactHooks>;
-    const {useNavigation} = reactNavigationNative as jest.Mocked<typeof reactNavigationNative>;
+    const {useBudgetNavigation} = hooks as jest.Mocked<typeof hooks>;
 
     const render = (): void => {
         root = TestRenderer.create(
@@ -42,7 +42,7 @@ describe('FixedCategoryItem', () => {
             navigate: jest.fn()
         };
 
-        useNavigation.mockReturnValue(expectedNavigation);
+        useBudgetNavigation.mockReturnValue(expectedNavigation);
         useMutation.mockReturnValue([updateCategory, {} as MutationResult]);
 
         render();

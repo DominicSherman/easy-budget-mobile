@@ -1,6 +1,5 @@
 import TestRenderer, {act} from 'react-test-renderer';
 import React from 'react';
-import * as reactNavigationNative from '@react-navigation/native';
 
 import {createRandomExpense, createRandomExpenses, createRandomVariableCategory} from '../../models';
 import VariableCategoryItem from '../../../src/components/variable-category/VariableCategoryItem';
@@ -9,8 +8,9 @@ import CardView from '../../../src/components/generic/CardView';
 import {Route} from '../../../src/enums/Route';
 import EditIcon from '../../../src/components/generic/EditIcon';
 import EditVariableCategoryForm from '../../../src/components/variable-category/EditVariableCategoryForm';
+import * as hooks from '../../../src/utils/hooks';
 
-jest.mock('../../../src/redux/hooks');
+jest.mock('../../../src/utils/hooks');
 jest.mock('../../../src/services/animation-service');
 jest.mock('../../../src/services/auth-service');
 
@@ -19,7 +19,7 @@ describe('VariableCategoryItem', () => {
         expectedNavigation,
         expectedProps;
 
-    const {useNavigation} = reactNavigationNative as jest.Mocked<typeof reactNavigationNative>;
+    const {useBudgetNavigation} = hooks as jest.Mocked<typeof hooks>;
 
     const render = (): void => {
         root = TestRenderer.create(
@@ -38,7 +38,7 @@ describe('VariableCategoryItem', () => {
             navigate: jest.fn()
         };
 
-        useNavigation.mockReturnValue(expectedNavigation);
+        useBudgetNavigation.mockReturnValue(expectedNavigation);
 
         render();
     });

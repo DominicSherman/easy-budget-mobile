@@ -1,8 +1,8 @@
 import {Mode} from '../enums/Mode';
-import {colors} from '../constants/colors';
+import {Color} from '../constants/color';
 
 export const getBackgroundColor = (mode): string =>
-    mode === Mode.DARK ? colors.darkGrey : colors.white;
+    mode === Mode.DARK ? Color.darkGrey : Color.white;
 
 export const getPrimaryColor = (mode): string =>
-    mode === Mode.DARK ? colors.white : colors.dark;
+    mode === Mode.DARK ? Color.white : Color.dark;

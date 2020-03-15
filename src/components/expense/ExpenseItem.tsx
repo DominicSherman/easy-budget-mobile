@@ -1,7 +1,7 @@
 import React, {FC} from 'react';
 import {StyleSheet, View} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
 
+import {useBudgetNavigation} from '../../utils/hooks';
 import {IExpense} from '../../../autogen/IExpense';
 import {SCREEN_WIDTH} from '../../constants/dimensions';
 import {RegularText, SmallText} from '../generic/Text';
@@ -28,7 +28,7 @@ interface IExpenseItemProps {
 }
 
 const ExpenseItem: FC<IExpenseItemProps> = ({expense, categoryName}) => {
-    const navigation = useNavigation();
+    const navigation = useBudgetNavigation();
     const onPress = (): void => {
         navigation.navigate({
             name: Route.EXPENSE,

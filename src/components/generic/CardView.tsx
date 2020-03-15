@@ -2,15 +2,15 @@ import React, {FC, useState} from 'react';
 import {Animated, StyleProp, StyleSheet, ViewStyle} from 'react-native';
 import Touchable from 'react-native-platform-touchable';
 
-import {colors} from '../../constants/colors';
-import {useBackgroundColor} from '../../redux/hooks';
+import {Color} from '../../constants/color';
+import {useBackgroundColor} from '../../utils/hooks';
 
 const styles = StyleSheet.create({
     shadow: {
-        borderColor: colors.white,
+        borderColor: Color.white,
         borderWidth: 0,
         elevation: 3,
-        shadowColor: colors.black,
+        shadowColor: Color.black,
         shadowOffset: {
             height: 2,
             width: 0
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     },
     wrapper: {
         alignItems: 'center',
-        borderColor: colors.lightGrey,
+        borderColor: Color.lightGrey,
         borderRadius: 4,
         borderWidth: 1,
         flexDirection: 'row',

@@ -10,7 +10,11 @@ import CreateVariableCategoryForm from '../components/variable-category/CreateVa
 import {sortByAmount} from '../utils/sorting-utils';
 import NoActiveTimePeriod from '../components/time-period/NoActiveTimePeriod';
 import VariableCategoryItem from '../components/variable-category/VariableCategoryItem';
-import {useTimePeriodId} from '../redux/hooks';
+import {useBudgetNavigation, useTimePeriodId} from '../utils/hooks';
+import EmptyScreen from '../components/generic/EmptyScreen';
+import {Route} from '../enums/Route';
+
+import {InformationRef} from './Information';
 
 const VariableCategories: React.FC = () => {
     const timePeriodId = useTimePeriodId();
@@ -19,6 +23,13 @@ const VariableCategories: React.FC = () => {
         variables: {
             timePeriodId,
             userId: getUserId()
+        }
+    });
+    const navigation = useBudgetNavigation();
+    const onPressSubText = (): void => navigation.navigate({
+        name: Route.INFORMATION,
+        params: {
+            ref: InformationRef.VARIABLE
         }
     });
 
@@ -31,11 +42,19 @@ const VariableCategories: React.FC = () => {
     }
 
     const {variableCategories} = queryResult.data;
+    const showCreateForm = !variableCategories.length;
     const sortedVariableCategories = variableCategories.sort(sortByAmount);
 
     return (
         <SafeAreaView style={{height: '100%'}}>
             <FlatList
+                ListEmptyComponent={
+                    <EmptyScreen
+                        onPressSubText={onPressSubText}
+                        subText={'What is a variable category?'}
+                        titleText={'You haven\'t created any variable categories yet!'}
+                    />
+                }
                 data={sortedVariableCategories}
                 keyExtractor={(item): string => item.variableCategoryId}
                 renderItem={({item}): JSX.Element =>
@@ -44,7 +63,7 @@ const VariableCategories: React.FC = () => {
                     />
                 }
             />
-            <CreateVariableCategoryForm />
+            <CreateVariableCategoryForm showCreateForm={showCreateForm} />
         </SafeAreaView>
     );
 };

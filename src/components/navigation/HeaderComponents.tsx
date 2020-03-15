@@ -1,14 +1,14 @@
 import React, {FC} from 'react';
 import Feather from 'react-native-vector-icons/Feather';
-import {useNavigation} from '@react-navigation/native';
 import {DrawerActions} from '@react-navigation/routers';
 import Touchable from 'react-native-platform-touchable';
 
 import {FeatherNames} from '../../enums/IconNames';
-import {usePrimaryColor} from '../../redux/hooks';
+import {usePrimaryColor, useBudgetNavigation} from '../../utils/hooks';
+import {Route} from '../../enums/Route';
 
 const iconStyle = {
-    marginLeft: 16
+    marginHorizontal: 16
 };
 
 const hitSlop = {
@@ -37,7 +37,7 @@ const Icon: FC<IIcon> = ({name, onPress}) =>
     </Touchable>;
 
 export const HamburgerMenu: FC = () => {
-    const navigation = useNavigation();
+    const navigation = useBudgetNavigation();
     const openDrawer = (): void => navigation.dispatch(DrawerActions.openDrawer());
 
     return (
@@ -49,12 +49,29 @@ export const HamburgerMenu: FC = () => {
 };
 
 export const CloseIcon: FC = () => {
-    const navigation = useNavigation();
+    const navigation = useBudgetNavigation();
 
     return (
         <Icon
             name={FeatherNames.X}
             onPress={navigation.goBack}
+        />
+    );
+};
+
+export const InfoIcon: FC = () => {
+    const navigation = useBudgetNavigation();
+    const onPress = (): void => {
+        navigation.navigate({
+            name: Route.INFORMATION,
+            params: {}
+        });
+    };
+
+    return (
+        <Icon
+            name={FeatherNames.INFO}
+            onPress={onPress}
         />
     );
 };

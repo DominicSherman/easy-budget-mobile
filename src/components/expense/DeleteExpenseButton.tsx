@@ -1,16 +1,16 @@
 import React, {FC} from 'react';
-import {useNavigation} from '@react-navigation/native';
 import {useMutation} from '@apollo/react-hooks';
 
 import {DeleteExpenseMutation, DeleteExpenseMutationVariables} from '../../../autogen/DeleteExpenseMutation';
 import {deleteExpenseMutation} from '../../graphql/mutations';
 import {deleteExpenseUpdate} from '../../utils/update-cache-utils';
-import {colors} from '../../constants/colors';
+import {Color} from '../../constants/color';
 import Button from '../generic/Button';
 import {getUserId} from '../../services/auth-service';
+import {useBudgetNavigation} from '../../utils/hooks';
 
 const DeleteExpenseButton: FC<{expenseId: string}> = ({expenseId}) => {
-    const navigation = useNavigation();
+    const navigation = useBudgetNavigation();
     const [deleteExpense] = useMutation<DeleteExpenseMutation, DeleteExpenseMutationVariables>(deleteExpenseMutation, {
         optimisticResponse: {
             deleteExpense: expenseId
@@ -31,7 +31,7 @@ const DeleteExpenseButton: FC<{expenseId: string}> = ({expenseId}) => {
             onPress={onPressDelete}
             text={'Delete'}
             wrapperStyle={{
-                backgroundColor: colors.red,
+                backgroundColor: Color.red,
                 marginTop: 32
             }}
         />

@@ -4,7 +4,6 @@ import {useQuery} from '@apollo/react-hooks';
 import {useSelector} from 'react-redux';
 import {User} from '@react-native-community/google-signin';
 import moment from 'moment';
-import {useNavigation} from '@react-navigation/native';
 
 import {LargeText, RegularText, SmallText, TitleText} from '../components/generic/Text';
 import {getUserId} from '../services/auth-service';
@@ -18,6 +17,7 @@ import CardView from '../components/generic/CardView';
 import {SCREEN_WIDTH} from '../constants/dimensions';
 import {Route} from '../enums/Route';
 import Button from '../components/generic/Button';
+import {useBudgetNavigation} from '../utils/hooks';
 
 const styles = StyleSheet.create({
     bottomWrapper: {
@@ -55,7 +55,7 @@ const Home: React.FC = () => {
             userId: getUserId()
         }
     });
-    const navigation = useNavigation();
+    const navigation = useBudgetNavigation();
 
     if (!queryResult.data) {
         return getEarlyReturn(queryResult);

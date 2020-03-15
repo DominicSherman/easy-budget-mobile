@@ -1,6 +1,5 @@
 export enum Route {
     FIXED_CATEGORIES = 'Fixed Categories',
-    FIXED_CATEGORY = 'Fixed Category',
     HOME = 'Home',
     LOGIN = 'Login',
     VARIABLE_CATEGORIES = 'Variable Categories',
@@ -11,5 +10,6 @@ export enum Route {
     VARIABLE_CATEGORY = 'Variable Category',
     ERROR = 'Error',
     LOADING = 'Loading',
-    SAVINGS = 'Savings'
+    SAVINGS = 'Savings',
+    INFORMATION = 'Information'
 }

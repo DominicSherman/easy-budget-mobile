@@ -4,7 +4,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 import {textStyles} from '../../styles/text-styles';
 import {easeInTransition} from '../../services/animation-service';
-import {colors} from '../../constants/colors';
+import {Color} from '../../constants/color';
 
 import {RegularText} from './Text';
 import Button from './Button';
@@ -32,10 +32,12 @@ interface ICreateCategoryFormProps {
     onPress: () => void
     secondOnPress?: () => void
     toggleable?: boolean
+    showCreateForm?: boolean
 }
 
 const CategoryForm: FC<ICreateCategoryFormProps> = (props) => {
-    const [isVisible, setIsVisible] = useState(false);
+    const showCreateForm = Boolean(props.showCreateForm);
+    const [isVisible, setIsVisible] = useState(showCreateForm);
     const setVisible = (): void => {
         easeInTransition();
         setIsVisible(!isVisible);
@@ -139,7 +141,7 @@ const DropdownForm: FC<IDropdownProps> = (props) => {
                             onPress={secondOnPress}
                             text={secondButtonText}
                             wrapperStyle={{
-                                backgroundColor: colors.red,
+                                backgroundColor: Color.red,
                                 marginTop: 16,
                                 width: '48%'
                             }}
