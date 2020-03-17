@@ -12,6 +12,7 @@ import {
 import {createVariableCategoryUpdate} from '../../utils/update-cache-utils';
 import {IAppState} from '../../redux/reducer';
 import Form from '../generic/Form';
+import {IInputProps} from '../generic/Input';
 
 interface ICreateVariableCategoryFormProps {
     showCreateForm?: boolean
@@ -46,11 +47,12 @@ const CreateVariableCategoryForm: FC<ICreateVariableCategoryFormProps> = ({showC
         setName('');
         setAmount('');
     };
-    const inputs = [{
+    const inputs: IInputProps[] = [{
         onChange: setName,
         title: 'Category Name *',
         value: name
     }, {
+        keyboardType: 'number-pad',
         onChange: setAmount,
         title: 'Category Amount *',
         value: amount

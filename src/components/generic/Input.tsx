@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
 });
 
 export interface IInputProps {
-    onChange: (text: string | number) => void
+    onChange: (text: string) => void
     title: string
     value: string | null
     style?: TextStyle

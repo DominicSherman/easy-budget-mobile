@@ -1,22 +1,15 @@
 import React, {FC, useState} from 'react';
 import {useMutation} from '@apollo/react-hooks';
-import {Alert} from 'react-native';
 
 import {ISavingCategory} from '../../../autogen/ISavingCategory';
-import {deleteSavingCategoryMutation, updateSavingCategoryMutation} from '../../graphql/mutations';
+import {updateSavingCategoryMutation} from '../../graphql/mutations';
 import {
     UpdateSavingCategoryMutation,
     UpdateSavingCategoryMutationVariables
 } from '../../../autogen/UpdateSavingCategoryMutation';
 import Form from '../generic/Form';
-import {
-    DeleteSavingCategoryMutation,
-    DeleteSavingCategoryMutationVariables
-} from '../../../autogen/DeleteSavingCategoryMutation';
-import {deleteSavingCategoryUpdate} from '../../utils/update-cache-utils';
-import {getUserId} from '../../services/auth-service';
-import {easeInTransition} from '../../services/animation-service';
 import {Color} from '../../constants/color';
+import {IInputProps} from '../generic/Input';
 
 export enum SavingUpdateType {
     ADD = 'Add',
@@ -31,8 +24,8 @@ interface IAddRemoveSavingCategoryFormProps {
 
 const AddRemoveSavingCategoryForm: FC<IAddRemoveSavingCategoryFormProps> = ({toggleExpanded, savingCategory, type}) => {
     const {savingCategoryId, userId} = savingCategory;
-    const [amount, setAmount] = useState<number>(0);
-    const updatedAmount = type === SavingUpdateType.ADD ? savingCategory.amount + amount : savingCategory.amount - amount;
+    const [amount, setAmount] = useState<string>('');
+    const updatedAmount = type === SavingUpdateType.ADD ? savingCategory.amount + Number(amount) : savingCategory.amount - Number(amount);
     const [updateSavingCategory] = useMutation<UpdateSavingCategoryMutation, UpdateSavingCategoryMutationVariables>(updateSavingCategoryMutation, {
         optimisticResponse: {
             updateSavingCategory: {
@@ -42,9 +35,9 @@ const AddRemoveSavingCategoryForm: FC<IAddRemoveSavingCategoryFormProps> = ({tog
         },
         variables: {
             savingCategory: {
+                amount: updatedAmount,
                 savingCategoryId,
-                userId,
-                amount: updatedAmount
+                userId
             }
         }
     });
@@ -52,7 +45,7 @@ const AddRemoveSavingCategoryForm: FC<IAddRemoveSavingCategoryFormProps> = ({tog
         updateSavingCategory();
         toggleExpanded();
     };
-    const inputs = [{
+    const inputs: IInputProps[] = [{
         keyboardType: 'number-pad',
         onChange: setAmount,
         title: `${type} Amount`,
@@ -63,6 +56,7 @@ const AddRemoveSavingCategoryForm: FC<IAddRemoveSavingCategoryFormProps> = ({tog
         text: 'Cancel',
         wrapperStyle: {backgroundColor: Color.red}
     }, {
+        disabled: !amount,
         onPress,
         text: type
     }];

@@ -12,6 +12,7 @@ import {
 } from '../../../autogen/CreateFixedCategoryMutation';
 import {createFixedCategoryUpdate} from '../../utils/update-cache-utils';
 import Form from '../generic/Form';
+import {IInputProps} from '../generic/Input';
 
 interface ICreateFixedCategoryFormProps {
     showCreateForm?: boolean
@@ -50,11 +51,12 @@ const CreateFixedCategoryForm: FC<ICreateFixedCategoryFormProps> = ({showCreateF
         setAmount('');
         setNote('');
     };
-    const inputs = [{
+    const inputs: IInputProps[] = [{
         onChange: setName,
         title: 'Category Name *',
         value: name
     }, {
+        keyboardType: 'number-pad',
         onChange: setAmount,
         title: 'Category Amount *',
         value: amount

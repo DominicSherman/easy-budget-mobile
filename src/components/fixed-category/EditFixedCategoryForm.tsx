@@ -17,6 +17,7 @@ import {deleteFixedCategoryUpdate} from '../../utils/update-cache-utils';
 import {getUserId} from '../../services/auth-service';
 import {easeInTransition} from '../../services/animation-service';
 import {Color} from '../../constants/color';
+import {IInputProps} from '../generic/Input';
 
 interface IEditFixedCategoryFormProps {
     fixedCategory: IFixedCategory
@@ -87,11 +88,12 @@ const EditFixedCategoryForm: FC<IEditFixedCategoryFormProps> = ({fixedCategory, 
         );
     };
     const disabled = JSON.stringify(originalValues) === JSON.stringify(updatedValues) || !name.length || !updatedAmount.length;
-    const inputs = [{
+    const inputs: IInputProps[] = [{
         onChange: setUpdatedName,
         title: 'Category Name *',
         value: updatedName
     }, {
+        keyboardType: 'number-pad',
         onChange: setUpdatedAmount,
         title: 'Category Amount *',
         value: updatedAmount

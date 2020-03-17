@@ -1,6 +1,7 @@
 import React, {FC, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
+import Touchable from 'react-native-platform-touchable';
 
 import {ISavingCategory} from '../../../autogen/ISavingCategory';
 import CardView from '../generic/CardView';
@@ -14,6 +15,7 @@ import {FeatherNames} from '../../enums/IconNames';
 import {Color} from '../../constants/color';
 
 import EditSavingCategoryForm from './EditSavingCategoryForm';
+import AddRemoveSavingCategoryForm, {SavingUpdateType} from './AddRemoveSavingCategoryForm';
 
 const styles = StyleSheet.create({
     topWrapper: {
@@ -35,6 +37,13 @@ const styles = StyleSheet.create({
     }
 });
 
+const hitSlop = {
+    bottom: 24,
+    left: 24,
+    right: 24,
+    top: 24
+};
+
 interface ISavingCategoryItemProps {
     savingCategory: ISavingCategory
 }
@@ -42,10 +51,18 @@ interface ISavingCategoryItemProps {
 const SavingCategoryItem: FC<ISavingCategoryItemProps> = ({savingCategory}) => {
     const [editExpanded, setEditExpanded] = useState(false);
     const [addExpanded, setAddExpanded] = useState(false);
-    const [minusExpanded, setMinusExpanded] = useState(false);
+    const [removeExpanded, setRemoveExpanded] = useState(false);
     const toggleExpanded = (): void => {
         easeInTransition();
         setEditExpanded(!editExpanded);
+    };
+    const toggleAddExpanded = (): void => {
+        easeInTransition();
+        setAddExpanded(!addExpanded);
+    };
+    const toggleRemoveExpanded = (): void => {
+        easeInTransition();
+        setRemoveExpanded(!removeExpanded);
     };
 
     return (
@@ -71,25 +88,48 @@ const SavingCategoryItem: FC<ISavingCategoryItemProps> = ({savingCategory}) => {
                 </View>
                 <View style={styles.topWrapper}>
                     <View style={[styles.verticalCenter, {width: '50%'}]}>
-                        <Feather
-                            color={Color.red}
-                            name={FeatherNames.MINUS_CIRCLE}
-                            size={32}
-                        />
+                        <Touchable
+                            hitSlop={hitSlop}
+                            onPress={toggleRemoveExpanded}
+                        >
+                            <Feather
+                                color={Color.red}
+                                name={FeatherNames.MINUS_CIRCLE}
+                                size={32}
+                            />
+                        </Touchable>
                         <LargeText>{'remove'}</LargeText>
                     </View>
                     <View style={[styles.verticalCenter, {width: '50%'}]}>
-                        <Feather
-                            color={Color.green}
-                            name={FeatherNames.PLUS_CIRCLE}
-                            size={32}
-                        />
+                        <Touchable
+                            hitSlop={hitSlop}
+                            onPress={toggleAddExpanded}
+                        >
+                            <Feather
+                                color={Color.green}
+                                name={FeatherNames.PLUS_CIRCLE}
+                                size={32}
+                            />
+                        </Touchable>
                         <LargeText>{'add'}</LargeText>
                     </View>
                 </View>
             </View>
             {
-
+                addExpanded &&
+                    <AddRemoveSavingCategoryForm
+                        savingCategory={savingCategory}
+                        toggleExpanded={toggleAddExpanded}
+                        type={SavingUpdateType.ADD}
+                    />
+            }
+            {
+                removeExpanded &&
+                    <AddRemoveSavingCategoryForm
+                        savingCategory={savingCategory}
+                        toggleExpanded={toggleRemoveExpanded}
+                        type={SavingUpdateType.REMOVE}
+                    />
             }
             {
                 editExpanded &&
