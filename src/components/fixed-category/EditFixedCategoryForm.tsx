@@ -14,17 +14,16 @@ import {
     DeleteFixedCategoryMutationVariables
 } from '../../../autogen/DeleteFixedCategoryMutation';
 import {deleteFixedCategoryUpdate} from '../../utils/update-cache-utils';
-import {getUserId} from '../../services/auth-service';
 import {easeInTransition} from '../../services/animation-service';
 import {Color} from '../../constants/color';
 import {IInputProps} from '../generic/Input';
 
 interface IEditFixedCategoryFormProps {
     fixedCategory: IFixedCategory
-    onUpdate?: () => void
+    toggleExpanded: () => void
 }
 
-const EditFixedCategoryForm: FC<IEditFixedCategoryFormProps> = ({fixedCategory, onUpdate}) => {
+const EditFixedCategoryForm: FC<IEditFixedCategoryFormProps> = ({fixedCategory, toggleExpanded}) => {
     const {amount, name, note, fixedCategoryId, userId} = fixedCategory;
     const [updatedAmount, setUpdatedAmount] = useState(amount.toString());
     const [updatedName, setUpdatedName] = useState(name);
@@ -56,10 +55,7 @@ const EditFixedCategoryForm: FC<IEditFixedCategoryFormProps> = ({fixedCategory, 
     });
     const onPress = (): void => {
         updateFixedCategory();
-
-        if (onUpdate) {
-            onUpdate();
-        }
+        toggleExpanded();
     };
     const [deleteFixedCategory] = useMutation<DeleteFixedCategoryMutation, DeleteFixedCategoryMutationVariables>(deleteFixedCategoryMutation, {
         optimisticResponse: {
@@ -68,7 +64,7 @@ const EditFixedCategoryForm: FC<IEditFixedCategoryFormProps> = ({fixedCategory, 
         update: deleteFixedCategoryUpdate,
         variables: {
             fixedCategoryId,
-            userId: getUserId()
+            userId
         }
     });
     const onPressDelete = (): void => {
