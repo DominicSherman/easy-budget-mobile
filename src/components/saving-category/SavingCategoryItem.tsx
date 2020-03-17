@@ -44,26 +44,49 @@ const hitSlop = {
     top: 24
 };
 
+enum FormType {
+    EDIT = 'edit',
+    ADD = 'add',
+    REMOVE = 'remove',
+    CLOSED = 'closed'
+}
+
 interface ISavingCategoryItemProps {
     savingCategory: ISavingCategory
 }
 
 const SavingCategoryItem: FC<ISavingCategoryItemProps> = ({savingCategory}) => {
-    const [editExpanded, setEditExpanded] = useState(false);
-    const [addExpanded, setAddExpanded] = useState(false);
-    const [removeExpanded, setRemoveExpanded] = useState(false);
-    const toggleExpanded = (): void => {
+    const [formType, setFormType] = useState<FormType>(FormType.CLOSED);
+    const toggle = (type: FormType): void => {
         easeInTransition();
-        setEditExpanded(!editExpanded);
+
+        if (formType !== type) {
+            setFormType(type);
+        } else {
+            setFormType(FormType.CLOSED);
+        }
     };
-    const toggleAddExpanded = (): void => {
-        easeInTransition();
-        setAddExpanded(!addExpanded);
+    const typeToComponent = {
+        [FormType.CLOSED]: (): null => null,
+        [FormType.EDIT]: (): JSX.Element =>
+            <EditSavingCategoryForm
+                onUpdate={() => toggle(FormType.EDIT)}
+                savingCategory={savingCategory}
+            />,
+        [FormType.ADD]: (): JSX.Element =>
+            <AddRemoveSavingCategoryForm
+                savingCategory={savingCategory}
+                toggleExpanded={() => toggle(FormType.ADD)}
+                type={SavingUpdateType.ADD}
+            />,
+        [FormType.REMOVE]: (): JSX.Element =>
+            <AddRemoveSavingCategoryForm
+                savingCategory={savingCategory}
+                toggleExpanded={() => toggle(FormType.REMOVE)}
+                type={SavingUpdateType.REMOVE}
+            />
     };
-    const toggleRemoveExpanded = (): void => {
-        easeInTransition();
-        setRemoveExpanded(!removeExpanded);
-    };
+    const FormComponent = typeToComponent[formType];
 
     return (
         <CardView
@@ -82,15 +105,15 @@ const SavingCategoryItem: FC<ISavingCategoryItemProps> = ({savingCategory}) => {
                     </View>
                     <EditIcon
                         color={usePrimaryColor()}
-                        isOpen={editExpanded}
-                        onPress={toggleExpanded}
+                        isOpen={formType === FormType.EDIT}
+                        onPress={() => toggle(FormType.EDIT)}
                     />
                 </View>
                 <View style={styles.topWrapper}>
                     <View style={[styles.verticalCenter, {width: '50%'}]}>
                         <Touchable
                             hitSlop={hitSlop}
-                            onPress={toggleRemoveExpanded}
+                            onPress={() => toggle(FormType.REMOVE)}
                         >
                             <Feather
                                 color={Color.red}
@@ -103,7 +126,7 @@ const SavingCategoryItem: FC<ISavingCategoryItemProps> = ({savingCategory}) => {
                     <View style={[styles.verticalCenter, {width: '50%'}]}>
                         <Touchable
                             hitSlop={hitSlop}
-                            onPress={toggleAddExpanded}
+                            onPress={() => toggle(FormType.ADD)}
                         >
                             <Feather
                                 color={Color.green}
@@ -115,29 +138,7 @@ const SavingCategoryItem: FC<ISavingCategoryItemProps> = ({savingCategory}) => {
                     </View>
                 </View>
             </View>
-            {
-                addExpanded &&
-                    <AddRemoveSavingCategoryForm
-                        savingCategory={savingCategory}
-                        toggleExpanded={toggleAddExpanded}
-                        type={SavingUpdateType.ADD}
-                    />
-            }
-            {
-                removeExpanded &&
-                    <AddRemoveSavingCategoryForm
-                        savingCategory={savingCategory}
-                        toggleExpanded={toggleRemoveExpanded}
-                        type={SavingUpdateType.REMOVE}
-                    />
-            }
-            {
-                editExpanded &&
-                    <EditSavingCategoryForm
-                        onUpdate={toggleExpanded}
-                        savingCategory={savingCategory}
-                    />
-            }
+            <FormComponent />
         </CardView>
     );
 };
