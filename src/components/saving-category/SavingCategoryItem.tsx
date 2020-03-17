@@ -9,11 +9,11 @@ import {LargeText, SmallText} from '../generic/Text';
 import {easeInTransition} from '../../services/animation-service';
 import EditIcon from '../generic/EditIcon';
 import {usePrimaryColor} from '../../utils/hooks';
-
-import EditSavingCategoryForm from './EditSavingCategoryForm';
 import {centeredColumn} from '../../styles/shared-styles';
 import {FeatherNames} from '../../enums/IconNames';
 import {Color} from '../../constants/color';
+
+import EditSavingCategoryForm from './EditSavingCategoryForm';
 
 const styles = StyleSheet.create({
     topWrapper: {
@@ -40,10 +40,12 @@ interface ISavingCategoryItemProps {
 }
 
 const SavingCategoryItem: FC<ISavingCategoryItemProps> = ({savingCategory}) => {
-    const [expanded, setExpanded] = useState(false);
+    const [editExpanded, setEditExpanded] = useState(false);
+    const [addExpanded, setAddExpanded] = useState(false);
+    const [minusExpanded, setMinusExpanded] = useState(false);
     const toggleExpanded = (): void => {
         easeInTransition();
-        setExpanded(!expanded);
+        setEditExpanded(!editExpanded);
     };
 
     return (
@@ -63,7 +65,7 @@ const SavingCategoryItem: FC<ISavingCategoryItemProps> = ({savingCategory}) => {
                     </View>
                     <EditIcon
                         color={usePrimaryColor()}
-                        isOpen={expanded}
+                        isOpen={editExpanded}
                         onPress={toggleExpanded}
                     />
                 </View>
@@ -87,11 +89,14 @@ const SavingCategoryItem: FC<ISavingCategoryItemProps> = ({savingCategory}) => {
                 </View>
             </View>
             {
-                expanded &&
-                <EditSavingCategoryForm
-                    onUpdate={toggleExpanded}
-                    savingCategory={savingCategory}
-                />
+
+            }
+            {
+                editExpanded &&
+                    <EditSavingCategoryForm
+                        onUpdate={toggleExpanded}
+                        savingCategory={savingCategory}
+                    />
             }
         </CardView>
     );

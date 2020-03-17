@@ -13,6 +13,7 @@ export interface UpdateSavingCategoryMutation_updateSavingCategory {
   savingCategoryId: string;
   userId: string;
   name: string;
+  amount: number;
 }
 
 export interface UpdateSavingCategoryMutation {

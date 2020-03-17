@@ -4,7 +4,7 @@ import {
     createSavingCategoryFragment,
     createVariableCategoryFragment,
     expenseFragment,
-    fixedCategoryFragment,
+    fixedCategoryFragment, savingCategoryFragment,
     timePeriodFragment
 } from './fragments';
 
@@ -83,11 +83,11 @@ export const deleteSavingCategoryMutation = gql`
 `;
 
 export const updateSavingCategoryMutation = gql`
-    ${createSavingCategoryFragment}
+    ${savingCategoryFragment}
     
     mutation UpdateSavingCategoryMutation($savingCategory: UpdateSavingCategory!) {
         updateSavingCategory(savingCategory: $savingCategory) {
-            ...ICreateSavingCategory
+            ...ISavingCategory
         }
     }
 `;
