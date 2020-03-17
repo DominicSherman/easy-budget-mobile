@@ -16,6 +16,7 @@ import {
 import {deleteSavingCategoryUpdate} from '../../utils/update-cache-utils';
 import {getUserId} from '../../services/auth-service';
 import {easeInTransition} from '../../services/animation-service';
+import {Color} from '../../constants/color';
 
 interface IEditSavingCategoryFormProps {
     onUpdate?: () => void
@@ -79,17 +80,26 @@ const EditSavingCategoryForm: FC<IEditSavingCategoryFormProps> = ({onUpdate, sav
             ]
         );
     };
-    const disabled = JSON.stringify(originalValues) === JSON.stringify(updatedValues);
+    const disabled = JSON.stringify(originalValues) === JSON.stringify(updatedValues) || !updatedName.length;
+    const inputs = [{
+        onChange: setUpdatedName,
+        title: 'Category Name *',
+        value: updatedName
+    }];
+    const buttons = [{
+        onPress: onPressDelete,
+        text: 'Delete',
+        wrapperStyle: {backgroundColor: Color.red}
+    }, {
+        disabled,
+        onPress,
+        text: 'Update'
+    }];
 
     return (
         <CategoryForm
-            buttonText={'Update'}
-            disabled={disabled}
-            name={updatedName}
-            onPress={onPress}
-            secondButtonText={'Delete'}
-            secondOnPress={onPressDelete}
-            setName={setUpdatedName}
+            buttons={buttons}
+            inputs={inputs}
         />
     );
 };

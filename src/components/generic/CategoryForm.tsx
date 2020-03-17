@@ -1,17 +1,24 @@
-import React, {Dispatch, FC, SetStateAction, useState} from 'react';
+import React, {FC, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 import {textStyles} from '../../styles/text-styles';
 import {easeInTransition} from '../../services/animation-service';
-import {Color} from '../../constants/color';
+import {centeredRow} from '../../styles/shared-styles';
+import {SCREEN_WIDTH} from '../../constants/dimensions';
 
 import {RegularText} from './Text';
-import Button from './Button';
-import Input from './Input';
+import Button, {IButtonProps} from './Button';
+import Input, {IInputProps} from './Input';
 import PlusMinusIcon from './PlusMinusIcon';
 
 const styles = StyleSheet.create({
+    buttonWrapper: {
+        ...centeredRow,
+        justifyContent: 'space-evenly',
+        marginTop: 16,
+        width: '100%'
+    },
     toggledWrapper: {
         minHeight: 425,
         paddingVertical: 80
@@ -23,25 +30,16 @@ const styles = StyleSheet.create({
 });
 
 interface ICreateCategoryFormProps {
-    buttonText: string
-    secondButtonText?: string
-    disabled?: boolean
+    buttons: IButtonProps[]
+    inputs: IInputProps[]
     headerText?: string
-    setName: Dispatch<SetStateAction<any>>
-    name: string
-    setAmount?: Dispatch<SetStateAction<any>>
-    amount?: string
-    note?: string | null
-    setNote?: Dispatch<SetStateAction<any>>
-    onPress: () => void
-    secondOnPress?: () => void
     toggleable?: boolean
-    showCreateForm?: boolean
+    visibleByDefault?: boolean
 }
 
 const CategoryForm: FC<ICreateCategoryFormProps> = (props) => {
-    const showCreateForm = Boolean(props.showCreateForm);
-    const [isVisible, setIsVisible] = useState(showCreateForm);
+    const visibleByDefault = Boolean(props.visibleByDefault);
+    const [isVisible, setIsVisible] = useState(visibleByDefault);
     const setVisible = (): void => {
         easeInTransition();
         setIsVisible(!isVisible);
@@ -51,10 +49,7 @@ const CategoryForm: FC<ICreateCategoryFormProps> = (props) => {
         return (
             <View>
                 <KeyboardAwareScrollView style={{marginTop: 16}}>
-                    <DropdownForm
-                        isVisible={isVisible}
-                        {...props}
-                    />
+                    {isVisible && <DropdownForm {...props} />}
                 </KeyboardAwareScrollView>
                 <PlusMinusIcon
                     isOpen={isVisible}
@@ -65,38 +60,17 @@ const CategoryForm: FC<ICreateCategoryFormProps> = (props) => {
     }
 
     return (
-        <DropdownForm
-            isVisible={isVisible}
-            {...props}
-        />
+        <DropdownForm {...props} />
     );
 };
 
-interface IDropdownProps extends ICreateCategoryFormProps {
-    isVisible: boolean
-}
-
-const DropdownForm: FC<IDropdownProps> = (props) => {
+const DropdownForm: FC<ICreateCategoryFormProps> = (props) => {
     const {
-        buttonText,
-        isVisible,
-        disabled,
+        buttons,
+        inputs,
         headerText,
-        setName,
-        name,
-        setAmount,
-        amount,
-        onPress,
-        note,
-        setNote,
-        toggleable,
-        secondButtonText,
-        secondOnPress
+        toggleable
     } = props;
-
-    if (toggleable && !isVisible) {
-        return null;
-    }
 
     return (
         <View style={[styles.wrapper, toggleable && styles.toggledWrapper]}>
@@ -106,68 +80,28 @@ const DropdownForm: FC<IDropdownProps> = (props) => {
                         <RegularText style={textStyles.large}>{headerText}</RegularText>
                     </View>
             }
-            <Input
-                onChange={setName}
-                title={'Category Name *'}
-                value={name}
-            />
             {
-                amount !== undefined && setAmount ?
+                inputs.map((input) =>
                     <Input
-                        keyboardType={'number-pad'}
-                        onChange={setAmount}
-                        title={'Category Amount *'}
-                        value={amount}
+                        key={input.title}
+                        {...input}
                     />
-                    :
-                    null
+                )
             }
-            {
-                note !== undefined && setNote ?
-                    <Input
-                        onChange={setNote}
-                        title={'Note'}
-                        value={note}
-                    />
-                    :
-                    null
-            }
-            {
-                secondButtonText && secondOnPress ?
-                    <View
-                        style={{
-                            flexDirection: 'row',
-                            justifyContent: 'space-between',
-                            width: '100%'
-                        }}
-                    >
+            <View style={styles.buttonWrapper}>
+                {
+                    buttons.map((button) =>
                         <Button
-                            onPress={secondOnPress}
-                            text={secondButtonText}
+                            key={button.text}
+                            {...button}
                             wrapperStyle={{
-                                backgroundColor: Color.red,
-                                marginTop: 16,
-                                width: '48%'
+                                width: (SCREEN_WIDTH - 72) / buttons.length,
+                                ...button.wrapperStyle || {}
                             }}
                         />
-                        <Button
-                            disabled={Boolean(disabled || !name.length || amount !== undefined && !amount.length)}
-                            onPress={onPress}
-                            text={buttonText}
-                            wrapperStyle={{
-                                marginTop: 16,
-                                width: '48%'
-                            }}
-                        />
-                    </View>
-                    :
-                    <Button
-                        disabled={Boolean(disabled || !name.length || amount !== undefined && !amount.length)}
-                        onPress={onPress}
-                        text={buttonText}
-                        wrapperStyle={{marginTop: 16}}
-                    />
-            }
+                    )
+                }
+            </View>
         </View>
     );
 };

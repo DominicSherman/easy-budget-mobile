@@ -50,20 +50,32 @@ const CreateFixedCategoryForm: FC<ICreateFixedCategoryFormProps> = ({showCreateF
         setAmount('');
         setNote('');
     };
+    const inputs = [{
+        onChange: setName,
+        title: 'Category Name *',
+        value: name
+    }, {
+        onChange: setAmount,
+        title: 'Category Amount *',
+        value: amount
+    }, {
+        onChange: setNote,
+        title: 'Note',
+        value: note
+    }];
+    const buttons = [{
+        disabled: !name.length || !amount.length,
+        onPress,
+        text: 'Create'
+    }];
 
     return (
         <CategoryForm
-            amount={amount}
-            buttonText={'Create'}
+            buttons={buttons}
             headerText={'Create Fixed Category'}
-            name={name}
-            note={note}
-            onPress={onPress}
-            setAmount={setAmount}
-            setName={setName}
-            setNote={setNote}
-            showCreateForm={showCreateForm}
+            inputs={inputs}
             toggleable
+            visibleByDefault={showCreateForm}
         />
     );
 };

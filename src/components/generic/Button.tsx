@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     }
 });
 
-interface IButton {
+export interface IButtonProps {
     disabled?: boolean
     loading?: boolean
     text: string
@@ -31,7 +31,7 @@ interface IButton {
     wrapperStyle?: ViewStyle
 }
 
-const Button: FC<IButton> = ({disabled, onPress, text, textStyle, loading, wrapperStyle}) =>
+const Button: FC<IButtonProps> = ({disabled, onPress, text, textStyle, loading, wrapperStyle}) =>
     <Touchable
         disabled={disabled || loading}
         onPress={onPress}
@@ -39,7 +39,7 @@ const Button: FC<IButton> = ({disabled, onPress, text, textStyle, loading, wrapp
     >
         {
             loading ?
-                <ActivityIndicator />
+                <ActivityIndicator/>
                 :
                 <LargeText style={[{color: Color.white}, textStyle]}>
                     {text}

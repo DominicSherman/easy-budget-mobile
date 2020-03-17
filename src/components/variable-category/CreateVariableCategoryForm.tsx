@@ -46,18 +46,28 @@ const CreateVariableCategoryForm: FC<ICreateVariableCategoryFormProps> = ({showC
         setName('');
         setAmount('');
     };
+    const inputs = [{
+        onChange: setName,
+        title: 'Category Name *',
+        value: name
+    }, {
+        onChange: setAmount,
+        title: 'Category Amount *',
+        value: amount
+    }];
+    const buttons = [{
+        disabled: !name.length || !amount.length,
+        onPress,
+        text: 'Create'
+    }];
 
     return (
         <CategoryForm
-            amount={amount}
-            buttonText={'Create'}
+            buttons={buttons}
             headerText={'Create Variable Category'}
-            name={name}
-            onPress={onPress}
-            setAmount={setAmount}
-            setName={setName}
-            showCreateForm={showCreateForm}
+            inputs={inputs}
             toggleable
+            visibleByDefault={showCreateForm}
         />
     );
 };

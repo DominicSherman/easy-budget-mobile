@@ -35,14 +35,22 @@ const CreateSavingCategoryForm: FC = () => {
         createSavingCategory();
         setName('');
     };
+    const inputs = [{
+        onChange: setName,
+        title: 'Category Name *',
+        value: name
+    }];
+    const buttons = [{
+        disabled: !name.length,
+        onPress,
+        text: 'Create'
+    }];
 
     return (
         <CategoryForm
-            buttonText={'Create'}
+            buttons={buttons}
             headerText={'Create Saving Category'}
-            name={name}
-            onPress={onPress}
-            setName={setName}
+            inputs={inputs}
             toggleable
         />
     );
