@@ -106,35 +106,39 @@ const SavingCategoryItem: FC<ISavingCategoryItemProps> = ({savingCategory}) => {
                     <EditIcon
                         color={usePrimaryColor()}
                         isOpen={formType === FormType.EDIT}
-                        onPress={() => toggle(FormType.EDIT)}
+                        onPress={(): void => toggle(FormType.EDIT)}
                     />
                 </View>
                 <View style={styles.topWrapper}>
                     <View style={[styles.verticalCenter, {width: '50%'}]}>
                         <Touchable
                             hitSlop={hitSlop}
-                            onPress={() => toggle(FormType.REMOVE)}
+                            onPress={(): void => toggle(FormType.REMOVE)}
                         >
-                            <Feather
-                                color={Color.red}
-                                name={FeatherNames.MINUS_CIRCLE}
-                                size={32}
-                            />
+                            <View style={styles.verticalCenter}>
+                                <Feather
+                                    color={Color.red}
+                                    name={FeatherNames.MINUS_CIRCLE}
+                                    size={32}
+                                />
+                                <SmallText>{'remove'}</SmallText>
+                            </View>
                         </Touchable>
-                        <LargeText>{'remove'}</LargeText>
                     </View>
                     <View style={[styles.verticalCenter, {width: '50%'}]}>
                         <Touchable
                             hitSlop={hitSlop}
-                            onPress={() => toggle(FormType.ADD)}
+                            onPress={(): void => toggle(FormType.ADD)}
                         >
-                            <Feather
-                                color={Color.green}
-                                name={FeatherNames.PLUS_CIRCLE}
-                                size={32}
-                            />
+                            <View style={styles.verticalCenter}>
+                                <Feather
+                                    color={Color.green}
+                                    name={FeatherNames.PLUS_CIRCLE}
+                                    size={32}
+                                />
+                                <SmallText>{'add'}</SmallText>
+                            </View>
                         </Touchable>
-                        <LargeText>{'add'}</LargeText>
                     </View>
                 </View>
             </View>
