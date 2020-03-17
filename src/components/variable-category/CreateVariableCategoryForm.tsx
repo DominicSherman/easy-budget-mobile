@@ -11,7 +11,7 @@ import {
 } from '../../../autogen/CreateVariableCategoryMutation';
 import {createVariableCategoryUpdate} from '../../utils/update-cache-utils';
 import {IAppState} from '../../redux/reducer';
-import CategoryForm from '../generic/CategoryForm';
+import Form from '../generic/Form';
 
 interface ICreateVariableCategoryFormProps {
     showCreateForm?: boolean
@@ -62,7 +62,7 @@ const CreateVariableCategoryForm: FC<ICreateVariableCategoryFormProps> = ({showC
     }];
 
     return (
-        <CategoryForm
+        <Form
             buttons={buttons}
             headerText={'Create Variable Category'}
             inputs={inputs}

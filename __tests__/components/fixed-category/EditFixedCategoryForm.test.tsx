@@ -9,7 +9,7 @@ import {chance} from '../../chance';
 import {createRandomFixedCategory} from '../../models';
 import EditFixedCategoryForm from '../../../src/components/fixed-category/EditFixedCategoryForm';
 import {updateFixedCategoryMutation} from '../../../src/graphql/mutations';
-import CategoryForm from '../../../src/components/generic/CategoryForm';
+import Form from '../../../src/components/generic/Form';
 
 jest.mock('@apollo/react-hooks');
 jest.mock('@react-navigation/native');
@@ -32,7 +32,7 @@ describe('EditFixedCategoryForm', () => {
         deleteFixedCategory;
 
     const setStateData = (): void => {
-        const form = testInstance.findByType(CategoryForm);
+        const form = testInstance.findByType(Form);
 
         act(() => {
             form.props.setName(expectedName);
@@ -101,10 +101,10 @@ describe('EditFixedCategoryForm', () => {
         });
     });
 
-    it('should render a CategoryForm with the correct values', () => {
+    it('should render a Form with the correct values', () => {
         setStateData();
 
-        const renderedCreateCategoryForm = testInstance.findByType(CategoryForm);
+        const renderedCreateCategoryForm = testInstance.findByType(Form);
 
         expect(renderedCreateCategoryForm.props.amount).toBe(expectedAmount);
         expect(renderedCreateCategoryForm.props.name).toBe(expectedName);
@@ -112,7 +112,7 @@ describe('EditFixedCategoryForm', () => {
     });
 
     it('should pass an onPress', () => {
-        const renderedCreateCategoryForm = testInstance.findByType(CategoryForm);
+        const renderedCreateCategoryForm = testInstance.findByType(Form);
 
         act(() => {
             renderedCreateCategoryForm.props.onPress();
@@ -126,7 +126,7 @@ describe('EditFixedCategoryForm', () => {
         expectedProps.onUpdate = null;
         render();
 
-        const renderedCreateCategoryForm = testInstance.findByType(CategoryForm);
+        const renderedCreateCategoryForm = testInstance.findByType(Form);
 
         act(() => {
             renderedCreateCategoryForm.props.onPress();
@@ -134,7 +134,7 @@ describe('EditFixedCategoryForm', () => {
     });
 
     it('should pass a secondOnPress function', () => {
-        const renderedCreateCategoryForm = testInstance.findByType(CategoryForm);
+        const renderedCreateCategoryForm = testInstance.findByType(Form);
 
         act(() => {
             renderedCreateCategoryForm.props.secondOnPress();

@@ -9,7 +9,7 @@ import {
     CreateSavingCategoryMutationVariables
 } from '../../../autogen/CreateSavingCategoryMutation';
 import {createSavingCategoryUpdate} from '../../utils/update-cache-utils';
-import CategoryForm from '../generic/CategoryForm';
+import Form from '../generic/Form';
 
 const CreateSavingCategoryForm: FC = () => {
     const [name, setName] = useState('');
@@ -47,7 +47,7 @@ const CreateSavingCategoryForm: FC = () => {
     }];
 
     return (
-        <CategoryForm
+        <Form
             buttons={buttons}
             headerText={'Create Saving Category'}
             inputs={inputs}

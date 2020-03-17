@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     }
 });
 
-interface ICreateCategoryFormProps {
+interface IFormProps {
     buttons: IButtonProps[]
     inputs: IInputProps[]
     headerText?: string
@@ -37,7 +37,7 @@ interface ICreateCategoryFormProps {
     visibleByDefault?: boolean
 }
 
-const CategoryForm: FC<ICreateCategoryFormProps> = (props) => {
+const Form: FC<IFormProps> = (props) => {
     const visibleByDefault = Boolean(props.visibleByDefault);
     const [isVisible, setIsVisible] = useState(visibleByDefault);
     const setVisible = (): void => {
@@ -64,7 +64,7 @@ const CategoryForm: FC<ICreateCategoryFormProps> = (props) => {
     );
 };
 
-const DropdownForm: FC<ICreateCategoryFormProps> = (props) => {
+const DropdownForm: FC<IFormProps> = (props) => {
     const {
         buttons,
         inputs,
@@ -106,4 +106,4 @@ const DropdownForm: FC<ICreateCategoryFormProps> = (props) => {
     );
 };
 
-export default CategoryForm;
+export default Form;

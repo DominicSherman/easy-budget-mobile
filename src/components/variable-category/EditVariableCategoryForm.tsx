@@ -8,7 +8,7 @@ import {
     UpdateVariableCategoryMutation,
     UpdateVariableCategoryMutationVariables
 } from '../../../autogen/UpdateVariableCategoryMutation';
-import CategoryForm from '../generic/CategoryForm';
+import Form from '../generic/Form';
 import {
     DeleteVariableCategoryMutation,
     DeleteVariableCategoryMutationVariables
@@ -104,7 +104,7 @@ const EditVariableCategoryForm: FC<IEditVariableCategoryFormProps> = ({onUpdate,
     }];
 
     return (
-        <CategoryForm
+        <Form
             buttons={buttons}
             inputs={inputs}
         />

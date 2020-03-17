@@ -8,7 +8,7 @@ import {
     UpdateSavingCategoryMutation,
     UpdateSavingCategoryMutationVariables
 } from '../../../autogen/UpdateSavingCategoryMutation';
-import CategoryForm from '../generic/CategoryForm';
+import Form from '../generic/Form';
 import {
     DeleteSavingCategoryMutation,
     DeleteSavingCategoryMutationVariables
@@ -97,7 +97,7 @@ const EditSavingCategoryForm: FC<IEditSavingCategoryFormProps> = ({onUpdate, sav
     }];
 
     return (
-        <CategoryForm
+        <Form
             buttons={buttons}
             inputs={inputs}
         />

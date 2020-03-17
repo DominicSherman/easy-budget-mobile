@@ -11,7 +11,7 @@ import {
     CreateFixedCategoryMutationVariables
 } from '../../../autogen/CreateFixedCategoryMutation';
 import {createFixedCategoryUpdate} from '../../utils/update-cache-utils';
-import CategoryForm from '../generic/CategoryForm';
+import Form from '../generic/Form';
 
 interface ICreateFixedCategoryFormProps {
     showCreateForm?: boolean
@@ -70,7 +70,7 @@ const CreateFixedCategoryForm: FC<ICreateFixedCategoryFormProps> = ({showCreateF
     }];
 
     return (
-        <CategoryForm
+        <Form
             buttons={buttons}
             headerText={'Create Fixed Category'}
             inputs={inputs}
