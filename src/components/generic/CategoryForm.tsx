@@ -95,7 +95,7 @@ const DropdownForm: FC<IDropdownProps> = (props) => {
     }
 
     return (
-        <View style={[styles.wrapper, toggleable && {paddingBottom: 80}]}>
+        <View style={[styles.wrapper, toggleable && {paddingVertical: 80}]}>
             {
                 headerText &&
                     <View style={{justifyContent: 'center'}}>
