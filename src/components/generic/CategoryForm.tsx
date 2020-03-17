@@ -12,6 +12,10 @@ import Input from './Input';
 import PlusMinusIcon from './PlusMinusIcon';
 
 const styles = StyleSheet.create({
+    toggledWrapper: {
+        minHeight: 425,
+        paddingVertical: 80
+    },
     wrapper: {
         alignItems: 'center',
         width: '100%'
@@ -95,7 +99,7 @@ const DropdownForm: FC<IDropdownProps> = (props) => {
     }
 
     return (
-        <View style={[styles.wrapper, toggleable && {paddingVertical: 80}]}>
+        <View style={[styles.wrapper, toggleable && styles.toggledWrapper]}>
             {
                 headerText &&
                     <View style={{justifyContent: 'center'}}>
