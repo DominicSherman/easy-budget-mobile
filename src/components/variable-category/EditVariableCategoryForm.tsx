@@ -14,17 +14,16 @@ import {
     DeleteVariableCategoryMutationVariables
 } from '../../../autogen/DeleteVariableCategoryMutation';
 import {deleteVariableCategoryUpdate} from '../../utils/update-cache-utils';
-import {getUserId} from '../../services/auth-service';
 import {easeInTransition} from '../../services/animation-service';
 import {Color} from '../../constants/color';
 import {IInputProps} from '../generic/Input';
 
 interface IEditVariableCategoryFormProps {
-    onUpdate?: () => void
+    toggleExpanded: () => void
     variableCategory: IVariableCategory
 }
 
-const EditVariableCategoryForm: FC<IEditVariableCategoryFormProps> = ({onUpdate, variableCategory}) => {
+const EditVariableCategoryForm: FC<IEditVariableCategoryFormProps> = ({toggleExpanded, variableCategory}) => {
     const {amount, name, variableCategoryId, userId} = variableCategory;
     const [updatedAmount, setUpdatedAmount] = useState(amount.toString());
     const [updatedName, setUpdatedName] = useState(name);
@@ -53,10 +52,7 @@ const EditVariableCategoryForm: FC<IEditVariableCategoryFormProps> = ({onUpdate,
     });
     const onPress = (): void => {
         updateVariableCategory();
-
-        if (onUpdate) {
-            onUpdate();
-        }
+        toggleExpanded();
     };
     const [deleteVariableCategory] = useMutation<DeleteVariableCategoryMutation, DeleteVariableCategoryMutationVariables>(deleteVariableCategoryMutation, {
         optimisticResponse: {
@@ -64,7 +60,7 @@ const EditVariableCategoryForm: FC<IEditVariableCategoryFormProps> = ({onUpdate,
         },
         update: deleteVariableCategoryUpdate,
         variables: {
-            userId: getUserId(),
+            userId: variableCategory.userId,
             variableCategoryId
         }
     });

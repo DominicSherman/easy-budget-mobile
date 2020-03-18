@@ -7,9 +7,10 @@ import {MutationResult} from '@apollo/react-common';
 import {chance} from '../../chance';
 import {createRandomVariableCategory} from '../../models';
 import EditVariableCategoryForm from '../../../src/components/variable-category/EditVariableCategoryForm';
-import {updateVariableCategoryMutation} from '../../../src/graphql/mutations';
+import {deleteVariableCategoryMutation, updateVariableCategoryMutation} from '../../../src/graphql/mutations';
 import Form from '../../../src/components/generic/Form';
 import * as hooks from '../../../src/utils/hooks';
+import {Color} from '../../../src/constants/color';
 
 jest.mock('@apollo/react-hooks');
 jest.mock('@react-navigation/native');
@@ -34,8 +35,8 @@ describe('EditVariableCategoryForm', () => {
         const form = testInstance.findByType(Form);
 
         act(() => {
-            form.props.setName(expectedName);
-            form.props.setAmount(expectedAmount);
+            form.props.inputs[0].onChange(expectedName);
+            form.props.inputs[1].onChange(expectedAmount);
         });
     };
 
@@ -47,7 +48,7 @@ describe('EditVariableCategoryForm', () => {
 
     beforeEach(() => {
         expectedProps = {
-            onUpdate: jest.fn(),
+            toggleExpanded: jest.fn(),
             variableCategory: createRandomVariableCategory()
         };
         expectedNavigation = {goBack: jest.fn()};
@@ -60,7 +61,9 @@ describe('EditVariableCategoryForm', () => {
 
         useMutation
             .mockReturnValueOnce([updateVariableCategory, {} as MutationResult])
-            .mockReturnValue([deleteVariableCategory, {} as MutationResult]);
+            .mockReturnValueOnce([deleteVariableCategory, {} as MutationResult])
+            .mockReturnValueOnce([updateVariableCategory, {} as MutationResult])
+            .mockReturnValueOnce([deleteVariableCategory, {} as MutationResult]);
         useBudgetNavigation.mockReturnValue(expectedNavigation);
 
         render();
@@ -70,85 +73,125 @@ describe('EditVariableCategoryForm', () => {
         jest.resetAllMocks();
     });
 
-    it('should call useMutation', () => {
-        setStateData();
+    describe('useMutation', () => {
+        it('should call useMutation twice', () => {
+            expect(useMutation).toHaveBeenCalledTimes(2);
+        });
 
-        const updatedValues = {
-            amount: Number(expectedAmount),
-            name: expectedName
-        };
+        it('should call useMutation to update the variable category', () => {
+            setStateData();
 
-        expect(useMutation).toHaveBeenCalledWith(updateVariableCategoryMutation, {
-            optimisticResponse: {
-                updateVariableCategory: {
-                    __typename: 'VariableCategory',
-                    ...expectedProps.variableCategory,
-                    ...updatedValues
+            const updatedValues = {
+                amount: Number(expectedAmount),
+                name: expectedName
+            };
+
+            expect(useMutation).toHaveBeenCalledWith(updateVariableCategoryMutation, {
+                optimisticResponse: {
+                    updateVariableCategory: {
+                        __typename: 'VariableCategory',
+                        ...expectedProps.variableCategory,
+                        ...updatedValues
+                    }
+                },
+                variables: {
+                    variableCategory: {
+                        userId: expectedProps.variableCategory.userId,
+                        variableCategoryId: expectedProps.variableCategory.variableCategoryId,
+                        ...updatedValues
+                    }
                 }
-            },
-            variables: {
-                variableCategory: {
+            });
+        });
+
+        it('should call useMutation to delete the variable category', () => {
+            expect(useMutation).toHaveBeenCalledWith(deleteVariableCategoryMutation, {
+                optimisticResponse: {
+                    deleteVariableCategory: expectedProps.variableCategory.variableCategoryId
+                },
+                update: expect.any(Function),
+                variables: {
                     userId: expectedProps.variableCategory.userId,
-                    variableCategoryId: expectedProps.variableCategory.variableCategoryId,
-                    ...updatedValues
+                    variableCategoryId: expectedProps.variableCategory.variableCategoryId
                 }
-            }
+            });
         });
     });
 
-    it('should render a Form with the correct values', () => {
-        setStateData();
+    describe('Form', () => {
+        let renderedForm,
+            deleteButton,
+            updateButton;
 
-        const renderedCreateCategoryForm = testInstance.findByType(Form);
+        beforeEach(() => {
+            setStateData();
 
-        expect(renderedCreateCategoryForm.props.amount).toBe(expectedAmount);
-        expect(renderedCreateCategoryForm.props.name).toBe(expectedName);
-    });
+            renderedForm = testInstance.findByType(Form);
 
-    it('should pass an onPress', () => {
-        const renderedCreateCategoryForm = testInstance.findByType(Form);
-
-        act(() => {
-            renderedCreateCategoryForm.props.onPress();
+            deleteButton = renderedForm.props.buttons[0];
+            updateButton = renderedForm.props.buttons[1];
         });
 
-        expect(updateVariableCategory).toHaveBeenCalledTimes(1);
-    });
+        it('should render a Form with the correct inputs', () => {
+            const nameInput = renderedForm.props.inputs[0];
+            const amountInput = renderedForm.props.inputs[1];
 
-    it('should **not** blow up if onUpdate is not passed', () => {
-        expectedProps.onUpdate = null;
-        render();
-
-        const renderedCreateCategoryForm = testInstance.findByType(Form);
-
-        act(() => {
-            renderedCreateCategoryForm.props.onPress();
-        });
-    });
-
-    it('should pass a secondOnPress function', () => {
-        const renderedCreateCategoryForm = testInstance.findByType(Form);
-
-        act(() => {
-            renderedCreateCategoryForm.props.secondOnPress();
+            expect(nameInput).toEqual({
+                onChange: expect.any(Function),
+                title: 'Category Name *',
+                value: expectedName
+            });
+            expect(amountInput).toEqual({
+                keyboardType: 'number-pad',
+                onChange: expect.any(Function),
+                title: 'Category Amount *',
+                value: expectedAmount
+            });
         });
 
-        expect(Alert.alert).toHaveBeenCalledTimes(1);
-        expect(Alert.alert).toHaveBeenCalledWith(
-            `Delete ${expectedProps.variableCategory.name}?`,
-            '',
-            [
-                {text: 'Cancel'},
-                {
-                    onPress: expect.any(Function),
-                    text: 'Confirm'
-                }
-            ]
-        );
+        it('should pass the delete button', () => {
+            expect(deleteButton).toEqual({
+                onPress: expect.any(Function),
+                text: 'Delete',
+                wrapperStyle: {backgroundColor: Color.red}
+            });
 
-        // @ts-ignore
-        Alert.alert.mock.calls[0][2][1].onPress();
+            act(() => {
+                deleteButton.onPress();
+            });
 
-        expect(deleteVariableCategory).toHaveBeenCalledTimes(1);
+            expect(Alert.alert).toHaveBeenCalledTimes(1);
+            expect(Alert.alert).toHaveBeenCalledWith(
+                `Delete ${expectedProps.variableCategory.name}?`,
+                '',
+                [
+                    {text: 'Cancel'},
+                    {
+                        onPress: expect.any(Function),
+                        text: 'Confirm'
+                    }
+                ]
+            );
+
+            // @ts-ignore
+            Alert.alert.mock.calls[0][2][1].onPress();
+
+            expect(deleteVariableCategory).toHaveBeenCalledTimes(1);
+        });
+
+        it('should pass the update button', () => {
+            expect(updateButton).toEqual({
+                disabled: expect.any(Boolean),
+                onPress: expect.any(Function),
+                text: 'Update'
+            });
+
+            act(() => {
+                updateButton.onPress();
+            });
+
+            expect(updateVariableCategory).toHaveBeenCalledTimes(1);
+            expect(expectedProps.toggleExpanded).toHaveBeenCalledTimes(1);
+        });
     });
 });
