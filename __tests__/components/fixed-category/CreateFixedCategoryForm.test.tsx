@@ -1,6 +1,7 @@
 import TestRenderer, {act} from 'react-test-renderer';
 import React from 'react';
 import * as reactHooks from '@apollo/react-hooks';
+import {MutationResult} from '@apollo/react-common';
 
 import {chance} from '../../chance';
 import CreateFixedCategoryForm from '../../../src/components/fixed-category/CreateFixedCategoryForm';
@@ -52,8 +53,7 @@ describe('CreateFixedCategoryForm', () => {
         expectedNote = chance.string();
 
         useTimePeriodId.mockReturnValue(expectedTimePeriodId);
-        // @ts-ignore
-        useMutation.mockReturnValue([createFixedCategory]);
+        useMutation.mockReturnValue([createFixedCategory, {} as MutationResult]);
 
         render();
     });

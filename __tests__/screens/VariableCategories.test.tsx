@@ -70,10 +70,6 @@ describe('VariableCategories', () => {
         jest.resetAllMocks();
     });
 
-    it('should call useTimePeriodId', () => {
-        expect(useTimePeriodId).toHaveBeenCalledTimes(1);
-    });
-
     it('should return early if there is no time period', () => {
         useTimePeriodId.mockReturnValue('');
         render();
