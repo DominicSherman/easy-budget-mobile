@@ -1,11 +1,9 @@
 import React, {FC, useState} from 'react';
 import uuid from 'uuid';
 import {useMutation} from '@apollo/react-hooks';
-import {useSelector} from 'react-redux';
 
 import {createFixedCategoryMutation} from '../../graphql/mutations';
 import {getUserId} from '../../services/auth-service';
-import {IAppState} from '../../redux/reducer';
 import {
     CreateFixedCategoryMutation,
     CreateFixedCategoryMutationVariables
@@ -13,13 +11,14 @@ import {
 import {createFixedCategoryUpdate} from '../../utils/update-cache-utils';
 import Form from '../generic/Form';
 import {IInputProps} from '../generic/Input';
+import {useTimePeriodId} from '../../utils/hooks';
 
 interface ICreateFixedCategoryFormProps {
     showCreateForm?: boolean
 }
 
 const CreateFixedCategoryForm: FC<ICreateFixedCategoryFormProps> = ({showCreateForm}) => {
-    const timePeriodId = useSelector<IAppState, string>((state) => state.timePeriodId);
+    const timePeriodId = useTimePeriodId();
     const [name, setName] = useState('');
     const [amount, setAmount] = useState('');
     const [note, setNote] = useState('');

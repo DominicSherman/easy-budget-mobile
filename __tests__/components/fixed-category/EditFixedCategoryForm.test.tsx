@@ -13,7 +13,6 @@ import Form from '../../../src/components/generic/Form';
 import {Color} from '../../../src/constants/color';
 
 jest.mock('@apollo/react-hooks');
-jest.mock('@react-navigation/native');
 jest.mock('../../../src/services/auth-service');
 jest.mock('../../../src/utils/hooks');
 jest.mock('../../../src/services/animation-service');
