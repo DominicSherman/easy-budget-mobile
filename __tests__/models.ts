@@ -12,6 +12,7 @@ import {IExpense} from '../autogen/IExpense';
 import {Mode} from '../src/enums/Mode';
 
 import {chance} from './chance';
+import {ISavingCategory} from '../autogen/ISavingCategory';
 
 export const createError = (): ApolloError => new ApolloError({
     errorMessage: chance.string(),
@@ -56,6 +57,15 @@ export const createRandomFixedCategory = (fixedCategory = {}): IFixedCategory =>
     timePeriodId: chance.guid(),
     userId: chance.string(),
     ...fixedCategory
+});
+
+export const createRandomSavingCategory = (savingCategory = {}): ISavingCategory => ({
+    __typename: 'SavingCategory',
+    amount: chance.natural(),
+    name: chance.string(),
+    savingCategoryId: chance.guid(),
+    userId: chance.string(),
+    ...savingCategory
 });
 
 export const createRandomFixedCategories = (): IFixedCategory[] => chance.n(createRandomFixedCategory, chance.d6());

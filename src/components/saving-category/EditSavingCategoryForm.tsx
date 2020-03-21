@@ -19,11 +19,11 @@ import {easeInTransition} from '../../services/animation-service';
 import {Color} from '../../constants/color';
 
 interface IEditSavingCategoryFormProps {
-    onUpdate?: () => void
+    toggleExpanded: () => void
     savingCategory: ISavingCategory
 }
 
-const EditSavingCategoryForm: FC<IEditSavingCategoryFormProps> = ({onUpdate, savingCategory}) => {
+const EditSavingCategoryForm: FC<IEditSavingCategoryFormProps> = ({toggleExpanded, savingCategory}) => {
     const {name, savingCategoryId, userId} = savingCategory;
     const [updatedName, setUpdatedName] = useState(name);
     const originalValues = {
@@ -49,10 +49,7 @@ const EditSavingCategoryForm: FC<IEditSavingCategoryFormProps> = ({onUpdate, sav
     });
     const onPress = (): void => {
         updateSavingCategory();
-
-        if (onUpdate) {
-            onUpdate();
-        }
+        toggleExpanded();
     };
     const [deleteSavingCategory] = useMutation<DeleteSavingCategoryMutation, DeleteSavingCategoryMutationVariables>(deleteSavingCategoryMutation, {
         optimisticResponse: {

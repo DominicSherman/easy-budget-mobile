@@ -70,19 +70,19 @@ const SavingCategoryItem: FC<ISavingCategoryItemProps> = ({savingCategory}) => {
         [FormType.CLOSED]: (): null => null,
         [FormType.EDIT]: (): JSX.Element =>
             <EditSavingCategoryForm
-                onUpdate={() => toggle(FormType.EDIT)}
                 savingCategory={savingCategory}
+                toggleExpanded={(): void => toggle(FormType.EDIT)}
             />,
         [FormType.ADD]: (): JSX.Element =>
             <AddRemoveSavingCategoryForm
                 savingCategory={savingCategory}
-                toggleExpanded={() => toggle(FormType.ADD)}
+                toggleExpanded={(): void => toggle(FormType.ADD)}
                 type={SavingUpdateType.ADD}
             />,
         [FormType.REMOVE]: (): JSX.Element =>
             <AddRemoveSavingCategoryForm
                 savingCategory={savingCategory}
-                toggleExpanded={() => toggle(FormType.REMOVE)}
+                toggleExpanded={(): void => toggle(FormType.REMOVE)}
                 type={SavingUpdateType.REMOVE}
             />
     };
@@ -114,6 +114,7 @@ const SavingCategoryItem: FC<ISavingCategoryItemProps> = ({savingCategory}) => {
                         <Touchable
                             hitSlop={hitSlop}
                             onPress={(): void => toggle(FormType.REMOVE)}
+                            testID={'remove'}
                         >
                             <View style={styles.verticalCenter}>
                                 <Feather
@@ -129,6 +130,7 @@ const SavingCategoryItem: FC<ISavingCategoryItemProps> = ({savingCategory}) => {
                         <Touchable
                             hitSlop={hitSlop}
                             onPress={(): void => toggle(FormType.ADD)}
+                            testID={'plus'}
                         >
                             <View style={styles.verticalCenter}>
                                 <Feather

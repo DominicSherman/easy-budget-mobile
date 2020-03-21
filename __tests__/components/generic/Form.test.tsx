@@ -48,12 +48,25 @@ describe('Form', () => {
         jest.resetAllMocks();
     });
 
+    describe('header text', () => {
+        it('should render it if it is passed', () => {
+            expectedProps.headerText = chance.string();
+            render();
+
+            testInstance.findByProps({children: expectedProps.headerText});
+        });
+    });
+
     describe('when it is **not** toggleable', () => {
         it('should render the buttons', () => {
             expect(testInstance.findAllByType(Button)).toHaveLength(expectedProps.buttons.length);
         });
 
         it('should render the inputs', () => {
+            expectedProps.headerText = undefined;
+
+            render();
+
             expect(testInstance.findAllByType(Input)).toHaveLength(expectedProps.inputs.length);
         });
     });
