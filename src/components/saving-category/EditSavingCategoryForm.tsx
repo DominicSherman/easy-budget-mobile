@@ -58,7 +58,7 @@ const EditSavingCategoryForm: FC<IEditSavingCategoryFormProps> = ({toggleExpande
         update: deleteSavingCategoryUpdate,
         variables: {
             savingCategoryId,
-            userId: getUserId()
+            userId
         }
     });
     const onPressDelete = (): void => {
