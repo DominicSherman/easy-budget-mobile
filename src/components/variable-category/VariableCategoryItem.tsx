@@ -75,7 +75,7 @@ const VariableCategoryItem: FC<IVariableCategoryItemProps> = ({variableCategory}
             {
                 expanded &&
                     <EditVariableCategoryForm
-                        onUpdate={toggleExpanded}
+                        toggleExpanded={toggleExpanded}
                         variableCategory={variableCategory}
                     />
             }

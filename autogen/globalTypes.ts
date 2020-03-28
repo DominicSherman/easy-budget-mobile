@@ -26,6 +26,12 @@ export interface CreateFixedCategory {
   note?: string | null;
 }
 
+export interface CreateSavingCategory {
+  savingCategoryId: string;
+  userId: string;
+  name: string;
+}
+
 export interface CreateTimePeriod {
   timePeriodId: string;
   beginDate: string;
@@ -57,6 +63,13 @@ export interface UpdateFixedCategory {
   name?: string | null;
   paid?: boolean | null;
   note?: string | null;
+}
+
+export interface UpdateSavingCategory {
+  savingCategoryId: string;
+  userId: string;
+  name?: string | null;
+  amount?: number | null;
 }
 
 export interface UpdateVariableCategory {

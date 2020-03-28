@@ -129,7 +129,7 @@ const FixedCategoryItem: FC<{fixedCategory: IFixedCategory}> = ({fixedCategory})
                 expanded &&
                     <EditFixedCategoryForm
                         fixedCategory={fixedCategory}
-                        onUpdate={toggleExpanded}
+                        toggleExpanded={toggleExpanded}
                     />
             }
         </CardView>

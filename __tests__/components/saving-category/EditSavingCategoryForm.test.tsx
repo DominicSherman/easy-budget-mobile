@@ -1,24 +1,24 @@
 import TestRenderer, {act} from 'react-test-renderer';
+import {Alert} from 'react-native';
 import React from 'react';
 import * as reactHooks from '@apollo/react-hooks';
-import {Alert} from 'react-native';
 import {MutationResult} from '@apollo/react-common';
 
-import {chance} from '../../chance';
-import {createRandomVariableCategory} from '../../models';
-import EditVariableCategoryForm from '../../../src/components/variable-category/EditVariableCategoryForm';
-import {deleteVariableCategoryMutation, updateVariableCategoryMutation} from '../../../src/graphql/mutations';
-import Form from '../../../src/components/generic/Form';
 import * as hooks from '../../../src/utils/hooks';
+import {chance} from '../../chance';
+import {createRandomSavingCategory} from '../../models';
+import EditSavingCategoryForm from '../../../src/components/saving-category/EditSavingCategoryForm';
+import {deleteSavingCategoryMutation, updateSavingCategoryMutation} from '../../../src/graphql/mutations';
+import Form from '../../../src/components/generic/Form';
 import {Color} from '../../../src/constants/color';
+import {deleteSavingCategoryUpdate} from '../../../src/utils/update-cache-utils';
 
 jest.mock('@apollo/react-hooks');
-jest.mock('@react-navigation/native');
 jest.mock('../../../src/services/auth-service');
 jest.mock('../../../src/utils/hooks');
 jest.mock('../../../src/services/animation-service');
 
-describe('EditVariableCategoryForm', () => {
+describe('EditSavingCategoryForm', () => {
     const {useMutation} = reactHooks as jest.Mocked<typeof reactHooks>;
     const {useBudgetNavigation} = hooks as jest.Mocked<typeof hooks>;
 
@@ -27,43 +27,41 @@ describe('EditVariableCategoryForm', () => {
         expectedNavigation,
         expectedProps,
         expectedName,
-        expectedAmount,
-        updateVariableCategory,
-        deleteVariableCategory;
+        updateSavingCategory,
+        deleteSavingCategory;
 
     const setStateData = (): void => {
         const form = testInstance.findByType(Form);
 
         act(() => {
             form.props.inputs[0].onChange(expectedName);
-            form.props.inputs[1].onChange(expectedAmount);
         });
     };
 
     const render = (): void => {
-        testRenderer = TestRenderer.create(<EditVariableCategoryForm {...expectedProps} />);
+        testRenderer = TestRenderer.create(<EditSavingCategoryForm {...expectedProps} />);
 
         testInstance = testRenderer.root;
     };
 
     beforeEach(() => {
         expectedProps = {
-            toggleExpanded: jest.fn(),
-            variableCategory: createRandomVariableCategory()
+            savingCategory: createRandomSavingCategory(),
+            toggleExpanded: jest.fn()
         };
-        expectedNavigation = {goBack: jest.fn()};
-        updateVariableCategory = jest.fn();
+        updateSavingCategory = jest.fn();
+        deleteSavingCategory = jest.fn();
         expectedName = chance.string();
-        expectedAmount = chance.natural().toString();
-        deleteVariableCategory = jest.fn();
+        expectedNavigation = {
+            goBack: jest.fn()
+        };
 
         Alert.alert = jest.fn();
-
         useMutation
-            .mockReturnValueOnce([updateVariableCategory, {} as MutationResult])
-            .mockReturnValueOnce([deleteVariableCategory, {} as MutationResult])
-            .mockReturnValueOnce([updateVariableCategory, {} as MutationResult])
-            .mockReturnValueOnce([deleteVariableCategory, {} as MutationResult]);
+            .mockReturnValueOnce([updateSavingCategory, {} as MutationResult])
+            .mockReturnValueOnce([deleteSavingCategory, {} as MutationResult])
+            .mockReturnValueOnce([updateSavingCategory, {} as MutationResult])
+            .mockReturnValueOnce([deleteSavingCategory, {} as MutationResult]);
         useBudgetNavigation.mockReturnValue(expectedNavigation);
 
         render();
@@ -78,41 +76,39 @@ describe('EditVariableCategoryForm', () => {
             expect(useMutation).toHaveBeenCalledTimes(2);
         });
 
-        it('should call useMutation to update the variable category', () => {
+        it('should call useMutation to update the fixed category', () => {
             setStateData();
 
             const updatedValues = {
-                amount: Number(expectedAmount),
                 name: expectedName
             };
 
-            expect(useMutation).toHaveBeenCalledWith(updateVariableCategoryMutation, {
+            expect(useMutation).toHaveBeenCalledWith(updateSavingCategoryMutation, {
                 optimisticResponse: {
-                    updateVariableCategory: {
-                        __typename: 'VariableCategory',
-                        ...expectedProps.variableCategory,
+                    updateSavingCategory: {
+                        ...expectedProps.savingCategory,
                         ...updatedValues
                     }
                 },
                 variables: {
-                    variableCategory: {
-                        userId: expectedProps.variableCategory.userId,
-                        variableCategoryId: expectedProps.variableCategory.variableCategoryId,
+                    savingCategory: {
+                        savingCategoryId: expectedProps.savingCategory.savingCategoryId,
+                        userId: expectedProps.savingCategory.userId,
                         ...updatedValues
                     }
                 }
             });
         });
 
-        it('should call useMutation to delete the variable category', () => {
-            expect(useMutation).toHaveBeenCalledWith(deleteVariableCategoryMutation, {
+        it('should useMutation to delete the fixed category', () => {
+            expect(useMutation).toHaveBeenCalledWith(deleteSavingCategoryMutation, {
                 optimisticResponse: {
-                    deleteVariableCategory: expectedProps.variableCategory.variableCategoryId
+                    deleteSavingCategory: expectedProps.savingCategory.savingCategoryId
                 },
-                update: expect.any(Function),
+                update: deleteSavingCategoryUpdate,
                 variables: {
-                    userId: expectedProps.variableCategory.userId,
-                    variableCategoryId: expectedProps.variableCategory.variableCategoryId
+                    savingCategoryId: expectedProps.savingCategory.savingCategoryId,
+                    userId: expectedProps.savingCategory.userId
                 }
             });
         });
@@ -134,18 +130,11 @@ describe('EditVariableCategoryForm', () => {
 
         it('should render a Form with the correct inputs', () => {
             const nameInput = renderedForm.props.inputs[0];
-            const amountInput = renderedForm.props.inputs[1];
 
             expect(nameInput).toEqual({
                 onChange: expect.any(Function),
                 title: 'Category Name *',
                 value: expectedName
-            });
-            expect(amountInput).toEqual({
-                keyboardType: 'number-pad',
-                onChange: expect.any(Function),
-                title: 'Category Amount *',
-                value: expectedAmount
             });
         });
 
@@ -162,7 +151,7 @@ describe('EditVariableCategoryForm', () => {
 
             expect(Alert.alert).toHaveBeenCalledTimes(1);
             expect(Alert.alert).toHaveBeenCalledWith(
-                `Delete ${expectedProps.variableCategory.name}?`,
+                `Delete ${expectedProps.savingCategory.name}?`,
                 '',
                 [
                     {text: 'Cancel'},
@@ -176,7 +165,7 @@ describe('EditVariableCategoryForm', () => {
             // @ts-ignore
             Alert.alert.mock.calls[0][2][1].onPress();
 
-            expect(deleteVariableCategory).toHaveBeenCalledTimes(1);
+            expect(deleteSavingCategory).toHaveBeenCalledTimes(1);
         });
 
         it('should pass the update button', () => {
@@ -190,7 +179,7 @@ describe('EditVariableCategoryForm', () => {
                 updateButton.onPress();
             });
 
-            expect(updateVariableCategory).toHaveBeenCalledTimes(1);
+            expect(updateSavingCategory).toHaveBeenCalledTimes(1);
             expect(expectedProps.toggleExpanded).toHaveBeenCalledTimes(1);
         });
     });

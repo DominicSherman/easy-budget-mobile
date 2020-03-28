@@ -8,21 +8,22 @@ import {
     UpdateVariableCategoryMutation,
     UpdateVariableCategoryMutationVariables
 } from '../../../autogen/UpdateVariableCategoryMutation';
-import CategoryForm from '../generic/CategoryForm';
+import Form from '../generic/Form';
 import {
     DeleteVariableCategoryMutation,
     DeleteVariableCategoryMutationVariables
 } from '../../../autogen/DeleteVariableCategoryMutation';
 import {deleteVariableCategoryUpdate} from '../../utils/update-cache-utils';
-import {getUserId} from '../../services/auth-service';
 import {easeInTransition} from '../../services/animation-service';
+import {Color} from '../../constants/color';
+import {IInputProps} from '../generic/Input';
 
 interface IEditVariableCategoryFormProps {
-    onUpdate?: () => void
+    toggleExpanded: () => void
     variableCategory: IVariableCategory
 }
 
-const EditVariableCategoryForm: FC<IEditVariableCategoryFormProps> = ({onUpdate, variableCategory}) => {
+const EditVariableCategoryForm: FC<IEditVariableCategoryFormProps> = ({toggleExpanded, variableCategory}) => {
     const {amount, name, variableCategoryId, userId} = variableCategory;
     const [updatedAmount, setUpdatedAmount] = useState(amount.toString());
     const [updatedName, setUpdatedName] = useState(name);
@@ -51,10 +52,7 @@ const EditVariableCategoryForm: FC<IEditVariableCategoryFormProps> = ({onUpdate,
     });
     const onPress = (): void => {
         updateVariableCategory();
-
-        if (onUpdate) {
-            onUpdate();
-        }
+        toggleExpanded();
     };
     const [deleteVariableCategory] = useMutation<DeleteVariableCategoryMutation, DeleteVariableCategoryMutationVariables>(deleteVariableCategoryMutation, {
         optimisticResponse: {
@@ -62,7 +60,7 @@ const EditVariableCategoryForm: FC<IEditVariableCategoryFormProps> = ({onUpdate,
         },
         update: deleteVariableCategoryUpdate,
         variables: {
-            userId: getUserId(),
+            userId: variableCategory.userId,
             variableCategoryId
         }
     });
@@ -82,19 +80,31 @@ const EditVariableCategoryForm: FC<IEditVariableCategoryFormProps> = ({onUpdate,
             ]
         );
     };
-    const disabled = JSON.stringify(originalValues) === JSON.stringify(updatedValues);
+    const disabled = JSON.stringify(originalValues) === JSON.stringify(updatedValues) || !name.length || !updatedAmount.length;
+    const inputs: IInputProps[] = [{
+        onChange: setUpdatedName,
+        title: 'Category Name *',
+        value: updatedName
+    }, {
+        keyboardType: 'number-pad',
+        onChange: setUpdatedAmount,
+        title: 'Category Amount *',
+        value: updatedAmount
+    }];
+    const buttons = [{
+        onPress: onPressDelete,
+        text: 'Delete',
+        wrapperStyle: {backgroundColor: Color.red}
+    }, {
+        disabled,
+        onPress,
+        text: 'Update'
+    }];
 
     return (
-        <CategoryForm
-            amount={updatedAmount}
-            buttonText={'Update'}
-            disabled={disabled}
-            name={updatedName}
-            onPress={onPress}
-            secondButtonText={'Delete'}
-            secondOnPress={onPressDelete}
-            setAmount={setUpdatedAmount}
-            setName={setUpdatedName}
+        <Form
+            buttons={buttons}
+            inputs={inputs}
         />
     );
 };

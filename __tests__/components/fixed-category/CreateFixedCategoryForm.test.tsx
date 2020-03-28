@@ -1,23 +1,24 @@
 import TestRenderer, {act} from 'react-test-renderer';
 import React from 'react';
 import * as reactHooks from '@apollo/react-hooks';
-import * as reactRedux from 'react-redux';
+import {MutationResult} from '@apollo/react-common';
 
 import {chance} from '../../chance';
-import {createRandomAppState} from '../../models';
 import CreateFixedCategoryForm from '../../../src/components/fixed-category/CreateFixedCategoryForm';
 import {createFixedCategoryMutation} from '../../../src/graphql/mutations';
 import {getUserId} from '../../../src/services/auth-service';
 import {createFixedCategoryUpdate} from '../../../src/utils/update-cache-utils';
-import CategoryForm from '../../../src/components/generic/CategoryForm';
+import Form from '../../../src/components/generic/Form';
+import * as hooks from '../../../src/utils/hooks';
 
 jest.mock('@apollo/react-hooks');
 jest.mock('react-redux');
 jest.mock('../../../src/services/auth-service');
+jest.mock('../../../src/utils/hooks');
 
 describe('CreateFixedCategoryForm', () => {
     const {useMutation} = reactHooks as jest.Mocked<typeof reactHooks>;
-    const {useSelector} = reactRedux as jest.Mocked<typeof reactRedux>;
+    const {useTimePeriodId} = hooks as jest.Mocked<typeof hooks>;
 
     let testRenderer,
         testInstance,
@@ -27,22 +28,14 @@ describe('CreateFixedCategoryForm', () => {
         expectedTimePeriodId,
         createFixedCategory;
 
-    const updateComponent = (): void => {
-        testRenderer.update(<CreateFixedCategoryForm />);
-
-        testInstance = testRenderer.root;
-    };
-
     const setStateData = (): void => {
-        const form = testInstance.findByType(CategoryForm);
+        const form = testInstance.findByType(Form);
 
         act(() => {
-            form.props.setName(expectedName);
-            form.props.setAmount(expectedAmount);
-            form.props.setNote(expectedNote);
+            form.props.inputs[0].onChange(expectedName);
+            form.props.inputs[1].onChange(expectedAmount);
+            form.props.inputs[2].onChange(expectedNote);
         });
-
-        updateComponent();
     };
 
     const render = (): void => {
@@ -59,23 +52,14 @@ describe('CreateFixedCategoryForm', () => {
         expectedAmount = chance.natural().toString();
         expectedNote = chance.string();
 
-        useSelector.mockReturnValue(expectedTimePeriodId);
-        // @ts-ignore
-        useMutation.mockReturnValue([createFixedCategory]);
+        useTimePeriodId.mockReturnValue(expectedTimePeriodId);
+        useMutation.mockReturnValue([createFixedCategory, {} as MutationResult]);
 
         render();
     });
 
     afterEach(() => {
         jest.resetAllMocks();
-    });
-
-    it('should call useSelector', () => {
-        const expectedState = createRandomAppState();
-
-        const actualTimePeriodId = useSelector.mock.calls[0][0](expectedState);
-
-        expect(actualTimePeriodId).toEqual(expectedState.timePeriodId);
     });
 
     it('should call useMutation', () => {
@@ -103,21 +87,53 @@ describe('CreateFixedCategoryForm', () => {
         });
     });
 
-    it('should render a CategoryForm with the correct values', () => {
-        const renderedCreateCategoryForm = testInstance.findByType(CategoryForm);
+    describe('Form', () => {
+        let renderedForm,
+            updateButton;
 
-        expect(renderedCreateCategoryForm.props.amount).toBe(expectedAmount);
-        expect(renderedCreateCategoryForm.props.name).toBe(expectedName);
-        expect(renderedCreateCategoryForm.props.note).toBe(expectedNote);
+        beforeEach(() => {
+            setStateData();
 
-        act(() => {
-            renderedCreateCategoryForm.props.onPress();
+            renderedForm = testInstance.findByType(Form);
+
+            updateButton = renderedForm.props.buttons[0];
         });
-        updateComponent();
 
-        expect(createFixedCategory).toHaveBeenCalledTimes(1);
-        expect(renderedCreateCategoryForm.props.amount).toBe('');
-        expect(renderedCreateCategoryForm.props.name).toBe('');
-        expect(renderedCreateCategoryForm.props.note).toBe('');
+        it('should render a Form with the correct inputs', () => {
+            const nameInput = renderedForm.props.inputs[0];
+            const amountInput = renderedForm.props.inputs[1];
+            const noteInput = renderedForm.props.inputs[2];
+
+            expect(nameInput).toEqual({
+                onChange: expect.any(Function),
+                title: 'Category Name *',
+                value: expectedName
+            });
+            expect(amountInput).toEqual({
+                keyboardType: 'number-pad',
+                onChange: expect.any(Function),
+                title: 'Category Amount *',
+                value: expectedAmount
+            });
+            expect(noteInput).toEqual({
+                onChange: expect.any(Function),
+                title: 'Note',
+                value: expectedNote
+            });
+        });
+
+        it('should pass the update button', () => {
+            expect(updateButton).toEqual({
+                disabled: expect.any(Boolean),
+                onPress: expect.any(Function),
+                text: 'Create'
+            });
+
+            act(() => {
+                updateButton.onPress();
+            });
+
+            expect(createFixedCategory).toHaveBeenCalledTimes(1);
+        });
     });
 });

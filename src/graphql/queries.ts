@@ -1,46 +1,14 @@
 import {gql} from 'apollo-boost';
 
-import {expenseFragment, fixedCategoryFragment, timePeriodFragment, variableCategoryFragment} from './fragments';
+import {
+    expenseFragment,
+    fixedCategoryFragment,
+    savingCategoryFragment,
+    timePeriodFragment,
+    variableCategoryFragment
+} from './fragments';
 
-export const getVariableCategoriesQuery = gql`
-    ${variableCategoryFragment}
-    
-    query GetVariableCategories($userId: String!, $timePeriodId: String!) {
-        variableCategories(userId: $userId, timePeriodId: $timePeriodId) {
-            ...IVariableCategory
-        }
-    }
-`;
-
-export const getVariableCategoryQuery = gql`
-    ${variableCategoryFragment}
-    
-    query GetVariableCategory($userId: String!, $variableCategoryId: String!) {
-        variableCategory(userId: $userId, variableCategoryId: $variableCategoryId) {
-            ...IVariableCategory
-        }
-    }
-`;
-
-export const getFixedCategoriesQuery = gql`
-    ${fixedCategoryFragment}
-    
-    query GetFixedCategories($userId: String!, $timePeriodId: String!) {
-        fixedCategories(userId: $userId, timePeriodId: $timePeriodId) {
-            ...IFixedCategory
-        }
-    }
-`;
-
-export const getFixedCategoryQuery = gql`
-    ${fixedCategoryFragment}
-    
-    query GetFixedCategory($userId: String!, $fixedCategoryId: String!) {
-        fixedCategory(userId: $userId, fixedCategoryId: $fixedCategoryId) {
-            ...IFixedCategory
-        }
-    }
-`;
+/* Expense */
 
 export const getExpensesQuery = gql`
     ${expenseFragment}
@@ -66,6 +34,76 @@ export const getExpenseQuery = gql`
     }
 `;
 
+/* Fixed Category */
+
+export const getFixedCategoriesQuery = gql`
+    ${fixedCategoryFragment}
+    
+    query GetFixedCategories($userId: String!, $timePeriodId: String!) {
+        fixedCategories(userId: $userId, timePeriodId: $timePeriodId) {
+            ...IFixedCategory
+        }
+    }
+`;
+
+/* Saving Category */
+
+export const getSavingCategoriesQuery = gql`
+    ${savingCategoryFragment}
+    
+    query GetSavingCategories($userId: String!) {
+        savingCategories(userId: $userId) {
+            ...ISavingCategory
+        }
+    }
+`;
+
+export const getSavingCategoryQuery = gql`
+    ${savingCategoryFragment}
+    
+    query GetSavingCategory($userId: String!, $savingCategoryId: String!) {
+        savingCategory(userId: $userId, savingCategoryId: $savingCategoryId) {
+            ...ISavingCategory
+        }
+    }
+`;
+
+/* Variable Category */
+
+export const getVariableCategoriesQuery = gql`
+    ${variableCategoryFragment}
+    
+    query GetVariableCategories($userId: String!, $timePeriodId: String!) {
+        variableCategories(userId: $userId, timePeriodId: $timePeriodId) {
+            ...IVariableCategory
+        }
+    }
+`;
+
+export const getVariableCategoryQuery = gql`
+    ${variableCategoryFragment}
+    
+    query GetVariableCategory($userId: String!, $variableCategoryId: String!) {
+        variableCategory(userId: $userId, variableCategoryId: $variableCategoryId) {
+            ...IVariableCategory
+        }
+    }
+`;
+
+/* Time Period */
+
+export const getActiveTimePeriodQuery = gql`
+    ${timePeriodFragment}
+    
+    query GetActiveTimePeriod($userId: String!, $date: String!) {
+        timePeriods (userId: $userId, date: $date) {
+            ...ITimePeriod
+        }
+    }
+`;
+
+/* Screen */
+
 export const homeScreenQuery = gql`
     ${timePeriodFragment}
     ${fixedCategoryFragment}
@@ -84,16 +122,6 @@ export const homeScreenQuery = gql`
         }
         fixedCategories (userId: $userId, timePeriodId: $timePeriodId) {
             ...IFixedCategory
-        }
-    }
-`;
-
-export const getActiveTimePeriodQuery = gql`
-    ${timePeriodFragment}
-    
-    query GetActiveTimePeriod($userId: String!, $date: String!) {
-        timePeriods (userId: $userId, date: $date) {
-            ...ITimePeriod
         }
     }
 `;

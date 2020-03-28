@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     }
 });
 
-interface IInput {
+export interface IInputProps {
     onChange: (text: string) => void
     title: string
     value: string | null
@@ -32,7 +32,7 @@ interface IInput {
     keyboardType?: KeyboardTypeOptions
 }
 
-const Input: FC<IInput> = ({style, title, onChange, keyboardType, value}) =>
+const Input: FC<IInputProps> = ({style, title, onChange, keyboardType, value}) =>
     <View>
         <RegularText style={styles.title}>{title}</RegularText>
         <TextInput

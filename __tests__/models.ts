@@ -10,6 +10,7 @@ import {AppStatus} from '../src/enums/AppStatus';
 import {IFixedCategory} from '../autogen/IFixedCategory';
 import {IExpense} from '../autogen/IExpense';
 import {Mode} from '../src/enums/Mode';
+import {ISavingCategory} from '../autogen/ISavingCategory';
 
 import {chance} from './chance';
 
@@ -57,6 +58,17 @@ export const createRandomFixedCategory = (fixedCategory = {}): IFixedCategory =>
     userId: chance.string(),
     ...fixedCategory
 });
+
+export const createRandomSavingCategory = (savingCategory = {}): ISavingCategory => ({
+    __typename: 'SavingCategory',
+    amount: chance.natural(),
+    name: chance.string(),
+    savingCategoryId: chance.guid(),
+    userId: chance.string(),
+    ...savingCategory
+});
+
+export const createRandomSavingCategories = (): ISavingCategory[] => chance.n(createRandomSavingCategory, chance.d6());
 
 export const createRandomFixedCategories = (): IFixedCategory[] => chance.n(createRandomFixedCategory, chance.d6());
 

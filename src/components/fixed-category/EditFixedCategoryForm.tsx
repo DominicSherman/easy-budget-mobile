@@ -8,21 +8,22 @@ import {
     UpdateFixedCategoryMutation,
     UpdateFixedCategoryMutationVariables
 } from '../../../autogen/UpdateFixedCategoryMutation';
-import CategoryForm from '../generic/CategoryForm';
+import Form from '../generic/Form';
 import {
     DeleteFixedCategoryMutation,
     DeleteFixedCategoryMutationVariables
 } from '../../../autogen/DeleteFixedCategoryMutation';
 import {deleteFixedCategoryUpdate} from '../../utils/update-cache-utils';
-import {getUserId} from '../../services/auth-service';
 import {easeInTransition} from '../../services/animation-service';
+import {Color} from '../../constants/color';
+import {IInputProps} from '../generic/Input';
 
 interface IEditFixedCategoryFormProps {
     fixedCategory: IFixedCategory
-    onUpdate?: () => void
+    toggleExpanded: () => void
 }
 
-const EditFixedCategoryForm: FC<IEditFixedCategoryFormProps> = ({fixedCategory, onUpdate}) => {
+const EditFixedCategoryForm: FC<IEditFixedCategoryFormProps> = ({fixedCategory, toggleExpanded}) => {
     const {amount, name, note, fixedCategoryId, userId} = fixedCategory;
     const [updatedAmount, setUpdatedAmount] = useState(amount.toString());
     const [updatedName, setUpdatedName] = useState(name);
@@ -54,10 +55,7 @@ const EditFixedCategoryForm: FC<IEditFixedCategoryFormProps> = ({fixedCategory, 
     });
     const onPress = (): void => {
         updateFixedCategory();
-
-        if (onUpdate) {
-            onUpdate();
-        }
+        toggleExpanded();
     };
     const [deleteFixedCategory] = useMutation<DeleteFixedCategoryMutation, DeleteFixedCategoryMutationVariables>(deleteFixedCategoryMutation, {
         optimisticResponse: {
@@ -66,7 +64,7 @@ const EditFixedCategoryForm: FC<IEditFixedCategoryFormProps> = ({fixedCategory, 
         update: deleteFixedCategoryUpdate,
         variables: {
             fixedCategoryId,
-            userId: getUserId()
+            userId
         }
     });
     const onPressDelete = (): void => {
@@ -85,21 +83,35 @@ const EditFixedCategoryForm: FC<IEditFixedCategoryFormProps> = ({fixedCategory, 
             ]
         );
     };
-    const disabled = JSON.stringify(originalValues) === JSON.stringify(updatedValues);
+    const disabled = JSON.stringify(originalValues) === JSON.stringify(updatedValues) || !name.length || !updatedAmount.length;
+    const inputs: IInputProps[] = [{
+        onChange: setUpdatedName,
+        title: 'Category Name *',
+        value: updatedName
+    }, {
+        keyboardType: 'number-pad',
+        onChange: setUpdatedAmount,
+        title: 'Category Amount *',
+        value: updatedAmount
+    }, {
+        onChange: setUpdatedNote,
+        title: 'Note',
+        value: updatedNote
+    }];
+    const buttons = [{
+        onPress: onPressDelete,
+        text: 'Delete',
+        wrapperStyle: {backgroundColor: Color.red}
+    }, {
+        disabled,
+        onPress,
+        text: 'Update'
+    }];
 
     return (
-        <CategoryForm
-            amount={updatedAmount}
-            buttonText={'Update'}
-            disabled={disabled}
-            name={updatedName}
-            note={updatedNote}
-            onPress={onPress}
-            secondButtonText={'Delete'}
-            secondOnPress={onPressDelete}
-            setAmount={setUpdatedAmount}
-            setName={setUpdatedName}
-            setNote={setUpdatedNote}
+        <Form
+            buttons={buttons}
+            inputs={inputs}
         />
     );
 };

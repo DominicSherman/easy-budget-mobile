@@ -1,7 +1,6 @@
 import React, {FC, useState} from 'react';
 import uuid from 'uuid';
 import {useMutation} from '@apollo/react-hooks';
-import {useSelector} from 'react-redux';
 
 import {createVariableCategoryMutation} from '../../graphql/mutations';
 import {getUserId} from '../../services/auth-service';
@@ -10,15 +9,16 @@ import {
     CreateVariableCategoryMutationVariables
 } from '../../../autogen/CreateVariableCategoryMutation';
 import {createVariableCategoryUpdate} from '../../utils/update-cache-utils';
-import {IAppState} from '../../redux/reducer';
-import CategoryForm from '../generic/CategoryForm';
+import Form from '../generic/Form';
+import {IInputProps} from '../generic/Input';
+import {useTimePeriodId} from '../../utils/hooks';
 
 interface ICreateVariableCategoryFormProps {
     showCreateForm?: boolean
 }
 
 const CreateVariableCategoryForm: FC<ICreateVariableCategoryFormProps> = ({showCreateForm}) => {
-    const timePeriodId = useSelector<IAppState, string>((state) => state.timePeriodId);
+    const timePeriodId = useTimePeriodId();
     const [name, setName] = useState('');
     const [amount, setAmount] = useState('');
     const variableCategory = {
@@ -46,18 +46,29 @@ const CreateVariableCategoryForm: FC<ICreateVariableCategoryFormProps> = ({showC
         setName('');
         setAmount('');
     };
+    const inputs: IInputProps[] = [{
+        onChange: setName,
+        title: 'Category Name *',
+        value: name
+    }, {
+        keyboardType: 'number-pad',
+        onChange: setAmount,
+        title: 'Category Amount *',
+        value: amount
+    }];
+    const buttons = [{
+        disabled: !name.length || !amount.length,
+        onPress,
+        text: 'Create'
+    }];
 
     return (
-        <CategoryForm
-            amount={amount}
-            buttonText={'Create'}
+        <Form
+            buttons={buttons}
             headerText={'Create Variable Category'}
-            name={name}
-            onPress={onPress}
-            setAmount={setAmount}
-            setName={setName}
-            showCreateForm={showCreateForm}
+            inputs={inputs}
             toggleable
+            visibleByDefault={showCreateForm}
         />
     );
 };

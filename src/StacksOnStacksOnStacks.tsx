@@ -8,16 +8,17 @@ import {SCREEN_WIDTH} from './constants/dimensions';
 import {AppStatus} from './enums/AppStatus';
 import LoadingView from './components/generic/LoadingView';
 import ErrorView from './components/generic/ErrorView';
-import Home from './screens/Home';
-import VariableCategories from './screens/VariableCategories';
-import FixedCategories from './screens/FixedCategories';
-import VariableCategory, {IVariableCategoryProps} from './screens/VariableCategory';
-import Expenses from './screens/Expenses';
-import Settings from './screens/Settings';
-import DateTimePicker, {IDateTimePickerProps} from './screens/DateTimePicker';
-import Expense, {IExpenseProps} from './screens/Expense';
-import Login from './screens/Login';
 import Information, {IInformationProps} from './screens/Information';
+import VariableCategory, {IVariableCategoryProps} from './screens/VariableCategory';
+import Expense, {IExpenseProps} from './screens/Expense';
+import DateTimePicker, {IDateTimePickerProps} from './screens/DateTimePicker';
+import VariableCategories from './screens/VariableCategories';
+import Login from './screens/Login';
+import Home from './screens/Home';
+import Savings from './screens/Savings';
+import Expenses from './screens/Expenses';
+import FixedCategories from './screens/FixedCategories';
+import Settings from './screens/Settings';
 
 const screenOptions = {
     headerLeft: (): JSX.Element => <HamburgerMenu />
@@ -40,6 +41,7 @@ export type ScreenParams = {
     [Route.LOADING]: {}
     [Route.ERROR]: {}
     [Route.LOGIN]: {}
+    [Route.SAVINGS]: {}
     [Route.INFORMATION]: IInformationProps
 }
 
@@ -99,6 +101,15 @@ const SettingsStack: FC = () =>
         />
     </Stack.Navigator>;
 
+const SavingsStack: FC = () =>
+    <Stack.Navigator>
+        <Stack.Screen
+            component={Savings}
+            name={Route.SAVINGS}
+            options={screenOptions}
+        />
+    </Stack.Navigator>;
+
 const DrawerNavigator: FC = () =>
     <Drawer.Navigator
         drawerType={'slide'}
@@ -119,6 +130,10 @@ const DrawerNavigator: FC = () =>
         <Drawer.Screen
             component={ExpensesStack}
             name={Route.EXPENSES}
+        />
+        <Drawer.Screen
+            component={SavingsStack}
+            name={Route.SAVINGS}
         />
         <Drawer.Screen
             component={SettingsStack}

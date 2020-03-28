@@ -3,18 +3,23 @@ import {
     createRandomExpense,
     createRandomExpenses,
     createRandomFixedCategories,
-    createRandomFixedCategory,
+    createRandomFixedCategory, createRandomSavingCategories, createRandomSavingCategory,
     createRandomVariableCategories,
     createRandomVariableCategory
 } from '../models';
 import * as reduxStore from '../../src/redux/store';
 import {
     createExpenseUpdate,
-    createFixedCategoryUpdate,
+    createFixedCategoryUpdate, createSavingCategoryUpdate,
     createVariableCategoryUpdate,
-    deleteExpenseUpdate, deleteFixedCategoryUpdate, deleteVariableCategoryUpdate
+    deleteExpenseUpdate, deleteFixedCategoryUpdate, deleteSavingCategoryUpdate, deleteVariableCategoryUpdate
 } from '../../src/utils/update-cache-utils';
-import {getExpensesQuery, getFixedCategoriesQuery, getVariableCategoriesQuery} from '../../src/graphql/queries';
+import {
+    getExpensesQuery,
+    getFixedCategoriesQuery,
+    getSavingCategoriesQuery,
+    getVariableCategoriesQuery
+} from '../../src/graphql/queries';
 import {getUserId} from '../../src/services/auth-service';
 
 jest.mock('../../src/redux/store');
@@ -164,6 +169,74 @@ describe('update cache utils', () => {
 
         it('should **not** call write query if there is not data', () => {
             createFixedCategoryUpdate(cache, {data: null});
+
+            expect(cache.writeQuery).not.toHaveBeenCalled();
+        });
+    });
+
+    describe('createSavingCategoryUpdate', () => {
+        let expectedReadQuery,
+            expectedMutationResult,
+            expectedState;
+
+        beforeEach(() => {
+            expectedMutationResult = {
+                data: {
+                    createSavingCategory: createRandomSavingCategory()
+                }
+            };
+            expectedReadQuery = {
+                savingCategories: createRandomSavingCategories()
+            };
+            expectedState = createRandomAppState();
+
+            cache.readQuery.mockReturnValue(expectedReadQuery);
+            getState.mockReturnValue(expectedState);
+        });
+
+        it('should call readQuery', () => {
+            createSavingCategoryUpdate(cache, expectedMutationResult);
+
+            expect(cache.readQuery).toHaveBeenCalledTimes(1);
+            expect(cache.readQuery).toHaveBeenCalledWith({
+                query: getSavingCategoriesQuery,
+                variables: {
+                    userId: getUserId()
+                }
+            });
+        });
+
+        it('should call write query if there is a result and data', () => {
+            createSavingCategoryUpdate(cache, expectedMutationResult);
+
+            expect(cache.writeQuery).toHaveBeenCalledTimes(1);
+            expect(cache.writeQuery).toHaveBeenCalledWith({
+                data: {
+                    savingCategories: [
+                        ...expectedReadQuery.savingCategories,
+                        {
+                            ...expectedMutationResult.data.createSavingCategory,
+                            amount: 0
+                        }
+                    ]
+                },
+                query: getSavingCategoriesQuery,
+                variables: {
+                    userId: getUserId()
+                }
+            });
+        });
+
+        it('should **not** call write query if there is not a result', () => {
+            cache.readQuery.mockReturnValue(null);
+
+            createSavingCategoryUpdate(cache, expectedMutationResult);
+
+            expect(cache.writeQuery).not.toHaveBeenCalled();
+        });
+
+        it('should **not** call write query if there is not data', () => {
+            createSavingCategoryUpdate(cache, {data: null});
 
             expect(cache.writeQuery).not.toHaveBeenCalled();
         });
@@ -466,6 +539,70 @@ describe('update cache utils', () => {
 
         it('should **not** call write query if there is not data', () => {
             deleteVariableCategoryUpdate(cache, {data: null});
+
+            expect(cache.writeQuery).not.toHaveBeenCalled();
+        });
+    });
+
+    describe('deleteSavingCategoryUpdate', () => {
+        let expectedReadQuery,
+            expectedSavingCategory,
+            expectedMutationResult,
+            expectedState;
+
+        beforeEach(() => {
+            expectedSavingCategory = createRandomSavingCategory();
+            expectedMutationResult = {
+                data: {
+                    deleteSavingCategory: expectedSavingCategory.savingCategoryId
+                }
+            };
+            expectedReadQuery = {
+                savingCategories: [...createRandomSavingCategories(), expectedSavingCategory]
+            };
+            expectedState = createRandomAppState();
+
+            cache.readQuery.mockReturnValue(expectedReadQuery);
+            getState.mockReturnValue(expectedState);
+        });
+
+        it('should call readQuery', () => {
+            deleteSavingCategoryUpdate(cache, expectedMutationResult);
+
+            expect(cache.readQuery).toHaveBeenCalledTimes(1);
+            expect(cache.readQuery).toHaveBeenCalledWith({
+                query: getSavingCategoriesQuery,
+                variables: {
+                    userId: getUserId()
+                }
+            });
+        });
+
+        it('should call write query if there is a result and data', () => {
+            deleteSavingCategoryUpdate(cache, expectedMutationResult);
+
+            expect(cache.writeQuery).toHaveBeenCalledTimes(1);
+            expect(cache.writeQuery).toHaveBeenCalledWith({
+                data: {
+                    savingCategories: expectedReadQuery.savingCategories.filter((savingCategory) => savingCategory.savingCategoryId !== expectedSavingCategory.savingCategoryId)
+                },
+                query: getSavingCategoriesQuery,
+                variables: {
+                    userId: getUserId()
+                }
+            });
+        });
+
+        it('should **not** call write query if there is not a result', () => {
+            cache.readQuery.mockReturnValue(null);
+
+            deleteSavingCategoryUpdate(cache, expectedMutationResult);
+
+            expect(cache.writeQuery).not.toHaveBeenCalled();
+        });
+
+        it('should **not** call write query if there is not data', () => {
+            deleteSavingCategoryUpdate(cache, {data: null});
 
             expect(cache.writeQuery).not.toHaveBeenCalled();
         });
