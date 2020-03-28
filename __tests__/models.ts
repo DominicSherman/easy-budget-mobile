@@ -68,6 +68,8 @@ export const createRandomSavingCategory = (savingCategory = {}): ISavingCategory
     ...savingCategory
 });
 
+export const createRandomSavingCategories = (): ISavingCategory[] => chance.n(createRandomSavingCategory, chance.d6());
+
 export const createRandomFixedCategories = (): IFixedCategory[] => chance.n(createRandomFixedCategory, chance.d6());
 
 export const createRandomExpenses = (): IExpense[] => chance.n(createRandomExpense, chance.d6());
