@@ -10,9 +10,9 @@ import {AppStatus} from '../src/enums/AppStatus';
 import {IFixedCategory} from '../autogen/IFixedCategory';
 import {IExpense} from '../autogen/IExpense';
 import {Mode} from '../src/enums/Mode';
+import {ISavingCategory} from '../autogen/ISavingCategory';
 
 import {chance} from './chance';
-import {ISavingCategory} from '../autogen/ISavingCategory';
 
 export const createError = (): ApolloError => new ApolloError({
     errorMessage: chance.string(),

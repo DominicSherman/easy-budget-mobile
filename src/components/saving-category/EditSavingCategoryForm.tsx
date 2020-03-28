@@ -14,7 +14,6 @@ import {
     DeleteSavingCategoryMutationVariables
 } from '../../../autogen/DeleteSavingCategoryMutation';
 import {deleteSavingCategoryUpdate} from '../../utils/update-cache-utils';
-import {getUserId} from '../../services/auth-service';
 import {easeInTransition} from '../../services/animation-service';
 import {Color} from '../../constants/color';
 

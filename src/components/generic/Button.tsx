@@ -39,7 +39,7 @@ const Button: FC<IButtonProps> = ({disabled, onPress, text, textStyle, loading, 
     >
         {
             loading ?
-                <ActivityIndicator/>
+                <ActivityIndicator />
                 :
                 <LargeText style={[{color: Color.white}, textStyle]}>
                     {text}
