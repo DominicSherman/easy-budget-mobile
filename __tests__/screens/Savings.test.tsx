@@ -13,6 +13,9 @@ import {sortByName} from '../../src/utils/sorting-utils';
 import * as hooks from '../../src/utils/hooks';
 import SavingCategoryItem from '../../src/components/saving-category/SavingCategoryItem';
 import {ISavingCategory} from '../../autogen/ISavingCategory';
+import EmptyScreen from '../../src/components/generic/EmptyScreen';
+import {Route} from '../../src/enums/Route';
+import {InformationRef} from '../../src/screens/Information';
 
 jest.mock('@apollo/react-hooks');
 jest.mock('react-redux');
@@ -80,5 +83,21 @@ describe('Savings', () => {
 
         expect(renderedItem.type).toBe(SavingCategoryItem);
         expect(key).toBe(expectedItem.savingCategoryId);
+
+        const renderedListEmptyComponent = renderedFlatList.props.ListEmptyComponent;
+
+        expect(renderedListEmptyComponent.type).toBe(EmptyScreen);
+        expect(renderedListEmptyComponent.props.subText).toBe('What is a saving category?');
+        expect(renderedListEmptyComponent.props.titleText).toBe('You haven\'t created any saving categories yet!');
+
+        renderedListEmptyComponent.props.onPressSubText();
+
+        expect(expectedNavigation.navigate).toHaveBeenCalledTimes(1);
+        expect(expectedNavigation.navigate).toHaveBeenCalledWith({
+            name: Route.INFORMATION,
+            params: {
+                ref: InformationRef.SAVING
+            }
+        });
     });
 });
