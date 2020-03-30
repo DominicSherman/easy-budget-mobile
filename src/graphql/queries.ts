@@ -2,7 +2,7 @@ import {gql} from 'apollo-boost';
 
 import {
     expenseFragment,
-    fixedCategoryFragment,
+    fixedCategoryFragment, incomeItemFragment,
     savingCategoryFragment,
     timePeriodFragment,
     variableCategoryFragment
@@ -58,12 +58,14 @@ export const getSavingCategoriesQuery = gql`
     }
 `;
 
-export const getSavingCategoryQuery = gql`
-    ${savingCategoryFragment}
+/* Income Item */
+
+export const getIncomeItemsQuery = gql`
+    ${incomeItemFragment}
     
-    query GetSavingCategory($userId: String!, $savingCategoryId: String!) {
-        savingCategory(userId: $userId, savingCategoryId: $savingCategoryId) {
-            ...ISavingCategory
+    query GetIncomeItems($userId: String!, $timePeriodId: String!) {
+        incomeItems(userId: $userId, timePeriodId: $timePeriodId) {
+            ...IIncomeItem
         }
     }
 `;

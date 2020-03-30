@@ -4,7 +4,7 @@ import {FetchResult} from 'apollo-boost';
 import {GetVariableCategories, GetVariableCategoriesVariables} from '../../autogen/GetVariableCategories';
 import {
     getExpensesQuery,
-    getFixedCategoriesQuery,
+    getFixedCategoriesQuery, getIncomeItemsQuery,
     getSavingCategoriesQuery,
     getVariableCategoriesQuery
 } from '../graphql/queries';
@@ -21,6 +21,8 @@ import {DeleteVariableCategoryMutation} from '../../autogen/DeleteVariableCatego
 import {CreateSavingCategoryMutation} from '../../autogen/CreateSavingCategoryMutation';
 import {GetSavingCategories, GetSavingCategoriesVariables} from '../../autogen/GetSavingCategories';
 import {DeleteSavingCategoryMutation} from '../../autogen/DeleteSavingCategoryMutation';
+import {GetIncomeItems, GetIncomeItemsVariables} from '../../autogen/GetIncomeItems';
+import {CreateIncomeItemMutation} from '../../autogen/CreateIncomeItemMutation';
 
 export const createVariableCategoryUpdate = (cache: DataProxy, mutationResult: FetchResult<CreateVariableCategoryMutation>): void => {
     const query = getVariableCategoriesQuery;
@@ -70,6 +72,34 @@ export const createSavingCategoryUpdate = (cache: DataProxy, mutationResult: Fet
         cache.writeQuery<GetSavingCategories, GetSavingCategoriesVariables>({
             data: {
                 savingCategories: updatedSavingCategories
+            },
+            query,
+            variables
+        });
+    }
+};
+
+export const createIncomeItemUpdate = (cache: DataProxy, mutationResult: FetchResult<CreateIncomeItemMutation>): void => {
+    const query = getIncomeItemsQuery;
+    const variables = {
+        timePeriodId: getState().timePeriodId,
+        userId: getUserId()
+    };
+    const {data} = mutationResult;
+    const result = cache.readQuery<GetIncomeItems, GetIncomeItemsVariables>({
+        query,
+        variables
+    });
+
+    if (result && data) {
+        const updatedIncomeItems = [...result.incomeItems, {
+            ...data.createIncomeItem,
+            amount: 0
+        }];
+
+        cache.writeQuery<GetIncomeItems, GetIncomeItemsVariables>({
+            data: {
+                incomeItems: updatedIncomeItems
             },
             query,
             variables

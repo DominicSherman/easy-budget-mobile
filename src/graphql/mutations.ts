@@ -4,7 +4,7 @@ import {
     createSavingCategoryFragment,
     createVariableCategoryFragment,
     expenseFragment,
-    fixedCategoryFragment, savingCategoryFragment,
+    fixedCategoryFragment, incomeItemFragment, savingCategoryFragment,
     timePeriodFragment
 } from './fragments';
 
@@ -89,6 +89,34 @@ export const updateSavingCategoryMutation = gql`
         updateSavingCategory(savingCategory: $savingCategory) {
             ...ISavingCategory
         }
+    }
+`;
+
+/* Income Item */
+
+export const createIncomeItemMutation = gql`
+    ${incomeItemFragment}
+    
+    mutation CreateIncomeItemMutation($incomeItem: CreateIncomeItem!) {
+        createIncomeItem(incomeItem: $incomeItem) {
+            ...IIncomeItem
+        }
+    }
+`;
+
+export const deleteIncomeItemMutation = gql`
+    mutation DeleteIncomeItemMutation($userId: String!, $incomeItemId: String!) {
+        deleteIncomeItem(userId: $userId, incomeItemId: $incomeItemId)
+    }
+`;
+
+export const updateIncomeItemMutation = gql`
+    ${incomeItemFragment}
+    
+    mutation UpdateIncomeItemMutation($incomeItem: UpdateIncomeItem!) {
+        updateIncomeItem(incomeItem: $incomeItem) {
+            ...IIncomeItem
+        }   
     }
 `;
 

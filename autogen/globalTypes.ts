@@ -26,6 +26,15 @@ export interface CreateFixedCategory {
   note?: string | null;
 }
 
+export interface CreateIncomeItem {
+  incomeItemId: string;
+  timePeriodId: string;
+  userId: string;
+  amount: number;
+  recurring: boolean;
+  name?: string | null;
+}
+
 export interface CreateSavingCategory {
   savingCategoryId: string;
   userId: string;
@@ -63,6 +72,14 @@ export interface UpdateFixedCategory {
   name?: string | null;
   paid?: boolean | null;
   note?: string | null;
+}
+
+export interface UpdateIncomeItem {
+  incomeItemId: string;
+  userId: string;
+  amount?: number | null;
+  recurring?: boolean | null;
+  name?: string | null;
 }
 
 export interface UpdateSavingCategory {

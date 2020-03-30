@@ -11,6 +11,7 @@ import {RegularText} from './Text';
 import Button, {IButtonProps} from './Button';
 import Input, {IInputProps} from './Input';
 import PlusMinusIcon from './PlusMinusIcon';
+import Toggle, {IToggleProps} from './Toggle';
 
 const styles = StyleSheet.create({
     buttonWrapper: {
@@ -29,9 +30,17 @@ const styles = StyleSheet.create({
     }
 });
 
+interface IToggleProp extends IToggleProps {
+    isToggle: true
+}
+
+interface IInputProp extends IInputProps {
+    isToggle: false
+}
+
 interface IFormProps {
     buttons: IButtonProps[]
-    inputs: IInputProps[]
+    inputs: (IToggleProp | IInputProp)[]
     headerText?: string
     toggleable?: boolean
     visibleByDefault?: boolean
@@ -82,10 +91,16 @@ const DropdownForm: FC<IFormProps> = (props) => {
             }
             {
                 inputs.map((input) =>
-                    <Input
-                        key={input.title}
-                        {...input}
-                    />
+                    input.isToggle ?
+                        <Toggle
+                            key={input.title}
+                            {...input}
+                        />
+                        :
+                        <Input
+                            key={input.title}
+                            {...input}
+                        />
                 )
             }
             <View style={styles.buttonWrapper}>
