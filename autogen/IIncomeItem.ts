@@ -13,5 +13,5 @@ export interface IIncomeItem {
   userId: string;
   amount: number;
   recurring: boolean;
-  name: string | null;
+  name: string;
 }

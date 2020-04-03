@@ -11,6 +11,7 @@ import IncomeItem from '../components/income/IncomeItem';
 import {getUserId} from '../services/auth-service';
 import EmptyScreen from '../components/generic/EmptyScreen';
 import {Route} from '../enums/Route';
+import CreateIncomeItemForm from '../components/income/CreateIncomeItemForm';
 
 const Income: FC = () => {
     const timePeriodId = useTimePeriodId();
@@ -44,7 +45,7 @@ const Income: FC = () => {
                     <EmptyScreen
                         onPressSubText={onPressSubText}
                         subText={'How does income work?'}
-                        titleText={'You don\t have any income added yet!'}
+                        titleText={'You don\'t have any income added yet!'}
                     />
                 }
                 contentContainerStyle={{paddingBottom: 50}}
@@ -54,6 +55,7 @@ const Income: FC = () => {
                     <IncomeItem incomeItem={item} />
                 }
             />
+            <CreateIncomeItemForm showCreateForm={!incomeItems.length} />
         </SafeAreaView>
     );
 };

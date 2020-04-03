@@ -4,13 +4,9 @@ import {useMutation} from '@apollo/react-hooks';
 
 import {createIncomeItemMutation} from '../../graphql/mutations';
 import {getUserId} from '../../services/auth-service';
-import {
-    CreateIncomeItemMutation,
-    CreateIncomeItemMutationVariables
-} from '../../../autogen/CreateIncomeItemMutation';
+import {CreateIncomeItemMutation, CreateIncomeItemMutationVariables} from '../../../autogen/CreateIncomeItemMutation';
 import {createIncomeItemUpdate} from '../../utils/update-cache-utils';
-import Form from '../generic/Form';
-import {IInputProps} from '../generic/Input';
+import Form, {IFormInput} from '../generic/Form';
 import {useTimePeriodId} from '../../utils/hooks';
 
 interface ICreateIncomeItemFormProps {
@@ -48,7 +44,7 @@ const CreateIncomeItemForm: FC<ICreateIncomeItemFormProps> = ({showCreateForm}) 
         setName('');
         setAmount('');
     };
-    const inputs: IInputProps[] = [{
+    const inputs: IFormInput[] = [{
         onChange: setName,
         title: 'Category Name *',
         value: name
@@ -58,10 +54,10 @@ const CreateIncomeItemForm: FC<ICreateIncomeItemFormProps> = ({showCreateForm}) 
         title: 'Category Amount *',
         value: amount
     }, {
+        checked: recurring,
         isToggle: true,
         onChange: setRecurring,
-        title: 'Recurring',
-        value: recurring
+        title: 'Recurring'
     }];
     const buttons = [{
         disabled: !name.length || !amount.length,

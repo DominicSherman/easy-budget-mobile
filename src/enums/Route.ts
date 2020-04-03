@@ -11,5 +11,6 @@ export enum Route {
     ERROR = 'Error',
     LOADING = 'Loading',
     SAVINGS = 'Savings',
-    INFORMATION = 'Information'
+    INFORMATION = 'Information',
+    INCOME = 'Income'
 }

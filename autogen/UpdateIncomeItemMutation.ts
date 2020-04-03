@@ -15,7 +15,7 @@ export interface UpdateIncomeItemMutation_updateIncomeItem {
   userId: string;
   amount: number;
   recurring: boolean;
-  name: string | null;
+  name: string;
 }
 
 export interface UpdateIncomeItemMutation {

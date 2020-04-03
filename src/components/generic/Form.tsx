@@ -35,12 +35,14 @@ interface IToggleProp extends IToggleProps {
 }
 
 interface IInputProp extends IInputProps {
-    isToggle: false
+    isToggle?: false
 }
+
+export type IFormInput = (IToggleProp | IInputProp)
 
 interface IFormProps {
     buttons: IButtonProps[]
-    inputs: (IToggleProp | IInputProp)[]
+    inputs: IFormInput[]
     headerText?: string
     toggleable?: boolean
     visibleByDefault?: boolean

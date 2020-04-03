@@ -4,7 +4,8 @@ import {FetchResult} from 'apollo-boost';
 import {GetVariableCategories, GetVariableCategoriesVariables} from '../../autogen/GetVariableCategories';
 import {
     getExpensesQuery,
-    getFixedCategoriesQuery, getIncomeItemsQuery,
+    getFixedCategoriesQuery,
+    getIncomeItemsQuery,
     getSavingCategoriesQuery,
     getVariableCategoriesQuery
 } from '../graphql/queries';
@@ -23,6 +24,7 @@ import {GetSavingCategories, GetSavingCategoriesVariables} from '../../autogen/G
 import {DeleteSavingCategoryMutation} from '../../autogen/DeleteSavingCategoryMutation';
 import {GetIncomeItems, GetIncomeItemsVariables} from '../../autogen/GetIncomeItems';
 import {CreateIncomeItemMutation} from '../../autogen/CreateIncomeItemMutation';
+import {DeleteIncomeItemMutation} from '../../autogen/DeleteIncomeItemMutation';
 
 export const createVariableCategoryUpdate = (cache: DataProxy, mutationResult: FetchResult<CreateVariableCategoryMutation>): void => {
     const query = getVariableCategoriesQuery;
@@ -281,6 +283,31 @@ export const deleteSavingCategoryUpdate = (cache: DataProxy, mutationResult: Fet
         cache.writeQuery<GetSavingCategories, GetSavingCategoriesVariables>({
             data: {
                 savingCategories: updatedCategories
+            },
+            query,
+            variables
+        });
+    }
+};
+
+export const deleteIncomeItemUpdate = (cache: DataProxy, mutationResult: FetchResult<DeleteIncomeItemMutation>): void => {
+    const query = getIncomeItemsQuery;
+    const variables = {
+        timePeriodId: getState().timePeriodId,
+        userId: getUserId()
+    };
+    const {data} = mutationResult;
+    const result = cache.readQuery<GetIncomeItems, GetIncomeItemsVariables>({
+        query,
+        variables
+    });
+
+    if (result && data) {
+        const updatedCategories = result.incomeItems.filter((category) => category.incomeItemId !== data.deleteIncomeItem);
+
+        cache.writeQuery<GetIncomeItems, GetIncomeItemsVariables>({
+            data: {
+                incomeItems: updatedCategories
             },
             query,
             variables

@@ -1,5 +1,6 @@
 import React, {FC, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
+import Feather from 'react-native-vector-icons/Feather';
 
 import {IIncomeItem} from '../../../autogen/IIncomeItem';
 import {LargeText, SmallText} from '../generic/Text';
@@ -8,12 +9,20 @@ import CardView from '../generic/CardView';
 import {easeInTransition} from '../../services/animation-service';
 import {centeredColumn} from '../../styles/shared-styles';
 import EditIcon from '../generic/EditIcon';
+import {usePrimaryColor} from '../../utils/hooks';
+
+import EditIncomeItemForm from './EditIncomeItemForm';
+import {Color} from '../../constants/color';
+import {FeatherNames} from '../../enums/IconNames';
 
 const styles = StyleSheet.create({
     amountWrapper: {
         justifyContent: 'center',
-        marginRight: 24,
+        marginRight: 12,
         width: '45%'
+    },
+    recurringWrapper: {
+        marginRight: 12
     },
     rightWrapper: {
         alignItems: 'flex-end',
@@ -39,7 +48,10 @@ const styles = StyleSheet.create({
 
 const IncomeItem: FC<{incomeItem: IIncomeItem}> = ({incomeItem}) => {
     const [expanded, setExpanded] = useState(false);
-    const {name, amount} = incomeItem;
+    const {name, amount, recurring} = incomeItem;
+    const primaryColor = usePrimaryColor();
+    const color = recurring ? Color.orange : primaryColor;
+    const iconName = recurring ? FeatherNames.CHECK_SQUARE : FeatherNames.SQUARE;
     const toggleExpanded = (): void => {
         easeInTransition();
         setExpanded(!expanded);
@@ -60,12 +72,28 @@ const IncomeItem: FC<{incomeItem: IIncomeItem}> = ({incomeItem}) => {
                         <LargeText>{`$${amount}`}</LargeText>
                         <SmallText>{'amount'}</SmallText>
                     </View>
+                    <View style={[centeredColumn, styles.recurringWrapper]}>
+                        <Feather
+                            color={color}
+                            name={iconName}
+                            size={20}
+                        />
+                        <SmallText>{'recurring'}</SmallText>
+                    </View>
                     <EditIcon
+                        color={usePrimaryColor()}
                         isOpen={expanded}
                         onPress={toggleExpanded}
                     />
                 </View>
             </View>
+            {
+                expanded &&
+                    <EditIncomeItemForm
+                        incomeItem={incomeItem}
+                        toggleExpanded={toggleExpanded}
+                    />
+            }
         </CardView>
     );
 };

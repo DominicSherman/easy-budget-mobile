@@ -32,7 +32,7 @@ export interface CreateIncomeItem {
   userId: string;
   amount: number;
   recurring: boolean;
-  name?: string | null;
+  name: string;
 }
 
 export interface CreateSavingCategory {

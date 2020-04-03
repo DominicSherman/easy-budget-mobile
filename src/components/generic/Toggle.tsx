@@ -6,11 +6,18 @@ import {FeatherNames} from '../../enums/IconNames';
 import {usePrimaryColor} from '../../utils/hooks';
 
 import {RegularText} from './Text';
+import Touchable from 'react-native-platform-touchable';
+import {Color} from '../../constants/color';
 
 const styles = StyleSheet.create({
+    text: {
+        fontWeight: '600',
+        marginTop: 4
+    },
     wrapper: {
         alignItems: 'center',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        marginTop: 16
     }
 });
 
@@ -19,23 +26,26 @@ export interface IToggleProps {
     color?: string
     onChange: (value: boolean) => void
     title: string
-    value: boolean
 }
 
 const Toggle: FC<IToggleProps> = (props) => {
     const primaryColor = usePrimaryColor();
-    const color = props.color || primaryColor;
-    const {title} = props;
+    const unselectedColor = props.color || primaryColor;
+    const {checked, onChange, title} = props;
+    const color = checked ? Color.orange : unselectedColor;
+    const onPress = (): void => onChange(!checked);
 
     return (
-        <View style={styles.wrapper}>
-            <Feather
-                color={color}
-                name={props.checked ? FeatherNames.CHECK_SQUARE : FeatherNames.SQUARE}
-                size={20}
-            />
-            <RegularText style={{marginTop: 8}}>{title}</RegularText>
-        </View>
+        <Touchable onPress={onPress}>
+            <View style={styles.wrapper}>
+                <Feather
+                    color={color}
+                    name={checked ? FeatherNames.CHECK_SQUARE : FeatherNames.SQUARE}
+                    size={28}
+                />
+                <RegularText style={styles.text}>{title}</RegularText>
+            </View>
+        </Touchable>
     );
 };
 
