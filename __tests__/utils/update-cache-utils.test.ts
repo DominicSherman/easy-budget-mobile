@@ -3,20 +3,29 @@ import {
     createRandomExpense,
     createRandomExpenses,
     createRandomFixedCategories,
-    createRandomFixedCategory, createRandomSavingCategories, createRandomSavingCategory,
+    createRandomFixedCategory,
+    createRandomIncomeItem,
+    createRandomIncomeItems,
+    createRandomSavingCategories,
+    createRandomSavingCategory,
     createRandomVariableCategories,
     createRandomVariableCategory
 } from '../models';
 import * as reduxStore from '../../src/redux/store';
 import {
     createExpenseUpdate,
-    createFixedCategoryUpdate, createSavingCategoryUpdate,
+    createFixedCategoryUpdate, createIncomeItemUpdate,
+    createSavingCategoryUpdate,
     createVariableCategoryUpdate,
-    deleteExpenseUpdate, deleteFixedCategoryUpdate, deleteSavingCategoryUpdate, deleteVariableCategoryUpdate
+    deleteExpenseUpdate,
+    deleteFixedCategoryUpdate,
+    deleteIncomeItemUpdate,
+    deleteSavingCategoryUpdate,
+    deleteVariableCategoryUpdate
 } from '../../src/utils/update-cache-utils';
 import {
     getExpensesQuery,
-    getFixedCategoriesQuery,
+    getFixedCategoriesQuery, getIncomeItemsQuery,
     getSavingCategoriesQuery,
     getVariableCategoriesQuery
 } from '../../src/graphql/queries';
@@ -102,6 +111,76 @@ describe('update cache utils', () => {
 
         it('should **not** call write query if there is not data', () => {
             createVariableCategoryUpdate(cache, {data: null});
+
+            expect(cache.writeQuery).not.toHaveBeenCalled();
+        });
+    });
+
+    describe('createIncomeItemUpdate', () => {
+        let expectedReadQuery,
+            expectedMutationResult,
+            expectedState;
+
+        beforeEach(() => {
+            expectedMutationResult = {
+                data: {
+                    createIncomeItem: createRandomIncomeItem()
+                }
+            };
+            expectedReadQuery = {
+                incomeItems: createRandomIncomeItems()
+            };
+            expectedState = createRandomAppState();
+
+            cache.readQuery.mockReturnValue(expectedReadQuery);
+            getState.mockReturnValue(expectedState);
+        });
+
+        it('should call readQuery', () => {
+            createIncomeItemUpdate(cache, expectedMutationResult);
+
+            expect(cache.readQuery).toHaveBeenCalledTimes(1);
+            expect(cache.readQuery).toHaveBeenCalledWith({
+                query: getIncomeItemsQuery,
+                variables: {
+                    timePeriodId: expectedState.timePeriodId,
+                    userId: getUserId()
+                }
+            });
+        });
+
+        it('should call write query if there is a result and data', () => {
+            createIncomeItemUpdate(cache, expectedMutationResult);
+
+            expect(cache.writeQuery).toHaveBeenCalledTimes(1);
+            expect(cache.writeQuery).toHaveBeenCalledWith({
+                data: {
+                    incomeItems: [
+                        ...expectedReadQuery.incomeItems,
+                        {
+                            ...expectedMutationResult.data.createIncomeItem,
+                            amount: 0
+                        }
+                    ]
+                },
+                query: getIncomeItemsQuery,
+                variables: {
+                    timePeriodId: expectedState.timePeriodId,
+                    userId: getUserId()
+                }
+            });
+        });
+
+        it('should **not** call write query if there is not a result', () => {
+            cache.readQuery.mockReturnValue(null);
+
+            createIncomeItemUpdate(cache, expectedMutationResult);
+
+            expect(cache.writeQuery).not.toHaveBeenCalled();
+        });
+
+        it('should **not** call write query if there is not data', () => {
+            createIncomeItemUpdate(cache, {data: null});
 
             expect(cache.writeQuery).not.toHaveBeenCalled();
         });
@@ -603,6 +682,72 @@ describe('update cache utils', () => {
 
         it('should **not** call write query if there is not data', () => {
             deleteSavingCategoryUpdate(cache, {data: null});
+
+            expect(cache.writeQuery).not.toHaveBeenCalled();
+        });
+    });
+
+    describe('deleteIncomeItemUpdate', () => {
+        let expectedReadQuery,
+            expectedIncomeItem,
+            expectedMutationResult,
+            expectedState;
+
+        beforeEach(() => {
+            expectedIncomeItem = createRandomIncomeItem();
+            expectedMutationResult = {
+                data: {
+                    deleteIncomeItem: expectedIncomeItem.incomeItemId
+                }
+            };
+            expectedReadQuery = {
+                incomeItems: [...createRandomIncomeItems(), expectedIncomeItem]
+            };
+            expectedState = createRandomAppState();
+
+            cache.readQuery.mockReturnValue(expectedReadQuery);
+            getState.mockReturnValue(expectedState);
+        });
+
+        it('should call readQuery', () => {
+            deleteIncomeItemUpdate(cache, expectedMutationResult);
+
+            expect(cache.readQuery).toHaveBeenCalledTimes(1);
+            expect(cache.readQuery).toHaveBeenCalledWith({
+                query: getIncomeItemsQuery,
+                variables: {
+                    timePeriodId: expectedState.timePeriodId,
+                    userId: getUserId()
+                }
+            });
+        });
+
+        it('should call write query if there is a result and data', () => {
+            deleteIncomeItemUpdate(cache, expectedMutationResult);
+
+            expect(cache.writeQuery).toHaveBeenCalledTimes(1);
+            expect(cache.writeQuery).toHaveBeenCalledWith({
+                data: {
+                    incomeItems: expectedReadQuery.incomeItems.filter((incomeItem) => incomeItem.incomeItemId !== expectedIncomeItem.incomeItemId)
+                },
+                query: getIncomeItemsQuery,
+                variables: {
+                    timePeriodId: expectedState.timePeriodId,
+                    userId: getUserId()
+                }
+            });
+        });
+
+        it('should **not** call write query if there is not a result', () => {
+            cache.readQuery.mockReturnValue(null);
+
+            deleteIncomeItemUpdate(cache, expectedMutationResult);
+
+            expect(cache.writeQuery).not.toHaveBeenCalled();
+        });
+
+        it('should **not** call write query if there is not data', () => {
+            deleteIncomeItemUpdate(cache, {data: null});
 
             expect(cache.writeQuery).not.toHaveBeenCalled();
         });

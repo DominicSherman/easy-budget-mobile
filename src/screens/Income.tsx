@@ -13,6 +13,8 @@ import EmptyScreen from '../components/generic/EmptyScreen';
 import {Route} from '../enums/Route';
 import CreateIncomeItemForm from '../components/income/CreateIncomeItemForm';
 
+import {InformationRef} from './Information';
+
 const Income: FC = () => {
     const timePeriodId = useTimePeriodId();
     const queryResult = useQuery<GetIncomeItems, GetIncomeItemsVariables>(getIncomeItemsQuery, {
@@ -25,7 +27,9 @@ const Income: FC = () => {
     const navigation = useBudgetNavigation();
     const onPressSubText = (): void => navigation.navigate({
         name: Route.INFORMATION,
-        params: {}
+        params: {
+            ref: InformationRef.INCOME
+        }
     });
 
     if (!timePeriodId) {
