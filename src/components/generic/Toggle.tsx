@@ -1,13 +1,13 @@
 import React, {FC} from 'react';
 import {StyleSheet, View} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
+import Touchable from 'react-native-platform-touchable';
 
 import {FeatherNames} from '../../enums/IconNames';
 import {usePrimaryColor} from '../../utils/hooks';
+import {Color} from '../../constants/color';
 
 import {RegularText} from './Text';
-import Touchable from 'react-native-platform-touchable';
-import {Color} from '../../constants/color';
 
 const styles = StyleSheet.create({
     text: {

@@ -10,10 +10,10 @@ import {easeInTransition} from '../../services/animation-service';
 import {centeredColumn} from '../../styles/shared-styles';
 import EditIcon from '../generic/EditIcon';
 import {usePrimaryColor} from '../../utils/hooks';
-
-import EditIncomeItemForm from './EditIncomeItemForm';
 import {Color} from '../../constants/color';
 import {FeatherNames} from '../../enums/IconNames';
+
+import EditIncomeItemForm from './EditIncomeItemForm';
 
 const styles = StyleSheet.create({
     amountWrapper: {
