@@ -11,7 +11,7 @@ import {
 import {createSavingCategoryUpdate} from '../../utils/update-cache-utils';
 import Form from '../generic/Form';
 
-const CreateSavingCategoryForm: FC = () => {
+const CreateSavingCategoryForm: FC<{showCreateForm?: boolean}> = ({showCreateForm}) => {
     const [name, setName] = useState('');
     const savingCategory = {
         name,
@@ -52,6 +52,7 @@ const CreateSavingCategoryForm: FC = () => {
             headerText={'Create Saving Category'}
             inputs={inputs}
             toggleable
+            visibleByDefault={showCreateForm}
         />
     );
 };

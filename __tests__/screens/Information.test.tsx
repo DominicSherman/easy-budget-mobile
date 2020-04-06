@@ -195,6 +195,35 @@ describe('Information', () => {
             });
         });
 
+        it('should call scrollTo when INCOME is passed as ref', () => {
+            const expectedValue = chance.natural();
+
+            expectedProps.route.params.ref = InformationRef.INCOME;
+
+            act(() => {
+                TestInstance.update(<Information {...expectedProps} />);
+            });
+
+            const renderedView = root.findByProps({testID: 'IncomeView'});
+
+            renderedView.props.onLayout({
+                nativeEvent: {
+                    layout: {
+                        y: expectedValue
+                    }
+                }
+            });
+            // @ts-ignore
+            setTimeout.mock.calls[1][0]();
+
+            expect(informationScrollRef!.current!.scrollTo).toHaveBeenCalledTimes(1);
+            expect(informationScrollRef!.current!.scrollTo).toHaveBeenCalledWith({
+                animated: true,
+                x: 0,
+                y: expectedValue - 16
+            });
+        });
+
         it('should **not** blow up if informationScrollRef.current is null', () => {
             // @ts-ignore
             informationScrollRef.current = null;

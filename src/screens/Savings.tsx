@@ -50,7 +50,7 @@ const Savings: FC = () => {
                     <SavingCategoryItem savingCategory={item} />
                 }
             />
-            <CreateSavingCategoryForm />
+            <CreateSavingCategoryForm showCreateForm={!savingCategories.length} />
         </SafeAreaView>
     );
 };

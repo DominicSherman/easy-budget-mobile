@@ -57,11 +57,31 @@ export interface HomeScreenQuery_fixedCategories {
   note: string | null;
 }
 
+export interface HomeScreenQuery_savingCategories {
+  __typename: "SavingCategory";
+  savingCategoryId: string;
+  userId: string;
+  name: string;
+  amount: number;
+}
+
+export interface HomeScreenQuery_incomeItems {
+  __typename: "IncomeItem";
+  incomeItemId: string;
+  timePeriodId: string;
+  userId: string;
+  amount: number;
+  recurring: boolean;
+  name: string;
+}
+
 export interface HomeScreenQuery {
   timePeriods: HomeScreenQuery_timePeriods[];
   expenses: HomeScreenQuery_expenses[];
   variableCategories: HomeScreenQuery_variableCategories[];
   fixedCategories: HomeScreenQuery_fixedCategories[];
+  savingCategories: HomeScreenQuery_savingCategories[];
+  incomeItems: HomeScreenQuery_incomeItems[];
 }
 
 export interface HomeScreenQueryVariables {

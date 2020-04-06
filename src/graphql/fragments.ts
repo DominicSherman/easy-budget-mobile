@@ -47,6 +47,19 @@ export const createSavingCategoryFragment = gql`
     }
 `;
 
+/* Income Item */
+
+export const incomeItemFragment = gql`
+    fragment IIncomeItem on IncomeItem {
+        incomeItemId
+        timePeriodId
+        userId
+        amount
+        recurring
+        name
+    }
+`;
+
 /* Variable Category */
 
 export const variableCategoryFragment = gql`
