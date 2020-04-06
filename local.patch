@@ -1,0 +1,26 @@
+diff --git a/package.json b/package.json
+index e72654d..24e1af8 100644
+--- a/package.json
++++ b/package.json
+@@ -3,7 +3,7 @@
+   "private": true,
+   "scripts": {
+     "android": "react-native run-android",
+-    "codegen": "rm -rf autogen && apollo client:codegen autogen --target=typescript --endpoint=https://us-central1-easy-budget-2f9aa.cloudfunctions.net/graphql --outputFlat",
++    "codegen": "rm -rf autogen && apollo client:codegen autogen --target=typescript --endpoint=http://localhost:5000/easy-budget-2f9aa/us-central1/graphql --outputFlat",
+     "ios": "react-native run-ios",
+     "start": "react-native start",
+     "coverage": "jest --coverage",
+diff --git a/src/graphql/apollo-client.ts b/src/graphql/apollo-client.ts
+index 760ef4d..6aca416 100644
+--- a/src/graphql/apollo-client.ts
++++ b/src/graphql/apollo-client.ts
+@@ -42,7 +42,7 @@ const cache = new InMemoryCache({
+     }
+ });
+ const link = new HttpLink({
+-    uri: PROD
++    uri: LOCAL_HOST
+ });
+ 
+ const initializeApolloClient = (): ApolloClient<any> => {
