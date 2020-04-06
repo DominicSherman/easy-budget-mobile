@@ -68,7 +68,7 @@ const CreateIncomeItemForm: FC<ICreateIncomeItemFormProps> = ({showCreateForm}) 
     return (
         <Form
             buttons={buttons}
-            headerText={'Create Fixed Category'}
+            headerText={'Create Income Item'}
             inputs={inputs}
             toggleable
             visibleByDefault={showCreateForm}

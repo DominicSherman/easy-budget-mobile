@@ -11,6 +11,8 @@ import {
     createRandomAppState,
     createRandomExpenses,
     createRandomFixedCategories,
+    createRandomIncomeItem,
+    createRandomIncomeItems,
     createRandomQueryResult,
     createRandomTimePeriods,
     createRandomUserInformation,
@@ -54,6 +56,7 @@ describe('Home', () => {
         expectedData = createRandomQueryResult({
             expenses: createRandomExpenses(),
             fixedCategories: createRandomFixedCategories(),
+            incomeItems: chance.n(createRandomIncomeItem, chance.d6(), {recurring: true}),
             timePeriods: createRandomTimePeriods(),
             variableCategories: createRandomVariableCategories()
         });
@@ -113,20 +116,27 @@ describe('Home', () => {
 
     it('should render two CardViews', () => {
         const [
+            ,
             renderedVariableCategories,
-            renderedFixedCategories
+            renderedFixedCategories,
+            renderedIncome
         ] = root.findAllByType(CardView);
 
         renderedVariableCategories.props.onPress();
         renderedFixedCategories.props.onPress();
+        renderedIncome.props.onPress();
 
-        expect(expectedNavigation.navigate).toHaveBeenCalledTimes(2);
+        expect(expectedNavigation.navigate).toHaveBeenCalledTimes(3);
         expect(expectedNavigation.navigate).toHaveBeenCalledWith({
             name: Route.VARIABLE_CATEGORIES,
             params: {}
         });
         expect(expectedNavigation.navigate).toHaveBeenCalledWith({
             name: Route.FIXED_CATEGORIES,
+            params: {}
+        });
+        expect(expectedNavigation.navigate).toHaveBeenCalledWith({
+            name: Route.INCOME,
             params: {}
         });
     });
@@ -150,5 +160,16 @@ describe('Home', () => {
         const renderedText = root.findAllByType(SmallText)[0];
 
         expect(renderedText.props.children).toBe(`${moment().diff(moment(expectedData.data.timePeriods[0].beginDate), 'd')} days done, final day today`);
+    });
+
+    it('should render additional text when there are non-recurring income items', () => {
+        expectedData.data.incomeItems = [
+            ...createRandomIncomeItems(),
+            createRandomIncomeItem({recurring: false})
+        ];
+        useQuery.mockReturnValue(expectedData);
+        render();
+
+        root.findByProps({children: 'additional'});
     });
 });
