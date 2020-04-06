@@ -1,7 +1,6 @@
 import TestRenderer from 'react-test-renderer';
 import React from 'react';
 import * as reactHooks from '@apollo/react-hooks';
-import * as reactRedux from 'react-redux';
 import {FlatList} from 'react-native';
 import {MutationResult} from '@apollo/react-common';
 
