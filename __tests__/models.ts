@@ -12,6 +12,7 @@ import {IExpense} from '../autogen/IExpense';
 import {Mode} from '../src/enums/Mode';
 import {ISavingCategory} from '../autogen/ISavingCategory';
 import {IIncomeItem} from '../autogen/IIncomeItem';
+import {IDebtCategory} from '../autogen/IDebtCategory';
 
 import {chance} from './chance';
 
@@ -69,6 +70,15 @@ export const createRandomSavingCategory = (savingCategory = {}): ISavingCategory
     ...savingCategory
 });
 
+export const createRandomDebtCategory = (debtCategory = {}): IDebtCategory => ({
+    __typename: 'DebtCategory',
+    amount: chance.natural(),
+    name: chance.string(),
+    debtCategoryId: chance.guid(),
+    userId: chance.string(),
+    ...debtCategory
+});
+
 export const createRandomIncomeItem = (incomeItem = {}): IIncomeItem => ({
     __typename: 'IncomeItem',
     amount: chance.natural(),
@@ -81,6 +91,8 @@ export const createRandomIncomeItem = (incomeItem = {}): IIncomeItem => ({
 });
 
 export const createRandomSavingCategories = (): ISavingCategory[] => chance.n(createRandomSavingCategory, chance.d6());
+
+export const createRandomDebtCategories = (): IDebtCategory[] => chance.n(createRandomDebtCategory, chance.d6());
 
 export const createRandomFixedCategories = (): IFixedCategory[] => chance.n(createRandomFixedCategory, chance.d6());
 

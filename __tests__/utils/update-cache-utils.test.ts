@@ -1,5 +1,5 @@
 import {
-    createRandomAppState,
+    createRandomAppState, createRandomDebtCategories, createRandomDebtCategory,
     createRandomExpense,
     createRandomExpenses,
     createRandomFixedCategories,
@@ -13,10 +13,11 @@ import {
 } from '../models';
 import * as reduxStore from '../../src/redux/store';
 import {
+    createDebtCategoryUpdate,
     createExpenseUpdate,
     createFixedCategoryUpdate, createIncomeItemUpdate,
     createSavingCategoryUpdate,
-    createVariableCategoryUpdate,
+    createVariableCategoryUpdate, deleteDebtCategoryUpdate,
     deleteExpenseUpdate,
     deleteFixedCategoryUpdate,
     deleteIncomeItemUpdate,
@@ -24,6 +25,7 @@ import {
     deleteVariableCategoryUpdate
 } from '../../src/utils/update-cache-utils';
 import {
+    getDebtCategoriesQuery,
     getExpensesQuery,
     getFixedCategoriesQuery, getIncomeItemsQuery,
     getSavingCategoriesQuery,
@@ -316,6 +318,74 @@ describe('update cache utils', () => {
 
         it('should **not** call write query if there is not data', () => {
             createSavingCategoryUpdate(cache, {data: null});
+
+            expect(cache.writeQuery).not.toHaveBeenCalled();
+        });
+    });
+
+    describe('createDebtCategoryUpdate', () => {
+        let expectedReadQuery,
+            expectedMutationResult,
+            expectedState;
+
+        beforeEach(() => {
+            expectedMutationResult = {
+                data: {
+                    createDebtCategory: createRandomDebtCategory()
+                }
+            };
+            expectedReadQuery = {
+                debtCategories: createRandomDebtCategories()
+            };
+            expectedState = createRandomAppState();
+
+            cache.readQuery.mockReturnValue(expectedReadQuery);
+            getState.mockReturnValue(expectedState);
+        });
+
+        it('should call readQuery', () => {
+            createDebtCategoryUpdate(cache, expectedMutationResult);
+
+            expect(cache.readQuery).toHaveBeenCalledTimes(1);
+            expect(cache.readQuery).toHaveBeenCalledWith({
+                query: getDebtCategoriesQuery,
+                variables: {
+                    userId: getUserId()
+                }
+            });
+        });
+
+        it('should call write query if there is a result and data', () => {
+            createDebtCategoryUpdate(cache, expectedMutationResult);
+
+            expect(cache.writeQuery).toHaveBeenCalledTimes(1);
+            expect(cache.writeQuery).toHaveBeenCalledWith({
+                data: {
+                    debtCategories: [
+                        ...expectedReadQuery.debtCategories,
+                        {
+                            ...expectedMutationResult.data.createDebtCategory,
+                            amount: 0
+                        }
+                    ]
+                },
+                query: getDebtCategoriesQuery,
+                variables: {
+                    userId: getUserId()
+                }
+            });
+        });
+
+        it('should **not** call write query if there is not a result', () => {
+            cache.readQuery.mockReturnValue(null);
+
+            createDebtCategoryUpdate(cache, expectedMutationResult);
+
+            expect(cache.writeQuery).not.toHaveBeenCalled();
+        });
+
+        it('should **not** call write query if there is not data', () => {
+            createDebtCategoryUpdate(cache, {data: null});
 
             expect(cache.writeQuery).not.toHaveBeenCalled();
         });
@@ -682,6 +752,70 @@ describe('update cache utils', () => {
 
         it('should **not** call write query if there is not data', () => {
             deleteSavingCategoryUpdate(cache, {data: null});
+
+            expect(cache.writeQuery).not.toHaveBeenCalled();
+        });
+    });
+
+    describe('deleteDebtCategoryUpdate', () => {
+        let expectedReadQuery,
+            expectedDebtCategory,
+            expectedMutationResult,
+            expectedState;
+
+        beforeEach(() => {
+            expectedDebtCategory = createRandomDebtCategory();
+            expectedMutationResult = {
+                data: {
+                    deleteDebtCategory: expectedDebtCategory.debtCategoryId
+                }
+            };
+            expectedReadQuery = {
+                debtCategories: [...createRandomDebtCategories(), expectedDebtCategory]
+            };
+            expectedState = createRandomAppState();
+
+            cache.readQuery.mockReturnValue(expectedReadQuery);
+            getState.mockReturnValue(expectedState);
+        });
+
+        it('should call readQuery', () => {
+            deleteDebtCategoryUpdate(cache, expectedMutationResult);
+
+            expect(cache.readQuery).toHaveBeenCalledTimes(1);
+            expect(cache.readQuery).toHaveBeenCalledWith({
+                query: getDebtCategoriesQuery,
+                variables: {
+                    userId: getUserId()
+                }
+            });
+        });
+
+        it('should call write query if there is a result and data', () => {
+            deleteDebtCategoryUpdate(cache, expectedMutationResult);
+
+            expect(cache.writeQuery).toHaveBeenCalledTimes(1);
+            expect(cache.writeQuery).toHaveBeenCalledWith({
+                data: {
+                    debtCategories: expectedReadQuery.debtCategories.filter((debtCategory) => debtCategory.debtCategoryId !== expectedDebtCategory.debtCategoryId)
+                },
+                query: getDebtCategoriesQuery,
+                variables: {
+                    userId: getUserId()
+                }
+            });
+        });
+
+        it('should **not** call write query if there is not a result', () => {
+            cache.readQuery.mockReturnValue(null);
+
+            deleteDebtCategoryUpdate(cache, expectedMutationResult);
+
+            expect(cache.writeQuery).not.toHaveBeenCalled();
+        });
+
+        it('should **not** call write query if there is not data', () => {
+            deleteDebtCategoryUpdate(cache, {data: null});
 
             expect(cache.writeQuery).not.toHaveBeenCalled();
         });

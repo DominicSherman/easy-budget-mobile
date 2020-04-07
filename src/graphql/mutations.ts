@@ -1,8 +1,9 @@
 import {gql} from 'apollo-boost';
 
 import {
+    createDebtCategoryFragment,
     createSavingCategoryFragment,
-    createVariableCategoryFragment,
+    createVariableCategoryFragment, debtCategoryFragment,
     expenseFragment,
     fixedCategoryFragment, incomeItemFragment, savingCategoryFragment,
     timePeriodFragment
@@ -64,7 +65,7 @@ export const updateFixedCategoryMutation = gql`
     }
 `;
 
-/* Saving */
+/* Saving Category */
 
 export const createSavingCategoryMutation = gql`
     ${createSavingCategoryFragment}
@@ -88,6 +89,34 @@ export const updateSavingCategoryMutation = gql`
     mutation UpdateSavingCategoryMutation($savingCategory: UpdateSavingCategory!) {
         updateSavingCategory(savingCategory: $savingCategory) {
             ...ISavingCategory
+        }
+    }
+`;
+
+/* Debt Category */
+
+export const createDebtCategoryMutation = gql`
+    ${createDebtCategoryFragment}
+    
+    mutation CreateDebtCategoryMutation($debtCategory: CreateDebtCategory!) {
+        createDebtCategory(debtCategory: $debtCategory) {
+            ...ICreateDebtCategory
+        }
+    } 
+`;
+
+export const deleteDebtCategoryMutation = gql`
+    mutation DeleteDebtCategoryMutation($userId: String!, $debtCategoryId: String!) {
+        deleteDebtCategory(userId: $userId, debtCategoryId: $debtCategoryId)
+    }
+`;
+
+export const updateDebtCategoryMutation = gql`
+    ${debtCategoryFragment}
+    
+    mutation UpdateDebtCategoryMutation($debtCategory: UpdateDebtCategory!) {
+        updateDebtCategory(debtCategory: $debtCategory) {
+            ...IDebtCategory
         }
     }
 `;

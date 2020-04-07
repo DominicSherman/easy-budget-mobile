@@ -21,15 +21,17 @@ const styles = StyleSheet.create({
 });
 
 const information = {
+    debt: 'A debt category is used to track debt for a specific category. For example, a credit card or a family member. It will keep a running total of the amount you owe in that category, and it is not tied to a time period at all.',
     expense: 'An expense is used to track how much you have spent within a variable category. Each expense is tied to a variable category, and the total of all the expenses within that category is the total spent for this time period for that category. An example of this would be a trip to the grocery store where you spent $50 would be added under your "Food" category.',
     fixed: 'A fixed category is used for expenses that do not change from month to month. For example, rent, phone bills, or insurance payments. These will simply be marked as "paid" or "unpaid".',
     income: 'Income is used to track your income per time period. Each income item can be marked as recurring, meaning it occurs every time period.',
-    saving: 'A saving category is used to track savings for a specific category. For example, an emergency fund or vacation. It will keep a running total of the amount you have saved in that category, and it not tied to a time period at all.',
+    saving: 'A saving category is used to track savings for a specific category. For example, an emergency fund or vacation. It will keep a running total of the amount you have saved in that category, and it is not tied to a time period at all.',
     timePeriod: 'A time period is the unit of time you use to track your budget. The most common is from the 1st of the month to the last of the month, but you have the flexibility to define this to be whatever you want. Once your time period ends, all of your expenses for that time period will be cleared out and all your fixed categories will go back to being "unpaid".',
     variable: 'A variable category is used for categories where you have control over how much you spend. Some examples of these are food, clothes, and entertainment. When you log expenses, you will have to choose one of these variable categories to put that expense into. The app will track how much money you have remaining in that category by subtracting the total of your expenses in it from the amount you budgeted for it.'
 };
 
 export enum InformationRef {
+    DEBT = 'debt',
     EXPENSE = 'expense',
     FIXED = 'fixed',
     INCOME = 'income',
@@ -44,6 +46,7 @@ export interface IInformationProps {
 
 const Information: IScreenFC<Route.INFORMATION> = ({route: {params: {ref}}}) => {
     const values = {
+        [InformationRef.DEBT]: 0,
         [InformationRef.EXPENSE]: 0,
         [InformationRef.FIXED]: 0,
         [InformationRef.INCOME]: 0,
@@ -111,6 +114,16 @@ const Information: IScreenFC<Route.INFORMATION> = ({route: {params: {ref}}}) => 
             </View>
             <View
                 onLayout={(event: LayoutChangeEvent): void => {
+                    values[InformationRef.INCOME] = event.nativeEvent.layout.y;
+                }}
+                style={styles.wrapper}
+                testID={'IncomeView'}
+            >
+                <TitleText>{'Income'}</TitleText>
+                <RegularText style={styles.subText}>{information.income}</RegularText>
+            </View>
+            <View
+                onLayout={(event: LayoutChangeEvent): void => {
                     values[InformationRef.SAVING] = event.nativeEvent.layout.y;
                 }}
                 style={styles.wrapper}
@@ -121,13 +134,13 @@ const Information: IScreenFC<Route.INFORMATION> = ({route: {params: {ref}}}) => 
             </View>
             <View
                 onLayout={(event: LayoutChangeEvent): void => {
-                    values[InformationRef.INCOME] = event.nativeEvent.layout.y;
+                    values[InformationRef.DEBT] = event.nativeEvent.layout.y;
                 }}
                 style={styles.wrapper}
-                testID={'IncomeView'}
+                testID={'DebtView'}
             >
-                <TitleText>{'Income'}</TitleText>
-                <RegularText style={styles.subText}>{information.income}</RegularText>
+                <TitleText>{'Debt Category'}</TitleText>
+                <RegularText style={styles.subText}>{information.debt}</RegularText>
             </View>
         </ScrollView>
     );

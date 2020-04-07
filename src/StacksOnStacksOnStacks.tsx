@@ -20,6 +20,7 @@ import Expenses from './screens/Expenses';
 import FixedCategories from './screens/FixedCategories';
 import Settings from './screens/Settings';
 import Income from './screens/Income';
+import Debt from './screens/Debt';
 
 const screenOptions = {
     headerLeft: (): JSX.Element => <HamburgerMenu />
@@ -45,6 +46,7 @@ export type ScreenParams = {
     [Route.SAVINGS]: {}
     [Route.INFORMATION]: IInformationProps
     [Route.INCOME]: {}
+    [Route.DEBT]: {}
 }
 
 const Stack = createStackNavigator<ScreenParams>();
@@ -112,6 +114,15 @@ const SavingsStack: FC = () =>
         />
     </Stack.Navigator>;
 
+const DebtStack: FC = () =>
+    <Stack.Navigator>
+        <Stack.Screen
+            component={Debt}
+            name={Route.DEBT}
+            options={screenOptions}
+        />
+    </Stack.Navigator>;
+
 const IncomeStack: FC = () =>
     <Stack.Navigator>
         <Stack.Screen
@@ -149,6 +160,10 @@ const DrawerNavigator: FC = () =>
         <Drawer.Screen
             component={SavingsStack}
             name={Route.SAVINGS}
+        />
+        <Drawer.Screen
+            component={DebtStack}
+            name={Route.DEBT}
         />
         <Drawer.Screen
             component={SettingsStack}
