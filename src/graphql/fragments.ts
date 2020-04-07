@@ -47,6 +47,25 @@ export const createSavingCategoryFragment = gql`
     }
 `;
 
+/* Debt Category */
+
+export const debtCategoryFragment = gql`
+    fragment IDebtCategory on DebtCategory {
+        debtCategoryId
+        userId
+        name 
+        amount
+    }
+`;
+
+export const createDebtCategoryFragment = gql`
+    fragment ICreateDebtCategory on DebtCategory {
+        debtCategoryId
+        userId
+        name
+    }
+`;
+
 /* Income Item */
 
 export const incomeItemFragment = gql`

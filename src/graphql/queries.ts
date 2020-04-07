@@ -1,6 +1,7 @@
 import {gql} from 'apollo-boost';
 
 import {
+    debtCategoryFragment,
     expenseFragment,
     fixedCategoryFragment, incomeItemFragment,
     savingCategoryFragment,
@@ -54,6 +55,18 @@ export const getSavingCategoriesQuery = gql`
     query GetSavingCategories($userId: String!) {
         savingCategories(userId: $userId) {
             ...ISavingCategory
+        }
+    }
+`;
+
+/* Debt Category */
+
+export const getDebtCategoriesQuery = gql`
+    ${debtCategoryFragment}
+    
+    query GetDebtCategories($userId: String!) {
+        debtCategories(userId: $userId) {
+            ...IDebtCategory
         }
     }
 `;
@@ -113,6 +126,7 @@ export const homeScreenQuery = gql`
     ${expenseFragment}
     ${savingCategoryFragment}
     ${incomeItemFragment}
+    ${debtCategoryFragment}
     
     query HomeScreenQuery($userId: String!, $date: String!, $timePeriodId: String!) {
         timePeriods (userId: $userId, date: $date) {
@@ -129,6 +143,9 @@ export const homeScreenQuery = gql`
         }
         savingCategories(userId: $userId) {
             ...ISavingCategory
+        }
+        debtCategories(userId: $userId) {
+            ...IDebtCategory
         }
         incomeItems(userId: $userId, timePeriodId: $timePeriodId) {
             ...IIncomeItem

@@ -65,6 +65,14 @@ export interface HomeScreenQuery_savingCategories {
   amount: number;
 }
 
+export interface HomeScreenQuery_debtCategories {
+  __typename: "DebtCategory";
+  debtCategoryId: string;
+  userId: string;
+  name: string;
+  amount: number;
+}
+
 export interface HomeScreenQuery_incomeItems {
   __typename: "IncomeItem";
   incomeItemId: string;
@@ -81,6 +89,7 @@ export interface HomeScreenQuery {
   variableCategories: HomeScreenQuery_variableCategories[];
   fixedCategories: HomeScreenQuery_fixedCategories[];
   savingCategories: HomeScreenQuery_savingCategories[];
+  debtCategories: HomeScreenQuery_debtCategories[];
   incomeItems: HomeScreenQuery_incomeItems[];
 }
 

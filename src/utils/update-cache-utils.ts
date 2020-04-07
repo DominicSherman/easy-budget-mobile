@@ -3,6 +3,7 @@ import {FetchResult} from 'apollo-boost';
 
 import {GetVariableCategories, GetVariableCategoriesVariables} from '../../autogen/GetVariableCategories';
 import {
+    getDebtCategoriesQuery,
     getExpensesQuery,
     getFixedCategoriesQuery,
     getIncomeItemsQuery,
@@ -25,6 +26,9 @@ import {DeleteSavingCategoryMutation} from '../../autogen/DeleteSavingCategoryMu
 import {GetIncomeItems, GetIncomeItemsVariables} from '../../autogen/GetIncomeItems';
 import {CreateIncomeItemMutation} from '../../autogen/CreateIncomeItemMutation';
 import {DeleteIncomeItemMutation} from '../../autogen/DeleteIncomeItemMutation';
+import {CreateDebtCategoryMutation} from '../../autogen/CreateDebtCategoryMutation';
+import {GetDebtCategories, GetDebtCategoriesVariables} from '../../autogen/GetDebtCategories';
+import {DeleteDebtCategoryMutation} from '../../autogen/DeleteDebtCategoryMutation';
 
 export const createVariableCategoryUpdate = (cache: DataProxy, mutationResult: FetchResult<CreateVariableCategoryMutation>): void => {
     const query = getVariableCategoriesQuery;
@@ -74,6 +78,33 @@ export const createSavingCategoryUpdate = (cache: DataProxy, mutationResult: Fet
         cache.writeQuery<GetSavingCategories, GetSavingCategoriesVariables>({
             data: {
                 savingCategories: updatedSavingCategories
+            },
+            query,
+            variables
+        });
+    }
+};
+
+export const createDebtCategoryUpdate = (cache: DataProxy, mutationResult: FetchResult<CreateDebtCategoryMutation>): void => {
+    const query = getDebtCategoriesQuery;
+    const variables = {
+        userId: getUserId()
+    };
+    const {data} = mutationResult;
+    const result = cache.readQuery<GetDebtCategories, GetDebtCategoriesVariables>({
+        query,
+        variables
+    });
+
+    if (result && data) {
+        const updatedDebtCategories = [...result.debtCategories, {
+            ...data.createDebtCategory,
+            amount: 0
+        }];
+
+        cache.writeQuery<GetDebtCategories, GetDebtCategoriesVariables>({
+            data: {
+                debtCategories: updatedDebtCategories
             },
             query,
             variables
@@ -283,6 +314,30 @@ export const deleteSavingCategoryUpdate = (cache: DataProxy, mutationResult: Fet
         cache.writeQuery<GetSavingCategories, GetSavingCategoriesVariables>({
             data: {
                 savingCategories: updatedCategories
+            },
+            query,
+            variables
+        });
+    }
+};
+
+export const deleteDebtCategoryUpdate = (cache: DataProxy, mutationResult: FetchResult<DeleteDebtCategoryMutation>): void => {
+    const query = getDebtCategoriesQuery;
+    const variables = {
+        userId: getUserId()
+    };
+    const {data} = mutationResult;
+    const result = cache.readQuery<GetDebtCategories, GetDebtCategoriesVariables>({
+        query,
+        variables
+    });
+
+    if (result && data) {
+        const updatedCategories = result.debtCategories.filter((category) => category.debtCategoryId !== data.deleteDebtCategory);
+
+        cache.writeQuery<GetDebtCategories, GetDebtCategoriesVariables>({
+            data: {
+                debtCategories: updatedCategories
             },
             query,
             variables

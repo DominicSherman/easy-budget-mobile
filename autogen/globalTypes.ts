@@ -6,6 +6,12 @@
 // START Enums and Input Objects
 //==============================================================
 
+export interface CreateDebtCategory {
+  debtCategoryId: string;
+  userId: string;
+  name: string;
+}
+
 export interface CreateExpense {
   expenseId: string;
   userId: string;
@@ -54,6 +60,13 @@ export interface CreateVariableCategory {
   userId: string;
   amount: number;
   name: string;
+}
+
+export interface UpdateDebtCategory {
+  debtCategoryId: string;
+  userId: string;
+  name?: string | null;
+  amount?: number | null;
 }
 
 export interface UpdateExpense {
