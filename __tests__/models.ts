@@ -73,8 +73,8 @@ export const createRandomSavingCategory = (savingCategory = {}): ISavingCategory
 export const createRandomDebtCategory = (debtCategory = {}): IDebtCategory => ({
     __typename: 'DebtCategory',
     amount: chance.natural(),
-    name: chance.string(),
     debtCategoryId: chance.guid(),
+    name: chance.string(),
     userId: chance.string(),
     ...debtCategory
 });

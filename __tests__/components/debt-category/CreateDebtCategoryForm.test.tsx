@@ -53,8 +53,8 @@ describe('CreateDebtCategoryForm', () => {
 
     it('should call useMutation', () => {
         const debtCategory = {
-            name: expectedName,
             debtCategoryId: expect.any(String),
+            name: expectedName,
             userId: getUserId()
         };
 

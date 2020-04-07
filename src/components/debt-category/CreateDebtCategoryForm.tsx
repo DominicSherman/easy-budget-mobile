@@ -14,8 +14,8 @@ import Form from '../generic/Form';
 const CreateDebtCategoryForm: FC<{showCreateForm?: boolean}> = ({showCreateForm}) => {
     const [name, setName] = useState('');
     const debtCategory = {
-        name,
         debtCategoryId: uuid.v4(),
+        name,
         userId: getUserId()
     };
 
