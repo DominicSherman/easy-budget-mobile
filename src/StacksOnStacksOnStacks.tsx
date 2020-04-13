@@ -21,9 +21,15 @@ import FixedCategories from './screens/FixedCategories';
 import Settings from './screens/Settings';
 import Income from './screens/Income';
 import Debt from './screens/Debt';
+import {textStyles} from './styles/text-styles';
+import {Color} from './constants/color';
 
 const screenOptions = {
-    headerLeft: (): JSX.Element => <HamburgerMenu />
+    headerLeft: (): JSX.Element => <HamburgerMenu />,
+    headerTitleStyle: {
+        ...textStyles.title,
+        color: Color.darkBlue
+    }
 };
 const modalOptions = {
     headerLeft: (): JSX.Element => <CloseIcon />,

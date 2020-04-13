@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     wrapper: {
         alignItems: 'center',
         borderColor: Color.lightGrey,
-        borderRadius: 4,
+        borderRadius: 12,
         borderWidth: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',

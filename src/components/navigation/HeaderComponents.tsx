@@ -6,6 +6,7 @@ import Touchable from 'react-native-platform-touchable';
 import {FeatherNames} from '../../enums/IconNames';
 import {usePrimaryColor, useBudgetNavigation} from '../../utils/hooks';
 import {Route} from '../../enums/Route';
+import {Color} from '../../constants/color';
 
 const iconStyle = {
     marginHorizontal: 16
@@ -29,7 +30,7 @@ const Icon: FC<IIcon> = ({name, onPress}) =>
         onPress={onPress}
     >
         <Feather
-            color={usePrimaryColor()}
+            color={Color.orange}
             name={name}
             size={25}
             style={iconStyle}

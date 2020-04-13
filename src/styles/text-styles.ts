@@ -2,15 +2,16 @@ import {StyleSheet} from 'react-native';
 
 export const textStyles = StyleSheet.create({
     large: {
-        fontSize: 22,
-        fontWeight: '600'
+        fontFamily: 'Montserrat-Black',
+        fontSize: 18,
+        fontWeight: '700'
     },
     medium: {
         fontSize: 20,
         fontWeight: '400'
     },
     regular: {
-        fontSize: 18,
+        fontSize: 16,
         fontWeight: '400'
     },
     small: {
@@ -18,7 +19,8 @@ export const textStyles = StyleSheet.create({
         fontWeight: '400'
     },
     title: {
-        fontSize: 26,
+        fontFamily: 'Montserrat-Black',
+        fontSize: 20,
         fontWeight: '700'
     }
 });

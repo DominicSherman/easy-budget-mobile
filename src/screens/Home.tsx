@@ -14,10 +14,11 @@ import NoActiveTimePeriod from '../components/time-period/NoActiveTimePeriod';
 import {IAppState} from '../redux/reducer';
 import {HomeScreenQuery, HomeScreenQueryVariables} from '../../autogen/HomeScreenQuery';
 import CardView from '../components/generic/CardView';
-import {SCREEN_WIDTH} from '../constants/dimensions';
+import {SCREEN_HEIGHT, SCREEN_WIDTH} from '../constants/dimensions';
 import {Route} from '../enums/Route';
 import Button from '../components/generic/Button';
 import {useBudgetNavigation} from '../utils/hooks';
+import {Color} from '../constants/color';
 
 const styles = StyleSheet.create({
     bottomWrapper: {
@@ -44,7 +45,7 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start',
         flexDirection: 'column',
         marginHorizontal: 8,
-        width: SCREEN_WIDTH - 16
+        width: SCREEN_WIDTH - 32
     }
 });
 
@@ -94,21 +95,44 @@ const Home: React.FC = () => {
                     paddingBottom: 16
                 }}
             >
-                <LargeText style={{marginTop: 16}}>
+                <View
+                    style={{
+                        backgroundColor: Color.blue,
+                        borderBottomLeftRadius: 50,
+                        borderBottomRightRadius: 50,
+                        height: SCREEN_HEIGHT * 0.22,
+                        position: 'absolute',
+                        top: 0,
+                        width: SCREEN_WIDTH,
+                        zIndex: -1
+                    }}
+                />
+                <LargeText
+                    color={Color.white}
+                    style={{marginTop: 16}}
+                >
                     {`${formatTimePeriod(activeTimePeriod.beginDate)} - ${formatTimePeriod(moment(activeTimePeriod.endDate).toISOString())} (${moment(activeTimePeriod.endDate).diff(moment(activeTimePeriod.beginDate), 'd')} days)`}
                 </LargeText>
-                <SmallText>
+                <SmallText
+                    color={Color.white}
+                    style={{marginTop: 8}}
+                >
                     {`${moment().diff(moment(activeTimePeriod.beginDate), 'd')} days done, ${daysRemainingText}`}
                 </SmallText>
-                <TitleText style={{marginTop: 16}}>
-                    {`Welcome, ${userInformation.user.givenName}! 🎉`}
+                <TitleText
+                    color={Color.white}
+                    style={{marginTop: 16}}
+                >
+                    {`Welcome, ${userInformation.user.givenName}!`}
                 </TitleText>
-                <View style={{marginTop: 16}}>
+                <View style={{marginTop: 8}}>
                     <CardView
+                        disabled
+                        shadow
                         style={styles.wrapper}
                     >
                         <View style={styles.titleWrapper}>
-                            <LargeText>{'This Month'}</LargeText>
+                            <LargeText color={Color.darkBlue}>{'This Month'}</LargeText>
                         </View>
                         <View style={styles.bottomWrapper}>
                             <View style={styles.verticalCenter}>
@@ -133,7 +157,7 @@ const Home: React.FC = () => {
                         </View>
                     </CardView>
                 </View>
-                <View style={{marginTop: 16}}>
+                <View style={{marginTop: 8}}>
                     <CardView
                         onPress={(): void => {
                             navigation.navigate({
@@ -145,7 +169,7 @@ const Home: React.FC = () => {
                         style={styles.wrapper}
                     >
                         <View style={styles.titleWrapper}>
-                            <LargeText>{'Variable Categories'}</LargeText>
+                            <LargeText color={Color.darkBlue}>{'Variable Categories'}</LargeText>
                         </View>
                         <View style={styles.bottomWrapper}>
                             <View style={styles.verticalCenter}>
@@ -165,7 +189,7 @@ const Home: React.FC = () => {
                         </View>
                     </CardView>
                 </View>
-                <View style={{marginTop: 16}}>
+                <View style={{marginTop: 8}}>
                     <CardView
                         onPress={(): void => {
                             navigation.navigate({
@@ -177,7 +201,7 @@ const Home: React.FC = () => {
                         style={styles.wrapper}
                     >
                         <View style={styles.titleWrapper}>
-                            <LargeText>{'Fixed Categories'}</LargeText>
+                            <LargeText color={Color.darkBlue}>{'Fixed Categories'}</LargeText>
                         </View>
                         <View style={styles.bottomWrapper}>
                             <View style={styles.verticalCenter}>
@@ -197,7 +221,7 @@ const Home: React.FC = () => {
                         </View>
                     </CardView>
                 </View>
-                <View style={{marginVertical: 16}}>
+                <View style={{marginTop: 8}}>
                     <CardView
                         onPress={(): void => {
                             navigation.navigate({
@@ -209,7 +233,7 @@ const Home: React.FC = () => {
                         style={styles.wrapper}
                     >
                         <View style={styles.titleWrapper}>
-                            <LargeText>{'Income'}</LargeText>
+                            <LargeText color={Color.darkBlue}>{'Income'}</LargeText>
                         </View>
                         {
                             nonRecurringItems.length ?
@@ -249,6 +273,7 @@ const Home: React.FC = () => {
                         });
                     }}
                     text={'Create Expense'}
+                    wrapperStyle={{marginTop: 48}}
                 />
             </ScrollView>
         </SafeAreaView>

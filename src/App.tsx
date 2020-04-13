@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {DefaultTheme, NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer} from '@react-navigation/native';
 import {ApolloProvider} from '@apollo/react-hooks';
 import {useSelector} from 'react-redux';
 
@@ -13,8 +13,11 @@ import {IAppState} from './redux/reducer';
 
 const LightThemeObject = {
     colors: {
-        ...DefaultTheme.colors,
-        background: 'rgb(255, 255, 255)'
+        background: Color.lightGrey,
+        border: Color.white,
+        card: Color.white,
+        primary: Color.darkFont,
+        text: Color.darkFont
     },
     dark: false
 };
