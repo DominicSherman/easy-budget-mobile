@@ -31,7 +31,7 @@ const DeleteFixedCategoryButton: FC<{fixedCategoryId: string}> = ({fixedCategory
             onPress={onPressDelete}
             text={'Delete'}
             wrapperStyle={{
-                backgroundColor: Color.red,
+                backgroundColor: Color.peach,
                 marginTop: 32
             }}
         />

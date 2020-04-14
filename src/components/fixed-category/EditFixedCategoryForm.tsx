@@ -101,7 +101,7 @@ const EditFixedCategoryForm: FC<IEditFixedCategoryFormProps> = ({fixedCategory, 
     const buttons = [{
         onPress: onPressDelete,
         text: 'Delete',
-        wrapperStyle: {backgroundColor: Color.red}
+        wrapperStyle: {backgroundColor: Color.peach}
     }, {
         disabled,
         onPress,

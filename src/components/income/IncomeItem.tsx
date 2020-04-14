@@ -50,7 +50,7 @@ const IncomeItem: FC<{incomeItem: IIncomeItem}> = ({incomeItem}) => {
     const [expanded, setExpanded] = useState(false);
     const {name, amount, recurring} = incomeItem;
     const primaryColor = usePrimaryColor();
-    const color = recurring ? Color.orange : primaryColor;
+    const color = recurring ? Color.sunflower : primaryColor;
     const iconName = recurring ? FeatherNames.CHECK_SQUARE : FeatherNames.SQUARE;
     const toggleExpanded = (): void => {
         easeInTransition();

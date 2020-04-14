@@ -5,7 +5,7 @@ import {useSelector} from 'react-redux';
 import {User} from '@react-native-community/google-signin';
 import moment from 'moment';
 
-import {LargeText, RegularText, SmallText, TitleText} from '../components/generic/Text';
+import {FontWeight, LargeText, RegularText, SmallText, TinyText, TitleText} from '../components/generic/Text';
 import {getUserId} from '../services/auth-service';
 import {homeScreenQuery} from '../graphql/queries';
 import {formatTimePeriod, getRoundedDate} from '../services/moment-service';
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flexDirection: 'row',
         justifyContent: 'space-evenly',
-        marginTop: 16,
+        marginTop: 8,
         width: '100%'
     },
     rowCenter: {
@@ -33,16 +33,18 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     titleWrapper: {
+        borderBottomWidth: 2,
         flexDirection: 'row',
         justifyContent: 'center',
-        width: '100%'
+        paddingBottom: 8,
+        width: '80%'
     },
     verticalCenter: {
         alignItems: 'center',
         flexDirection: 'column'
     },
     wrapper: {
-        alignItems: 'flex-start',
+        alignItems: 'center',
         flexDirection: 'column',
         marginHorizontal: 8,
         width: SCREEN_WIDTH - 32
@@ -97,7 +99,7 @@ const Home: React.FC = () => {
             >
                 <View
                     style={{
-                        backgroundColor: Color.blue,
+                        backgroundColor: Color.shockBlue,
                         borderBottomLeftRadius: 50,
                         borderBottomRightRadius: 50,
                         height: SCREEN_HEIGHT * 0.22,
@@ -107,12 +109,13 @@ const Home: React.FC = () => {
                         zIndex: -1
                     }}
                 />
-                <LargeText
+                <RegularText
                     color={Color.white}
+                    fontWeight={FontWeight.BOLD}
                     style={{marginTop: 16}}
                 >
                     {`${formatTimePeriod(activeTimePeriod.beginDate)} - ${formatTimePeriod(moment(activeTimePeriod.endDate).toISOString())} (${moment(activeTimePeriod.endDate).diff(moment(activeTimePeriod.beginDate), 'd')} days)`}
-                </LargeText>
+                </RegularText>
                 <SmallText
                     color={Color.white}
                     style={{marginTop: 8}}
@@ -131,28 +134,28 @@ const Home: React.FC = () => {
                         shadow
                         style={styles.wrapper}
                     >
-                        <View style={styles.titleWrapper}>
-                            <LargeText color={Color.darkBlue}>{'This Month'}</LargeText>
+                        <View style={[styles.titleWrapper, {borderBottomColor: Color.lightGreen}]}>
+                            <LargeText color={Color.darkNavy}>{'This Month'}</LargeText>
                         </View>
                         <View style={styles.bottomWrapper}>
                             <View style={styles.verticalCenter}>
                                 <View style={styles.rowCenter}>
                                     <RegularText>{`$${incomeTotal}`}</RegularText>
-                                    <SmallText style={{marginLeft: 8}}>{'income'}</SmallText>
+                                    <TinyText style={{marginLeft: 8}}>{'income'}</TinyText>
                                 </View>
                                 <View style={styles.rowCenter}>
                                     <RegularText>{`- $${variableCategoriesTotal}`}</RegularText>
-                                    <SmallText style={{marginLeft: 8}}>{'budgeted'}</SmallText>
+                                    <TinyText style={{marginLeft: 8}}>{'budgeted'}</TinyText>
                                 </View>
                                 <View style={styles.rowCenter}>
                                     <RegularText>{`- $${fixedCategoriesTotal}`}</RegularText>
-                                    <SmallText style={{marginLeft: 8}}>{'fixed categories'}</SmallText>
+                                    <TinyText style={{marginLeft: 8}}>{'fixed categories'}</TinyText>
                                 </View>
                             </View>
                             <RegularText>{'='}</RegularText>
                             <View style={styles.verticalCenter}>
                                 <RegularText>{`$${incomeTotal - variableCategoriesTotal - fixedCategoriesTotal}`}</RegularText>
-                                <SmallText>{'remaining'}</SmallText>
+                                <TinyText>{'remaining'}</TinyText>
                             </View>
                         </View>
                     </CardView>
@@ -168,23 +171,23 @@ const Home: React.FC = () => {
                         shadow
                         style={styles.wrapper}
                     >
-                        <View style={styles.titleWrapper}>
-                            <LargeText color={Color.darkBlue}>{'Variable Categories'}</LargeText>
+                        <View style={[styles.titleWrapper, {borderBottomColor: Color.shockBlue}]}>
+                            <LargeText color={Color.darkNavy}>{'Variable Categories'}</LargeText>
                         </View>
                         <View style={styles.bottomWrapper}>
                             <View style={styles.verticalCenter}>
                                 <RegularText>{`$${variableCategoriesTotal}`}</RegularText>
-                                <SmallText>{'budgeted'}</SmallText>
+                                <TinyText>{'budgeted'}</TinyText>
                             </View>
                             <RegularText>{'-'}</RegularText>
                             <View style={styles.verticalCenter}>
                                 <RegularText>{`$${expensesTotal}`}</RegularText>
-                                <SmallText>{'spent'}</SmallText>
+                                <TinyText>{'spent'}</TinyText>
                             </View>
                             <RegularText>{'='}</RegularText>
                             <View style={styles.verticalCenter}>
                                 <RegularText>{`$${variableCategoriesTotal - expensesTotal}`}</RegularText>
-                                <SmallText>{'remaining'}</SmallText>
+                                <TinyText>{'remaining'}</TinyText>
                             </View>
                         </View>
                     </CardView>
@@ -200,23 +203,23 @@ const Home: React.FC = () => {
                         shadow
                         style={styles.wrapper}
                     >
-                        <View style={styles.titleWrapper}>
-                            <LargeText color={Color.darkBlue}>{'Fixed Categories'}</LargeText>
+                        <View style={[styles.titleWrapper, {borderBottomColor: Color.salmon}]}>
+                            <LargeText color={Color.darkNavy}>{'Fixed Categories'}</LargeText>
                         </View>
                         <View style={styles.bottomWrapper}>
                             <View style={styles.verticalCenter}>
                                 <RegularText>{`$${fixedCategoriesTotal}`}</RegularText>
-                                <SmallText>{'to pay'}</SmallText>
+                                <TinyText>{'to pay'}</TinyText>
                             </View>
                             <RegularText>{'-'}</RegularText>
                             <View style={styles.verticalCenter}>
                                 <RegularText>{`$${fixedExpensesTotal}`}</RegularText>
-                                <SmallText>{'paid'}</SmallText>
+                                <TinyText>{'paid'}</TinyText>
                             </View>
                             <RegularText>{'='}</RegularText>
                             <View style={styles.verticalCenter}>
                                 <RegularText>{`$${fixedCategoriesTotal - fixedExpensesTotal}`}</RegularText>
-                                <SmallText>{'still to pay'}</SmallText>
+                                <TinyText>{'still to pay'}</TinyText>
                             </View>
                         </View>
                     </CardView>
@@ -232,25 +235,25 @@ const Home: React.FC = () => {
                         shadow
                         style={styles.wrapper}
                     >
-                        <View style={styles.titleWrapper}>
-                            <LargeText color={Color.darkBlue}>{'Income'}</LargeText>
+                        <View style={[styles.titleWrapper, {borderBottomColor: Color.sunflower}]}>
+                            <LargeText color={Color.darkNavy}>{'Income'}</LargeText>
                         </View>
                         {
                             nonRecurringItems.length ?
                                 <View style={styles.bottomWrapper}>
                                     <View style={styles.verticalCenter}>
                                         <RegularText>{`$${calculateTotal(recurringItems)}`}</RegularText>
-                                        <SmallText>{'per time period'}</SmallText>
+                                        <TinyText>{'per time period'}</TinyText>
                                     </View>
                                     <RegularText>{'+'}</RegularText>
                                     <View style={styles.verticalCenter}>
                                         <RegularText>{`$${calculateTotal(nonRecurringItems)}`}</RegularText>
-                                        <SmallText>{'additional'}</SmallText>
+                                        <TinyText>{'additional'}</TinyText>
                                     </View>
                                     <RegularText>{'='}</RegularText>
                                     <View style={styles.verticalCenter}>
                                         <RegularText>{`$${incomeTotal}`}</RegularText>
-                                        <SmallText>{'total'}</SmallText>
+                                        <TinyText>{'total'}</TinyText>
                                     </View>
                                 </View>
                                 :

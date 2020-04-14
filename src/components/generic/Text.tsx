@@ -1,60 +1,145 @@
-import React, {FC, ReactNode} from 'react';
-import {StyleProp, Text, TextStyle} from 'react-native';
+import React, {FC} from 'react';
+import {StyleProp, Text, TextProps, TextStyle} from 'react-native';
 
 import {textStyles} from '../../styles/text-styles';
-import {useTextColor} from '../../utils/hooks';
+import {useSecondaryTextColor, useTextColor} from '../../utils/hooks';
 import {Color} from '../../constants/color';
 
-interface IDefaultText {
+const DEFAULT_FONT_MULTIPLIER = 1.5;
+
+export enum FontWeight {
+    REGULAR = 'regular',
+    MEDIUM = 'medium',
+    BOLD = 'bold',
+    EXTRA_BOLD = 'extraBold'
+}
+
+interface ITextProps extends TextProps {
     color?: Color
-    children: ReactNode
+    fontWeight?: FontWeight
     style?: StyleProp<TextStyle>
 }
 
-export const SmallText: FC<IDefaultText> = ({style, children, color}) =>
+const getFontWeightSettings = (weight?: FontWeight, defaultWeight = FontWeight.REGULAR): object => {
+    const weightToStyles = {
+        [FontWeight.REGULAR]: {fontWeight: '400'},
+        [FontWeight.MEDIUM]: {fontWeight: '500'},
+        [FontWeight.BOLD]: {fontWeight: '600'},
+        [FontWeight.EXTRA_BOLD]: {fontWeight: '700'}
+    };
+
+    if (weight) {
+        return weightToStyles[weight];
+    }
+
+    return weightToStyles[defaultWeight];
+};
+
+const getStyles = (style): TextStyle => {
+    if (Array.isArray(style)) {
+        let styles = {};
+
+        style.forEach((s) => {
+            if (s) {
+                styles = {
+                    ...styles,
+                    ...s
+                };
+            }
+        });
+
+        return styles;
+    }
+
+    return style;
+};
+
+export const TinyText: FC<ITextProps> = ({style, color, ...props}) =>
     <Text
-        style={[
-            textStyles.small,
-            useTextColor(),
-            style,
-            color && {color}
-        ]}
+        maxFontSizeMultiplier={DEFAULT_FONT_MULTIPLIER}
+        style={{
+            ...textStyles.tiny,
+            ...getFontWeightSettings(props.fontWeight),
+            ...useSecondaryTextColor(),
+            ...color && {color},
+            ...getStyles(style)
+        }}
+        {...props}
     >
-        {children}
+        {props.children}
     </Text>;
 
-export const RegularText: FC<IDefaultText> = ({style, children, color}) =>
+export const SmallText: FC<ITextProps> = ({style, color, ...props}) =>
     <Text
-        style={[
-            textStyles.regular,
-            useTextColor(),
-            style,
-            color && {color}
-        ]}
+        maxFontSizeMultiplier={DEFAULT_FONT_MULTIPLIER}
+        style={{
+            ...textStyles.small,
+            ...getFontWeightSettings(props.fontWeight),
+            ...useTextColor(),
+            ...color && {color},
+            ...getStyles(style)
+        }}
+        {...props}
     >
-        {children}
+        {props.children}
     </Text>;
 
-export const LargeText: FC<IDefaultText> = ({style, children, color}) =>
+export const RegularText: FC<ITextProps> = ({style, color, ...props}) =>
     <Text
-        style={[
-            textStyles.large,
-            useTextColor(),
-            style,
-            color && {color}
-        ]}
+        maxFontSizeMultiplier={DEFAULT_FONT_MULTIPLIER}
+        style={{
+            ...textStyles.regular,
+            ...getFontWeightSettings(props.fontWeight),
+            ...useTextColor(),
+            ...color && {color},
+            ...getStyles(style)
+        }}
+        {...props}
     >
-        {children}
+        {props.children}
     </Text>;
 
-export const TitleText: FC<IDefaultText> = ({style, children, color}) =>
+export const RegularMontserratText: FC<ITextProps> = ({style, color, ...props}) =>
     <Text
-        style={[
-            textStyles.title,
-            useTextColor(),
-            style,
-            color && {color}
-        ]}
+        maxFontSizeMultiplier={DEFAULT_FONT_MULTIPLIER}
+        style={{
+            ...textStyles.regularMontserrat,
+            ...getFontWeightSettings(props.fontWeight),
+            ...useTextColor(),
+            ...color && {color},
+            ...getStyles(style)
+        }}
+        {...props}
     >
-        {children}
+        {props.children}
+    </Text>;
+
+export const LargeText: FC<ITextProps> = ({style, color, ...props}) =>
+    <Text
+        maxFontSizeMultiplier={DEFAULT_FONT_MULTIPLIER}
+        style={{
+            ...textStyles.large,
+            ...getFontWeightSettings(props.fontWeight, FontWeight.BOLD),
+            ...useTextColor(),
+            ...color && {color},
+            ...getStyles(style)
+        }}
+        {...props}
+    >
+        {props.children}
+    </Text>;
+
+export const TitleText: FC<ITextProps> = ({style, color, ...props}) =>
+    <Text
+        maxFontSizeMultiplier={DEFAULT_FONT_MULTIPLIER}
+        style={{
+            ...textStyles.title,
+            ...getFontWeightSettings(props.fontWeight, FontWeight.EXTRA_BOLD),
+            ...useTextColor(),
+            ...color && {color},
+            ...getStyles(style)
+        }}
+        {...props}
+    >
+        {props.children}
     </Text>;

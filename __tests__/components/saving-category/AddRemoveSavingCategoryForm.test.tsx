@@ -140,7 +140,7 @@ describe('AddRemoveSavingCategoryForm', () => {
             expect(cancelButton).toEqual({
                 onPress: expect.any(Function),
                 text: 'Cancel',
-                wrapperStyle: {backgroundColor: Color.red}
+                wrapperStyle: {backgroundColor: Color.peach}
             });
 
             act(() => {

@@ -164,7 +164,7 @@ describe('EditIncomeItemForm', () => {
             expect(deleteButton).toEqual({
                 onPress: expect.any(Function),
                 text: 'Delete',
-                wrapperStyle: {backgroundColor: Color.red}
+                wrapperStyle: {backgroundColor: Color.peach}
             });
 
             act(() => {

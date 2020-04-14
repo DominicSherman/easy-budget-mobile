@@ -31,7 +31,7 @@ const DeleteVariableCategoryButton: FC<{variableCategoryId: string}> = ({variabl
             onPress={onPressDelete}
             text={'Delete'}
             wrapperStyle={{
-                backgroundColor: Color.red,
+                backgroundColor: Color.peach,
                 marginVertical: 32
             }}
         />

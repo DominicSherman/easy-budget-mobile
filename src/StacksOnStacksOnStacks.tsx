@@ -28,7 +28,7 @@ const screenOptions = {
     headerLeft: (): JSX.Element => <HamburgerMenu />,
     headerTitleStyle: {
         ...textStyles.title,
-        color: Color.darkBlue
+        color: Color.darkNavy
     }
 };
 const modalOptions = {

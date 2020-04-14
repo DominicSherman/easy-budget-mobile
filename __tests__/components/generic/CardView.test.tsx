@@ -139,7 +139,7 @@ describe('CardView', () => {
             borderColor: Color.white,
             borderWidth: 0,
             elevation: 3,
-            shadowColor: Color.black,
+            shadowColor: Color.offBlack,
             shadowOffset: {
                 height: 2,
                 width: 0

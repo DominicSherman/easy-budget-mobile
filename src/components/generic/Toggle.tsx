@@ -32,7 +32,7 @@ const Toggle: FC<IToggleProps> = (props) => {
     const primaryColor = usePrimaryColor();
     const unselectedColor = props.color || primaryColor;
     const {checked, onChange, title} = props;
-    const color = checked ? Color.orange : unselectedColor;
+    const color = checked ? Color.sunflower : unselectedColor;
     const onPress = (): void => onChange(!checked);
 
     return (

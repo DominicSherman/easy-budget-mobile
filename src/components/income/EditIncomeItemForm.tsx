@@ -95,7 +95,7 @@ const EditIncomeItemForm: FC<IEditIncomeItemFormProps> = ({toggleExpanded, incom
     const buttons = [{
         onPress: onPressDelete,
         text: 'Delete',
-        wrapperStyle: {backgroundColor: Color.red}
+        wrapperStyle: {backgroundColor: Color.peach}
     }, {
         disabled,
         onPress,

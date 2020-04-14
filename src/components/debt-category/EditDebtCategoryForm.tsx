@@ -85,7 +85,7 @@ const EditDebtCategoryForm: FC<IEditDebtCategoryFormProps> = ({toggleExpanded, d
     const buttons = [{
         onPress: onPressDelete,
         text: 'Delete',
-        wrapperStyle: {backgroundColor: Color.red}
+        wrapperStyle: {backgroundColor: Color.peach}
     }, {
         disabled,
         onPress,

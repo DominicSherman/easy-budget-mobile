@@ -118,7 +118,7 @@ const DebtCategoryItem: FC<IDebtCategoryItemProps> = ({debtCategory}) => {
                         >
                             <View style={styles.verticalCenter}>
                                 <Feather
-                                    color={Color.red}
+                                    color={Color.peach}
                                     name={FeatherNames.MINUS_CIRCLE}
                                     size={32}
                                 />

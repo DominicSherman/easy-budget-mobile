@@ -16,8 +16,8 @@ const LightThemeObject = {
         background: Color.lightGrey,
         border: Color.white,
         card: Color.white,
-        primary: Color.darkFont,
-        text: Color.darkFont
+        primary: Color.dark,
+        text: Color.dark
     },
     dark: false
 };
@@ -25,8 +25,8 @@ const LightThemeObject = {
 const DarkThemeObject = {
     colors: {
         background: Color.dark,
-        border: Color.black,
-        card: Color.black,
+        border: Color.offBlack,
+        card: Color.offBlack,
         primary: Color.white,
         text: Color.white
     },

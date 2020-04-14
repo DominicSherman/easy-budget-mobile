@@ -6,7 +6,7 @@ import {Color} from '../../constants/color';
 import {SCREEN_WIDTH} from '../../constants/dimensions';
 import {shadow} from '../../styles/shared-styles';
 
-import {LargeText} from './Text';
+import {FontWeight, RegularMontserratText} from './Text';
 
 const styles = StyleSheet.create({
     disabled: {
@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     },
     wrapper: {
         alignItems: 'center',
-        backgroundColor: Color.blue,
+        backgroundColor: Color.shockBlue,
         borderRadius: 12,
         justifyContent: 'center',
         padding: 16,
@@ -41,9 +41,13 @@ const Button: FC<IButtonProps> = ({disabled, onPress, text, textStyle, loading, 
             loading ?
                 <ActivityIndicator />
                 :
-                <LargeText style={[{color: Color.white}, textStyle]}>
+                <RegularMontserratText
+                    color={Color.white}
+                    fontWeight={FontWeight.BOLD}
+                    style={textStyle}
+                >
                     {text}
-                </LargeText>
+                </RegularMontserratText>
         }
     </Touchable>;
 

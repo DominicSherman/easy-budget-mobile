@@ -58,7 +58,7 @@ const FixedCategoryItem: FC<{fixedCategory: IFixedCategory}> = ({fixedCategory})
     const {name, amount, paid, note, userId, fixedCategoryId} = fixedCategory;
     const [updateFixedCategory] = useMutation<UpdateFixedCategoryMutation, UpdateFixedCategoryMutationVariables>(updateFixedCategoryMutation);
     const primaryColor = usePrimaryColor();
-    const color = paid ? Color.orange : primaryColor;
+    const color = paid ? Color.sunflower : primaryColor;
     const iconName = paid ? FeatherNames.CHECK_SQUARE : FeatherNames.SQUARE;
     const titleStyle: StyleProp<TextStyle> = [
         {color},
