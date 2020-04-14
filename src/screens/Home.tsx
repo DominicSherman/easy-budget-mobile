@@ -135,7 +135,7 @@ const Home: React.FC = () => {
                         style={styles.wrapper}
                     >
                         <View style={[styles.titleWrapper, {borderBottomColor: Color.lightGreen}]}>
-                            <LargeText color={Color.darkNavy}>{'This Month'}</LargeText>
+                            <LargeText>{'This Month'}</LargeText>
                         </View>
                         <View style={styles.bottomWrapper}>
                             <View style={styles.verticalCenter}>
@@ -172,7 +172,7 @@ const Home: React.FC = () => {
                         style={styles.wrapper}
                     >
                         <View style={[styles.titleWrapper, {borderBottomColor: Color.shockBlue}]}>
-                            <LargeText color={Color.darkNavy}>{'Variable Categories'}</LargeText>
+                            <LargeText>{'Variable Categories'}</LargeText>
                         </View>
                         <View style={styles.bottomWrapper}>
                             <View style={styles.verticalCenter}>
@@ -204,7 +204,7 @@ const Home: React.FC = () => {
                         style={styles.wrapper}
                     >
                         <View style={[styles.titleWrapper, {borderBottomColor: Color.salmon}]}>
-                            <LargeText color={Color.darkNavy}>{'Fixed Categories'}</LargeText>
+                            <LargeText>{'Fixed Categories'}</LargeText>
                         </View>
                         <View style={styles.bottomWrapper}>
                             <View style={styles.verticalCenter}>
@@ -236,7 +236,7 @@ const Home: React.FC = () => {
                         style={styles.wrapper}
                     >
                         <View style={[styles.titleWrapper, {borderBottomColor: Color.sunflower}]}>
-                            <LargeText color={Color.darkNavy}>{'Income'}</LargeText>
+                            <LargeText>{'Income'}</LargeText>
                         </View>
                         {
                             nonRecurringItems.length ?

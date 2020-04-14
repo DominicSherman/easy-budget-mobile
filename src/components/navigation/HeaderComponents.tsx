@@ -30,7 +30,7 @@ const Icon: FC<IIcon> = ({name, onPress}) =>
         onPress={onPress}
     >
         <Feather
-            color={Color.sunflower}
+            color={Color.lightGreen}
             name={name}
             size={25}
             style={iconStyle}

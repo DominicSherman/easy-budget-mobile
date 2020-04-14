@@ -23,6 +23,7 @@ import Income from './screens/Income';
 import Debt from './screens/Debt';
 import {textStyles} from './styles/text-styles';
 import {Color} from './constants/color';
+import LeftSideMenu from './components/navigation/LeftSideMenu';
 
 const screenOptions = {
     headerLeft: (): JSX.Element => <HamburgerMenu />,
@@ -140,6 +141,7 @@ const IncomeStack: FC = () =>
 
 const DrawerNavigator: FC = () =>
     <Drawer.Navigator
+        drawerContent={(): JSX.Element => <LeftSideMenu />}
         drawerType={'slide'}
         edgeWidth={SCREEN_WIDTH / 3}
     >
