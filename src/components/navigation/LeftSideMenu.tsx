@@ -2,12 +2,12 @@ import React, {FC} from 'react';
 import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
 import {DrawerActions} from '@react-navigation/routers';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import {View} from 'react-native';
 
 import {Route} from '../../enums/Route';
 import {useBudgetNavigation, useDarkBlueColor} from '../../utils/hooks';
 import {Color} from '../../constants/color';
 import {FontWeight, RegularMontserratText} from '../generic/Text';
-import {View} from 'react-native';
 
 const items = [
     {
@@ -51,15 +51,17 @@ const items = [
         route: Route.SETTINGS
     }
 ];
-const LeftSideMenu: FC = () => {
+
+const LeftSideMenu: FC<{state: {index: number}}> = ({state}) => {
     const navigation = useBudgetNavigation();
     const color = useDarkBlueColor();
 
     return (
         <DrawerContentScrollView>
-            {items.map((item) =>
+            {items.map((item, index) =>
                 <DrawerItem
                     activeBackgroundColor={Color.backgroundBlue}
+                    focused={index === state.index}
                     icon={(): JSX.Element =>
                         <View
                             style={{
@@ -75,11 +77,10 @@ const LeftSideMenu: FC = () => {
                             />
                         </View>
                     }
-                    inactiveBackgroundColor={Color.white}
                     key={item.label}
-                    label={(): JSX.Element =>
+                    label={({focused}): JSX.Element =>
                         <RegularMontserratText
-                            color={color}
+                            color={focused ? Color.selectedBlue : color}
                             fontWeight={FontWeight.EXTRA_BOLD}
                         >
                             {item.label}
@@ -93,9 +94,13 @@ const LeftSideMenu: FC = () => {
                         navigation.dispatch(DrawerActions.closeDrawer());
                     }}
                     style={{
+                        borderBottomRightRadius: 25,
+                        borderColor: Color.white,
+                        borderTopRightRadius: 25,
+                        borderWidth: 0,
                         flexDirection: 'row',
                         justifyContent: 'space-between',
-                        width: '100%'
+                        width: '90%'
                     }}
                 />
             )}

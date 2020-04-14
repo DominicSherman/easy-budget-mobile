@@ -39,21 +39,23 @@ const modalOptions = {
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type ScreenParams = {
-    [Route.HOME]: {}
-    [Route.FIXED_CATEGORIES]: {}
-    [Route.VARIABLE_CATEGORIES]: {}
-    [Route.EXPENSES]: {}
-    [Route.EXPENSE]: IExpenseProps
     [Route.DATE_PICKER]: IDateTimePickerProps
-    [Route.SETTINGS]: {}
-    [Route.VARIABLE_CATEGORY]: IVariableCategoryProps
-    [Route.LOADING]: {}
-    [Route.ERROR]: {}
-    [Route.LOGIN]: {}
-    [Route.SAVINGS]: {}
-    [Route.INFORMATION]: IInformationProps
-    [Route.INCOME]: {}
     [Route.DEBT]: {}
+    [Route.DRAWER]: {}
+    [Route.ERROR]: {}
+    [Route.EXPENSE]: IExpenseProps
+    [Route.EXPENSES]: {}
+    [Route.FIXED_CATEGORIES]: {}
+    [Route.HOME]: {}
+    [Route.INCOME]: {}
+    [Route.INFORMATION]: IInformationProps
+    [Route.LOADING]: {}
+    [Route.LOGIN]: {}
+    [Route.ROOT_STACK]: {}
+    [Route.SAVINGS]: {}
+    [Route.SETTINGS]: {}
+    [Route.VARIABLE_CATEGORIES]: {}
+    [Route.VARIABLE_CATEGORY]: IVariableCategoryProps
 }
 
 const Stack = createStackNavigator<ScreenParams>();
@@ -141,9 +143,10 @@ const IncomeStack: FC = () =>
 
 const DrawerNavigator: FC = () =>
     <Drawer.Navigator
-        drawerContent={(): JSX.Element => <LeftSideMenu />}
+        drawerContent={(props): JSX.Element => <LeftSideMenu {...props} />}
         drawerType={'slide'}
         edgeWidth={SCREEN_WIDTH / 3}
+        initialRouteName={Route.HOME}
     >
         <Drawer.Screen
             component={HomeStack}
@@ -186,7 +189,7 @@ const RootStack: FC = () =>
     >
         <Stack.Screen
             component={DrawerNavigator}
-            name={Route.HOME}
+            name={Route.DRAWER}
             options={{headerShown: false}}
         />
         <Stack.Screen
@@ -236,7 +239,7 @@ export const RootNavigator: FC<{appStatus: AppStatus}> = ({appStatus}) =>
             appStatus === AppStatus.LOGGED_IN ?
                 <Stack.Screen
                     component={RootStack}
-                    name={Route.HOME}
+                    name={Route.ROOT_STACK}
                     options={{headerShown: false}}
                 /> : null
         }
