@@ -119,7 +119,7 @@ export const LargeText: FC<ITextProps> = ({style, color, ...props}) =>
         maxFontSizeMultiplier={DEFAULT_FONT_MULTIPLIER}
         style={{
             ...textStyles.large,
-            ...getFontWeightSettings(props.fontWeight, FontWeight.BOLD),
+            ...getFontWeightSettings(props.fontWeight, FontWeight.EXTRA_BOLD),
             ...useTextColor(),
             ...color && {color},
             ...getStyles(style)
