@@ -1,12 +1,13 @@
 import React, {FC} from 'react';
 import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
 import {DrawerActions} from '@react-navigation/routers';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
 import {Route} from '../../enums/Route';
-import {useBudgetNavigation} from '../../utils/hooks';
-import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import {useBudgetNavigation, useDarkBlueColor} from '../../utils/hooks';
 import {Color} from '../../constants/color';
-import {LargeText} from '../generic/Text';
+import {FontWeight, RegularMontserratText} from '../generic/Text';
+import {View} from 'react-native';
 
 const items = [
     {
@@ -15,35 +16,44 @@ const items = [
         route: Route.HOME
     },
     {
-        iconName: 'home',
-        label: 'Home',
-        route: Route.HOME
+        iconName: 'money-bill-wave',
+        label: 'Variable Categories',
+        route: Route.VARIABLE_CATEGORIES
     },
     {
-        iconName: 'home',
-        label: 'Home',
-        route: Route.HOME
+        iconName: 'calendar-week',
+        label: 'Fixed Categories',
+        route: Route.FIXED_CATEGORIES
     },
     {
-        iconName: 'home',
-        label: 'Home',
-        route: Route.HOME
+        iconName: 'file-invoice-dollar',
+        label: 'Expenses',
+        route: Route.EXPENSES
     },
     {
-        iconName: 'home',
-        label: 'Home',
-        route: Route.HOME
+        iconName: 'hand-holding-usd',
+        label: 'Income',
+        route: Route.INCOME
     },
     {
-        iconName: 'home',
-        label: 'Home',
-        route: Route.HOME
+        iconName: 'wallet',
+        label: 'Savings',
+        route: Route.SAVINGS
     },
-
+    {
+        iconName: 'dollar-sign',
+        label: 'Debt',
+        route: Route.DEBT
+    },
+    {
+        iconName: 'cog',
+        label: 'Settings',
+        route: Route.SETTINGS
+    }
 ];
 const LeftSideMenu: FC = () => {
     const navigation = useBudgetNavigation();
-    console.log('navigation', navigation);
+    const color = useDarkBlueColor();
 
     return (
         <DrawerContentScrollView>
@@ -51,21 +61,41 @@ const LeftSideMenu: FC = () => {
                 <DrawerItem
                     activeBackgroundColor={Color.backgroundBlue}
                     icon={(): JSX.Element =>
-                        <FontAwesome5Icon
-                            color={Color.darkNavy}
-                            name={item.iconName}
-                            size={24}
-                        />
+                        <View
+                            style={{
+                                flexDirection: 'row',
+                                justifyContent: 'center',
+                                width: 28
+                            }}
+                        >
+                            <FontAwesome5Icon
+                                color={color}
+                                name={item.iconName}
+                                size={22}
+                            />
+                        </View>
                     }
                     inactiveBackgroundColor={Color.white}
                     key={item.label}
-                    label={(): JSX.Element => <LargeText>{item.label}</LargeText>}
+                    label={(): JSX.Element =>
+                        <RegularMontserratText
+                            color={color}
+                            fontWeight={FontWeight.EXTRA_BOLD}
+                        >
+                            {item.label}
+                        </RegularMontserratText>
+                    }
                     onPress={(): void => {
                         navigation.navigate({
                             name: item.route,
                             params: {}
                         });
                         navigation.dispatch(DrawerActions.closeDrawer());
+                    }}
+                    style={{
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                        width: '100%'
                     }}
                 />
             )}
