@@ -2,7 +2,7 @@ import React, {FC} from 'react';
 import {StyleProp, Text, TextProps, TextStyle} from 'react-native';
 
 import {textStyles} from '../../styles/text-styles';
-import {useBlueTextColor, useSecondaryTextColor, useTextColor} from '../../utils/hooks';
+import {useDarkBlueTextColor, useSecondaryTextColor, useTextColor} from '../../utils/hooks';
 import {Color} from '../../constants/color';
 
 const DEFAULT_FONT_MULTIPLIER = 1.5;
@@ -120,7 +120,7 @@ export const LargeText: FC<ITextProps> = ({style, color, ...props}) =>
         style={{
             ...textStyles.large,
             ...getFontWeightSettings(props.fontWeight, FontWeight.EXTRA_BOLD),
-            ...useBlueTextColor(),
+            ...useDarkBlueTextColor(),
             ...color && {color},
             ...getStyles(style)
         }}
@@ -135,7 +135,7 @@ export const TitleText: FC<ITextProps> = ({style, color, ...props}) =>
         style={{
             ...textStyles.title,
             ...getFontWeightSettings(props.fontWeight, FontWeight.EXTRA_BOLD),
-            ...useBlueTextColor(),
+            ...useDarkBlueTextColor(),
             ...color && {color},
             ...getStyles(style)
         }}

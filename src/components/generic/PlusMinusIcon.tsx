@@ -2,17 +2,21 @@ import React, {FC} from 'react';
 import {StyleSheet, View} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 
-import {useBackgroundColor, usePrimaryColor} from '../../utils/hooks';
+import {useBackgroundColor} from '../../utils/hooks';
 import {FeatherNames} from '../../enums/IconNames';
 import {SCREEN_WIDTH} from '../../constants/dimensions';
+import {Color} from '../../constants/color';
+import {shadow} from '../../styles/shared-styles';
 
 const styles = StyleSheet.create({
     buttonWrapper: {
+        ...shadow,
         borderRadius: 400,
         borderWidth: 3,
         bottom: 24,
         left: SCREEN_WIDTH - 72,
-        paddingHorizontal: 2,
+        paddingHorizontal: 6,
+        paddingVertical: 4,
         position: 'absolute'
     }
 });
@@ -23,19 +27,19 @@ interface IPlusMinusIconProps {
 }
 
 const PlusMinusIcon: FC<IPlusMinusIconProps> = ({isOpen, setOpen}) => {
-    const primaryColor = usePrimaryColor();
+    const backgroundColor = Color.shockBlue;
     const themeStyles = {
-        backgroundColor: useBackgroundColor(),
-        borderColor: primaryColor
+        backgroundColor,
+        borderColor: backgroundColor
     };
 
     return (
         <View style={[styles.buttonWrapper, themeStyles]}>
             <Feather
-                color={primaryColor}
+                color={useBackgroundColor()}
                 name={isOpen ? FeatherNames.X : FeatherNames.PLUS}
                 onPress={setOpen}
-                size={40}
+                size={28}
             />
         </View>
     );

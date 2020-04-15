@@ -6,7 +6,8 @@ import Touchable from 'react-native-platform-touchable';
 import {FeatherNames} from '../../enums/IconNames';
 import {centeredColumn} from '../../styles/shared-styles';
 
-import {SmallText} from './Text';
+import {TinyText} from './Text';
+import {useDarkBlueColor} from '../../utils/hooks';
 
 const hitSlop = {
     bottom: 24,
@@ -16,23 +17,22 @@ const hitSlop = {
 };
 
 interface IEditIconProps {
-    color?: string
     isOpen: boolean
     onPress: () => void
 }
 
-const EditIcon: FC<IEditIconProps> = ({onPress, color, isOpen}) =>
+const EditIcon: FC<IEditIconProps> = ({onPress, isOpen}) =>
     <Touchable
         hitSlop={hitSlop}
         onPress={onPress}
     >
         <View style={[centeredColumn, {width: 36}]}>
             <Feather
-                color={color}
+                color={useDarkBlueColor()}
                 name={isOpen ? FeatherNames.X : FeatherNames.EDIT}
                 size={20}
             />
-            <SmallText>{isOpen ? 'close' : 'edit'}</SmallText>
+            <TinyText>{isOpen ? 'close' : 'edit'}</TinyText>
         </View>
     </Touchable>;
 

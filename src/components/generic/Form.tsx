@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
     },
     wrapper: {
         alignItems: 'center',
+        marginTop: 8,
         width: '100%'
     }
 });
@@ -88,7 +89,7 @@ const DropdownForm: FC<IFormProps> = (props) => {
             {
                 headerText &&
                     <View style={{justifyContent: 'center'}}>
-                        <RegularText style={textStyles.large}>{headerText}</RegularText>
+                        <RegularText>{headerText}</RegularText>
                     </View>
             }
             {
@@ -112,7 +113,8 @@ const DropdownForm: FC<IFormProps> = (props) => {
                             key={button.text}
                             {...button}
                             wrapperStyle={{
-                                width: (SCREEN_WIDTH - 72) / buttons.length,
+                                padding: 12,
+                                width: (SCREEN_WIDTH - 84) / buttons.length,
                                 ...button.wrapperStyle || {}
                             }}
                         />

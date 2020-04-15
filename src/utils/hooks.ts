@@ -24,7 +24,7 @@ export const useTextColor = (): {color: Color} => ({color: usePrimaryColor()});
 
 export const useSecondaryTextColor = (): {color: Color} => ({color: Color.grey});
 
-export const useBlueTextColor = (): {color: Color} => ({color: useDarkBlueColor()});
+export const useDarkBlueTextColor = (): {color: Color} => ({color: useDarkBlueColor()});
 
 export const useTimePeriodId = (): string =>
     useSelector<IAppState, string>((state) => state.timePeriodId);

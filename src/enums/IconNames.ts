@@ -9,6 +9,6 @@ export enum FeatherNames {
     X = 'x',
     PLUS = 'plus',
     MINUS_CIRCLE = 'minus-circle',
-    EDIT = 'edit',
+    EDIT = 'edit-2',
     INFO = 'info'
 }

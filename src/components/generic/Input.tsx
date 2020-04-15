@@ -4,13 +4,14 @@ import {KeyboardTypeOptions, StyleSheet, TextInput, TextStyle, View} from 'react
 import {textStyles} from '../../styles/text-styles';
 import {SCREEN_WIDTH} from '../../constants/dimensions';
 import {usePrimaryColor, useTextColor} from '../../utils/hooks';
+import {Color} from '../../constants/color';
 
-import {RegularText} from './Text';
+import {TinyText} from './Text';
 
 const styles = StyleSheet.create({
     input: {
-        borderRadius: 4,
-        borderWidth: 1,
+        backgroundColor: Color.lightGrey,
+        borderRadius: 6,
         height: 40,
         marginHorizontal: 16,
         padding: 8,
@@ -34,7 +35,12 @@ export interface IInputProps {
 
 const Input: FC<IInputProps> = ({style, title, onChange, keyboardType, value}) =>
     <View>
-        <RegularText style={styles.title}>{title}</RegularText>
+        <TinyText
+            color={Color.faintGrey}
+            style={styles.title}
+        >
+            {title}
+        </TinyText>
         <TextInput
             keyboardType={keyboardType}
             onChangeText={onChange}
