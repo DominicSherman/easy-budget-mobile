@@ -44,3 +44,11 @@ export const textWrapperUnderlined: ViewStyle = {
     paddingBottom: 8,
     width: '80%'
 };
+
+export const textWrapperRounded: ViewStyle = {
+    alignSelf: 'flex-start',
+    backgroundColor: Color.backgroundBlue,
+    borderRadius: 25,
+    paddingHorizontal: 16,
+    paddingVertical: 4
+};

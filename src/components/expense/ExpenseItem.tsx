@@ -1,41 +1,40 @@
 import React, {FC} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, ViewStyle} from 'react-native';
+import Touchable from 'react-native-platform-touchable';
+import Feather from 'react-native-vector-icons/Feather';
 
-import {useBudgetNavigation} from '../../utils/hooks';
+import {useBudgetNavigation, useDarkBlueColor} from '../../utils/hooks';
 import {IExpense} from '../../../autogen/IExpense';
 import {CARD_WIDTH, SCREEN_WIDTH} from '../../constants/dimensions';
-import {RegularText, SmallText} from '../generic/Text';
+import {FontWeight, RegularMontserratText, SmallText, TinyText} from '../generic/Text';
 import {formatExpenseDate} from '../../services/moment-service';
-import CardView from '../generic/CardView';
 import {Route} from '../../enums/Route';
-import Touchable from 'react-native-platform-touchable';
 import {Color} from '../../constants/color';
+import {textWrapperRounded} from '../../styles/shared-styles';
+import {FeatherNames} from '../../enums/IconNames';
 
 const styles = StyleSheet.create({
-    singleWrapper: {
-        alignItems: 'center'
-    },
     wrapper: {
         alignItems: 'center',
         backgroundColor: Color.white,
-        borderRadius: 0,
         flexDirection: 'row',
         justifyContent: 'space-between',
         marginHorizontal: 16,
-        paddingBottom: 8,
+        paddingBottom: 16,
         paddingHorizontal: 32,
-        paddingTop: 32,
+        paddingTop: 24,
         width: CARD_WIDTH,
-        zIndex: -100
+        zIndex: -2
     }
 });
 
 interface IExpenseItemProps {
     categoryName?: string
+    isLastItem?: boolean
     expense: IExpense
 }
 
-const ExpenseItem: FC<IExpenseItemProps> = ({expense, categoryName}) => {
+const ExpenseItem: FC<IExpenseItemProps> = ({expense, categoryName, isLastItem}) => {
     const navigation = useBudgetNavigation();
     const onPress = (): void => {
         navigation.navigate({
@@ -45,25 +44,61 @@ const ExpenseItem: FC<IExpenseItemProps> = ({expense, categoryName}) => {
             }
         });
     };
+    const borderStyles: ViewStyle = isLastItem ? {
+        borderBottomLeftRadius: 12,
+        borderBottomRightRadius: 12
+    } : {};
 
     return (
         <Touchable onPress={onPress}>
-            <View style={styles.wrapper}>
-                <View style={[styles.singleWrapper, {alignItems: 'flex-start'}]}>
-                    <RegularText>{categoryName}</RegularText>
+            <View style={[styles.wrapper, borderStyles]}>
+                <View style={{alignItems: 'center'}}>
+                    <View style={[textWrapperRounded, {marginBottom: 2}]}>
+                        <RegularMontserratText
+                            color={Color.selectedBlue}
+                            fontWeight={FontWeight.BOLD}
+                        >
+                            {categoryName}
+                        </RegularMontserratText>
+                    </View>
                     {
                         expense.name ?
-                            <SmallText style={{marginTop: 8}}>{expense.name}</SmallText>
+                            <TinyText
+                                fontWeight={FontWeight.BOLD}
+                            >
+                                {expense.name}
+                            </TinyText>
                             :
                             null
                     }
                 </View>
-                <View style={styles.singleWrapper}>
-                    <RegularText>{formatExpenseDate(expense.date)}</RegularText>
-                </View>
-                <View style={styles.singleWrapper}>
-                    <RegularText>{`$${expense.amount}`}</RegularText>
-                </View>
+                <SmallText>{formatExpenseDate(expense.date)}</SmallText>
+                <RegularMontserratText
+                    color={useDarkBlueColor()}
+                    fontWeight={FontWeight.BOLD}
+                >
+                    {`$${expense.amount}`}
+                </RegularMontserratText>
+                <Feather
+                    color={useDarkBlueColor()}
+                    name={FeatherNames.MORE}
+                    size={22}
+                />
+                {
+                    !isLastItem &&
+                        <View
+                            style={{
+                                backgroundColor: Color.faintGrey,
+                                bottom: 0,
+                                height: 2,
+                                left: SCREEN_WIDTH / 4,
+                                opacity: 0.3,
+                                position: 'absolute',
+                                width: SCREEN_WIDTH / 2,
+                                zIndex: 1
+                            }}
+                        />
+                }
             </View>
         </Touchable>
     );

@@ -3,7 +3,7 @@ import {KeyboardTypeOptions, StyleSheet, TextInput, TextStyle, View} from 'react
 
 import {textStyles} from '../../styles/text-styles';
 import {SCREEN_WIDTH} from '../../constants/dimensions';
-import {usePrimaryColor, useTextColor} from '../../utils/hooks';
+import {usePrimaryColor} from '../../utils/hooks';
 import {Color} from '../../constants/color';
 
 import {TinyText} from './Text';
@@ -44,7 +44,7 @@ const Input: FC<IInputProps> = ({style, title, onChange, keyboardType, value}) =
         <TextInput
             keyboardType={keyboardType}
             onChangeText={onChange}
-            style={[styles.input, {borderColor: usePrimaryColor()}, useTextColor(), style]}
+            style={[styles.input, {borderColor: usePrimaryColor()}, {color: usePrimaryColor()}, style]}
             value={value ? value : ''}
         />
     </View>;

@@ -3,7 +3,7 @@ import {StyleSheet, View} from 'react-native';
 
 import {IVariableCategory} from '../../../autogen/IVariableCategory';
 import CardView from '../generic/CardView';
-import {CARD_WIDTH, SCREEN_WIDTH} from '../../constants/dimensions';
+import {CARD_WIDTH} from '../../constants/dimensions';
 import {FontWeight, LargeText, RegularMontserratText, TinyText} from '../generic/Text';
 import {Route} from '../../enums/Route';
 import {useBudgetNavigation} from '../../utils/hooks';
@@ -11,16 +11,13 @@ import {calculateTotal} from '../../utils/utils';
 import {easeInTransition} from '../../services/animation-service';
 import EditIcon from '../generic/EditIcon';
 import {Color} from '../../constants/color';
+import {textWrapperRounded} from '../../styles/shared-styles';
 
 import EditVariableCategoryForm from './EditVariableCategoryForm';
 
 const styles = StyleSheet.create({
     textWrapper: {
-        alignSelf: 'flex-start',
-        backgroundColor: Color.backgroundBlue,
-        borderRadius: 25,
-        paddingHorizontal: 16,
-        paddingVertical: 4
+        ...textWrapperRounded
     },
     topWrapper: {
         alignItems: 'center',

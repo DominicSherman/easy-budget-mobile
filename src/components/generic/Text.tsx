@@ -2,7 +2,7 @@ import React, {FC} from 'react';
 import {StyleProp, Text, TextProps, TextStyle} from 'react-native';
 
 import {textStyles} from '../../styles/text-styles';
-import {useDarkBlueTextColor, useSecondaryTextColor, useTextColor} from '../../utils/hooks';
+import {useDarkBlueColor, usePrimaryColor, useSecondaryTextColor} from '../../utils/hooks';
 import {Color} from '../../constants/color';
 
 const DEFAULT_FONT_MULTIPLIER = 1.5;
@@ -60,7 +60,7 @@ export const TinyText: FC<ITextProps> = ({style, color, ...props}) =>
         style={{
             ...textStyles.tiny,
             ...getFontWeightSettings(props.fontWeight),
-            ...useSecondaryTextColor(),
+            ...{color: useSecondaryTextColor()},
             ...color && {color},
             ...getStyles(style)
         }}
@@ -75,7 +75,7 @@ export const SmallText: FC<ITextProps> = ({style, color, ...props}) =>
         style={{
             ...textStyles.small,
             ...getFontWeightSettings(props.fontWeight),
-            ...useTextColor(),
+            ...{color: usePrimaryColor()},
             ...color && {color},
             ...getStyles(style)
         }}
@@ -90,7 +90,7 @@ export const RegularText: FC<ITextProps> = ({style, color, ...props}) =>
         style={{
             ...textStyles.regular,
             ...getFontWeightSettings(props.fontWeight),
-            ...useTextColor(),
+            ...{color: usePrimaryColor()},
             ...color && {color},
             ...getStyles(style)
         }}
@@ -105,7 +105,7 @@ export const RegularMontserratText: FC<ITextProps> = ({style, color, ...props}) 
         style={{
             ...textStyles.regularMontserrat,
             ...getFontWeightSettings(props.fontWeight),
-            ...useTextColor(),
+            ...{color: usePrimaryColor()},
             ...color && {color},
             ...getStyles(style)
         }}
@@ -120,7 +120,7 @@ export const LargeText: FC<ITextProps> = ({style, color, ...props}) =>
         style={{
             ...textStyles.large,
             ...getFontWeightSettings(props.fontWeight, FontWeight.EXTRA_BOLD),
-            ...useDarkBlueTextColor(),
+            ...{color: useDarkBlueColor()},
             ...color && {color},
             ...getStyles(style)
         }}
@@ -135,7 +135,7 @@ export const TitleText: FC<ITextProps> = ({style, color, ...props}) =>
         style={{
             ...textStyles.title,
             ...getFontWeightSettings(props.fontWeight, FontWeight.EXTRA_BOLD),
-            ...useDarkBlueTextColor(),
+            ...{color: useDarkBlueColor()},
             ...color && {color},
             ...getStyles(style)
         }}

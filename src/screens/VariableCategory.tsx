@@ -86,10 +86,11 @@ const VariableCategory: IScreenFC<Route.VARIABLE_CATEGORY> = ({route: {params: {
                 ListHeaderComponentStyle={{zIndex: 1}}
                 data={variableCategory.expenses.sort(sortByDate)}
                 keyExtractor={(item): string => item.expenseId}
-                renderItem={({item}): JSX.Element =>
+                renderItem={({item, index}): JSX.Element =>
                     <ExpenseItem
                         categoryName={variableCategory.name}
                         expense={item}
+                        isLastItem={index === variableCategory.expenses.length - 1}
                     />
                 }
             />
