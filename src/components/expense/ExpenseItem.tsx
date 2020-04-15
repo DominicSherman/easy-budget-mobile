@@ -3,22 +3,30 @@ import {StyleSheet, View} from 'react-native';
 
 import {useBudgetNavigation} from '../../utils/hooks';
 import {IExpense} from '../../../autogen/IExpense';
-import {SCREEN_WIDTH} from '../../constants/dimensions';
+import {CARD_WIDTH, SCREEN_WIDTH} from '../../constants/dimensions';
 import {RegularText, SmallText} from '../generic/Text';
 import {formatExpenseDate} from '../../services/moment-service';
 import CardView from '../generic/CardView';
 import {Route} from '../../enums/Route';
+import Touchable from 'react-native-platform-touchable';
+import {Color} from '../../constants/color';
 
 const styles = StyleSheet.create({
     singleWrapper: {
-        alignItems: 'center',
-        width: SCREEN_WIDTH / 3
+        alignItems: 'center'
     },
     wrapper: {
         alignItems: 'center',
+        backgroundColor: Color.white,
+        borderRadius: 0,
         flexDirection: 'row',
-        marginHorizontal: 8,
-        width: SCREEN_WIDTH - 16
+        justifyContent: 'space-between',
+        marginHorizontal: 16,
+        paddingBottom: 8,
+        paddingHorizontal: 32,
+        paddingTop: 32,
+        width: CARD_WIDTH,
+        zIndex: -100
     }
 });
 
@@ -39,26 +47,25 @@ const ExpenseItem: FC<IExpenseItemProps> = ({expense, categoryName}) => {
     };
 
     return (
-        <CardView
-            onPress={onPress}
-            style={styles.wrapper}
-        >
-            <View style={[styles.singleWrapper, {alignItems: 'flex-start'}]}>
-                <RegularText>{categoryName}</RegularText>
-                {
-                    expense.name ?
-                        <SmallText style={{marginTop: 8}}>{expense.name}</SmallText>
-                        :
-                        null
-                }
+        <Touchable onPress={onPress}>
+            <View style={styles.wrapper}>
+                <View style={[styles.singleWrapper, {alignItems: 'flex-start'}]}>
+                    <RegularText>{categoryName}</RegularText>
+                    {
+                        expense.name ?
+                            <SmallText style={{marginTop: 8}}>{expense.name}</SmallText>
+                            :
+                            null
+                    }
+                </View>
+                <View style={styles.singleWrapper}>
+                    <RegularText>{formatExpenseDate(expense.date)}</RegularText>
+                </View>
+                <View style={styles.singleWrapper}>
+                    <RegularText>{`$${expense.amount}`}</RegularText>
+                </View>
             </View>
-            <View style={styles.singleWrapper}>
-                <RegularText>{formatExpenseDate(expense.date)}</RegularText>
-            </View>
-            <View style={styles.singleWrapper}>
-                <RegularText>{`$${expense.amount}`}</RegularText>
-            </View>
-        </CardView>
+        </Touchable>
     );
 };
 

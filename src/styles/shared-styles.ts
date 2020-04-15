@@ -36,3 +36,11 @@ export const shadow = {
     shadowOpacity: 0.3,
     shadowRadius: 2
 };
+
+export const textWrapperUnderlined: ViewStyle = {
+    borderBottomWidth: 2,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    paddingBottom: 8,
+    width: '80%'
+};

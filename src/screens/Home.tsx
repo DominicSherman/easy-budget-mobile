@@ -14,11 +14,12 @@ import NoActiveTimePeriod from '../components/time-period/NoActiveTimePeriod';
 import {IAppState} from '../redux/reducer';
 import {HomeScreenQuery, HomeScreenQueryVariables} from '../../autogen/HomeScreenQuery';
 import CardView from '../components/generic/CardView';
-import {SCREEN_HEIGHT, SCREEN_WIDTH} from '../constants/dimensions';
+import {CARD_WIDTH, SCREEN_HEIGHT, SCREEN_WIDTH} from '../constants/dimensions';
 import {Route} from '../enums/Route';
 import Button from '../components/generic/Button';
 import {useBudgetNavigation} from '../utils/hooks';
 import {Color} from '../constants/color';
+import {textWrapperUnderlined} from '../styles/shared-styles';
 
 const styles = StyleSheet.create({
     bottomWrapper: {
@@ -32,13 +33,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flexDirection: 'row'
     },
-    titleWrapper: {
-        borderBottomWidth: 2,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        paddingBottom: 8,
-        width: '80%'
-    },
+    titleWrapper: textWrapperUnderlined,
     verticalCenter: {
         alignItems: 'center',
         flexDirection: 'column'
@@ -46,8 +41,8 @@ const styles = StyleSheet.create({
     wrapper: {
         alignItems: 'center',
         flexDirection: 'column',
-        marginHorizontal: 8,
-        width: SCREEN_WIDTH - 32
+        marginHorizontal: 16,
+        width: CARD_WIDTH
     }
 });
 

@@ -3,7 +3,7 @@ import {StyleSheet, View} from 'react-native';
 
 import {IVariableCategory} from '../../../autogen/IVariableCategory';
 import CardView from '../generic/CardView';
-import {SCREEN_WIDTH} from '../../constants/dimensions';
+import {CARD_WIDTH, SCREEN_WIDTH} from '../../constants/dimensions';
 import {FontWeight, LargeText, RegularMontserratText, TinyText} from '../generic/Text';
 import {Route} from '../../enums/Route';
 import {useBudgetNavigation} from '../../utils/hooks';
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start',
         flexDirection: 'column',
         marginHorizontal: 16,
-        width: SCREEN_WIDTH - 32
+        width: CARD_WIDTH
     }
 });
 

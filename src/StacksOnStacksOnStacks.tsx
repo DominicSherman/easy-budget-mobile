@@ -1,9 +1,9 @@
 import React, {FC} from 'react';
-import {createStackNavigator} from '@react-navigation/stack';
+import {createStackNavigator, StackNavigationOptions} from '@react-navigation/stack';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 
 import {Route} from './enums/Route';
-import {CloseIcon, HamburgerMenu, InfoIcon} from './components/navigation/HeaderComponents';
+import {BackButton, CloseIcon, HamburgerMenu, InfoIcon} from './components/navigation/HeaderComponents';
 import {SCREEN_WIDTH} from './constants/dimensions';
 import {AppStatus} from './enums/AppStatus';
 import LoadingView from './components/generic/LoadingView';
@@ -24,16 +24,33 @@ import Debt from './screens/Debt';
 import {textStyles} from './styles/text-styles';
 import {Color} from './constants/color';
 import LeftSideMenu from './components/navigation/LeftSideMenu';
+import {shadow} from './styles/shared-styles';
 
-const screenOptions = {
+const screenOptions: StackNavigationOptions = {
     headerLeft: (): JSX.Element => <HamburgerMenu />,
+    headerStyle: {
+        ...shadow
+    },
     headerTitleStyle: {
         ...textStyles.title,
         color: Color.darkNavy
     }
 };
-const modalOptions = {
+const secondaryScreenOptions: StackNavigationOptions = {
+    headerLeft: (): JSX.Element => <BackButton />,
+    headerStyle: {
+        ...shadow
+    },
+    headerTitleStyle: {
+        ...textStyles.title,
+        color: Color.darkNavy
+    }
+};
+const modalOptions: StackNavigationOptions = {
     headerLeft: (): JSX.Element => <CloseIcon />,
+    headerStyle: {
+        ...shadow
+    },
     headerTitle: ''
 };
 
@@ -83,7 +100,10 @@ const VariableCategoriesStack: FC = () =>
         <Stack.Screen
             component={VariableCategory}
             name={Route.VARIABLE_CATEGORY}
-            options={{headerTitle: ''}}
+            options={{
+                ...secondaryScreenOptions,
+                title: 'VARIABLE'
+            }}
         />
     </Stack.Navigator>;
 

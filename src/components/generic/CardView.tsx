@@ -4,20 +4,9 @@ import Touchable from 'react-native-platform-touchable';
 
 import {Color} from '../../constants/color';
 import {useBackgroundColor} from '../../utils/hooks';
+import {shadow} from '../../styles/shared-styles';
 
 const styles = StyleSheet.create({
-    shadow: {
-        borderColor: Color.white,
-        borderWidth: 0,
-        elevation: 3,
-        shadowColor: Color.offBlack,
-        shadowOffset: {
-            height: 2,
-            width: 0
-        },
-        shadowOpacity: 0.3,
-        shadowRadius: 2
-    },
     wrapper: {
         alignItems: 'center',
         borderColor: Color.lightGrey,
@@ -51,7 +40,7 @@ const CardView: FC<ICardViewProps> = (props) => {
         testID
     } = props;
     const color = useBackgroundColor();
-    const getShadowStyles = (): ViewStyle => props.shadow ? styles.shadow : {};
+    const getShadowStyles = (): ViewStyle => props.shadow ? shadow : {};
     const getWrapperStyles = (): any => [
         {backgroundColor: color},
         styles.wrapper,

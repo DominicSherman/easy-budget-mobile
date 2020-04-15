@@ -1,7 +1,7 @@
 import React, {FC} from 'react';
 import {StyleSheet, View} from 'react-native';
 
-import {LargeText, RegularText, SmallText} from '../generic/Text';
+import {LargeText, RegularText, SmallText, TinyText} from '../generic/Text';
 import {IVariableCategory} from '../../../autogen/IVariableCategory';
 import {calculateTotal} from '../../utils/utils';
 
@@ -26,17 +26,17 @@ const VariableCategoryDetails: FC<{variableCategory: IVariableCategory}> = ({var
         <View style={styles.bottomWrapper}>
             <View style={styles.verticalCenter}>
                 <RegularText>{`$${variableCategory.amount}`}</RegularText>
-                <SmallText>{'budgeted'}</SmallText>
+                <TinyText>{'budgeted'}</TinyText>
             </View>
             <RegularText>{'-'}</RegularText>
             <View style={styles.verticalCenter}>
                 <RegularText>{`$${sum}`}</RegularText>
-                <SmallText>{'spent'}</SmallText>
+                <TinyText>{'spent'}</TinyText>
             </View>
             <RegularText>{'='}</RegularText>
             <View style={styles.verticalCenter}>
                 <LargeText>{`$${variableCategory.amount - sum}`}</LargeText>
-                <SmallText>{'remaining'}</SmallText>
+                <TinyText>{'remaining'}</TinyText>
             </View>
         </View>
     );
