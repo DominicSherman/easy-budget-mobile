@@ -2,16 +2,19 @@ import React, {FC, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
-import {textStyles} from '../../styles/text-styles';
 import {easeInTransition} from '../../services/animation-service';
 import {centeredRow} from '../../styles/shared-styles';
 import {SCREEN_WIDTH} from '../../constants/dimensions';
+import {Color} from '../../constants/color';
+import {useDarkBlueColor} from '../../utils/hooks';
 
-import {RegularText} from './Text';
+import {FontWeight, RegularMontserratText} from './Text';
 import Button, {IButtonProps} from './Button';
 import Input, {IInputProps} from './Input';
 import PlusMinusIcon from './PlusMinusIcon';
 import Toggle, {IToggleProps} from './Toggle';
+
+const FORM_HEIGHT = 475;
 
 const styles = StyleSheet.create({
     buttonWrapper: {
@@ -21,12 +24,14 @@ const styles = StyleSheet.create({
         width: '100%'
     },
     toggledWrapper: {
-        minHeight: 425,
-        paddingVertical: 80
+        minHeight: FORM_HEIGHT,
+        paddingTop: 16
     },
     wrapper: {
         alignItems: 'center',
-        marginTop: 8,
+        backgroundColor: Color.white,
+        borderTopLeftRadius: 24,
+        borderTopRightRadius: 24,
         width: '100%'
     }
 });
@@ -60,7 +65,9 @@ const Form: FC<IFormProps> = (props) => {
     if (props.toggleable) {
         return (
             <View>
-                <KeyboardAwareScrollView style={{marginTop: 16}}>
+                <KeyboardAwareScrollView
+                    extraHeight={FORM_HEIGHT}
+                >
                     {isVisible && <DropdownForm {...props} />}
                 </KeyboardAwareScrollView>
                 <PlusMinusIcon
@@ -83,13 +90,19 @@ const DropdownForm: FC<IFormProps> = (props) => {
         headerText,
         toggleable
     } = props;
+    const darkBlueColor = useDarkBlueColor();
 
     return (
         <View style={[styles.wrapper, toggleable && styles.toggledWrapper]}>
             {
                 headerText &&
                     <View style={{justifyContent: 'center'}}>
-                        <RegularText>{headerText}</RegularText>
+                        <RegularMontserratText
+                            color={darkBlueColor}
+                            fontWeight={FontWeight.EXTRA_BOLD}
+                        >
+                            {headerText}
+                        </RegularMontserratText>
                     </View>
             }
             {

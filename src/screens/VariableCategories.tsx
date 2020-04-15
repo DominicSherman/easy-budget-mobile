@@ -1,6 +1,7 @@
 import React from 'react';
-import {FlatList, SafeAreaView} from 'react-native';
+import {SafeAreaView, View} from 'react-native';
 import {useQuery} from '@apollo/react-hooks';
+import {KeyboardAwareFlatList} from 'react-native-keyboard-aware-scroll-view';
 
 import {getVariableCategoriesQuery} from '../graphql/queries';
 import {getUserId} from '../services/auth-service';
@@ -15,6 +16,7 @@ import EmptyScreen from '../components/generic/EmptyScreen';
 import {Route} from '../enums/Route';
 
 import {InformationRef} from './Information';
+import {Color} from '../constants/color';
 
 const VariableCategories: React.FC = () => {
     const timePeriodId = useTimePeriodId();
@@ -46,8 +48,8 @@ const VariableCategories: React.FC = () => {
     const sortedVariableCategories = variableCategories.sort(sortByAmount);
 
     return (
-        <SafeAreaView style={{height: '100%'}}>
-            <FlatList
+        <SafeAreaView style={{height: '105%'}}>
+            <KeyboardAwareFlatList
                 ListEmptyComponent={
                     <EmptyScreen
                         onPressSubText={onPressSubText}
@@ -56,6 +58,7 @@ const VariableCategories: React.FC = () => {
                     />
                 }
                 data={sortedVariableCategories}
+                extraHeight={125}
                 keyExtractor={(item): string => item.variableCategoryId}
                 renderItem={({item}): JSX.Element =>
                     <VariableCategoryItem

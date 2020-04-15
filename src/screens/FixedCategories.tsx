@@ -17,6 +17,7 @@ import {Route} from '../enums/Route';
 import EmptyScreen from '../components/generic/EmptyScreen';
 
 import {InformationRef} from './Information';
+import {SCREEN_HEIGHT} from '../constants/dimensions';
 
 const FixedCategories: React.FC = () => {
     const timePeriodId = useSelector<IAppState, string>((state) => state.timePeriodId);
@@ -48,7 +49,7 @@ const FixedCategories: React.FC = () => {
     const sortedFixedCategories = fixedCategories.sort(sortByAmount).sort(sortByPaid);
 
     return (
-        <SafeAreaView style={{height: '100%'}}>
+        <SafeAreaView style={{height: SCREEN_HEIGHT}}>
             <FlatList
                 ListEmptyComponent={
                     <EmptyScreen
@@ -57,7 +58,6 @@ const FixedCategories: React.FC = () => {
                         titleText={'You haven\'t created any fixed categories yet!'}
                     />
                 }
-                contentContainerStyle={{paddingBottom: 50}}
                 data={sortedFixedCategories}
                 keyExtractor={(item): string => item.fixedCategoryId}
                 renderItem={({item}): JSX.Element =>
