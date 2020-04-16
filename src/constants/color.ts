@@ -5,6 +5,7 @@ export enum Color {
     dark = '#1D1D1D',
     darkGrey = '#303030',
     darkNavy = '#103765',
+    darkInputGrey = '#535353',
     disabledGrey = '#D2D6D8',
     green = '#80B328',
     grey = '#707070',

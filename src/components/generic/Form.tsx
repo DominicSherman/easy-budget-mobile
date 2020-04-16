@@ -6,7 +6,7 @@ import {easeInTransition} from '../../services/animation-service';
 import {centeredRow} from '../../styles/shared-styles';
 import {SCREEN_WIDTH} from '../../constants/dimensions';
 import {Color} from '../../constants/color';
-import {useDarkBlueColor} from '../../utils/hooks';
+import {useDarkBlueColor, useSecondaryBackgroundColor} from '../../utils/hooks';
 
 import {FontWeight, RegularMontserratText} from './Text';
 import Button, {IButtonProps} from './Button';
@@ -29,7 +29,6 @@ const styles = StyleSheet.create({
     },
     wrapper: {
         alignItems: 'center',
-        backgroundColor: Color.white,
         borderTopLeftRadius: 24,
         borderTopRightRadius: 24,
         width: '100%'
@@ -91,7 +90,7 @@ const DropdownForm: FC<IFormProps> = (props) => {
     const darkBlueColor = useDarkBlueColor();
 
     return (
-        <View style={[styles.wrapper, toggleable && styles.toggledWrapper]}>
+        <View style={[styles.wrapper, {backgroundColor: useSecondaryBackgroundColor()}, toggleable && styles.toggledWrapper]}>
             {
                 headerText &&
                     <View style={{justifyContent: 'center'}}>
@@ -125,7 +124,7 @@ const DropdownForm: FC<IFormProps> = (props) => {
                             {...button}
                             wrapperStyle={{
                                 padding: 12,
-                                width: (SCREEN_WIDTH - 84) / buttons.length,
+                                width: buttons.length > 1 ? (SCREEN_WIDTH - 84) / buttons.length : SCREEN_WIDTH / 2,
                                 ...button.wrapperStyle || {}
                             }}
                         />

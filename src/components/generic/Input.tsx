@@ -3,14 +3,14 @@ import {KeyboardTypeOptions, StyleSheet, TextInput, TextStyle, View} from 'react
 
 import {textStyles} from '../../styles/text-styles';
 import {SCREEN_WIDTH} from '../../constants/dimensions';
-import {usePrimaryColor} from '../../utils/hooks';
+import {useMode, usePrimaryColor} from '../../utils/hooks';
 import {Color} from '../../constants/color';
+import {Mode} from '../../enums/Mode';
 
 import {TinyText} from './Text';
 
 const styles = StyleSheet.create({
     input: {
-        backgroundColor: Color.lightGrey,
         borderRadius: 6,
         height: 40,
         marginHorizontal: 16,
@@ -44,7 +44,13 @@ const Input: FC<IInputProps> = ({style, title, onChange, keyboardType, value}) =
         <TextInput
             keyboardType={keyboardType}
             onChangeText={onChange}
-            style={[styles.input, {borderColor: usePrimaryColor()}, {color: usePrimaryColor()}, style]}
+            style={[
+                styles.input,
+                {borderColor: usePrimaryColor()},
+                {color: usePrimaryColor()},
+                {backgroundColor: useMode() === Mode.DARK ? Color.darkInputGrey : Color.lightGrey},
+                style
+            ]}
             value={value ? value : ''}
         />
     </View>;
