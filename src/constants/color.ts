@@ -1,5 +1,6 @@
 export enum Color {
     backgroundBlue = '#E4F0FE',
+    backgroundBlueDark = '#398FFF',
     brightGreen = '#6AD69B',
     dark = '#1D1D1D',
     darkGrey = '#303030',

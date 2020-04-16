@@ -6,10 +6,11 @@ import {View} from 'react-native';
 import Touchable from 'react-native-platform-touchable';
 
 import {Route} from '../../enums/Route';
-import {useBudgetNavigation, useDarkBlueColor} from '../../utils/hooks';
+import {useBudgetNavigation, useDarkBlueColor, useSecondaryBackgroundColor, useTheme} from '../../utils/hooks';
 import {Color} from '../../constants/color';
 import {FontWeight, RegularMontserratText} from '../generic/Text';
 import {FontAwesomeNames} from '../../enums/IconNames';
+import {Theme} from '../../services/theme-service';
 
 interface IItem {
     iconName: string
@@ -70,20 +71,22 @@ const Item: FC<{ isActive: boolean, item: IItem }> = ({isActive, item}) => {
         });
         navigation.dispatch(DrawerActions.closeDrawer());
     };
+    const secondaryBackground = useSecondaryBackgroundColor();
+    const {backgroundColor, textColor} = useTheme(Theme.BLUE);
 
     return (
         <Touchable
             onPress={onPress}
             style={{
-                backgroundColor: isActive ? Color.backgroundBlue : Color.white,
+                backgroundColor: isActive ? backgroundColor : secondaryBackground,
                 borderBottomRightRadius: 25,
                 borderColor: Color.white,
                 borderTopRightRadius: 25,
                 borderWidth: 0,
                 flexDirection: 'row',
+                marginVertical: 8,
                 padding: 16,
                 paddingVertical: 8,
-                marginVertical: 8,
                 width: '90%'
             }}
         >
@@ -113,7 +116,7 @@ const Item: FC<{ isActive: boolean, item: IItem }> = ({isActive, item}) => {
                     />
                 </View>
                 <RegularMontserratText
-                    color={isActive ? Color.selectedBlue : color}
+                    color={isActive ? textColor : color}
                     fontWeight={FontWeight.EXTRA_BOLD}
                 >
                     {item.label}
@@ -124,7 +127,7 @@ const Item: FC<{ isActive: boolean, item: IItem }> = ({isActive, item}) => {
 };
 
 const LeftSideMenu: FC<{ state: { index: number } }> = ({state}) => (
-    <DrawerContentScrollView>
+    <DrawerContentScrollView style={{backgroundColor: useSecondaryBackgroundColor()}}>
         {items.map((item, index) =>
             <Item
                 isActive={index === state.index}

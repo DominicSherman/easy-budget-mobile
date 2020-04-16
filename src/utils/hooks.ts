@@ -1,9 +1,17 @@
 import {useSelector} from 'react-redux';
 import {User} from '@react-native-community/google-signin';
-import {useNavigation, NavigationProp} from '@react-navigation/native';
+import {NavigationProp, useNavigation} from '@react-navigation/native';
 
 import {Mode} from '../enums/Mode';
-import {getBackgroundColor, getPrimaryColor, getDarkBlueColor} from '../services/theme-service';
+import {
+    getDarkBlueColor,
+    getPrimaryBackgroundColor,
+    getPrimaryColor,
+    getSecondaryBackgroundColor,
+    getThemedBackgroundColor,
+    getThemedTextColor,
+    Theme
+} from '../services/theme-service';
 import {IAppState} from '../redux/reducer';
 import {ScreenParams} from '../StacksOnStacksOnStacks';
 import {Color} from '../constants/color';
@@ -14,8 +22,25 @@ export const useMode = (): Mode =>
 export const usePrimaryColor = (): Color =>
     getPrimaryColor(useMode());
 
-export const useBackgroundColor = (): Color =>
-    getBackgroundColor(useMode());
+export const usePrimaryBackgroundColor = (): Color =>
+    getPrimaryBackgroundColor(useMode());
+
+export const useSecondaryBackgroundColor = (): Color =>
+    getSecondaryBackgroundColor(useMode());
+
+export const useThemedBackgroundColor = (theme: Theme): Color =>
+    getThemedBackgroundColor(useMode(), theme);
+
+export const useThemedTextColor = (theme: Theme): Color =>
+    getThemedTextColor(useMode(), theme);
+
+export const useTheme = (theme: Theme): {
+    backgroundColor: Color
+    textColor: Color
+} => ({
+    backgroundColor: getThemedBackgroundColor(useMode(), theme),
+    textColor: getThemedTextColor(useMode(), theme)
+});
 
 export const useDarkBlueColor = (): Color =>
     getDarkBlueColor(useMode());

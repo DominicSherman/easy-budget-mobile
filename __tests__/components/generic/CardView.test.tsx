@@ -21,7 +21,7 @@ jest.mock('../../../src/utils/hooks');
 
 describe('CardView', () => {
     const mockAnimated = Animated as jest.Mocked<typeof Animated>;
-    const {useBackgroundColor} = hooks as jest.Mocked<typeof hooks>;
+    const {useSecondaryBackgroundColor} = hooks as jest.Mocked<typeof hooks>;
 
     let expectedProps,
         expectedBackgroundColor,
@@ -77,7 +77,7 @@ describe('CardView', () => {
             stop: jest.fn()
         });
 
-        useBackgroundColor.mockReturnValue(expectedBackgroundColor);
+        useSecondaryBackgroundColor.mockReturnValue(expectedBackgroundColor);
         createTestRenderer();
     });
 

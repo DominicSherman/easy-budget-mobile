@@ -6,19 +6,17 @@ import CardView from '../generic/CardView';
 import {CARD_WIDTH} from '../../constants/dimensions';
 import {FontWeight, LargeText, RegularMontserratText, TinyText} from '../generic/Text';
 import {Route} from '../../enums/Route';
-import {useBudgetNavigation} from '../../utils/hooks';
+import {useBudgetNavigation, useThemedBackgroundColor, useThemedTextColor} from '../../utils/hooks';
 import {calculateTotal} from '../../utils/utils';
 import {easeInTransition} from '../../services/animation-service';
-import {Color} from '../../constants/color';
 import {textWrapperRounded} from '../../styles/shared-styles';
 import MoreIcon from '../generic/MoreIcon';
+import {Theme} from '../../services/theme-service';
 
 import EditVariableCategoryForm from './EditVariableCategoryForm';
 
 const styles = StyleSheet.create({
-    textWrapper: {
-        ...textWrapperRounded
-    },
+    textWrapper: textWrapperRounded,
     topWrapper: {
         alignItems: 'center',
         flexDirection: 'row',
@@ -65,9 +63,9 @@ const VariableCategoryItem: FC<IVariableCategoryItemProps> = ({variableCategory}
         >
             <View style={styles.topWrapper}>
                 <View style={{width: '50%'}}>
-                    <View style={styles.textWrapper}>
+                    <View style={[styles.textWrapper, {backgroundColor: useThemedBackgroundColor(Theme.BLUE)}]}>
                         <RegularMontserratText
-                            color={Color.selectedBlue}
+                            color={useThemedTextColor(Theme.BLUE)}
                             fontWeight={FontWeight.BOLD}
                         >
                             {variableCategory.name}

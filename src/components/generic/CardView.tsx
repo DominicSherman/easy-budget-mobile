@@ -3,7 +3,7 @@ import {Animated, StyleProp, StyleSheet, ViewStyle} from 'react-native';
 import Touchable from 'react-native-platform-touchable';
 
 import {Color} from '../../constants/color';
-import {useBackgroundColor} from '../../utils/hooks';
+import {useSecondaryBackgroundColor} from '../../utils/hooks';
 import {shadow} from '../../styles/shared-styles';
 
 const styles = StyleSheet.create({
@@ -39,7 +39,7 @@ const CardView: FC<ICardViewProps> = (props) => {
         onPress,
         testID
     } = props;
-    const color = useBackgroundColor();
+    const color = useSecondaryBackgroundColor();
     const getShadowStyles = (): ViewStyle => props.shadow ? shadow : {};
     const getWrapperStyles = (): any => [
         {backgroundColor: color},

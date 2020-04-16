@@ -4,7 +4,7 @@ import * as navigation from '@react-navigation/native';
 import {chance} from '../chance';
 import {createRandomAppState} from '../models';
 import {
-    useBackgroundColor, useBudgetNavigation,
+    useSecondaryBackgroundColor, useBudgetNavigation,
     useMode,
     usePrimaryColor,
     useTextColor,
@@ -68,7 +68,7 @@ describe('hooks', () => {
         it('should return darkGrey if mode is dark', () => {
             useSelector.mockReturnValue(Mode.DARK);
 
-            const actualValue = useBackgroundColor();
+            const actualValue = useSecondaryBackgroundColor();
 
             expect(actualValue).toBe(Color.darkGrey);
         });
@@ -76,7 +76,7 @@ describe('hooks', () => {
         it('should return white if mode is light', () => {
             useSelector.mockReturnValue(Mode.LIGHT);
 
-            const actualValue = useBackgroundColor();
+            const actualValue = useSecondaryBackgroundColor();
 
             expect(actualValue).toBe(Color.white);
         });

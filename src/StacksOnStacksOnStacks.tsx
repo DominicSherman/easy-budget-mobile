@@ -22,30 +22,33 @@ import Settings from './screens/Settings';
 import Income from './screens/Income';
 import Debt from './screens/Debt';
 import {textStyles} from './styles/text-styles';
-import {Color} from './constants/color';
 import LeftSideMenu from './components/navigation/LeftSideMenu';
 import {shadow} from './styles/shared-styles';
+import {getDarkBlueColor} from './services/theme-service';
+import {useMode} from './utils/hooks';
 
-const screenOptions: StackNavigationOptions = {
+const getScreenOptions = (mode): StackNavigationOptions => ({
     headerLeft: (): JSX.Element => <HamburgerMenu />,
     headerStyle: {
         ...shadow
     },
     headerTitleStyle: {
         ...textStyles.title,
-        color: Color.darkNavy
+        color: getDarkBlueColor(mode)
     }
-};
-const secondaryScreenOptions: StackNavigationOptions = {
+});
+
+const getSecondaryScreenOptions = (mode): StackNavigationOptions => ({
     headerLeft: (): JSX.Element => <BackButton />,
     headerStyle: {
         ...shadow
     },
     headerTitleStyle: {
         ...textStyles.title,
-        color: Color.darkNavy
+        color: getDarkBlueColor(mode)
     }
-};
+});
+
 const modalOptions: StackNavigationOptions = {
     headerLeft: (): JSX.Element => <CloseIcon />,
     headerStyle: {
@@ -84,7 +87,7 @@ const HomeStack: FC = () =>
             component={Home}
             name={Route.HOME}
             options={{
-                ...screenOptions,
+                ...getScreenOptions(useMode()),
                 headerRight: (): JSX.Element => <InfoIcon />
             }}
         />
@@ -95,13 +98,13 @@ const VariableCategoriesStack: FC = () =>
         <Stack.Screen
             component={VariableCategories}
             name={Route.VARIABLE_CATEGORIES}
-            options={screenOptions}
+            options={getScreenOptions(useMode())}
         />
         <Stack.Screen
             component={VariableCategory}
             name={Route.VARIABLE_CATEGORY}
             options={{
-                ...secondaryScreenOptions,
+                ...getSecondaryScreenOptions(useMode()),
                 title: 'VARIABLE'
             }}
         />
@@ -112,7 +115,7 @@ const FixedCategoriesStack: FC = () =>
         <Stack.Screen
             component={FixedCategories}
             name={Route.FIXED_CATEGORIES}
-            options={screenOptions}
+            options={getScreenOptions(useMode())}
         />
     </Stack.Navigator>;
 
@@ -121,7 +124,7 @@ const ExpensesStack: FC = () =>
         <Stack.Screen
             component={Expenses}
             name={Route.EXPENSES}
-            options={screenOptions}
+            options={getScreenOptions(useMode())}
         />
     </Stack.Navigator>;
 
@@ -130,7 +133,7 @@ const SettingsStack: FC = () =>
         <Stack.Screen
             component={Settings}
             name={Route.SETTINGS}
-            options={screenOptions}
+            options={getScreenOptions(useMode())}
         />
     </Stack.Navigator>;
 
@@ -139,7 +142,7 @@ const SavingsStack: FC = () =>
         <Stack.Screen
             component={Savings}
             name={Route.SAVINGS}
-            options={screenOptions}
+            options={getScreenOptions(useMode())}
         />
     </Stack.Navigator>;
 
@@ -148,7 +151,7 @@ const DebtStack: FC = () =>
         <Stack.Screen
             component={Debt}
             name={Route.DEBT}
-            options={screenOptions}
+            options={getScreenOptions(useMode())}
         />
     </Stack.Navigator>;
 
@@ -157,7 +160,7 @@ const IncomeStack: FC = () =>
         <Stack.Screen
             component={Income}
             name={Route.INCOME}
-            options={screenOptions}
+            options={getScreenOptions(useMode())}
         />
     </Stack.Navigator>;
 
