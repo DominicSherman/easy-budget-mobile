@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
         ...shadow,
         borderRadius: 400,
         borderWidth: 3,
-        bottom: 96,
+        bottom: 16,
         left: SCREEN_WIDTH - 72,
         paddingHorizontal: 6,
         paddingVertical: 4,

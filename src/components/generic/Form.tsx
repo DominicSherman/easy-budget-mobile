@@ -14,7 +14,7 @@ import Input, {IInputProps} from './Input';
 import PlusMinusIcon from './PlusMinusIcon';
 import Toggle, {IToggleProps} from './Toggle';
 
-const FORM_HEIGHT = 475;
+const FORM_HEIGHT = 375;
 
 const styles = StyleSheet.create({
     buttonWrapper: {

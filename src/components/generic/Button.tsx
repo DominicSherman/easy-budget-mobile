@@ -10,7 +10,7 @@ import {FontWeight, RegularMontserratText} from './Text';
 
 const styles = StyleSheet.create({
     disabled: {
-        backgroundColor: Color.lightGrey
+        backgroundColor: Color.disabledGrey
     },
     wrapper: {
         alignItems: 'center',
@@ -35,7 +35,7 @@ const Button: FC<IButtonProps> = ({disabled, onPress, text, textStyle, loading, 
     <Touchable
         disabled={disabled || loading}
         onPress={onPress}
-        style={[styles.wrapper, disabled && styles.disabled, shadow, wrapperStyle]}
+        style={[styles.wrapper, shadow, wrapperStyle, disabled && styles.disabled]}
     >
         {
             loading ?
