@@ -9,9 +9,9 @@ import {Route} from '../../enums/Route';
 import {useBudgetNavigation} from '../../utils/hooks';
 import {calculateTotal} from '../../utils/utils';
 import {easeInTransition} from '../../services/animation-service';
-import EditIcon from '../generic/EditIcon';
 import {Color} from '../../constants/color';
 import {textWrapperRounded} from '../../styles/shared-styles';
+import MoreIcon from '../generic/MoreIcon';
 
 import EditVariableCategoryForm from './EditVariableCategoryForm';
 
@@ -59,7 +59,7 @@ const VariableCategoryItem: FC<IVariableCategoryItemProps> = ({variableCategory}
 
     return (
         <CardView
-            onPress={onPress}
+            onPress={toggleExpanded}
             shadow
             style={styles.wrapper}
         >
@@ -78,9 +78,8 @@ const VariableCategoryItem: FC<IVariableCategoryItemProps> = ({variableCategory}
                     <LargeText>{`$${variableCategory.amount - calculateTotal(variableCategory.expenses)}`}</LargeText>
                     <TinyText>{'remaining'}</TinyText>
                 </View>
-                <EditIcon
-                    isOpen={expanded}
-                    onPress={toggleExpanded}
+                <MoreIcon
+                    onPress={onPress}
                 />
             </View>
             {

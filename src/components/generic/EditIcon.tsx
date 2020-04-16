@@ -5,9 +5,9 @@ import Touchable from 'react-native-platform-touchable';
 
 import {FeatherNames} from '../../enums/IconNames';
 import {centeredColumn} from '../../styles/shared-styles';
+import {useDarkBlueColor} from '../../utils/hooks';
 
 import {TinyText} from './Text';
-import {useDarkBlueColor} from '../../utils/hooks';
 
 const hitSlop = {
     bottom: 24,
