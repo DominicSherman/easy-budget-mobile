@@ -1,5 +1,5 @@
 import React from 'react';
-import {SafeAreaView, View} from 'react-native';
+import {View} from 'react-native';
 import {useQuery} from '@apollo/react-hooks';
 import {KeyboardAwareFlatList} from 'react-native-keyboard-aware-scroll-view';
 
@@ -14,7 +14,7 @@ import VariableCategoryItem from '../components/variable-category/VariableCatego
 import {useBudgetNavigation, useTimePeriodId} from '../utils/hooks';
 import EmptyScreen from '../components/generic/EmptyScreen';
 import {Route} from '../enums/Route';
-import {Color} from '../constants/color';
+import {ListFooterComponent} from '../components/generic/Generic';
 
 import {InformationRef} from './Information';
 
@@ -36,7 +36,7 @@ const VariableCategories: React.FC = () => {
     });
 
     if (!timePeriodId) {
-        return <NoActiveTimePeriod/>;
+        return <NoActiveTimePeriod />;
     }
 
     if (!queryResult.data) {
@@ -48,38 +48,27 @@ const VariableCategories: React.FC = () => {
     const sortedVariableCategories = variableCategories.sort(sortByAmount);
 
     return (
-        <SafeAreaView
-            style={{
-                backgroundColor: Color.white,
-                flex: 1,
-                height: '100%'
-            }}
-        >
-            <View style={{
-                backgroundColor: Color.lightGrey,
-                height: '100%'
-            }}>
-                <KeyboardAwareFlatList
-                    ListEmptyComponent={
-                        <EmptyScreen
-                            onPressSubText={onPressSubText}
-                            subText={'What is a variable category?'}
-                            titleText={'You haven\'t created any variable categories yet!'}
-                        />
-                    }
-                    ListFooterComponent={<View style={{height: 64}}/>}
-                    data={sortedVariableCategories}
-                    extraHeight={125}
-                    keyExtractor={(item): string => item.variableCategoryId}
-                    renderItem={({item}): JSX.Element =>
-                        <VariableCategoryItem
-                            variableCategory={item}
-                        />
-                    }
-                />
-                <CreateVariableCategoryForm showCreateForm={showCreateForm}/>
-            </View>
-        </SafeAreaView>
+        <View style={{height: '100%'}}>
+            <KeyboardAwareFlatList
+                ListEmptyComponent={
+                    <EmptyScreen
+                        onPressSubText={onPressSubText}
+                        subText={'What is a variable category?'}
+                        titleText={'You haven\'t created any variable categories yet!'}
+                    />
+                }
+                ListFooterComponent={<ListFooterComponent />}
+                data={sortedVariableCategories}
+                extraHeight={125}
+                keyExtractor={(item): string => item.variableCategoryId}
+                renderItem={({item}): JSX.Element =>
+                    <VariableCategoryItem
+                        variableCategory={item}
+                    />
+                }
+            />
+            <CreateVariableCategoryForm showCreateForm={showCreateForm} />
+        </View>
     );
 };
 

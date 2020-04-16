@@ -14,6 +14,26 @@ import {textWrapperRounded} from '../../styles/shared-styles';
 import {FeatherNames} from '../../enums/IconNames';
 
 const styles = StyleSheet.create({
+    bottomWrapper: {
+        alignItems: 'center',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: '50%'
+    },
+    border: {
+        backgroundColor: Color.mediumGrey,
+        bottom: 0,
+        height: 2,
+        left: SCREEN_WIDTH / 4,
+        opacity: 0.3,
+        position: 'absolute',
+        width: SCREEN_WIDTH / 2,
+        zIndex: 1
+    },
+    topWrapper: {
+        alignItems: 'center',
+        maxWidth: '45%'
+    },
     wrapper: {
         alignItems: 'center',
         backgroundColor: Color.white,
@@ -21,7 +41,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         marginHorizontal: 16,
         paddingBottom: 16,
-        paddingHorizontal: 32,
+        paddingHorizontal: 16,
         paddingTop: 24,
         width: CARD_WIDTH,
         zIndex: -2
@@ -52,7 +72,7 @@ const ExpenseItem: FC<IExpenseItemProps> = ({expense, categoryName, isLastItem})
     return (
         <Touchable onPress={onPress}>
             <View style={[styles.wrapper, borderStyles]}>
-                <View style={{alignItems: 'center'}}>
+                <View style={styles.topWrapper}>
                     <View style={[textWrapperRounded, {marginBottom: 2}]}>
                         <RegularMontserratText
                             color={Color.selectedBlue}
@@ -63,41 +83,30 @@ const ExpenseItem: FC<IExpenseItemProps> = ({expense, categoryName, isLastItem})
                     </View>
                     {
                         expense.name ?
-                            <TinyText
-                                fontWeight={FontWeight.BOLD}
-                            >
+                            <TinyText fontWeight={FontWeight.BOLD}>
                                 {expense.name}
                             </TinyText>
                             :
                             null
                     }
                 </View>
-                <SmallText>{formatExpenseDate(expense.date)}</SmallText>
-                <RegularMontserratText
-                    color={useDarkBlueColor()}
-                    fontWeight={FontWeight.BOLD}
-                >
-                    {`$${expense.amount}`}
-                </RegularMontserratText>
-                <Feather
-                    color={useDarkBlueColor()}
-                    name={FeatherNames.MORE}
-                    size={22}
-                />
+                <View style={styles.bottomWrapper}>
+                    <SmallText>{formatExpenseDate(expense.date)}</SmallText>
+                    <RegularMontserratText
+                        color={useDarkBlueColor()}
+                        fontWeight={FontWeight.BOLD}
+                    >
+                        {`$${expense.amount}`}
+                    </RegularMontserratText>
+                    <Feather
+                        color={useDarkBlueColor()}
+                        name={FeatherNames.MORE}
+                        size={22}
+                    />
+                </View>
                 {
                     !isLastItem &&
-                        <View
-                            style={{
-                                backgroundColor: Color.faintGrey,
-                                bottom: 0,
-                                height: 2,
-                                left: SCREEN_WIDTH / 4,
-                                opacity: 0.3,
-                                position: 'absolute',
-                                width: SCREEN_WIDTH / 2,
-                                zIndex: 1
-                            }}
-                        />
+                    <View style={styles.border}/>
                 }
             </View>
         </Touchable>

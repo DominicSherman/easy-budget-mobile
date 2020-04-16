@@ -4,9 +4,10 @@ import {Picker, StyleSheet, View} from 'react-native';
 import {LargeText} from '../generic/Text';
 import Button from '../generic/Button';
 import Input from '../generic/Input';
-import {SCREEN_WIDTH} from '../../constants/dimensions';
+import {CARD_WIDTH, SCREEN_WIDTH} from '../../constants/dimensions';
 import {usePrimaryColor} from '../../utils/hooks';
 import {IVariableCategory} from '../../../autogen/IVariableCategory';
+import CardView from '../generic/CardView';
 
 const styles = StyleSheet.create({
     picker: {
@@ -16,7 +17,7 @@ const styles = StyleSheet.create({
     },
     wrapper: {
         alignItems: 'center',
-        marginVertical: 8,
+        marginTop: 8,
         width: '100%'
     }
 });
@@ -71,23 +72,33 @@ const ExpenseForm: FC<IExpenseFormProps> = (props) => {
                     )
                 }
             </Picker>
-            <Input
-                keyboardType={'number-pad'}
-                onChange={setAmount}
-                title={'Expense Amount *'}
-                value={amount}
-            />
-            <Input
-                onChange={setName}
-                title={'Expense Description'}
-                value={name}
-            />
-            <Button
-                disabled={!variableCategoryId || amount === ''}
-                onPress={onPress}
-                text={buttonText}
-                wrapperStyle={{marginTop: 16}}
-            />
+            <CardView
+                disabled
+                shadow
+                style={{
+                    flexDirection: 'column',
+                    marginBottom: -8,
+                    width: CARD_WIDTH
+                }}
+            >
+                <Input
+                    keyboardType={'number-pad'}
+                    onChange={setAmount}
+                    title={'Amount *'}
+                    value={amount}
+                />
+                <Input
+                    onChange={setName}
+                    title={'Description'}
+                    value={name}
+                />
+                <Button
+                    disabled={!variableCategoryId || amount === ''}
+                    onPress={onPress}
+                    text={buttonText}
+                    wrapperStyle={{marginTop: 16}}
+                />
+            </CardView>
         </View>
     );
 };

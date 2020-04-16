@@ -36,7 +36,7 @@ export interface IInputProps {
 const Input: FC<IInputProps> = ({style, title, onChange, keyboardType, value}) =>
     <View>
         <TinyText
-            color={Color.faintGrey}
+            color={Color.mediumGrey}
             style={styles.title}
         >
             {title}

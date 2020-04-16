@@ -14,7 +14,7 @@ import Input, {IInputProps} from './Input';
 import PlusMinusIcon from './PlusMinusIcon';
 import Toggle, {IToggleProps} from './Toggle';
 
-const FORM_HEIGHT = 375;
+const FORM_HEIGHT = 400;
 
 const styles = StyleSheet.create({
     buttonWrapper: {
@@ -65,9 +65,7 @@ const Form: FC<IFormProps> = (props) => {
     if (props.toggleable) {
         return (
             <View>
-                <KeyboardAwareScrollView
-                    extraHeight={FORM_HEIGHT}
-                >
+                <KeyboardAwareScrollView extraScrollHeight={12}>
                     {isVisible && <DropdownForm {...props} />}
                 </KeyboardAwareScrollView>
                 <PlusMinusIcon
