@@ -1,111 +1,138 @@
 import React, {FC} from 'react';
-import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
+import {DrawerContentScrollView} from '@react-navigation/drawer';
 import {DrawerActions} from '@react-navigation/routers';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import {View} from 'react-native';
+import Touchable from 'react-native-platform-touchable';
 
 import {Route} from '../../enums/Route';
 import {useBudgetNavigation, useDarkBlueColor} from '../../utils/hooks';
 import {Color} from '../../constants/color';
 import {FontWeight, RegularMontserratText} from '../generic/Text';
+import {FontAwesomeNames} from '../../enums/IconNames';
 
-const items = [
+interface IItem {
+    iconName: string
+    label: string
+    route: Route
+}
+
+const items: IItem[] = [
     {
-        iconName: 'home',
+        iconName: FontAwesomeNames.HOME,
         label: 'Home',
         route: Route.HOME
     },
     {
-        iconName: 'money-bill-wave',
-        label: 'Variable Categories',
+        iconName: FontAwesomeNames.MONEY_BILL,
+        label: 'Variable',
         route: Route.VARIABLE_CATEGORIES
     },
     {
-        iconName: 'calendar-week',
-        label: 'Fixed Categories',
+        iconName: FontAwesomeNames.CALENDAR,
+        label: 'Fixed',
         route: Route.FIXED_CATEGORIES
     },
     {
-        iconName: 'file-invoice-dollar',
+        iconName: FontAwesomeNames.FILE,
         label: 'Expenses',
         route: Route.EXPENSES
     },
     {
-        iconName: 'hand-holding-usd',
+        iconName: FontAwesomeNames.HAND_DOLLARS,
         label: 'Income',
         route: Route.INCOME
     },
     {
-        iconName: 'wallet',
+        iconName: FontAwesomeNames.WALLET,
         label: 'Savings',
         route: Route.SAVINGS
     },
     {
-        iconName: 'dollar-sign',
+        iconName: FontAwesomeNames.DOLLAR_SIGN,
         label: 'Debt',
         route: Route.DEBT
     },
     {
-        iconName: 'cog',
+        iconName: FontAwesomeNames.SETTINGS,
         label: 'Settings',
         route: Route.SETTINGS
     }
 ];
 
-const LeftSideMenu: FC<{state: {index: number}}> = ({state}) => {
+const Item: FC<{ isActive: boolean, item: IItem }> = ({isActive, item}) => {
     const navigation = useBudgetNavigation();
     const color = useDarkBlueColor();
+    const onPress = (): void => {
+        navigation.navigate({
+            name: item.route,
+            params: {}
+        });
+        navigation.dispatch(DrawerActions.closeDrawer());
+    };
 
     return (
-        <DrawerContentScrollView>
-            {items.map((item, index) =>
-                <DrawerItem
-                    activeBackgroundColor={Color.backgroundBlue}
-                    focused={index === state.index}
-                    icon={(): JSX.Element =>
-                        <View
-                            style={{
-                                flexDirection: 'row',
-                                justifyContent: 'center',
-                                width: 28
-                            }}
-                        >
+        <Touchable
+            onPress={onPress}
+            style={{
+                backgroundColor: isActive ? Color.backgroundBlue : Color.white,
+                borderBottomRightRadius: 25,
+                borderColor: Color.white,
+                borderTopRightRadius: 25,
+                borderWidth: 0,
+                flexDirection: 'row',
+                padding: 16,
+                paddingVertical: 8,
+                marginVertical: 8,
+                width: '90%'
+            }}
+        >
+            <>
+                <View
+                    style={{
+                        alignItems: 'center',
+                        flexDirection: 'row',
+                        justifyContent: 'center',
+                        marginRight: 16,
+                        width: 28
+                    }}
+                >
+                    {
+                        item.iconName === FontAwesomeNames.DOLLAR_SIGN &&
                             <FontAwesome5Icon
                                 color={color}
-                                name={item.iconName}
-                                size={22}
+                                name={'minus'}
+                                size={14}
+                                style={{marginRight: 2}}
                             />
-                        </View>
                     }
-                    key={item.label}
-                    label={({focused}): JSX.Element =>
-                        <RegularMontserratText
-                            color={focused ? Color.selectedBlue : color}
-                            fontWeight={FontWeight.EXTRA_BOLD}
-                        >
-                            {item.label}
-                        </RegularMontserratText>
-                    }
-                    onPress={(): void => {
-                        navigation.navigate({
-                            name: item.route,
-                            params: {}
-                        });
-                        navigation.dispatch(DrawerActions.closeDrawer());
-                    }}
-                    style={{
-                        borderBottomRightRadius: 25,
-                        borderColor: Color.white,
-                        borderTopRightRadius: 25,
-                        borderWidth: 0,
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        width: '90%'
-                    }}
-                />
-            )}
-        </DrawerContentScrollView>
+                    <FontAwesome5Icon
+                        color={color}
+                        name={item.iconName}
+                        size={22}
+                    />
+                </View>
+                <RegularMontserratText
+                    color={isActive ? Color.selectedBlue : color}
+                    fontWeight={FontWeight.EXTRA_BOLD}
+                >
+                    {item.label}
+                </RegularMontserratText>
+            </>
+        </Touchable>
     );
 };
+
+const LeftSideMenu: FC<{ state: { index: number } }> = ({state}) => (
+    <DrawerContentScrollView>
+        {items.map((item, index) =>
+            <Item
+                isActive={index === state.index}
+                item={item}
+                key={item.label}
+            />
+        )}
+    </DrawerContentScrollView>
+);
 
 export default LeftSideMenu;

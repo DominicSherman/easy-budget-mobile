@@ -14,3 +14,14 @@ export enum FeatherNames {
     INFO = 'info',
     MORE = 'more-vertical'
 }
+
+export enum FontAwesomeNames {
+    HOME = 'home',
+    MONEY_BILL = 'money-bill-wave',
+    CALENDAR = 'calendar-week',
+    FILE = 'file-invoice-dollar',
+    HAND_DOLLARS = 'hand-holding-usd',
+    WALLET = 'wallet',
+    DOLLAR_SIGN = 'dollar-sign',
+    SETTINGS = 'cog'
+}
