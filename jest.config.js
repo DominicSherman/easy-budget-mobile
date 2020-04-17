@@ -42,6 +42,7 @@ module.exports = {
         '@react-navigation/stack': '<rootDir>/__tests__/stubs/react-navigation-stack-stub.tsx',
         'apollo-link-http': '<rootDir>/__tests__/stubs/apollo-link-http-stub.tsx',
         '@react-navigation/native': '<rootDir>/__tests__/stubs/react-navigation-native-stub.tsx',
-        '@apollo/react-hooks': '<rootDir>/__tests__/stubs/apollo-react-hooks-stub.ts'
+        '@apollo/react-hooks': '<rootDir>/__tests__/stubs/apollo-react-hooks-stub.ts',
+        'react-native-dark-mode': '<rootDir>/__tests__/stubs/react-native-dark-mode-stub.ts'
     }
 };

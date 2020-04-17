@@ -10,6 +10,9 @@ import EditIcon from '../../../src/components/generic/EditIcon';
 import EditSavingCategoryForm from '../../../src/components/saving-category/EditSavingCategoryForm';
 import * as hooks from '../../../src/utils/hooks';
 import AddRemoveSavingCategoryForm from '../../../src/components/saving-category/AddRemoveSavingCategoryForm';
+import {chance} from '../../chance';
+import {Color} from '../../../src/constants/color';
+import {Mode} from '../../../src/enums/Mode';
 
 jest.mock('@react-navigation/native');
 jest.mock('@apollo/react-hooks');
@@ -24,7 +27,7 @@ describe('SavingCategoryItem', () => {
         expectedProps;
 
     const {useMutation} = reactHooks as jest.Mocked<typeof reactHooks>;
-    const {useBudgetNavigation} = hooks as jest.Mocked<typeof hooks>;
+    const {useBudgetNavigation, useTheme, useMode} = hooks as jest.Mocked<typeof hooks>;
 
     const render = (): void => {
         root = TestRenderer.create(
@@ -43,6 +46,11 @@ describe('SavingCategoryItem', () => {
 
         useBudgetNavigation.mockReturnValue(expectedNavigation);
         useMutation.mockReturnValue([updateCategory, {} as MutationResult]);
+        useTheme.mockReturnValue({
+            backgroundColor: chance.pickone(Object.values(Color)),
+            textColor: chance.pickone(Object.values(Color))
+        });
+        useMode.mockReturnValue(chance.pickone(Object.values(Mode)));
 
         render();
     });
@@ -51,14 +59,8 @@ describe('SavingCategoryItem', () => {
         jest.resetAllMocks();
     });
 
-    it('should render a CardView', () => {
-        const renderedCardView = root.findByType(CardView);
-
-        expect(renderedCardView.props.disabled).toBe(true);
-    });
-
-    it('should render an edit icon to toggle the edit form', () => {
-        const renderedTouchable = root.findByType(EditIcon);
+    it('should render a card view to toggle the edit form', () => {
+        const renderedTouchable = root.findByType(CardView);
 
         act(() => {
             renderedTouchable.props.onPress();

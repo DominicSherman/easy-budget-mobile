@@ -8,9 +8,11 @@ import {createRandomFixedCategory} from '../../models';
 import {updateFixedCategoryMutation} from '../../../src/graphql/mutations';
 import FixedCategoryItem from '../../../src/components/fixed-category/FixedCategoryItem';
 import CardView from '../../../src/components/generic/CardView';
-import EditIcon from '../../../src/components/generic/EditIcon';
 import EditFixedCategoryForm from '../../../src/components/fixed-category/EditFixedCategoryForm';
 import * as hooks from '../../../src/utils/hooks';
+import {chance} from '../../chance';
+import {Color} from '../../../src/constants/color';
+import {Mode} from '../../../src/enums/Mode';
 
 jest.mock('@react-navigation/native');
 jest.mock('@apollo/react-hooks');
@@ -25,7 +27,7 @@ describe('FixedCategoryItem', () => {
         expectedProps;
 
     const {useMutation} = reactHooks as jest.Mocked<typeof reactHooks>;
-    const {useBudgetNavigation} = hooks as jest.Mocked<typeof hooks>;
+    const {useBudgetNavigation, useTheme, useMode} = hooks as jest.Mocked<typeof hooks>;
 
     const render = (): void => {
         root = TestRenderer.create(
@@ -44,6 +46,11 @@ describe('FixedCategoryItem', () => {
 
         useBudgetNavigation.mockReturnValue(expectedNavigation);
         useMutation.mockReturnValue([updateCategory, {} as MutationResult]);
+        useTheme.mockReturnValue({
+            backgroundColor: chance.pickone(Object.values(Color)),
+            textColor: chance.pickone(Object.values(Color))
+        });
+        useMode.mockReturnValue(chance.pickone(Object.values(Mode)));
 
         render();
     });
@@ -58,9 +65,7 @@ describe('FixedCategoryItem', () => {
     });
 
     it('should render a CardView', () => {
-        const renderedCardView = root.findByType(CardView);
-
-        expect(renderedCardView.props.disabled).toBe(true);
+        root.findByType(CardView);
     });
 
     it('should render the note if there is one', () => {
@@ -97,8 +102,8 @@ describe('FixedCategoryItem', () => {
         });
     });
 
-    it('should render an edit icon to toggle the edit form', () => {
-        const renderedTouchable = root.findByType(EditIcon);
+    it('should render a CardView to toggle the edit form', () => {
+        const renderedTouchable = root.findByType(CardView);
 
         act(() => {
             renderedTouchable.props.onPress();

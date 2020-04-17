@@ -8,6 +8,8 @@ import {chance} from '../chance';
 import {getVariableCategoryQuery} from '../../src/graphql/queries';
 import {getUserId} from '../../src/services/auth-service';
 import {getEarlyReturn} from '../../src/services/error-and-loading-service';
+import * as hooks from '../../src/utils/hooks';
+import {Color} from '../../src/constants/color';
 
 jest.mock('@apollo/react-hooks');
 jest.mock('../../src/services/auth-service');
@@ -15,6 +17,7 @@ jest.mock('../../src/utils/hooks');
 
 describe('VariableCategory', () => {
     const {useQuery} = apolloReactHooks as jest.Mocked<typeof apolloReactHooks>;
+    const {useTheme} = hooks as jest.Mocked<typeof hooks>;
 
     let root,
         expectedProps,
@@ -35,6 +38,11 @@ describe('VariableCategory', () => {
         });
 
         useQuery.mockReturnValue(expectedQueryResult);
+        useTheme.mockReturnValue({
+            backgroundColor: chance.pickone(Object.values(Color)),
+            textColor: chance.pickone(Object.values(Color))
+        });
+
 
         render();
     });

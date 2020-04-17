@@ -6,9 +6,10 @@ import VariableCategoryItem from '../../../src/components/variable-category/Vari
 import {chance} from '../../chance';
 import CardView from '../../../src/components/generic/CardView';
 import {Route} from '../../../src/enums/Route';
-import EditIcon from '../../../src/components/generic/EditIcon';
 import EditVariableCategoryForm from '../../../src/components/variable-category/EditVariableCategoryForm';
 import * as hooks from '../../../src/utils/hooks';
+import {Color} from '../../../src/constants/color';
+import MoreIcon from '../../../src/components/generic/MoreIcon';
 
 jest.mock('../../../src/utils/hooks');
 jest.mock('../../../src/services/animation-service');
@@ -19,7 +20,7 @@ describe('VariableCategoryItem', () => {
         expectedNavigation,
         expectedProps;
 
-    const {useBudgetNavigation} = hooks as jest.Mocked<typeof hooks>;
+    const {useBudgetNavigation, useTheme} = hooks as jest.Mocked<typeof hooks>;
 
     const render = (): void => {
         root = TestRenderer.create(
@@ -39,12 +40,16 @@ describe('VariableCategoryItem', () => {
         };
 
         useBudgetNavigation.mockReturnValue(expectedNavigation);
+        useTheme.mockReturnValue({
+            backgroundColor: chance.pickone(Object.values(Color)),
+            textColor: chance.pickone(Object.values(Color))
+        });
 
         render();
     });
 
-    it('should render a CardView', () => {
-        const renderedCardView = root.findByType(CardView);
+    it('should render a MoreIcon', () => {
+        const renderedCardView = root.findByType(MoreIcon);
 
         renderedCardView.props.onPress();
 
@@ -61,8 +66,8 @@ describe('VariableCategoryItem', () => {
         root.findByProps({children: 'remaining'});
     });
 
-    it('should render an edit icon to toggle the edit form', () => {
-        const renderedTouchable = root.findByType(EditIcon);
+    it('should render a card view to toggle the edit form', () => {
+        const renderedTouchable = root.findByType(CardView);
 
         act(() => {
             renderedTouchable.props.onPress();

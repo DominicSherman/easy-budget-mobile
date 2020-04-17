@@ -1,19 +1,20 @@
 import TestRenderer from 'react-test-renderer';
 import React from 'react';
+import Touchable from 'react-native-platform-touchable';
 
 import {createRandomExpense, createRandomVariableCategory} from '../../models';
 import {chance} from '../../chance';
 import ExpenseItem from '../../../src/components/expense/ExpenseItem';
-import {SmallText} from '../../../src/components/generic/Text';
-import CardView from '../../../src/components/generic/CardView';
 import {Route} from '../../../src/enums/Route';
 import * as hooks from '../../../src/utils/hooks';
+import {Color} from '../../../src/constants/color';
+import {Mode} from '../../../src/enums/Mode';
 
 jest.mock('@react-navigation/native');
 jest.mock('../../../src/utils/hooks');
 
 describe('ExpenseItem', () => {
-    const {useBudgetNavigation} = hooks as jest.Mocked<typeof hooks>;
+    const {useBudgetNavigation, useTheme, useMode} = hooks as jest.Mocked<typeof hooks>;
 
     let root,
         expectedVariableCategory,
@@ -37,6 +38,11 @@ describe('ExpenseItem', () => {
         };
 
         useBudgetNavigation.mockReturnValue(expectedNavigation);
+        useTheme.mockReturnValue({
+            backgroundColor: chance.pickone(Object.values(Color)),
+            textColor: chance.pickone(Object.values(Color))
+        });
+        useMode.mockReturnValue(chance.pickone(Object.values(Mode)));
 
         render();
     });
@@ -47,7 +53,7 @@ describe('ExpenseItem', () => {
     });
 
     it('should call navigation.navigate onPress', () => {
-        root.findByType(CardView).props.onPress();
+        root.findByType(Touchable).props.onPress();
 
         expect(expectedNavigation.navigate).toHaveBeenCalledTimes(1);
         expect(expectedNavigation.navigate).toHaveBeenCalledWith({
@@ -61,7 +67,5 @@ describe('ExpenseItem', () => {
     it('should **not** render the expense name if there is not one', () => {
         expectedProps.expense.name = null;
         render();
-
-        expect(root.findAllByType(SmallText)).toEqual([]);
     });
 });
