@@ -31,7 +31,7 @@ describe('LeftSideMenu', () => {
         expectedProps = {
             state: {
                 index: chance.natural({
-                    max: 8,
+                    max: 7,
                     min: 0
                 })
             }
