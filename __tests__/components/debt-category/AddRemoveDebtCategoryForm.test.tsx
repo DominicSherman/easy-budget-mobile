@@ -154,7 +154,10 @@ describe('AddRemoveDebtCategoryForm', () => {
             expect(updateButton).toEqual({
                 disabled: expect.any(Boolean),
                 onPress: expect.any(Function),
-                text: expectedProps.type
+                text: expectedProps.type,
+                wrapperStyle: {
+                    backgroundColor: Color.brightGreen
+                }
             });
 
             act(() => {

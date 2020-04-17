@@ -47,12 +47,12 @@ const CreateIncomeItemForm: FC<ICreateIncomeItemFormProps> = ({showCreateForm}) 
     };
     const inputs: IFormInput[] = [{
         onChange: setName,
-        title: 'Category Name *',
+        title: 'Name *',
         value: name
     }, {
         keyboardType: 'number-pad',
         onChange: setAmount,
-        title: 'Category Amount *',
+        title: 'Amount *',
         value: amount
     }, {
         checked: recurring,

@@ -62,7 +62,7 @@ const AddRemoveDebtCategoryForm: FC<IAddRemoveDebtCategoryFormProps> = ({toggleE
         onPress,
         text: type,
         wrapperStyle: {
-            backgroundColor: useThemedSelectedColor(Theme.LIGHT_BLUE)
+            backgroundColor: Color.brightGreen
         }
     }];
 

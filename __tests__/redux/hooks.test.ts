@@ -7,7 +7,6 @@ import {
     useSecondaryBackgroundColor, useBudgetNavigation,
     useMode,
     usePrimaryColor,
-    useTextColor,
     useTimePeriodId,
     useUserInformation
 } from '../../src/utils/hooks';
@@ -79,14 +78,6 @@ describe('hooks', () => {
             const actualValue = useSecondaryBackgroundColor();
 
             expect(actualValue).toBe(Color.white);
-        });
-    });
-
-    describe('useTextColor', () => {
-        it('should return primary color in an object', () => {
-            useSelector.mockReturnValue(Mode.DARK);
-
-            expect(useTextColor()).toEqual({color: Color.white});
         });
     });
 

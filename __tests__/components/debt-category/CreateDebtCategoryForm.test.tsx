@@ -9,6 +9,8 @@ import {createDebtCategoryMutation} from '../../../src/graphql/mutations';
 import {getUserId} from '../../../src/services/auth-service';
 import {createDebtCategoryUpdate} from '../../../src/utils/update-cache-utils';
 import Form from '../../../src/components/generic/Form';
+import * as hooks from '../../../src/utils/hooks';
+import {Mode} from '../../../src/enums/Mode';
 
 jest.mock('@apollo/react-hooks');
 jest.mock('react-redux');
@@ -17,10 +19,12 @@ jest.mock('../../../src/utils/hooks');
 
 describe('CreateDebtCategoryForm', () => {
     const {useMutation} = reactHooks as jest.Mocked<typeof reactHooks>;
+    const {useThemedSelectedColor, useMode} = hooks as jest.Mocked<typeof hooks>;
 
     let testRenderer,
         testInstance,
         expectedName,
+        expectedThemeSelectedColor,
         createDebtCategory;
 
     const setStateData = (): void => {
@@ -41,8 +45,11 @@ describe('CreateDebtCategoryForm', () => {
     beforeEach(() => {
         createDebtCategory = jest.fn();
         expectedName = chance.string();
+        expectedThemeSelectedColor = chance.string();
 
         useMutation.mockReturnValue([createDebtCategory, {} as MutationResult]);
+        useThemedSelectedColor.mockReturnValue(expectedThemeSelectedColor);
+        useMode.mockReturnValue(chance.pickone(Object.values(Mode)));
 
         render();
     });
@@ -98,7 +105,10 @@ describe('CreateDebtCategoryForm', () => {
             expect(createButton).toEqual({
                 disabled: expect.any(Boolean),
                 onPress: expect.any(Function),
-                text: 'Create'
+                text: 'Create',
+                wrapperStyle: {
+                    backgroundColor: expectedThemeSelectedColor
+                }
             });
 
             act(() => {
