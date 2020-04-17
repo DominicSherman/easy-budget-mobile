@@ -4,10 +4,10 @@ import Feather from 'react-native-vector-icons/Feather';
 import Touchable from 'react-native-platform-touchable';
 
 import {FeatherNames} from '../../enums/IconNames';
-import {usePrimaryColor} from '../../utils/hooks';
+import {useSecondaryTextColor} from '../../utils/hooks';
 import {Color} from '../../constants/color';
 
-import {RegularText} from './Text';
+import {TinyText} from './Text';
 
 const styles = StyleSheet.create({
     text: {
@@ -29,7 +29,7 @@ export interface IToggleProps {
 }
 
 const Toggle: FC<IToggleProps> = (props) => {
-    const primaryColor = usePrimaryColor();
+    const primaryColor = useSecondaryTextColor();
     const unselectedColor = props.color || primaryColor;
     const {checked, onChange, title} = props;
     const color = checked ? Color.sunflower : unselectedColor;
@@ -43,7 +43,7 @@ const Toggle: FC<IToggleProps> = (props) => {
                     name={checked ? FeatherNames.CHECK_SQUARE : FeatherNames.SQUARE}
                     size={28}
                 />
-                <RegularText style={styles.text}>{title}</RegularText>
+                <TinyText style={styles.text}>{title}</TinyText>
             </View>
         </Touchable>
     );

@@ -11,13 +11,15 @@ import {
 import {createFixedCategoryUpdate} from '../../utils/update-cache-utils';
 import Form from '../generic/Form';
 import {IInputProps} from '../generic/Input';
-import {useTimePeriodId} from '../../utils/hooks';
+import {useThemedSelectedColor, useTimePeriodId} from '../../utils/hooks';
+import {Theme} from '../../services/theme-service';
 
 interface ICreateFixedCategoryFormProps {
+    theme?: Theme
     showCreateForm?: boolean
 }
 
-const CreateFixedCategoryForm: FC<ICreateFixedCategoryFormProps> = ({showCreateForm}) => {
+const CreateFixedCategoryForm: FC<ICreateFixedCategoryFormProps> = ({showCreateForm, theme}) => {
     const timePeriodId = useTimePeriodId();
     const [name, setName] = useState('');
     const [amount, setAmount] = useState('');
@@ -67,7 +69,10 @@ const CreateFixedCategoryForm: FC<ICreateFixedCategoryFormProps> = ({showCreateF
     const buttons = [{
         disabled: !name.length || !amount.length,
         onPress,
-        text: 'Create'
+        text: 'Create',
+        wrapperStyle: {
+            backgroundColor: useThemedSelectedColor(Theme.RED)
+        }
     }];
 
     return (
@@ -75,6 +80,7 @@ const CreateFixedCategoryForm: FC<ICreateFixedCategoryFormProps> = ({showCreateF
             buttons={buttons}
             headerText={'Create Fixed Category'}
             inputs={inputs}
+            theme={theme}
             toggleable
             visibleByDefault={showCreateForm}
         />

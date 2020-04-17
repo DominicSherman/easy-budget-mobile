@@ -6,6 +6,8 @@ import {FeatherNames} from '../../enums/IconNames';
 import {SCREEN_WIDTH} from '../../constants/dimensions';
 import {Color} from '../../constants/color';
 import {shadow} from '../../styles/shared-styles';
+import {getThemedSelectedColor, Theme} from '../../services/theme-service';
+import {useMode} from '../../utils/hooks';
 
 const styles = StyleSheet.create({
     buttonWrapper: {
@@ -22,11 +24,13 @@ const styles = StyleSheet.create({
 
 interface IPlusMinusIconProps {
     isOpen: boolean
+    theme?: Theme
     setOpen: () => void
 }
 
-const PlusMinusIcon: FC<IPlusMinusIconProps> = ({isOpen, setOpen}) => {
-    const backgroundColor = Color.shockBlue;
+const PlusMinusIcon: FC<IPlusMinusIconProps> = ({isOpen, setOpen, theme}) => {
+    const mode = useMode();
+    const backgroundColor = theme ? getThemedSelectedColor(mode, theme) : getThemedSelectedColor(mode, Theme.BLUE);
     const themeStyles = {
         backgroundColor,
         borderColor: backgroundColor

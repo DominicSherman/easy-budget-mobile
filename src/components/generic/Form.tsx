@@ -5,8 +5,8 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {easeInTransition} from '../../services/animation-service';
 import {centeredRow} from '../../styles/shared-styles';
 import {SCREEN_WIDTH} from '../../constants/dimensions';
-import {Color} from '../../constants/color';
 import {useDarkBlueColor, useSecondaryBackgroundColor} from '../../utils/hooks';
+import {Theme} from '../../services/theme-service';
 
 import {FontWeight, RegularMontserratText} from './Text';
 import Button, {IButtonProps} from './Button';
@@ -48,6 +48,7 @@ export type IFormInput = (IToggleProp | IInputProp)
 interface IFormProps {
     buttons: IButtonProps[]
     inputs: IFormInput[]
+    theme?: Theme
     headerText?: string
     toggleable?: boolean
     visibleByDefault?: boolean
@@ -70,6 +71,7 @@ const Form: FC<IFormProps> = (props) => {
                 <PlusMinusIcon
                     isOpen={isVisible}
                     setOpen={setVisible}
+                    theme={props.theme}
                 />
             </View>
         );

@@ -1,5 +1,5 @@
 import React from 'react';
-import {FlatList, SafeAreaView, View} from 'react-native';
+import {FlatList, View} from 'react-native';
 import {useSelector} from 'react-redux';
 import {useQuery} from '@apollo/react-hooks';
 
@@ -15,11 +15,10 @@ import FixedCategoryItem from '../components/fixed-category/FixedCategoryItem';
 import CreateFixedCategoryForm from '../components/fixed-category/CreateFixedCategoryForm';
 import {Route} from '../enums/Route';
 import EmptyScreen from '../components/generic/EmptyScreen';
-import {flatListWrapper, safeAreaViewWrapper} from '../styles/shared-styles';
+import {ListFooterComponent} from '../components/generic/Generic';
+import {Theme} from '../services/theme-service';
 
 import {InformationRef} from './Information';
-import {ListFooterComponent} from '../components/generic/Generic';
-import {KeyboardAwareFlatList} from 'react-native-keyboard-aware-scroll-view';
 
 const FixedCategories: React.FC = () => {
     const timePeriodId = useSelector<IAppState, string>((state) => state.timePeriodId);
@@ -39,7 +38,7 @@ const FixedCategories: React.FC = () => {
     });
 
     if (!timePeriodId) {
-        return <NoActiveTimePeriod/>;
+        return <NoActiveTimePeriod />;
     }
 
     if (!queryResult.data) {
@@ -60,14 +59,17 @@ const FixedCategories: React.FC = () => {
                         titleText={'You haven\'t created any fixed categories yet!'}
                     />
                 }
-                ListFooterComponent={<ListFooterComponent/>}
+                ListFooterComponent={<ListFooterComponent />}
                 data={sortedFixedCategories}
                 keyExtractor={(item): string => item.fixedCategoryId}
                 renderItem={({item}): JSX.Element =>
-                    <FixedCategoryItem fixedCategory={item}/>
+                    <FixedCategoryItem fixedCategory={item} />
                 }
             />
-            <CreateFixedCategoryForm showCreateForm={showCreateForm}/>
+            <CreateFixedCategoryForm
+                showCreateForm={showCreateForm}
+                theme={Theme.RED}
+            />
         </View>
     );
 };

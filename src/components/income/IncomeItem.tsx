@@ -3,53 +3,54 @@ import {StyleSheet, View} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 
 import {IIncomeItem} from '../../../autogen/IIncomeItem';
-import {LargeText, SmallText} from '../generic/Text';
-import {SCREEN_WIDTH} from '../../constants/dimensions';
+import {LargeText, TinyText} from '../generic/Text';
+import {CARD_MARGIN, CARD_WIDTH} from '../../constants/dimensions';
 import CardView from '../generic/CardView';
 import {easeInTransition} from '../../services/animation-service';
 import {centeredColumn} from '../../styles/shared-styles';
-import EditIcon from '../generic/EditIcon';
-import {usePrimaryColor} from '../../utils/hooks';
+import {useSecondaryTextColor} from '../../utils/hooks';
 import {Color} from '../../constants/color';
 import {FeatherNames} from '../../enums/IconNames';
+import ColoredText from '../generic/ColoredText';
+import {Theme} from '../../services/theme-service';
 
 import EditIncomeItemForm from './EditIncomeItemForm';
 
 const styles = StyleSheet.create({
     amountWrapper: {
         justifyContent: 'center',
-        marginRight: 12,
-        width: '45%'
+        marginRight: 32
     },
     recurringWrapper: {
-        marginRight: 12
+        marginRight: 8
     },
     rightWrapper: {
         alignItems: 'flex-end',
         flexDirection: 'row',
-        width: '55%'
+        justifyContent: 'space-evenly'
     },
     titleWrapper: {
-        width: '45%'
+        maxWidth: '50%'
     },
     topWrapper: {
         alignItems: 'center',
         flexDirection: 'row',
+        justifyContent: 'space-between',
         width: '100%'
     },
     wrapper: {
         alignItems: 'flex-start',
         borderWidth: 1,
         flexDirection: 'column',
-        marginHorizontal: 8,
-        width: SCREEN_WIDTH - 16
+        marginHorizontal: CARD_MARGIN,
+        width: CARD_WIDTH
     }
 });
 
-const IncomeItem: FC<{incomeItem: IIncomeItem}> = ({incomeItem}) => {
+const IncomeItem: FC<{ incomeItem: IIncomeItem }> = ({incomeItem}) => {
     const [expanded, setExpanded] = useState(false);
     const {name, amount, recurring} = incomeItem;
-    const primaryColor = usePrimaryColor();
+    const primaryColor = useSecondaryTextColor();
     const color = recurring ? Color.sunflower : primaryColor;
     const iconName = recurring ? FeatherNames.CHECK_SQUARE : FeatherNames.SQUARE;
     const toggleExpanded = (): void => {
@@ -59,18 +60,21 @@ const IncomeItem: FC<{incomeItem: IIncomeItem}> = ({incomeItem}) => {
 
     return (
         <CardView
-            disabled
+            onPress={toggleExpanded}
             shadow
             style={styles.wrapper}
         >
             <View style={styles.topWrapper}>
                 <View style={styles.titleWrapper}>
-                    <LargeText>{name}</LargeText>
+                    <ColoredText
+                        text={name}
+                        theme={Theme.GOLD}
+                    />
                 </View>
                 <View style={styles.rightWrapper}>
                     <View style={[centeredColumn, styles.amountWrapper]}>
                         <LargeText>{`$${amount}`}</LargeText>
-                        <SmallText>{'amount'}</SmallText>
+                        <TinyText>{'amount'}</TinyText>
                     </View>
                     <View style={[centeredColumn, styles.recurringWrapper]}>
                         <Feather
@@ -78,13 +82,8 @@ const IncomeItem: FC<{incomeItem: IIncomeItem}> = ({incomeItem}) => {
                             name={iconName}
                             size={20}
                         />
-                        <SmallText>{'recurring'}</SmallText>
+                        <TinyText>{'recurring'}</TinyText>
                     </View>
-                    <EditIcon
-                        color={usePrimaryColor()}
-                        isOpen={expanded}
-                        onPress={toggleExpanded}
-                    />
                 </View>
             </View>
             {

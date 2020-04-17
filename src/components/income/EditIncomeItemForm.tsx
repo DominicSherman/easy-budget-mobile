@@ -90,7 +90,7 @@ const EditIncomeItemForm: FC<IEditIncomeItemFormProps> = ({toggleExpanded, incom
         checked: updatedRecurring,
         isToggle: true,
         onChange: setUpdatedRecurring,
-        title: 'Recurring'
+        title: 'recurring'
     }];
     const buttons = [{
         onPress: onPressDelete,

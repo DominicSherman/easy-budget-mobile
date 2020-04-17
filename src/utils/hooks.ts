@@ -8,7 +8,7 @@ import {
     getPrimaryBackgroundColor,
     getPrimaryColor,
     getSecondaryBackgroundColor, getShockBlueColor,
-    getThemedBackgroundColor,
+    getThemedBackgroundColor, getThemedSelectedColor,
     getThemedTextColor,
     Theme
 } from '../services/theme-service';
@@ -33,6 +33,9 @@ export const useThemedBackgroundColor = (theme: Theme): Color =>
 
 export const useThemedTextColor = (theme: Theme): Color =>
     getThemedTextColor(useMode(), theme);
+
+export const useThemedSelectedColor = (theme: Theme): Color =>
+    getThemedSelectedColor(useMode(), theme);
 
 export const useTheme = (theme: Theme): {
     backgroundColor: Color

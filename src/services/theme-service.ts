@@ -2,33 +2,69 @@ import {Mode} from '../enums/Mode';
 import {Color} from '../constants/color';
 
 export enum Theme {
-    BLUE = 'blue'
+    BLUE = 'blue',
+    GREEN = 'green',
+    GOLD = 'gold',
+    RED = 'red'
 }
 
 interface IThemeObject {
     backgroundColor: Color
+    selectedColor: Color
     textColor: Color
 }
 
-interface IThemedObject {
-    [Theme.BLUE]: IThemeObject
-}
-
 interface IRootThemeObject {
-    [Mode.DARK]: IThemedObject
-    [Mode.LIGHT]: IThemedObject
+    [Mode.DARK]: {
+        [key in Theme]: IThemeObject
+    }
+    [Mode.LIGHT]: {
+        [key in Theme]: IThemeObject
+    }
 }
 const themeObject: IRootThemeObject = {
     [Mode.DARK]: {
         [Theme.BLUE]: {
             backgroundColor: Color.backgroundBlueDark,
+            selectedColor: Color.backgroundBlueDark,
+            textColor: Color.white
+        },
+        [Theme.GREEN]: {
+            backgroundColor: Color.selectedGreen,
+            selectedColor: Color.selectedGreen,
+            textColor: Color.white
+        },
+        [Theme.GOLD]: {
+            backgroundColor: Color.selectedGold,
+            selectedColor: Color.selectedGold,
+            textColor: Color.white
+        },
+        [Theme.RED]: {
+            backgroundColor: Color.backgroundRedDark,
+            selectedColor: Color.backgroundRedDark,
             textColor: Color.white
         }
     },
     [Mode.LIGHT]: {
         [Theme.BLUE]: {
             backgroundColor: Color.backgroundBlue,
-            textColor: Color.selectedBlue
+            selectedColor: Color.shockBlue,
+            textColor: Color.shockBlue
+        },
+        [Theme.GREEN]: {
+            backgroundColor: Color.backgroundGreen,
+            selectedColor: Color.selectedGreen,
+            textColor: Color.selectedGreen
+        },
+        [Theme.GOLD]: {
+            backgroundColor: Color.backgroundGold,
+            selectedColor: Color.selectedGold,
+            textColor: Color.selectedGold
+        },
+        [Theme.RED]: {
+            backgroundColor: Color.backgroundRed,
+            selectedColor: Color.selectedRed,
+            textColor: Color.selectedRed
         }
     }
 };
@@ -46,6 +82,9 @@ export const getThemedBackgroundColor = (mode: Mode, theme: Theme): Color =>
 
 export const getThemedTextColor = (mode: Mode, theme: Theme): Color =>
     themeObject[mode][theme].textColor;
+
+export const getThemedSelectedColor = (mode: Mode, theme: Theme): Color =>
+    themeObject[mode][theme].selectedColor;
 
 export const getPrimaryColor = (mode: Mode): Color =>
     isDark(mode) ? Color.white : Color.dark;

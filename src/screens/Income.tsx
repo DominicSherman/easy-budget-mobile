@@ -12,6 +12,7 @@ import {getUserId} from '../services/auth-service';
 import EmptyScreen from '../components/generic/EmptyScreen';
 import {Route} from '../enums/Route';
 import CreateIncomeItemForm from '../components/income/CreateIncomeItemForm';
+import {Theme} from '../services/theme-service';
 
 import {InformationRef} from './Information';
 
@@ -59,7 +60,10 @@ const Income: FC = () => {
                     <IncomeItem incomeItem={item} />
                 }
             />
-            <CreateIncomeItemForm showCreateForm={!incomeItems.length} />
+            <CreateIncomeItemForm
+                showCreateForm={!incomeItems.length}
+                theme={Theme.GOLD}
+            />
         </SafeAreaView>
     );
 };
