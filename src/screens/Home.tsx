@@ -1,5 +1,5 @@
 import React from 'react';
-import {SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
+import {ScrollView, StyleSheet, View} from 'react-native';
 import {useQuery} from '@apollo/react-hooks';
 import {useSelector} from 'react-redux';
 import {User} from '@react-native-community/google-signin';
@@ -17,9 +17,10 @@ import CardView from '../components/generic/CardView';
 import {CARD_WIDTH, SCREEN_HEIGHT, SCREEN_WIDTH} from '../constants/dimensions';
 import {Route} from '../enums/Route';
 import Button from '../components/generic/Button';
-import {useBudgetNavigation, useShockBlueColor} from '../utils/hooks';
+import {useBudgetNavigation, useMode, useShockBlueColor} from '../utils/hooks';
 import {Color} from '../constants/color';
 import {textWrapperUnderlined} from '../styles/shared-styles';
+import {getThemedSelectedColor, Theme} from '../services/theme-service';
 
 const styles = StyleSheet.create({
     bottomWrapper: {
@@ -61,6 +62,7 @@ const Home: React.FC = () => {
     });
     const navigation = useBudgetNavigation();
     const shockBlueColor = useShockBlueColor();
+    const mode = useMode();
 
     if (!queryResult.data) {
         return getEarlyReturn(queryResult);
@@ -86,7 +88,7 @@ const Home: React.FC = () => {
     const daysRemainingText = daysRemaining > 1 ? `${daysRemaining} days remaining` : 'final day today';
 
     return (
-        <SafeAreaView style={{height: '100%'}}>
+        <View style={{height: '100%'}}>
             <ScrollView
                 contentContainerStyle={{
                     alignItems: 'center',
@@ -130,7 +132,7 @@ const Home: React.FC = () => {
                         shadow
                         style={styles.wrapper}
                     >
-                        <View style={[styles.titleWrapper, {borderBottomColor: Color.lightGreen}]}>
+                        <View style={[styles.titleWrapper, {borderBottomColor: getThemedSelectedColor(mode, Theme.GREEN)}]}>
                             <LargeText>{'This Month'}</LargeText>
                         </View>
                         <View style={styles.bottomWrapper}>
@@ -167,7 +169,7 @@ const Home: React.FC = () => {
                         shadow
                         style={styles.wrapper}
                     >
-                        <View style={[styles.titleWrapper, {borderBottomColor: Color.shockBlue}]}>
+                        <View style={[styles.titleWrapper, {borderBottomColor: getThemedSelectedColor(mode, Theme.BLUE)}]}>
                             <LargeText>{'Variable Categories'}</LargeText>
                         </View>
                         <View style={styles.bottomWrapper}>
@@ -199,7 +201,7 @@ const Home: React.FC = () => {
                         shadow
                         style={styles.wrapper}
                     >
-                        <View style={[styles.titleWrapper, {borderBottomColor: Color.salmon}]}>
+                        <View style={[styles.titleWrapper, {borderBottomColor: getThemedSelectedColor(mode, Theme.RED)}]}>
                             <LargeText>{'Fixed Categories'}</LargeText>
                         </View>
                         <View style={styles.bottomWrapper}>
@@ -231,7 +233,7 @@ const Home: React.FC = () => {
                         shadow
                         style={styles.wrapper}
                     >
-                        <View style={[styles.titleWrapper, {borderBottomColor: Color.sunflower}]}>
+                        <View style={[styles.titleWrapper, {borderBottomColor: getThemedSelectedColor(mode, Theme.GOLD)}]}>
                             <LargeText>{'Income'}</LargeText>
                         </View>
                         {
@@ -275,7 +277,7 @@ const Home: React.FC = () => {
                     wrapperStyle={{marginTop: 48}}
                 />
             </ScrollView>
-        </SafeAreaView>
+        </View>
     );
 };
 

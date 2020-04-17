@@ -1,7 +1,8 @@
 import React from 'react';
-import {FlatList, View} from 'react-native';
+import {View} from 'react-native';
 import {useSelector} from 'react-redux';
 import {useQuery} from '@apollo/react-hooks';
+import {KeyboardAwareFlatList} from 'react-native-keyboard-aware-scroll-view';
 
 import {useBudgetNavigation} from '../utils/hooks';
 import {IAppState} from '../redux/reducer';
@@ -17,6 +18,7 @@ import {Route} from '../enums/Route';
 import EmptyScreen from '../components/generic/EmptyScreen';
 import {ListFooterComponent} from '../components/generic/Generic';
 import {Theme} from '../services/theme-service';
+import {EXTRA_HEIGHT} from '../constants/dimensions';
 
 import {InformationRef} from './Information';
 
@@ -51,7 +53,7 @@ const FixedCategories: React.FC = () => {
 
     return (
         <View style={{height: '100%'}}>
-            <FlatList
+            <KeyboardAwareFlatList
                 ListEmptyComponent={
                     <EmptyScreen
                         onPressSubText={onPressSubText}
@@ -61,6 +63,7 @@ const FixedCategories: React.FC = () => {
                 }
                 ListFooterComponent={<ListFooterComponent />}
                 data={sortedFixedCategories}
+                extraHeight={EXTRA_HEIGHT}
                 keyExtractor={(item): string => item.fixedCategoryId}
                 renderItem={({item}): JSX.Element =>
                     <FixedCategoryItem fixedCategory={item} />

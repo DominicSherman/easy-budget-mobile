@@ -15,6 +15,7 @@ import {useBudgetNavigation, useTimePeriodId} from '../utils/hooks';
 import EmptyScreen from '../components/generic/EmptyScreen';
 import {Route} from '../enums/Route';
 import {ListFooterComponent} from '../components/generic/Generic';
+import {EXTRA_HEIGHT} from '../constants/dimensions';
 
 import {InformationRef} from './Information';
 
@@ -59,7 +60,7 @@ const VariableCategories: React.FC = () => {
                 }
                 ListFooterComponent={<ListFooterComponent />}
                 data={sortedVariableCategories}
-                extraHeight={125}
+                extraHeight={EXTRA_HEIGHT}
                 keyExtractor={(item): string => item.variableCategoryId}
                 renderItem={({item}): JSX.Element =>
                     <VariableCategoryItem

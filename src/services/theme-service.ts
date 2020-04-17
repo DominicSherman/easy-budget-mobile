@@ -5,6 +5,8 @@ export enum Theme {
     BLUE = 'blue',
     GREEN = 'green',
     GOLD = 'gold',
+    LIGHT_BLUE = 'lightBlue',
+    PURPLE = 'purple',
     RED = 'red'
 }
 
@@ -39,6 +41,16 @@ const themeObject: IRootThemeObject = {
             selectedColor: Color.selectedGold,
             textColor: Color.white
         },
+        [Theme.LIGHT_BLUE]: {
+            backgroundColor: Color.selectedLightBlue,
+            selectedColor: Color.selectedLightBlue,
+            textColor: Color.white
+        },
+        [Theme.PURPLE]: {
+            backgroundColor: Color.selectedPurple,
+            selectedColor: Color.selectedPurple,
+            textColor: Color.white
+        },
         [Theme.RED]: {
             backgroundColor: Color.backgroundRedDark,
             selectedColor: Color.backgroundRedDark,
@@ -60,6 +72,16 @@ const themeObject: IRootThemeObject = {
             backgroundColor: Color.backgroundGold,
             selectedColor: Color.selectedGold,
             textColor: Color.selectedGold
+        },
+        [Theme.LIGHT_BLUE]: {
+            backgroundColor: Color.backgroundLightBlue,
+            selectedColor: Color.selectedLightBlue,
+            textColor: Color.selectedLightBlue
+        },
+        [Theme.PURPLE]: {
+            backgroundColor: Color.backgroundPurple,
+            selectedColor: Color.selectedPurple,
+            textColor: Color.selectedPurple
         },
         [Theme.RED]: {
             backgroundColor: Color.backgroundRed,

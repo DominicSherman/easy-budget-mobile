@@ -85,7 +85,9 @@ const EditSavingCategoryForm: FC<IEditSavingCategoryFormProps> = ({toggleExpande
     const buttons = [{
         onPress: onPressDelete,
         text: 'Delete',
-        wrapperStyle: {backgroundColor: Color.peach}
+        wrapperStyle: {
+            backgroundColor: Color.peach
+        }
     }, {
         disabled,
         onPress,
