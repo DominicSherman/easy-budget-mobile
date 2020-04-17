@@ -91,7 +91,10 @@ const EditSavingCategoryForm: FC<IEditSavingCategoryFormProps> = ({toggleExpande
     }, {
         disabled,
         onPress,
-        text: 'Update'
+        text: 'Update',
+        wrapperStyle: {
+            backgroundColor: Color.brightGreen
+        }
     }];
 
     return (

@@ -89,7 +89,10 @@ const EditDebtCategoryForm: FC<IEditDebtCategoryFormProps> = ({toggleExpanded, d
     }, {
         disabled,
         onPress,
-        text: 'Update'
+        text: 'Update',
+        wrapperStyle: {
+            backgroundColor: Color.brightGreen
+        }
     }];
 
     return (

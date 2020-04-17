@@ -105,7 +105,10 @@ const EditFixedCategoryForm: FC<IEditFixedCategoryFormProps> = ({fixedCategory, 
     }, {
         disabled,
         onPress,
-        text: 'Update'
+        text: 'Update',
+        wrapperStyle: {
+            backgroundColor: Color.brightGreen
+        }
     }];
 
     return (
