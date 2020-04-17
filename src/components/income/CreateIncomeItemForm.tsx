@@ -12,10 +12,9 @@ import {Theme} from '../../services/theme-service';
 
 interface ICreateIncomeItemFormProps {
     showCreateForm?: boolean
-    theme: Theme
 }
 
-const CreateIncomeItemForm: FC<ICreateIncomeItemFormProps> = ({showCreateForm, theme}) => {
+const CreateIncomeItemForm: FC<ICreateIncomeItemFormProps> = ({showCreateForm}) => {
     const timePeriodId = useTimePeriodId();
     const [name, setName] = useState('');
     const [amount, setAmount] = useState('');
@@ -66,7 +65,7 @@ const CreateIncomeItemForm: FC<ICreateIncomeItemFormProps> = ({showCreateForm, t
         onPress,
         text: 'Create',
         wrapperStyle: {
-            backgroundColor: useThemedSelectedColor(theme)
+            backgroundColor: useThemedSelectedColor(Theme.GOLD)
         }
     }];
 
@@ -75,7 +74,7 @@ const CreateIncomeItemForm: FC<ICreateIncomeItemFormProps> = ({showCreateForm, t
             buttons={buttons}
             headerText={'Create Income Item'}
             inputs={inputs}
-            theme={theme}
+            theme={Theme.GOLD}
             toggleable
             visibleByDefault={showCreateForm}
         />

@@ -92,7 +92,7 @@ const Home: React.FC = () => {
             <ScrollView
                 contentContainerStyle={{
                     alignItems: 'center',
-                    paddingBottom: 16
+                    paddingBottom: 64
                 }}
             >
                 <View

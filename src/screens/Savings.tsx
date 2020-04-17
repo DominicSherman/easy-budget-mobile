@@ -14,7 +14,6 @@ import {useBudgetNavigation} from '../utils/hooks';
 import {Route} from '../enums/Route';
 import {ListFooterComponent} from '../components/generic/Generic';
 import {EXTRA_HEIGHT} from '../constants/dimensions';
-import {Theme} from '../services/theme-service';
 
 import {InformationRef} from './Information';
 
@@ -56,10 +55,7 @@ const Savings: FC = () => {
                     <SavingCategoryItem savingCategory={item} />
                 }
             />
-            <CreateSavingCategoryForm
-                showCreateForm={!savingCategories.length}
-                theme={Theme.PURPLE}
-            />
+            <CreateSavingCategoryForm showCreateForm={!savingCategories.length} />
         </View>
     );
 };

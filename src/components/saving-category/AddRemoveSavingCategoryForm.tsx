@@ -10,6 +10,8 @@ import {
 import Form from '../generic/Form';
 import {Color} from '../../constants/color';
 import {IInputProps} from '../generic/Input';
+import {useThemedSelectedColor} from '../../utils/hooks';
+import {Theme} from '../../services/theme-service';
 
 export enum SavingUpdateType {
     ADD = 'Add',
@@ -58,7 +60,10 @@ const AddRemoveSavingCategoryForm: FC<IAddRemoveSavingCategoryFormProps> = ({tog
     }, {
         disabled: !amount,
         onPress,
-        text: type
+        text: type,
+        wrapperStyle: {
+            backgroundColor: useThemedSelectedColor(Theme.PURPLE)
+        }
     }];
 
     return (

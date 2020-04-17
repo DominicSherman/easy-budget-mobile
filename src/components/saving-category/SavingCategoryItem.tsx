@@ -61,9 +61,46 @@ enum FormType {
     CLOSED = 'closed'
 }
 
+interface IFormProps {
+    formType: FormType
+    savingCategory: ISavingCategory
+    onPressEdit: () => void
+    onPressAdd: () => void
+    onPressRemove: () => void
+}
+
 interface ISavingCategoryItemProps {
     savingCategory: ISavingCategory
 }
+
+const FormComponent: FC<IFormProps> = ({formType, savingCategory, onPressEdit, onPressAdd, onPressRemove}) => {
+    if (formType === FormType.EDIT) {
+        return (
+            <EditSavingCategoryForm
+                savingCategory={savingCategory}
+                toggleExpanded={onPressEdit}
+            />
+        );
+    } else if (formType === FormType.ADD) {
+        return (
+            <AddRemoveSavingCategoryForm
+                savingCategory={savingCategory}
+                toggleExpanded={onPressAdd}
+                type={SavingUpdateType.ADD}
+            />
+        );
+    } else if (formType === FormType.REMOVE) {
+        return (
+            <AddRemoveSavingCategoryForm
+                savingCategory={savingCategory}
+                toggleExpanded={onPressRemove}
+                type={SavingUpdateType.REMOVE}
+            />
+        );
+    }
+
+    return null;
+};
 
 const SavingCategoryItem: FC<ISavingCategoryItemProps> = ({savingCategory}) => {
     const [formType, setFormType] = useState<FormType>(FormType.CLOSED);
@@ -76,31 +113,13 @@ const SavingCategoryItem: FC<ISavingCategoryItemProps> = ({savingCategory}) => {
             setFormType(FormType.CLOSED);
         }
     };
-    const typeToComponent = {
-        [FormType.CLOSED]: (): null => null,
-        [FormType.EDIT]: (): JSX.Element =>
-            <EditSavingCategoryForm
-                savingCategory={savingCategory}
-                toggleExpanded={(): void => toggle(FormType.EDIT)}
-            />,
-        [FormType.ADD]: (): JSX.Element =>
-            <AddRemoveSavingCategoryForm
-                savingCategory={savingCategory}
-                toggleExpanded={(): void => toggle(FormType.ADD)}
-                type={SavingUpdateType.ADD}
-            />,
-        [FormType.REMOVE]: (): JSX.Element =>
-            <AddRemoveSavingCategoryForm
-                savingCategory={savingCategory}
-                toggleExpanded={(): void => toggle(FormType.REMOVE)}
-                type={SavingUpdateType.REMOVE}
-            />
-    };
-    const FormComponent = typeToComponent[formType];
+    const onPressEdit = (): void => toggle(FormType.EDIT);
+    const onPressRemove = (): void => toggle(FormType.REMOVE);
+    const onPressAdd = (): void => toggle(FormType.ADD);
 
     return (
         <CardView
-            onPress={(): void => toggle(FormType.EDIT)}
+            onPress={onPressEdit}
             shadow
             style={styles.wrapper}
         >
@@ -120,7 +139,7 @@ const SavingCategoryItem: FC<ISavingCategoryItemProps> = ({savingCategory}) => {
                 <View style={styles.bottomWrapper}>
                     <Touchable
                         hitSlop={hitSlop}
-                        onPress={(): void => toggle(FormType.REMOVE)}
+                        onPress={onPressRemove}
                         testID={'remove'}
                     >
                         <RegularMontserratText
@@ -132,7 +151,7 @@ const SavingCategoryItem: FC<ISavingCategoryItemProps> = ({savingCategory}) => {
                     </Touchable>
                     <Touchable
                         hitSlop={hitSlop}
-                        onPress={(): void => toggle(FormType.ADD)}
+                        onPress={onPressAdd}
                         testID={'plus'}
                     >
                         <RegularMontserratText
@@ -144,7 +163,13 @@ const SavingCategoryItem: FC<ISavingCategoryItemProps> = ({savingCategory}) => {
                     </Touchable>
                 </View>
             </View>
-            <FormComponent />
+            <FormComponent
+                formType={formType}
+                onPressAdd={onPressAdd}
+                onPressEdit={onPressEdit}
+                onPressRemove={onPressRemove}
+                savingCategory={savingCategory}
+            />
         </CardView>
     );
 };

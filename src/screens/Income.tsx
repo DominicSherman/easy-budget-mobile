@@ -64,10 +64,7 @@ const Income: FC = () => {
                     <IncomeItem incomeItem={item} />
                 }
             />
-            <CreateIncomeItemForm
-                showCreateForm={!incomeItems.length}
-                theme={Theme.GOLD}
-            />
+            <CreateIncomeItemForm showCreateForm={!incomeItems.length} />
         </View>
     );
 };

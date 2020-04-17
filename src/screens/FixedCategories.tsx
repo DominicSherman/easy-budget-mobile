@@ -69,10 +69,7 @@ const FixedCategories: React.FC = () => {
                     <FixedCategoryItem fixedCategory={item} />
                 }
             />
-            <CreateFixedCategoryForm
-                showCreateForm={showCreateForm}
-                theme={Theme.RED}
-            />
+            <CreateFixedCategoryForm showCreateForm={showCreateForm} />
         </View>
     );
 };

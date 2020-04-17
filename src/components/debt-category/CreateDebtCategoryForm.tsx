@@ -10,6 +10,8 @@ import {
 } from '../../../autogen/CreateDebtCategoryMutation';
 import {createDebtCategoryUpdate} from '../../utils/update-cache-utils';
 import Form from '../generic/Form';
+import {useThemedSelectedColor} from '../../utils/hooks';
+import {Theme} from '../../services/theme-service';
 
 const CreateDebtCategoryForm: FC<{showCreateForm?: boolean}> = ({showCreateForm}) => {
     const [name, setName] = useState('');
@@ -43,7 +45,10 @@ const CreateDebtCategoryForm: FC<{showCreateForm?: boolean}> = ({showCreateForm}
     const buttons = [{
         disabled: !name.length,
         onPress,
-        text: 'Create'
+        text: 'Create',
+        wrapperStyle: {
+            backgroundColor: useThemedSelectedColor(Theme.LIGHT_BLUE)
+        }
     }];
 
     return (
@@ -51,6 +56,7 @@ const CreateDebtCategoryForm: FC<{showCreateForm?: boolean}> = ({showCreateForm}
             buttons={buttons}
             headerText={'Create Debt Category'}
             inputs={inputs}
+            theme={Theme.LIGHT_BLUE}
             toggleable
             visibleByDefault={showCreateForm}
         />

@@ -13,7 +13,7 @@ import Form from '../generic/Form';
 import {Theme} from '../../services/theme-service';
 import {useThemedSelectedColor} from '../../utils/hooks';
 
-const CreateSavingCategoryForm: FC<{showCreateForm?: boolean, theme: Theme}> = ({showCreateForm, theme}) => {
+const CreateSavingCategoryForm: FC<{showCreateForm?: boolean}> = ({showCreateForm}) => {
     const [name, setName] = useState('');
     const savingCategory = {
         name,
@@ -47,7 +47,7 @@ const CreateSavingCategoryForm: FC<{showCreateForm?: boolean, theme: Theme}> = (
         onPress,
         text: 'Create',
         wrapperStyle: {
-            backgroundColor: useThemedSelectedColor(theme)
+            backgroundColor: useThemedSelectedColor(Theme.PURPLE)
         }
     }];
 
@@ -56,7 +56,7 @@ const CreateSavingCategoryForm: FC<{showCreateForm?: boolean, theme: Theme}> = (
             buttons={buttons}
             headerText={'Create Saving Category'}
             inputs={inputs}
-            theme={theme}
+            theme={Theme.PURPLE}
             toggleable
             visibleByDefault={showCreateForm}
         />
