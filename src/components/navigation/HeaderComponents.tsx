@@ -4,7 +4,7 @@ import {DrawerActions} from '@react-navigation/routers';
 import Touchable from 'react-native-platform-touchable';
 
 import {FeatherNames} from '../../enums/IconNames';
-import {useBudgetNavigation, useShockBlueColor} from '../../utils/hooks';
+import {useBudgetNavigation} from '../../utils/hooks';
 import {Route} from '../../enums/Route';
 import {Color} from '../../constants/color';
 

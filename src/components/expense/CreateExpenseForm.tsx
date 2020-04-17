@@ -14,8 +14,6 @@ import {CreateExpenseMutation, CreateExpenseMutationVariables} from '../../../au
 import {createExpenseUpdate} from '../../utils/update-cache-utils';
 
 import ExpenseForm from './ExpenseForm';
-import CardView from '../generic/CardView';
-import {CARD_WIDTH} from '../../constants/dimensions';
 
 const CreateExpenseForm: FC = () => {
     const [name, setName] = useState('');

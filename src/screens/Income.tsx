@@ -13,7 +13,6 @@ import {getUserId} from '../services/auth-service';
 import EmptyScreen from '../components/generic/EmptyScreen';
 import {Route} from '../enums/Route';
 import CreateIncomeItemForm from '../components/income/CreateIncomeItemForm';
-import {Theme} from '../services/theme-service';
 import {ListFooterComponent} from '../components/generic/Generic';
 import {EXTRA_HEIGHT} from '../constants/dimensions';
 

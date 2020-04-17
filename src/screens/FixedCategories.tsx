@@ -17,7 +17,6 @@ import CreateFixedCategoryForm from '../components/fixed-category/CreateFixedCat
 import {Route} from '../enums/Route';
 import EmptyScreen from '../components/generic/EmptyScreen';
 import {ListFooterComponent} from '../components/generic/Generic';
-import {Theme} from '../services/theme-service';
 import {EXTRA_HEIGHT} from '../constants/dimensions';
 
 import {InformationRef} from './Information';

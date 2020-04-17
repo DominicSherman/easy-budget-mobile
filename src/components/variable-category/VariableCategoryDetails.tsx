@@ -1,7 +1,7 @@
 import React, {FC} from 'react';
 import {StyleSheet, View} from 'react-native';
 
-import {LargeText, RegularText, SmallText, TinyText} from '../generic/Text';
+import {LargeText, RegularText, TinyText} from '../generic/Text';
 import {IVariableCategory} from '../../../autogen/IVariableCategory';
 import {calculateTotal} from '../../utils/utils';
 
