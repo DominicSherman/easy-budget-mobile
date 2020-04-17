@@ -17,7 +17,7 @@ import CardView from '../components/generic/CardView';
 import {CARD_WIDTH, SCREEN_HEIGHT, SCREEN_WIDTH} from '../constants/dimensions';
 import {Route} from '../enums/Route';
 import Button from '../components/generic/Button';
-import {useBudgetNavigation} from '../utils/hooks';
+import {useBudgetNavigation, useShockBlueColor} from '../utils/hooks';
 import {Color} from '../constants/color';
 import {textWrapperUnderlined} from '../styles/shared-styles';
 
@@ -60,6 +60,7 @@ const Home: React.FC = () => {
         }
     });
     const navigation = useBudgetNavigation();
+    const shockBlueColor = useShockBlueColor();
 
     if (!queryResult.data) {
         return getEarlyReturn(queryResult);
@@ -94,7 +95,7 @@ const Home: React.FC = () => {
             >
                 <View
                     style={{
-                        backgroundColor: Color.shockBlue,
+                        backgroundColor: shockBlueColor,
                         borderBottomLeftRadius: 50,
                         borderBottomRightRadius: 50,
                         height: SCREEN_HEIGHT * 0.22,

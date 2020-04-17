@@ -18,6 +18,8 @@ import {useDarkBlueColor} from '../../utils/hooks';
 import {Color} from '../../constants/color';
 import {easeInTransition} from '../../services/animation-service';
 import {centeredColumn, textWrapperRounded} from '../../styles/shared-styles';
+import ColoredText from '../generic/ColoredText';
+import {Theme} from '../../services/theme-service';
 
 import EditFixedCategoryForm from './EditFixedCategoryForm';
 
@@ -88,14 +90,11 @@ const FixedCategoryItem: FC<{ fixedCategory: IFixedCategory }> = ({fixedCategory
         >
             <View style={styles.topWrapper}>
                 <View style={styles.titleWrapper}>
-                    <View style={styles.categoryNameWrapper}>
-                        <RegularMontserratText
-                            color={Color.selectedBlue}
-                            fontWeight={FontWeight.BOLD}
-                        >
-                            {name}
-                        </RegularMontserratText>
-                    </View>
+                    <ColoredText
+                        style={{marginBottom: 2}}
+                        text={name}
+                        theme={Theme.BLUE}
+                    />
                     {
                         note ?
                             <TinyText fontWeight={FontWeight.BOLD}>

@@ -3,23 +3,18 @@ import {StyleSheet, View, ViewStyle} from 'react-native';
 import Touchable from 'react-native-platform-touchable';
 import Feather from 'react-native-vector-icons/Feather';
 
-import {useBudgetNavigation, useDarkBlueColor} from '../../utils/hooks';
+import {useBudgetNavigation, useDarkBlueColor, useSecondaryBackgroundColor} from '../../utils/hooks';
 import {IExpense} from '../../../autogen/IExpense';
 import {CARD_WIDTH, SCREEN_WIDTH} from '../../constants/dimensions';
 import {FontWeight, RegularMontserratText, SmallText, TinyText} from '../generic/Text';
 import {formatExpenseDate} from '../../services/moment-service';
 import {Route} from '../../enums/Route';
 import {Color} from '../../constants/color';
-import {textWrapperRounded} from '../../styles/shared-styles';
 import {FeatherNames} from '../../enums/IconNames';
+import {Theme} from '../../services/theme-service';
+import ColoredText from '../generic/ColoredText';
 
 const styles = StyleSheet.create({
-    bottomWrapper: {
-        alignItems: 'center',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        width: '50%'
-    },
     border: {
         backgroundColor: Color.mediumGrey,
         bottom: 0,
@@ -30,13 +25,18 @@ const styles = StyleSheet.create({
         width: SCREEN_WIDTH / 2,
         zIndex: 1
     },
+    bottomWrapper: {
+        alignItems: 'center',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: '50%'
+    },
     topWrapper: {
         alignItems: 'center',
         maxWidth: '45%'
     },
     wrapper: {
         alignItems: 'center',
-        backgroundColor: Color.white,
         flexDirection: 'row',
         justifyContent: 'space-between',
         marginHorizontal: 16,
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
 });
 
 interface IExpenseItemProps {
-    categoryName?: string
+    categoryName: string
     isLastItem?: boolean
     expense: IExpense
 }
@@ -71,16 +71,13 @@ const ExpenseItem: FC<IExpenseItemProps> = ({expense, categoryName, isLastItem})
 
     return (
         <Touchable onPress={onPress}>
-            <View style={[styles.wrapper, borderStyles]}>
+            <View style={[styles.wrapper, borderStyles, {backgroundColor: useSecondaryBackgroundColor()}]}>
                 <View style={styles.topWrapper}>
-                    <View style={[textWrapperRounded, {marginBottom: 2}]}>
-                        <RegularMontserratText
-                            color={Color.selectedBlue}
-                            fontWeight={FontWeight.BOLD}
-                        >
-                            {categoryName}
-                        </RegularMontserratText>
-                    </View>
+                    <ColoredText
+                        style={{marginBottom: 2}}
+                        text={categoryName}
+                        theme={Theme.BLUE}
+                    />
                     {
                         expense.name ?
                             <TinyText fontWeight={FontWeight.BOLD}>
@@ -106,7 +103,7 @@ const ExpenseItem: FC<IExpenseItemProps> = ({expense, categoryName, isLastItem})
                 </View>
                 {
                     !isLastItem &&
-                    <View style={styles.border}/>
+                        <View style={styles.border} />
                 }
             </View>
         </Touchable>

@@ -52,3 +52,6 @@ export const getPrimaryColor = (mode: Mode): Color =>
 
 export const getDarkBlueColor = (mode: Mode): Color =>
     isDark(mode) ? Color.white : Color.darkNavy;
+
+export const getShockBlueColor = (mode: Mode): Color =>
+    isDark(mode) ? Color.lightDarkBackground : Color.shockBlue;

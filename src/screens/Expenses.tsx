@@ -65,9 +65,9 @@ const Expenses: FC = () => {
     }
 
     const sortedExpenses = expenses.sort(sortByDate);
-    const getCategoryName = (variableCategoryId: string): string | undefined => variableCategories.find(
+    const getCategoryName = (variableCategoryId: string): string => variableCategories.find(
         (variableCategory) => variableCategory.variableCategoryId === variableCategoryId
-    )?.name;
+    )?.name || '';
 
     return (
         <FlatList

@@ -7,7 +7,7 @@ import {
     getDarkBlueColor,
     getPrimaryBackgroundColor,
     getPrimaryColor,
-    getSecondaryBackgroundColor,
+    getSecondaryBackgroundColor, getShockBlueColor,
     getThemedBackgroundColor,
     getThemedTextColor,
     Theme
@@ -44,6 +44,9 @@ export const useTheme = (theme: Theme): {
 
 export const useDarkBlueColor = (): Color =>
     getDarkBlueColor(useMode());
+
+export const useShockBlueColor = (): Color =>
+    getShockBlueColor(useMode());
 
 export const useSecondaryTextColor = (): Color => Color.grey;
 

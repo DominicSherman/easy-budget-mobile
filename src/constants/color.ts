@@ -9,6 +9,7 @@ export enum Color {
     disabledGrey = '#D2D6D8',
     green = '#80B328',
     grey = '#707070',
+    lightDarkBackground = '#363636',
     lightGreen = '#42D885',
     lightGrey = '#EFF2F3',
     mediumGrey = '#9D9D9D',
