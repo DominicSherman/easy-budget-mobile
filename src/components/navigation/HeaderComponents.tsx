@@ -4,7 +4,7 @@ import {DrawerActions} from '@react-navigation/routers';
 import Touchable from 'react-native-platform-touchable';
 
 import {FeatherNames} from '../../enums/IconNames';
-import {useBudgetNavigation} from '../../utils/hooks';
+import {useBudgetNavigation, useShockBlueColor} from '../../utils/hooks';
 import {Route} from '../../enums/Route';
 import {Color} from '../../constants/color';
 
@@ -31,7 +31,7 @@ const Icon: FC<IIcon> = ({name, onPress, size}) =>
         onPress={onPress}
     >
         <Feather
-            color={Color.lightGreen}
+            color={Color.selectedGreen}
             name={name}
             size={size || 25}
             style={iconStyle}
