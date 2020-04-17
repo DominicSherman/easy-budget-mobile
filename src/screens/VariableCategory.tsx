@@ -47,11 +47,6 @@ export interface IVariableCategoryProps {
     variableCategoryId: string
 }
 
-const ListEmptyComponent: FC = () =>
-    <View style={styles.listEmptyWrapper}>
-        <RegularText style={{margin: 32}}>{'No expenses for this category yet! 🚀'}</RegularText>
-    </View>;
-
 const ListHeaderComponent: FC<{variableCategory: IVariableCategory}> = ({variableCategory}) =>
     <CardView
         disabled
@@ -81,7 +76,11 @@ const VariableCategory: IScreenFC<Route.VARIABLE_CATEGORY> = ({route: {params: {
     return (
         <SafeAreaView style={styles.wrapper}>
             <FlatList
-                ListEmptyComponent={<ListEmptyComponent />}
+                ListEmptyComponent={
+                    <View style={styles.listEmptyWrapper}>
+                        <RegularText style={{margin: 32}}>{'No expenses for this category yet! 🚀'}</RegularText>
+                    </View>
+                }
                 ListHeaderComponent={<ListHeaderComponent variableCategory={variableCategory} />}
                 ListHeaderComponentStyle={{zIndex: 1}}
                 data={variableCategory.expenses.sort(sortByDate)}

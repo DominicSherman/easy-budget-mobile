@@ -40,12 +40,10 @@ const getStyles = (style): TextStyle => {
         let styles = {};
 
         style.forEach((s) => {
-            if (s) {
-                styles = {
-                    ...styles,
-                    ...s
-                };
-            }
+            styles = {
+                ...styles,
+                ...s
+            };
         });
 
         return styles;

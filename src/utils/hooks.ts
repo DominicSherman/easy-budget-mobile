@@ -7,8 +7,10 @@ import {
     getDarkBlueColor,
     getPrimaryBackgroundColor,
     getPrimaryColor,
-    getSecondaryBackgroundColor, getShockBlueColor,
-    getThemedBackgroundColor, getThemedSelectedColor,
+    getSecondaryBackgroundColor,
+    getShockBlueColor,
+    getThemedBackgroundColor,
+    getThemedSelectedColor,
     getThemedTextColor,
     Theme
 } from '../services/theme-service';

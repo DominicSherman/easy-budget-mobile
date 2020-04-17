@@ -67,6 +67,13 @@ describe('Form', () => {
             expect(testInstance.findAllByType(Button)).toHaveLength(expectedProps.buttons.length);
         });
 
+        it('should render a single button', () => {
+            expectedProps.buttons = [createRandomButton()];
+            render();
+
+            expect(testInstance.findAllByType(Button)).toHaveLength(1);
+        });
+
         it('should render the inputs', () => {
             expectedProps.headerText = undefined;
 
