@@ -2,6 +2,7 @@ import React, {FC} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {ApolloProvider} from '@apollo/react-hooks';
 import {useSelector} from 'react-redux';
+import {useDarkMode} from 'react-native-dark-mode';
 
 import {getApolloClient} from './graphql/apollo-client';
 import {setAppState} from './redux/action-creators';
@@ -10,6 +11,8 @@ import {Color} from './constants/color';
 import {useMode} from './utils/hooks';
 import {Mode} from './enums/Mode';
 import {IAppState} from './redux/reducer';
+import {dispatchAction} from './redux/store';
+import {Actions} from './redux/actions';
 
 const LightThemeObject = {
     colors: {
@@ -34,8 +37,13 @@ const DarkThemeObject = {
 };
 
 const App: FC = () => {
+    const isDarkMode = useDarkMode();
+    const mode = isDarkMode ? Mode.DARK : Mode.LIGHT;
+
     React.useEffect(() => {
         setAppState();
+        dispatchAction(Actions.SET_MODE, mode);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     const theme = useMode() === Mode.DARK ? DarkThemeObject : LightThemeObject;
     const appStatus = useSelector((state: IAppState) => state.appStatus);
