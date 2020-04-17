@@ -43,7 +43,6 @@ describe('VariableCategory', () => {
             textColor: chance.pickone(Object.values(Color))
         });
 
-
         render();
     });
 

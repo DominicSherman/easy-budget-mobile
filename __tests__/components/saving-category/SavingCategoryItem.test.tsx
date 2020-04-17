@@ -6,7 +6,6 @@ import {MutationResult} from '@apollo/react-common';
 import {createRandomSavingCategory} from '../../models';
 import SavingCategoryItem from '../../../src/components/saving-category/SavingCategoryItem';
 import CardView from '../../../src/components/generic/CardView';
-import EditIcon from '../../../src/components/generic/EditIcon';
 import EditSavingCategoryForm from '../../../src/components/saving-category/EditSavingCategoryForm';
 import * as hooks from '../../../src/utils/hooks';
 import AddRemoveSavingCategoryForm from '../../../src/components/saving-category/AddRemoveSavingCategoryForm';

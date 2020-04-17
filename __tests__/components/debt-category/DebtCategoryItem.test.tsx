@@ -5,7 +5,6 @@ import {MutationResult} from '@apollo/react-common';
 
 import {createRandomDebtCategory} from '../../models';
 import DebtCategoryItem from '../../../src/components/debt-category/DebtCategoryItem';
-import EditIcon from '../../../src/components/generic/EditIcon';
 import EditDebtCategoryForm from '../../../src/components/debt-category/EditDebtCategoryForm';
 import * as hooks from '../../../src/utils/hooks';
 import AddRemoveDebtCategoryForm from '../../../src/components/debt-category/AddRemoveDebtCategoryForm';

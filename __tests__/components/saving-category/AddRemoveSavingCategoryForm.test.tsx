@@ -9,8 +9,6 @@ import {updateSavingCategoryMutation} from '../../../src/graphql/mutations';
 import Form from '../../../src/components/generic/Form';
 import {createRandomSavingCategory} from '../../models';
 import {Color} from '../../../src/constants/color';
-import {useThemedSelectedColor} from '../../../src/utils/hooks';
-import {Theme} from '../../../src/services/theme-service';
 
 jest.mock('@apollo/react-hooks');
 jest.mock('react-redux');

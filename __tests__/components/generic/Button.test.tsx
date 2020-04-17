@@ -3,7 +3,7 @@ import React from 'react';
 import {ActivityIndicator} from 'react-native';
 
 import {chance} from '../../chance';
-import {LargeText, RegularMontserratText} from '../../../src/components/generic/Text';
+import {RegularMontserratText} from '../../../src/components/generic/Text';
 import Button from '../../../src/components/generic/Button';
 
 jest.mock('../../../src/utils/hooks');
