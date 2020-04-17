@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {FlatList, SafeAreaView} from 'react-native';
+import {FlatList} from 'react-native';
 import {useSelector} from 'react-redux';
 import {useQuery} from '@apollo/react-hooks';
 
@@ -15,6 +15,7 @@ import ExpenseItem from '../components/expense/ExpenseItem';
 import EmptyScreen from '../components/generic/EmptyScreen';
 import {Route} from '../enums/Route';
 import {useBudgetNavigation} from '../utils/hooks';
+import {ListFooterComponent} from '../components/generic/Generic';
 
 import {InformationRef} from './Information';
 
@@ -64,31 +65,33 @@ const Expenses: FC = () => {
     }
 
     const sortedExpenses = expenses.sort(sortByDate);
-    const getCategoryName = (variableCategoryId: string): string | undefined => variableCategories.find(
+    const getCategoryName = (variableCategoryId: string): string => variableCategories.find(
         (variableCategory) => variableCategory.variableCategoryId === variableCategoryId
-    )?.name;
+    )?.name || '';
 
     return (
-        <SafeAreaView>
-            <FlatList
-                ListEmptyComponent={
-                    <EmptyScreen
-                        onPressSubText={goToInformation}
-                        subText={'What is an expense?'}
-                        titleText={'You haven\'t created any expenses yet!'}
-                    />
-                }
-                ListHeaderComponent={<CreateExpenseForm />}
-                data={sortedExpenses}
-                keyExtractor={(item): string => item.expenseId}
-                renderItem={({item}): JSX.Element =>
-                    <ExpenseItem
-                        categoryName={getCategoryName(item.variableCategoryId)}
-                        expense={item}
-                    />
-                }
-            />
-        </SafeAreaView>
+        <FlatList
+            ListEmptyComponent={
+                <EmptyScreen
+                    onPressSubText={goToInformation}
+                    subText={'What is an expense?'}
+                    titleText={'You haven\'t created any expenses yet!'}
+                />
+            }
+            ListFooterComponent={<ListFooterComponent />}
+            ListHeaderComponent={<CreateExpenseForm />}
+            ListHeaderComponentStyle={{zIndex: 1}}
+            data={sortedExpenses}
+            keyExtractor={(item): string => item.expenseId}
+            renderItem={({item, index}): JSX.Element =>
+                <ExpenseItem
+                    categoryName={getCategoryName(item.variableCategoryId)}
+                    expense={item}
+                    isLastItem={index === expenses.length - 1}
+                />
+            }
+            showsVerticalScrollIndicator={false}
+        />
     );
 };
 

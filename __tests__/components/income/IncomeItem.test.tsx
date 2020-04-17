@@ -6,9 +6,10 @@ import {MutationResult} from '@apollo/react-common';
 import {createRandomIncomeItem} from '../../models';
 import IncomeItem from '../../../src/components/income/IncomeItem';
 import CardView from '../../../src/components/generic/CardView';
-import EditIcon from '../../../src/components/generic/EditIcon';
 import EditIncomeItemForm from '../../../src/components/income/EditIncomeItemForm';
 import * as hooks from '../../../src/utils/hooks';
+import {chance} from '../../chance';
+import {Color} from '../../../src/constants/color';
 
 jest.mock('@react-navigation/native');
 jest.mock('@apollo/react-hooks');
@@ -22,7 +23,7 @@ describe('IncomeItem', () => {
         expectedProps;
 
     const {useMutation} = reactHooks as jest.Mocked<typeof reactHooks>;
-    const {useBudgetNavigation} = hooks as jest.Mocked<typeof hooks>;
+    const {useBudgetNavigation, useTheme} = hooks as jest.Mocked<typeof hooks>;
 
     const render = (): void => {
         root = TestRenderer.create(
@@ -40,6 +41,10 @@ describe('IncomeItem', () => {
 
         useBudgetNavigation.mockReturnValue(expectedNavigation);
         useMutation.mockReturnValue([jest.fn(), {} as MutationResult]);
+        useTheme.mockReturnValue({
+            backgroundColor: chance.pickone(Object.values(Color)),
+            textColor: chance.pickone(Object.values(Color))
+        });
 
         render();
     });
@@ -49,13 +54,11 @@ describe('IncomeItem', () => {
     });
 
     it('should render a CardView', () => {
-        const renderedCardView = root.findByType(CardView);
-
-        expect(renderedCardView.props.disabled).toBe(true);
+        root.findByType(CardView);
     });
 
-    it('should render an edit icon to toggle the edit form', () => {
-        const renderedTouchable = root.findByType(EditIcon);
+    it('should render a CardView to toggle the edit form', () => {
+        const renderedTouchable = root.findByType(CardView);
 
         act(() => {
             renderedTouchable.props.onPress();

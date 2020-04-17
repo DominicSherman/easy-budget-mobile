@@ -54,11 +54,14 @@ const AddRemoveSavingCategoryForm: FC<IAddRemoveSavingCategoryFormProps> = ({tog
     const buttons = [{
         onPress: toggleExpanded,
         text: 'Cancel',
-        wrapperStyle: {backgroundColor: Color.red}
+        wrapperStyle: {backgroundColor: Color.peach}
     }, {
         disabled: !amount,
         onPress,
-        text: type
+        text: type,
+        wrapperStyle: {
+            backgroundColor: Color.brightGreen
+        }
     }];
 
     return (

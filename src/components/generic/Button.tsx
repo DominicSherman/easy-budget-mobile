@@ -6,19 +6,19 @@ import {Color} from '../../constants/color';
 import {SCREEN_WIDTH} from '../../constants/dimensions';
 import {shadow} from '../../styles/shared-styles';
 
-import {LargeText} from './Text';
+import {FontWeight, RegularMontserratText} from './Text';
 
 const styles = StyleSheet.create({
     disabled: {
-        backgroundColor: Color.lightGrey
+        backgroundColor: Color.disabledGrey
     },
     wrapper: {
         alignItems: 'center',
-        backgroundColor: Color.orange,
-        borderRadius: 10,
+        backgroundColor: Color.shockBlue,
+        borderRadius: 12,
         justifyContent: 'center',
         padding: 16,
-        width: SCREEN_WIDTH / 1.5
+        width: SCREEN_WIDTH / 2
     }
 });
 
@@ -35,15 +35,19 @@ const Button: FC<IButtonProps> = ({disabled, onPress, text, textStyle, loading, 
     <Touchable
         disabled={disabled || loading}
         onPress={onPress}
-        style={[styles.wrapper, disabled && styles.disabled, shadow, wrapperStyle]}
+        style={[styles.wrapper, shadow, wrapperStyle, disabled && styles.disabled]}
     >
         {
             loading ?
                 <ActivityIndicator />
                 :
-                <LargeText style={[{color: Color.white}, textStyle]}>
+                <RegularMontserratText
+                    color={Color.white}
+                    fontWeight={FontWeight.BOLD}
+                    style={textStyle}
+                >
                     {text}
-                </LargeText>
+                </RegularMontserratText>
         }
     </Touchable>;
 

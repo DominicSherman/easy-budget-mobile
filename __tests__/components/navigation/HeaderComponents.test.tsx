@@ -4,7 +4,7 @@ import React from 'react';
 import Touchable from 'react-native-platform-touchable';
 
 import {FeatherNames} from '../../../src/enums/IconNames';
-import {CloseIcon, HamburgerMenu, InfoIcon} from '../../../src/components/navigation/HeaderComponents';
+import {BackButton, CloseIcon, HamburgerMenu, InfoIcon} from '../../../src/components/navigation/HeaderComponents';
 import {Route} from '../../../src/enums/Route';
 import * as hooks from '../../../src/utils/hooks';
 
@@ -68,6 +68,34 @@ describe('HeaderComponents', () => {
 
         it('should render a Feather component', () => {
             root.findByProps({name: FeatherNames.X});
+
+            const renderedTouchable = root.findByType(Touchable);
+
+            expect(renderedTouchable.props.onPress).toBe(expectedNavigation.goBack);
+        });
+    });
+
+    describe('BackButton', () => {
+        let expectedNavigation;
+
+        const render = (): void => {
+            root = TestRenderer.create(
+                <BackButton />
+            ).root;
+        };
+
+        beforeEach(() => {
+            expectedNavigation = {
+                goBack: jest.fn()
+            };
+
+            useBudgetNavigation.mockReturnValue(expectedNavigation);
+
+            render();
+        });
+
+        it('should render a Feather component', () => {
+            root.findByProps({name: FeatherNames.CHEVRON_LEFT});
 
             const renderedTouchable = root.findByType(Touchable);
 

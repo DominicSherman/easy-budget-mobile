@@ -1,9 +1,9 @@
 import React, {FC} from 'react';
-import {createStackNavigator} from '@react-navigation/stack';
+import {createStackNavigator, StackNavigationOptions} from '@react-navigation/stack';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 
 import {Route} from './enums/Route';
-import {CloseIcon, HamburgerMenu, InfoIcon} from './components/navigation/HeaderComponents';
+import {BackButton, CloseIcon, HamburgerMenu, InfoIcon} from './components/navigation/HeaderComponents';
 import {SCREEN_WIDTH} from './constants/dimensions';
 import {AppStatus} from './enums/AppStatus';
 import LoadingView from './components/generic/LoadingView';
@@ -21,32 +21,61 @@ import FixedCategories from './screens/FixedCategories';
 import Settings from './screens/Settings';
 import Income from './screens/Income';
 import Debt from './screens/Debt';
+import {textStyles} from './styles/text-styles';
+import LeftSideMenu from './components/navigation/LeftSideMenu';
+import {shadow} from './styles/shared-styles';
+import {getDarkBlueColor} from './services/theme-service';
+import {useMode} from './utils/hooks';
 
-const screenOptions = {
-    headerLeft: (): JSX.Element => <HamburgerMenu />
-};
-const modalOptions = {
+const getScreenOptions = (mode): StackNavigationOptions => ({
+    headerLeft: (): JSX.Element => <HamburgerMenu />,
+    headerStyle: {
+        ...shadow
+    },
+    headerTitleStyle: {
+        ...textStyles.title,
+        color: getDarkBlueColor(mode)
+    }
+});
+
+const getSecondaryScreenOptions = (mode): StackNavigationOptions => ({
+    headerLeft: (): JSX.Element => <BackButton />,
+    headerStyle: {
+        ...shadow
+    },
+    headerTitleStyle: {
+        ...textStyles.title,
+        color: getDarkBlueColor(mode)
+    }
+});
+
+const modalOptions: StackNavigationOptions = {
     headerLeft: (): JSX.Element => <CloseIcon />,
+    headerStyle: {
+        ...shadow
+    },
     headerTitle: ''
 };
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type ScreenParams = {
-    [Route.HOME]: {}
-    [Route.FIXED_CATEGORIES]: {}
-    [Route.VARIABLE_CATEGORIES]: {}
-    [Route.EXPENSES]: {}
-    [Route.EXPENSE]: IExpenseProps
     [Route.DATE_PICKER]: IDateTimePickerProps
-    [Route.SETTINGS]: {}
-    [Route.VARIABLE_CATEGORY]: IVariableCategoryProps
-    [Route.LOADING]: {}
-    [Route.ERROR]: {}
-    [Route.LOGIN]: {}
-    [Route.SAVINGS]: {}
-    [Route.INFORMATION]: IInformationProps
-    [Route.INCOME]: {}
     [Route.DEBT]: {}
+    [Route.DRAWER]: {}
+    [Route.ERROR]: {}
+    [Route.EXPENSE]: IExpenseProps
+    [Route.EXPENSES]: {}
+    [Route.FIXED_CATEGORIES]: {}
+    [Route.HOME]: {}
+    [Route.INCOME]: {}
+    [Route.INFORMATION]: IInformationProps
+    [Route.LOADING]: {}
+    [Route.LOGIN]: {}
+    [Route.ROOT_STACK]: {}
+    [Route.SAVINGS]: {}
+    [Route.SETTINGS]: {}
+    [Route.VARIABLE_CATEGORIES]: {}
+    [Route.VARIABLE_CATEGORY]: IVariableCategoryProps
 }
 
 const Stack = createStackNavigator<ScreenParams>();
@@ -58,7 +87,7 @@ const HomeStack: FC = () =>
             component={Home}
             name={Route.HOME}
             options={{
-                ...screenOptions,
+                ...getScreenOptions(useMode()),
                 headerRight: (): JSX.Element => <InfoIcon />
             }}
         />
@@ -69,12 +98,15 @@ const VariableCategoriesStack: FC = () =>
         <Stack.Screen
             component={VariableCategories}
             name={Route.VARIABLE_CATEGORIES}
-            options={screenOptions}
+            options={getScreenOptions(useMode())}
         />
         <Stack.Screen
             component={VariableCategory}
             name={Route.VARIABLE_CATEGORY}
-            options={{headerTitle: ''}}
+            options={{
+                ...getSecondaryScreenOptions(useMode()),
+                title: 'VARIABLE'
+            }}
         />
     </Stack.Navigator>;
 
@@ -83,7 +115,7 @@ const FixedCategoriesStack: FC = () =>
         <Stack.Screen
             component={FixedCategories}
             name={Route.FIXED_CATEGORIES}
-            options={screenOptions}
+            options={getScreenOptions(useMode())}
         />
     </Stack.Navigator>;
 
@@ -92,7 +124,7 @@ const ExpensesStack: FC = () =>
         <Stack.Screen
             component={Expenses}
             name={Route.EXPENSES}
-            options={screenOptions}
+            options={getScreenOptions(useMode())}
         />
     </Stack.Navigator>;
 
@@ -101,7 +133,7 @@ const SettingsStack: FC = () =>
         <Stack.Screen
             component={Settings}
             name={Route.SETTINGS}
-            options={screenOptions}
+            options={getScreenOptions(useMode())}
         />
     </Stack.Navigator>;
 
@@ -110,7 +142,7 @@ const SavingsStack: FC = () =>
         <Stack.Screen
             component={Savings}
             name={Route.SAVINGS}
-            options={screenOptions}
+            options={getScreenOptions(useMode())}
         />
     </Stack.Navigator>;
 
@@ -119,7 +151,7 @@ const DebtStack: FC = () =>
         <Stack.Screen
             component={Debt}
             name={Route.DEBT}
-            options={screenOptions}
+            options={getScreenOptions(useMode())}
         />
     </Stack.Navigator>;
 
@@ -128,14 +160,16 @@ const IncomeStack: FC = () =>
         <Stack.Screen
             component={Income}
             name={Route.INCOME}
-            options={screenOptions}
+            options={getScreenOptions(useMode())}
         />
     </Stack.Navigator>;
 
 const DrawerNavigator: FC = () =>
     <Drawer.Navigator
+        drawerContent={(props): JSX.Element => <LeftSideMenu {...props} />}
         drawerType={'slide'}
         edgeWidth={SCREEN_WIDTH / 3}
+        initialRouteName={Route.HOME}
     >
         <Drawer.Screen
             component={HomeStack}
@@ -178,7 +212,7 @@ const RootStack: FC = () =>
     >
         <Stack.Screen
             component={DrawerNavigator}
-            name={Route.HOME}
+            name={Route.DRAWER}
             options={{headerShown: false}}
         />
         <Stack.Screen
@@ -228,7 +262,7 @@ export const RootNavigator: FC<{appStatus: AppStatus}> = ({appStatus}) =>
             appStatus === AppStatus.LOGGED_IN ?
                 <Stack.Screen
                     component={RootStack}
-                    name={Route.HOME}
+                    name={Route.ROOT_STACK}
                     options={{headerShown: false}}
                 /> : null
         }

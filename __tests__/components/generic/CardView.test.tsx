@@ -7,6 +7,7 @@ import Touchable from 'react-native-platform-touchable';
 import * as hooks from '../../../src/utils/hooks';
 import CardView from '../../../src/components/generic/CardView';
 import {Color} from '../../../src/constants/color';
+import {shadow} from '../../../src/styles/shared-styles';
 
 const chance = new Chance();
 
@@ -21,7 +22,7 @@ jest.mock('../../../src/utils/hooks');
 
 describe('CardView', () => {
     const mockAnimated = Animated as jest.Mocked<typeof Animated>;
-    const {useBackgroundColor} = hooks as jest.Mocked<typeof hooks>;
+    const {useSecondaryBackgroundColor} = hooks as jest.Mocked<typeof hooks>;
 
     let expectedProps,
         expectedBackgroundColor,
@@ -77,7 +78,7 @@ describe('CardView', () => {
             stop: jest.fn()
         });
 
-        useBackgroundColor.mockReturnValue(expectedBackgroundColor);
+        useSecondaryBackgroundColor.mockReturnValue(expectedBackgroundColor);
         createTestRenderer();
     });
 
@@ -135,18 +136,7 @@ describe('CardView', () => {
 
         updateComponent();
 
-        expect(renderedWrapperView.props.style[4]).toEqual({
-            borderColor: Color.white,
-            borderWidth: 0,
-            elevation: 3,
-            shadowColor: Color.black,
-            shadowOffset: {
-                height: 2,
-                width: 0
-            },
-            shadowOpacity: 0.3,
-            shadowRadius: 2
-        });
+        expect(renderedWrapperView.props.style[4]).toEqual(shadow);
     });
 
     it('should render the children', () => {

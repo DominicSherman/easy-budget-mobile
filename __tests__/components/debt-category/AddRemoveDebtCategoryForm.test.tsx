@@ -140,7 +140,7 @@ describe('AddRemoveDebtCategoryForm', () => {
             expect(cancelButton).toEqual({
                 onPress: expect.any(Function),
                 text: 'Cancel',
-                wrapperStyle: {backgroundColor: Color.red}
+                wrapperStyle: {backgroundColor: Color.peach}
             });
 
             act(() => {
@@ -154,7 +154,10 @@ describe('AddRemoveDebtCategoryForm', () => {
             expect(updateButton).toEqual({
                 disabled: expect.any(Boolean),
                 onPress: expect.any(Function),
-                text: expectedProps.type
+                text: expectedProps.type,
+                wrapperStyle: {
+                    backgroundColor: Color.brightGreen
+                }
             });
 
             act(() => {

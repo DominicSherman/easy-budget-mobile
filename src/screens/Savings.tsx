@@ -1,6 +1,7 @@
 import React, {FC} from 'react';
-import {FlatList, SafeAreaView} from 'react-native';
+import {View} from 'react-native';
 import {useQuery} from '@apollo/react-hooks';
+import {KeyboardAwareFlatList} from 'react-native-keyboard-aware-scroll-view';
 
 import {getSavingCategoriesQuery} from '../graphql/queries';
 import {getUserId} from '../services/auth-service';
@@ -11,6 +12,8 @@ import SavingCategoryItem from '../components/saving-category/SavingCategoryItem
 import EmptyScreen from '../components/generic/EmptyScreen';
 import {useBudgetNavigation} from '../utils/hooks';
 import {Route} from '../enums/Route';
+import {ListFooterComponent} from '../components/generic/Generic';
+import {EXTRA_HEIGHT} from '../constants/dimensions';
 
 import {InformationRef} from './Information';
 
@@ -35,8 +38,8 @@ const Savings: FC = () => {
     const {savingCategories} = queryResult.data;
 
     return (
-        <SafeAreaView style={{height: '100%'}}>
-            <FlatList
+        <View style={{height: '100%'}}>
+            <KeyboardAwareFlatList
                 ListEmptyComponent={
                     <EmptyScreen
                         onPressSubText={onPressSubText}
@@ -44,14 +47,16 @@ const Savings: FC = () => {
                         titleText={'You haven\'t created any saving categories yet!'}
                     />
                 }
+                ListFooterComponent={<ListFooterComponent />}
                 data={savingCategories}
+                extraHeight={EXTRA_HEIGHT}
                 keyExtractor={(item): string => item.savingCategoryId}
                 renderItem={({item}): JSX.Element =>
                     <SavingCategoryItem savingCategory={item} />
                 }
             />
             <CreateSavingCategoryForm showCreateForm={!savingCategories.length} />
-        </SafeAreaView>
+        </View>
     );
 };
 

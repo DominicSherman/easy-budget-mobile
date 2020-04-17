@@ -1,7 +1,8 @@
 import React from 'react';
-import {FlatList, SafeAreaView} from 'react-native';
+import {View} from 'react-native';
 import {useSelector} from 'react-redux';
 import {useQuery} from '@apollo/react-hooks';
+import {KeyboardAwareFlatList} from 'react-native-keyboard-aware-scroll-view';
 
 import {useBudgetNavigation} from '../utils/hooks';
 import {IAppState} from '../redux/reducer';
@@ -15,6 +16,8 @@ import FixedCategoryItem from '../components/fixed-category/FixedCategoryItem';
 import CreateFixedCategoryForm from '../components/fixed-category/CreateFixedCategoryForm';
 import {Route} from '../enums/Route';
 import EmptyScreen from '../components/generic/EmptyScreen';
+import {ListFooterComponent} from '../components/generic/Generic';
+import {EXTRA_HEIGHT} from '../constants/dimensions';
 
 import {InformationRef} from './Information';
 
@@ -48,8 +51,8 @@ const FixedCategories: React.FC = () => {
     const sortedFixedCategories = fixedCategories.sort(sortByAmount).sort(sortByPaid);
 
     return (
-        <SafeAreaView style={{height: '100%'}}>
-            <FlatList
+        <View style={{height: '100%'}}>
+            <KeyboardAwareFlatList
                 ListEmptyComponent={
                     <EmptyScreen
                         onPressSubText={onPressSubText}
@@ -57,15 +60,16 @@ const FixedCategories: React.FC = () => {
                         titleText={'You haven\'t created any fixed categories yet!'}
                     />
                 }
-                contentContainerStyle={{paddingBottom: 50}}
+                ListFooterComponent={<ListFooterComponent />}
                 data={sortedFixedCategories}
+                extraHeight={EXTRA_HEIGHT}
                 keyExtractor={(item): string => item.fixedCategoryId}
                 renderItem={({item}): JSX.Element =>
                     <FixedCategoryItem fixedCategory={item} />
                 }
             />
             <CreateFixedCategoryForm showCreateForm={showCreateForm} />
-        </SafeAreaView>
+        </View>
     );
 };
 

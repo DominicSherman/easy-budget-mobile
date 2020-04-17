@@ -83,22 +83,27 @@ const EditVariableCategoryForm: FC<IEditVariableCategoryFormProps> = ({toggleExp
     const disabled = JSON.stringify(originalValues) === JSON.stringify(updatedValues) || !name.length || !updatedAmount.length;
     const inputs: IInputProps[] = [{
         onChange: setUpdatedName,
-        title: 'Category Name *',
+        title: 'Name *',
         value: updatedName
     }, {
         keyboardType: 'number-pad',
         onChange: setUpdatedAmount,
-        title: 'Category Amount *',
+        title: 'Amount *',
         value: updatedAmount
     }];
     const buttons = [{
         onPress: onPressDelete,
         text: 'Delete',
-        wrapperStyle: {backgroundColor: Color.red}
+        wrapperStyle: {
+            backgroundColor: Color.peach
+        }
     }, {
         disabled,
         onPress,
-        text: 'Update'
+        text: 'Update',
+        wrapperStyle: {
+            backgroundColor: Color.brightGreen
+        }
     }];
 
     return (

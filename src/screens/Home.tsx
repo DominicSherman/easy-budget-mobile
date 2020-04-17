@@ -1,11 +1,11 @@
 import React from 'react';
-import {SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
+import {ScrollView, StyleSheet, View} from 'react-native';
 import {useQuery} from '@apollo/react-hooks';
 import {useSelector} from 'react-redux';
 import {User} from '@react-native-community/google-signin';
 import moment from 'moment';
 
-import {LargeText, RegularText, SmallText, TitleText} from '../components/generic/Text';
+import {FontWeight, LargeText, RegularText, SmallText, TinyText, TitleText} from '../components/generic/Text';
 import {getUserId} from '../services/auth-service';
 import {homeScreenQuery} from '../graphql/queries';
 import {formatTimePeriod, getRoundedDate} from '../services/moment-service';
@@ -14,37 +14,36 @@ import NoActiveTimePeriod from '../components/time-period/NoActiveTimePeriod';
 import {IAppState} from '../redux/reducer';
 import {HomeScreenQuery, HomeScreenQueryVariables} from '../../autogen/HomeScreenQuery';
 import CardView from '../components/generic/CardView';
-import {SCREEN_WIDTH} from '../constants/dimensions';
+import {CARD_WIDTH, SCREEN_HEIGHT, SCREEN_WIDTH} from '../constants/dimensions';
 import {Route} from '../enums/Route';
 import Button from '../components/generic/Button';
-import {useBudgetNavigation} from '../utils/hooks';
+import {useBudgetNavigation, useMode, useShockBlueColor} from '../utils/hooks';
+import {Color} from '../constants/color';
+import {textWrapperUnderlined} from '../styles/shared-styles';
+import {getThemedSelectedColor, Theme} from '../services/theme-service';
 
 const styles = StyleSheet.create({
     bottomWrapper: {
         alignItems: 'center',
         flexDirection: 'row',
         justifyContent: 'space-evenly',
-        marginTop: 16,
+        marginTop: 8,
         width: '100%'
     },
     rowCenter: {
         alignItems: 'center',
         flexDirection: 'row'
     },
-    titleWrapper: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        width: '100%'
-    },
+    titleWrapper: textWrapperUnderlined,
     verticalCenter: {
         alignItems: 'center',
         flexDirection: 'column'
     },
     wrapper: {
-        alignItems: 'flex-start',
+        alignItems: 'center',
         flexDirection: 'column',
-        marginHorizontal: 8,
-        width: SCREEN_WIDTH - 16
+        marginHorizontal: 16,
+        width: CARD_WIDTH
     }
 });
 
@@ -62,6 +61,8 @@ const Home: React.FC = () => {
         }
     });
     const navigation = useBudgetNavigation();
+    const shockBlueColor = useShockBlueColor();
+    const mode = useMode();
 
     if (!queryResult.data) {
         return getEarlyReturn(queryResult);
@@ -87,53 +88,77 @@ const Home: React.FC = () => {
     const daysRemainingText = daysRemaining > 1 ? `${daysRemaining} days remaining` : 'final day today';
 
     return (
-        <SafeAreaView style={{height: '100%'}}>
+        <View style={{height: '100%'}}>
             <ScrollView
                 contentContainerStyle={{
                     alignItems: 'center',
-                    paddingBottom: 16
+                    paddingBottom: 64
                 }}
             >
-                <LargeText style={{marginTop: 16}}>
+                <View
+                    style={{
+                        backgroundColor: shockBlueColor,
+                        borderBottomLeftRadius: 50,
+                        borderBottomRightRadius: 50,
+                        height: SCREEN_HEIGHT * 0.22,
+                        position: 'absolute',
+                        top: 0,
+                        width: SCREEN_WIDTH,
+                        zIndex: -1
+                    }}
+                />
+                <RegularText
+                    color={Color.white}
+                    fontWeight={FontWeight.BOLD}
+                    style={{marginTop: 16}}
+                >
                     {`${formatTimePeriod(activeTimePeriod.beginDate)} - ${formatTimePeriod(moment(activeTimePeriod.endDate).toISOString())} (${moment(activeTimePeriod.endDate).diff(moment(activeTimePeriod.beginDate), 'd')} days)`}
-                </LargeText>
-                <SmallText>
+                </RegularText>
+                <SmallText
+                    color={Color.white}
+                    style={{marginTop: 8}}
+                >
                     {`${moment().diff(moment(activeTimePeriod.beginDate), 'd')} days done, ${daysRemainingText}`}
                 </SmallText>
-                <TitleText style={{marginTop: 16}}>
-                    {`Welcome, ${userInformation.user.givenName}! 🎉`}
+                <TitleText
+                    color={Color.white}
+                    style={{marginTop: 16}}
+                >
+                    {`Welcome, ${userInformation.user.givenName}!`}
                 </TitleText>
-                <View style={{marginTop: 16}}>
+                <View style={{marginTop: 8}}>
                     <CardView
+                        disabled
+                        shadow
                         style={styles.wrapper}
                     >
-                        <View style={styles.titleWrapper}>
+                        <View style={[styles.titleWrapper, {borderBottomColor: getThemedSelectedColor(mode, Theme.GREEN)}]}>
                             <LargeText>{'This Month'}</LargeText>
                         </View>
                         <View style={styles.bottomWrapper}>
                             <View style={styles.verticalCenter}>
                                 <View style={styles.rowCenter}>
                                     <RegularText>{`$${incomeTotal}`}</RegularText>
-                                    <SmallText style={{marginLeft: 8}}>{'income'}</SmallText>
+                                    <TinyText style={{marginLeft: 8}}>{'income'}</TinyText>
                                 </View>
                                 <View style={styles.rowCenter}>
                                     <RegularText>{`- $${variableCategoriesTotal}`}</RegularText>
-                                    <SmallText style={{marginLeft: 8}}>{'budgeted'}</SmallText>
+                                    <TinyText style={{marginLeft: 8}}>{'budgeted'}</TinyText>
                                 </View>
                                 <View style={styles.rowCenter}>
                                     <RegularText>{`- $${fixedCategoriesTotal}`}</RegularText>
-                                    <SmallText style={{marginLeft: 8}}>{'fixed categories'}</SmallText>
+                                    <TinyText style={{marginLeft: 8}}>{'fixed categories'}</TinyText>
                                 </View>
                             </View>
                             <RegularText>{'='}</RegularText>
                             <View style={styles.verticalCenter}>
                                 <RegularText>{`$${incomeTotal - variableCategoriesTotal - fixedCategoriesTotal}`}</RegularText>
-                                <SmallText>{'remaining'}</SmallText>
+                                <TinyText>{'remaining'}</TinyText>
                             </View>
                         </View>
                     </CardView>
                 </View>
-                <View style={{marginTop: 16}}>
+                <View style={{marginTop: 8}}>
                     <CardView
                         onPress={(): void => {
                             navigation.navigate({
@@ -144,28 +169,28 @@ const Home: React.FC = () => {
                         shadow
                         style={styles.wrapper}
                     >
-                        <View style={styles.titleWrapper}>
+                        <View style={[styles.titleWrapper, {borderBottomColor: getThemedSelectedColor(mode, Theme.BLUE)}]}>
                             <LargeText>{'Variable Categories'}</LargeText>
                         </View>
                         <View style={styles.bottomWrapper}>
                             <View style={styles.verticalCenter}>
                                 <RegularText>{`$${variableCategoriesTotal}`}</RegularText>
-                                <SmallText>{'budgeted'}</SmallText>
+                                <TinyText>{'budgeted'}</TinyText>
                             </View>
                             <RegularText>{'-'}</RegularText>
                             <View style={styles.verticalCenter}>
                                 <RegularText>{`$${expensesTotal}`}</RegularText>
-                                <SmallText>{'spent'}</SmallText>
+                                <TinyText>{'spent'}</TinyText>
                             </View>
                             <RegularText>{'='}</RegularText>
                             <View style={styles.verticalCenter}>
                                 <RegularText>{`$${variableCategoriesTotal - expensesTotal}`}</RegularText>
-                                <SmallText>{'remaining'}</SmallText>
+                                <TinyText>{'remaining'}</TinyText>
                             </View>
                         </View>
                     </CardView>
                 </View>
-                <View style={{marginTop: 16}}>
+                <View style={{marginTop: 8}}>
                     <CardView
                         onPress={(): void => {
                             navigation.navigate({
@@ -176,28 +201,28 @@ const Home: React.FC = () => {
                         shadow
                         style={styles.wrapper}
                     >
-                        <View style={styles.titleWrapper}>
+                        <View style={[styles.titleWrapper, {borderBottomColor: getThemedSelectedColor(mode, Theme.RED)}]}>
                             <LargeText>{'Fixed Categories'}</LargeText>
                         </View>
                         <View style={styles.bottomWrapper}>
                             <View style={styles.verticalCenter}>
                                 <RegularText>{`$${fixedCategoriesTotal}`}</RegularText>
-                                <SmallText>{'to pay'}</SmallText>
+                                <TinyText>{'to pay'}</TinyText>
                             </View>
                             <RegularText>{'-'}</RegularText>
                             <View style={styles.verticalCenter}>
                                 <RegularText>{`$${fixedExpensesTotal}`}</RegularText>
-                                <SmallText>{'paid'}</SmallText>
+                                <TinyText>{'paid'}</TinyText>
                             </View>
                             <RegularText>{'='}</RegularText>
                             <View style={styles.verticalCenter}>
                                 <RegularText>{`$${fixedCategoriesTotal - fixedExpensesTotal}`}</RegularText>
-                                <SmallText>{'still to pay'}</SmallText>
+                                <TinyText>{'still to pay'}</TinyText>
                             </View>
                         </View>
                     </CardView>
                 </View>
-                <View style={{marginVertical: 16}}>
+                <View style={{marginTop: 8}}>
                     <CardView
                         onPress={(): void => {
                             navigation.navigate({
@@ -208,7 +233,7 @@ const Home: React.FC = () => {
                         shadow
                         style={styles.wrapper}
                     >
-                        <View style={styles.titleWrapper}>
+                        <View style={[styles.titleWrapper, {borderBottomColor: getThemedSelectedColor(mode, Theme.GOLD)}]}>
                             <LargeText>{'Income'}</LargeText>
                         </View>
                         {
@@ -216,17 +241,17 @@ const Home: React.FC = () => {
                                 <View style={styles.bottomWrapper}>
                                     <View style={styles.verticalCenter}>
                                         <RegularText>{`$${calculateTotal(recurringItems)}`}</RegularText>
-                                        <SmallText>{'per time period'}</SmallText>
+                                        <TinyText>{'per time period'}</TinyText>
                                     </View>
                                     <RegularText>{'+'}</RegularText>
                                     <View style={styles.verticalCenter}>
                                         <RegularText>{`$${calculateTotal(nonRecurringItems)}`}</RegularText>
-                                        <SmallText>{'additional'}</SmallText>
+                                        <TinyText>{'additional'}</TinyText>
                                     </View>
                                     <RegularText>{'='}</RegularText>
                                     <View style={styles.verticalCenter}>
                                         <RegularText>{`$${incomeTotal}`}</RegularText>
-                                        <SmallText>{'total'}</SmallText>
+                                        <TinyText>{'total'}</TinyText>
                                     </View>
                                 </View>
                                 :
@@ -249,9 +274,10 @@ const Home: React.FC = () => {
                         });
                     }}
                     text={'Create Expense'}
+                    wrapperStyle={{marginTop: 48}}
                 />
             </ScrollView>
-        </SafeAreaView>
+        </View>
     );
 };
 

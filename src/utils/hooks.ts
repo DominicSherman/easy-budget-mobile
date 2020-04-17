@@ -1,22 +1,59 @@
 import {useSelector} from 'react-redux';
 import {User} from '@react-native-community/google-signin';
-import {useNavigation, NavigationProp} from '@react-navigation/native';
+import {NavigationProp, useNavigation} from '@react-navigation/native';
 
 import {Mode} from '../enums/Mode';
-import {getBackgroundColor, getPrimaryColor} from '../services/theme-service';
+import {
+    getDarkBlueColor,
+    getPrimaryBackgroundColor,
+    getPrimaryColor,
+    getSecondaryBackgroundColor,
+    getShockBlueColor,
+    getThemedBackgroundColor,
+    getThemedSelectedColor,
+    getThemedTextColor,
+    Theme
+} from '../services/theme-service';
 import {IAppState} from '../redux/reducer';
 import {ScreenParams} from '../StacksOnStacksOnStacks';
+import {Color} from '../constants/color';
 
 export const useMode = (): Mode =>
     useSelector<IAppState, Mode>((state) => state.mode);
 
-export const usePrimaryColor = (): string =>
+export const usePrimaryColor = (): Color =>
     getPrimaryColor(useMode());
 
-export const useBackgroundColor = (): string =>
-    getBackgroundColor(useMode());
+export const usePrimaryBackgroundColor = (): Color =>
+    getPrimaryBackgroundColor(useMode());
 
-export const useTextColor = (): {color: string} => ({color: usePrimaryColor()});
+export const useSecondaryBackgroundColor = (): Color =>
+    getSecondaryBackgroundColor(useMode());
+
+export const useThemedBackgroundColor = (theme: Theme): Color =>
+    getThemedBackgroundColor(useMode(), theme);
+
+export const useThemedTextColor = (theme: Theme): Color =>
+    getThemedTextColor(useMode(), theme);
+
+export const useThemedSelectedColor = (theme: Theme): Color =>
+    getThemedSelectedColor(useMode(), theme);
+
+export const useTheme = (theme: Theme): {
+    backgroundColor: Color
+    textColor: Color
+} => ({
+    backgroundColor: getThemedBackgroundColor(useMode(), theme),
+    textColor: getThemedTextColor(useMode(), theme)
+});
+
+export const useDarkBlueColor = (): Color =>
+    getDarkBlueColor(useMode());
+
+export const useShockBlueColor = (): Color =>
+    getShockBlueColor(useMode());
+
+export const useSecondaryTextColor = (): Color => Color.grey;
 
 export const useTimePeriodId = (): string =>
     useSelector<IAppState, string>((state) => state.timePeriodId);

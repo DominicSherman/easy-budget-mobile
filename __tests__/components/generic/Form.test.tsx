@@ -6,13 +6,17 @@ import {chance} from '../../chance';
 import Form from '../../../src/components/generic/Form';
 import Button, {IButtonProps} from '../../../src/components/generic/Button';
 import Input, {IInputProps} from '../../../src/components/generic/Input';
+import * as hooks from '../../../src/utils/hooks';
+import {Mode} from '../../../src/enums/Mode';
 
 jest.mock('@apollo/react-hooks');
 jest.mock('react-redux');
+jest.mock('../../../src/utils/hooks');
 jest.mock('../../../src/services/auth-service');
 jest.mock('../../../src/services/animation-service');
 
 describe('Form', () => {
+    const {useMode} = hooks as jest.Mocked<typeof hooks>;
     let testRenderer,
         testInstance,
         expectedProps;
@@ -40,6 +44,7 @@ describe('Form', () => {
             buttons: chance.n(createRandomButton, chance.d6()),
             inputs: chance.n(createRandomInput, chance.d6())
         };
+        useMode.mockReturnValue(chance.pickone(Object.values(Mode)));
 
         render();
     });
@@ -60,6 +65,13 @@ describe('Form', () => {
     describe('when it is **not** toggleable', () => {
         it('should render the buttons', () => {
             expect(testInstance.findAllByType(Button)).toHaveLength(expectedProps.buttons.length);
+        });
+
+        it('should render a single button', () => {
+            expectedProps.buttons = [createRandomButton()];
+            render();
+
+            expect(testInstance.findAllByType(Button)).toHaveLength(1);
         });
 
         it('should render the inputs', () => {

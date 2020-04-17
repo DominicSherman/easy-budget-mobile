@@ -90,16 +90,21 @@ const EditIncomeItemForm: FC<IEditIncomeItemFormProps> = ({toggleExpanded, incom
         checked: updatedRecurring,
         isToggle: true,
         onChange: setUpdatedRecurring,
-        title: 'Recurring'
+        title: 'recurring'
     }];
     const buttons = [{
         onPress: onPressDelete,
         text: 'Delete',
-        wrapperStyle: {backgroundColor: Color.red}
+        wrapperStyle: {
+            backgroundColor: Color.peach
+        }
     }, {
         disabled,
         onPress,
-        text: 'Update'
+        text: 'Update',
+        wrapperStyle: {
+            backgroundColor: Color.brightGreen
+        }
     }];
 
     return (

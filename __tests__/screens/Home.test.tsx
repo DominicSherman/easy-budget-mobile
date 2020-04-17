@@ -28,6 +28,7 @@ import {Route} from '../../src/enums/Route';
 import Button from '../../src/components/generic/Button';
 import {SmallText} from '../../src/components/generic/Text';
 import * as hooks from '../../src/utils/hooks';
+import {Mode} from '../../src/enums/Mode';
 
 jest.mock('@apollo/react-hooks');
 jest.mock('react-redux');
@@ -38,7 +39,7 @@ jest.mock('../../src/services/auth-service');
 describe('Home', () => {
     const {useQuery, useMutation} = reactHooks as jest.Mocked<typeof reactHooks>;
     const {useSelector} = reactRedux as jest.Mocked<typeof reactRedux>;
-    const {useBudgetNavigation} = hooks as jest.Mocked<typeof hooks>;
+    const {useBudgetNavigation, useMode} = hooks as jest.Mocked<typeof hooks>;
 
     let root,
         expectedNavigation,
@@ -68,6 +69,7 @@ describe('Home', () => {
         useQuery.mockReturnValue(expectedData);
         useMutation.mockReturnValue([jest.fn(), {} as MutationResult]);
         useBudgetNavigation.mockReturnValue(expectedNavigation);
+        useMode.mockReturnValue(chance.pickone(Object.values(Mode)));
 
         render();
     });

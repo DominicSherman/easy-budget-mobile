@@ -95,7 +95,7 @@ const NoActiveTimePeriod: FC = () => {
                 }}
                 text={moment(endDate).calendar(undefined, formats)}
             />
-            <RegularText style={[textStyles.medium, {marginVertical: 32}]}>
+            <RegularText style={[textStyles.regular, {marginVertical: 32}]}>
                 {`${moment(endDate).diff(moment(beginDate), 'days')} days`}
             </RegularText>
             <Button

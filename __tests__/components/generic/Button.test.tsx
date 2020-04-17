@@ -3,7 +3,7 @@ import React from 'react';
 import {ActivityIndicator} from 'react-native';
 
 import {chance} from '../../chance';
-import {LargeText} from '../../../src/components/generic/Text';
+import {RegularMontserratText} from '../../../src/components/generic/Text';
 import Button from '../../../src/components/generic/Button';
 
 jest.mock('../../../src/utils/hooks');
@@ -30,7 +30,7 @@ describe('Button', () => {
     });
 
     it('should render text if loading is false', () => {
-        const renderedText = root.findByType(LargeText);
+        const renderedText = root.findByType(RegularMontserratText);
 
         expect(renderedText.props.children).toBe(expectedProps.text);
     });

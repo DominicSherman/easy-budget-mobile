@@ -1,23 +1,36 @@
 import React, {FC, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
-import Feather from 'react-native-vector-icons/Feather';
 import Touchable from 'react-native-platform-touchable';
 
 import {ISavingCategory} from '../../../autogen/ISavingCategory';
 import CardView from '../generic/CardView';
-import {SCREEN_WIDTH} from '../../constants/dimensions';
-import {LargeText, SmallText} from '../generic/Text';
+import {CARD_MARGIN, CARD_WIDTH} from '../../constants/dimensions';
+import {FontWeight, LargeText, RegularMontserratText, TinyText} from '../generic/Text';
 import {easeInTransition} from '../../services/animation-service';
-import EditIcon from '../generic/EditIcon';
-import {usePrimaryColor} from '../../utils/hooks';
 import {centeredColumn} from '../../styles/shared-styles';
-import {FeatherNames} from '../../enums/IconNames';
 import {Color} from '../../constants/color';
+import ColoredText from '../generic/ColoredText';
+import {Theme} from '../../services/theme-service';
 
 import EditSavingCategoryForm from './EditSavingCategoryForm';
 import AddRemoveSavingCategoryForm, {SavingUpdateType} from './AddRemoveSavingCategoryForm';
 
 const styles = StyleSheet.create({
+    bottomWrapper: {
+        alignItems: 'center',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginVertical: 8,
+        width: '60%'
+    },
+    leftWrapper: {
+        width: '60%'
+    },
+    rightWrapper: {
+        alignItems: 'center',
+        flexDirection: 'column',
+        width: '40%'
+    },
     topWrapper: {
         alignItems: 'center',
         flexDirection: 'row',
@@ -25,15 +38,12 @@ const styles = StyleSheet.create({
         marginVertical: 8,
         width: '100%'
     },
-    verticalCenter: {
-        alignItems: 'center',
-        flexDirection: 'column'
-    },
     wrapper: {
         alignItems: 'flex-start',
+        borderWidth: 1,
         flexDirection: 'column',
-        marginHorizontal: 8,
-        width: SCREEN_WIDTH - 16
+        marginHorizontal: CARD_MARGIN,
+        width: CARD_WIDTH
     }
 });
 
@@ -51,9 +61,46 @@ enum FormType {
     CLOSED = 'closed'
 }
 
+interface IFormProps {
+    formType: FormType
+    savingCategory: ISavingCategory
+    onPressEdit: () => void
+    onPressAdd: () => void
+    onPressRemove: () => void
+}
+
 interface ISavingCategoryItemProps {
     savingCategory: ISavingCategory
 }
+
+const FormComponent: FC<IFormProps> = ({formType, savingCategory, onPressEdit, onPressAdd, onPressRemove}) => {
+    if (formType === FormType.EDIT) {
+        return (
+            <EditSavingCategoryForm
+                savingCategory={savingCategory}
+                toggleExpanded={onPressEdit}
+            />
+        );
+    } else if (formType === FormType.ADD) {
+        return (
+            <AddRemoveSavingCategoryForm
+                savingCategory={savingCategory}
+                toggleExpanded={onPressAdd}
+                type={SavingUpdateType.ADD}
+            />
+        );
+    } else if (formType === FormType.REMOVE) {
+        return (
+            <AddRemoveSavingCategoryForm
+                savingCategory={savingCategory}
+                toggleExpanded={onPressRemove}
+                type={SavingUpdateType.REMOVE}
+            />
+        );
+    }
+
+    return null;
+};
 
 const SavingCategoryItem: FC<ISavingCategoryItemProps> = ({savingCategory}) => {
     const [formType, setFormType] = useState<FormType>(FormType.CLOSED);
@@ -66,85 +113,63 @@ const SavingCategoryItem: FC<ISavingCategoryItemProps> = ({savingCategory}) => {
             setFormType(FormType.CLOSED);
         }
     };
-    const typeToComponent = {
-        [FormType.CLOSED]: (): null => null,
-        [FormType.EDIT]: (): JSX.Element =>
-            <EditSavingCategoryForm
-                savingCategory={savingCategory}
-                toggleExpanded={(): void => toggle(FormType.EDIT)}
-            />,
-        [FormType.ADD]: (): JSX.Element =>
-            <AddRemoveSavingCategoryForm
-                savingCategory={savingCategory}
-                toggleExpanded={(): void => toggle(FormType.ADD)}
-                type={SavingUpdateType.ADD}
-            />,
-        [FormType.REMOVE]: (): JSX.Element =>
-            <AddRemoveSavingCategoryForm
-                savingCategory={savingCategory}
-                toggleExpanded={(): void => toggle(FormType.REMOVE)}
-                type={SavingUpdateType.REMOVE}
-            />
-    };
-    const FormComponent = typeToComponent[formType];
+    const onPressEdit = (): void => toggle(FormType.EDIT);
+    const onPressRemove = (): void => toggle(FormType.REMOVE);
+    const onPressAdd = (): void => toggle(FormType.ADD);
 
     return (
         <CardView
-            disabled
+            onPress={onPressEdit}
             shadow
             style={styles.wrapper}
         >
             <View style={[centeredColumn, {width: '100%'}]}>
                 <View style={styles.topWrapper}>
-                    <View style={{width: '50%'}}>
-                        <LargeText>{savingCategory.name}</LargeText>
+                    <View style={styles.leftWrapper}>
+                        <ColoredText
+                            text={savingCategory.name}
+                            theme={Theme.PURPLE}
+                        />
                     </View>
-                    <View style={styles.verticalCenter}>
+                    <View style={styles.rightWrapper}>
                         <LargeText>{`$${savingCategory.amount}`}</LargeText>
-                        <SmallText>{'saved'}</SmallText>
+                        <TinyText>{'saved'}</TinyText>
                     </View>
-                    <EditIcon
-                        color={usePrimaryColor()}
-                        isOpen={formType === FormType.EDIT}
-                        onPress={(): void => toggle(FormType.EDIT)}
-                    />
                 </View>
-                <View style={styles.topWrapper}>
-                    <View style={[styles.verticalCenter, {width: '50%'}]}>
-                        <Touchable
-                            hitSlop={hitSlop}
-                            onPress={(): void => toggle(FormType.REMOVE)}
-                            testID={'remove'}
+                <View style={styles.bottomWrapper}>
+                    <Touchable
+                        hitSlop={hitSlop}
+                        onPress={onPressRemove}
+                        testID={'remove'}
+                    >
+                        <RegularMontserratText
+                            color={Color.selectedRed}
+                            fontWeight={FontWeight.BOLD}
                         >
-                            <View style={styles.verticalCenter}>
-                                <Feather
-                                    color={Color.red}
-                                    name={FeatherNames.MINUS_CIRCLE}
-                                    size={32}
-                                />
-                                <SmallText>{'remove'}</SmallText>
-                            </View>
-                        </Touchable>
-                    </View>
-                    <View style={[styles.verticalCenter, {width: '50%'}]}>
-                        <Touchable
-                            hitSlop={hitSlop}
-                            onPress={(): void => toggle(FormType.ADD)}
-                            testID={'plus'}
+                            {'- Remove'}
+                        </RegularMontserratText>
+                    </Touchable>
+                    <Touchable
+                        hitSlop={hitSlop}
+                        onPress={onPressAdd}
+                        testID={'plus'}
+                    >
+                        <RegularMontserratText
+                            color={Color.selectedGreen}
+                            fontWeight={FontWeight.BOLD}
                         >
-                            <View style={styles.verticalCenter}>
-                                <Feather
-                                    color={Color.green}
-                                    name={FeatherNames.PLUS_CIRCLE}
-                                    size={32}
-                                />
-                                <SmallText>{'add'}</SmallText>
-                            </View>
-                        </Touchable>
-                    </View>
+                            {'+ Add'}
+                        </RegularMontserratText>
+                    </Touchable>
                 </View>
             </View>
-            <FormComponent />
+            <FormComponent
+                formType={formType}
+                onPressAdd={onPressAdd}
+                onPressEdit={onPressEdit}
+                onPressRemove={onPressRemove}
+                savingCategory={savingCategory}
+            />
         </CardView>
     );
 };

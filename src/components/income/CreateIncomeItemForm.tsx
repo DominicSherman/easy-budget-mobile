@@ -7,7 +7,8 @@ import {getUserId} from '../../services/auth-service';
 import {CreateIncomeItemMutation, CreateIncomeItemMutationVariables} from '../../../autogen/CreateIncomeItemMutation';
 import {createIncomeItemUpdate} from '../../utils/update-cache-utils';
 import Form, {IFormInput} from '../generic/Form';
-import {useTimePeriodId} from '../../utils/hooks';
+import {useThemedSelectedColor, useTimePeriodId} from '../../utils/hooks';
+import {Theme} from '../../services/theme-service';
 
 interface ICreateIncomeItemFormProps {
     showCreateForm?: boolean
@@ -46,23 +47,26 @@ const CreateIncomeItemForm: FC<ICreateIncomeItemFormProps> = ({showCreateForm}) 
     };
     const inputs: IFormInput[] = [{
         onChange: setName,
-        title: 'Category Name *',
+        title: 'Name *',
         value: name
     }, {
         keyboardType: 'number-pad',
         onChange: setAmount,
-        title: 'Category Amount *',
+        title: 'Amount *',
         value: amount
     }, {
         checked: recurring,
         isToggle: true,
         onChange: setRecurring,
-        title: 'Recurring'
+        title: 'recurring'
     }];
     const buttons = [{
         disabled: !name.length || !amount.length,
         onPress,
-        text: 'Create'
+        text: 'Create',
+        wrapperStyle: {
+            backgroundColor: useThemedSelectedColor(Theme.GOLD)
+        }
     }];
 
     return (
@@ -70,6 +74,7 @@ const CreateIncomeItemForm: FC<ICreateIncomeItemFormProps> = ({showCreateForm}) 
             buttons={buttons}
             headerText={'Create Income Item'}
             inputs={inputs}
+            theme={Theme.GOLD}
             toggleable
             visibleByDefault={showCreateForm}
         />

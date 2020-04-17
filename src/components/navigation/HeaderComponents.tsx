@@ -4,8 +4,9 @@ import {DrawerActions} from '@react-navigation/routers';
 import Touchable from 'react-native-platform-touchable';
 
 import {FeatherNames} from '../../enums/IconNames';
-import {usePrimaryColor, useBudgetNavigation} from '../../utils/hooks';
+import {useBudgetNavigation} from '../../utils/hooks';
 import {Route} from '../../enums/Route';
+import {Color} from '../../constants/color';
 
 const iconStyle = {
     marginHorizontal: 16
@@ -21,17 +22,18 @@ const hitSlop = {
 interface IIcon {
     name: string
     onPress: () => void
+    size?: number
 }
 
-const Icon: FC<IIcon> = ({name, onPress}) =>
+const Icon: FC<IIcon> = ({name, onPress, size}) =>
     <Touchable
         hitSlop={hitSlop}
         onPress={onPress}
     >
         <Feather
-            color={usePrimaryColor()}
+            color={Color.selectedGreen}
             name={name}
-            size={25}
+            size={size || 25}
             style={iconStyle}
         />
     </Touchable>;
@@ -55,6 +57,18 @@ export const CloseIcon: FC = () => {
         <Icon
             name={FeatherNames.X}
             onPress={navigation.goBack}
+        />
+    );
+};
+
+export const BackButton: FC = () => {
+    const navigation = useBudgetNavigation();
+
+    return (
+        <Icon
+            name={FeatherNames.CHEVRON_LEFT}
+            onPress={navigation.goBack}
+            size={34}
         />
     );
 };

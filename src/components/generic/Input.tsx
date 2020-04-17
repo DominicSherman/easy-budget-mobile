@@ -3,14 +3,15 @@ import {KeyboardTypeOptions, StyleSheet, TextInput, TextStyle, View} from 'react
 
 import {textStyles} from '../../styles/text-styles';
 import {SCREEN_WIDTH} from '../../constants/dimensions';
-import {usePrimaryColor, useTextColor} from '../../utils/hooks';
+import {useMode, usePrimaryColor} from '../../utils/hooks';
+import {Color} from '../../constants/color';
+import {Mode} from '../../enums/Mode';
 
-import {RegularText} from './Text';
+import {TinyText} from './Text';
 
 const styles = StyleSheet.create({
     input: {
-        borderRadius: 4,
-        borderWidth: 1,
+        borderRadius: 6,
         height: 40,
         marginHorizontal: 16,
         padding: 8,
@@ -34,11 +35,22 @@ export interface IInputProps {
 
 const Input: FC<IInputProps> = ({style, title, onChange, keyboardType, value}) =>
     <View>
-        <RegularText style={styles.title}>{title}</RegularText>
+        <TinyText
+            color={Color.mediumGrey}
+            style={styles.title}
+        >
+            {title}
+        </TinyText>
         <TextInput
             keyboardType={keyboardType}
             onChangeText={onChange}
-            style={[styles.input, {borderColor: usePrimaryColor()}, useTextColor(), style]}
+            style={[
+                styles.input,
+                {borderColor: usePrimaryColor()},
+                {color: usePrimaryColor()},
+                {backgroundColor: useMode() === Mode.DARK ? Color.darkInputGrey : Color.lightGrey},
+                style
+            ]}
             value={value ? value : ''}
         />
     </View>;

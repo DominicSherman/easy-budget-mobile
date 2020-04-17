@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {FC} from 'react';
 import {FlatList, SafeAreaView, StyleSheet, View} from 'react-native';
 import {useQuery} from '@apollo/react-hooks';
 
@@ -9,11 +9,34 @@ import {getUserId} from '../services/auth-service';
 import {getVariableCategoryQuery} from '../graphql/queries';
 import {GetVariableCategory, GetVariableCategoryVariables} from '../../autogen/GetVariableCategory';
 import ExpenseItem from '../components/expense/ExpenseItem';
-import {RegularText, TitleText} from '../components/generic/Text';
+import {LargeText, RegularText} from '../components/generic/Text';
 import {sortByDate} from '../utils/sorting-utils';
 import VariableCategoryDetails from '../components/variable-category/VariableCategoryDetails';
+import CardView from '../components/generic/CardView';
+import {CARD_WIDTH} from '../constants/dimensions';
+import {Color} from '../constants/color';
+import {IVariableCategory} from '../../autogen/IVariableCategory';
+import {textWrapperUnderlined} from '../styles/shared-styles';
 
 const styles = StyleSheet.create({
+    cardWrapper: {
+        alignItems: 'center',
+        flexDirection: 'column',
+        marginBottom: -8,
+        marginHorizontal: 16,
+        width: CARD_WIDTH,
+        zIndex: 5
+    },
+    listEmptyWrapper: {
+        alignItems: 'center',
+        backgroundColor: Color.white,
+        borderBottomLeftRadius: 12,
+        borderBottomRightRadius: 12,
+        marginLeft: 16,
+        paddingTop: 8,
+        width: CARD_WIDTH,
+        zIndex: -2
+    },
     wrapper: {
         alignItems: 'center',
         height: '100%'
@@ -23,6 +46,18 @@ const styles = StyleSheet.create({
 export interface IVariableCategoryProps {
     variableCategoryId: string
 }
+
+const ListHeaderComponent: FC<{variableCategory: IVariableCategory}> = ({variableCategory}) =>
+    <CardView
+        disabled
+        shadow
+        style={styles.cardWrapper}
+    >
+        <View style={[textWrapperUnderlined, {borderBottomColor: Color.shockBlue}]}>
+            <LargeText>{variableCategory.name}</LargeText>
+        </View>
+        <VariableCategoryDetails variableCategory={variableCategory} />
+    </CardView>;
 
 const VariableCategory: IScreenFC<Route.VARIABLE_CATEGORY> = ({route: {params: {variableCategoryId}}}) => {
     const queryResult = useQuery<GetVariableCategory, GetVariableCategoryVariables>(getVariableCategoryQuery, {
@@ -42,22 +77,19 @@ const VariableCategory: IScreenFC<Route.VARIABLE_CATEGORY> = ({route: {params: {
         <SafeAreaView style={styles.wrapper}>
             <FlatList
                 ListEmptyComponent={
-                    <View style={{alignItems: 'center'}}>
+                    <View style={styles.listEmptyWrapper}>
                         <RegularText style={{margin: 32}}>{'No expenses for this category yet! 🚀'}</RegularText>
                     </View>
                 }
-                ListHeaderComponent={
-                    <View style={{alignItems: 'center'}}>
-                        <TitleText style={{marginVertical: 8}}>{variableCategory.name}</TitleText>
-                        <VariableCategoryDetails variableCategory={variableCategory} />
-                    </View>
-                }
+                ListHeaderComponent={<ListHeaderComponent variableCategory={variableCategory} />}
+                ListHeaderComponentStyle={{zIndex: 1}}
                 data={variableCategory.expenses.sort(sortByDate)}
                 keyExtractor={(item): string => item.expenseId}
-                renderItem={({item}): JSX.Element =>
+                renderItem={({item, index}): JSX.Element =>
                     <ExpenseItem
                         categoryName={variableCategory.name}
                         expense={item}
+                        isLastItem={index === variableCategory.expenses.length - 1}
                     />
                 }
             />

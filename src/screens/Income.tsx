@@ -1,6 +1,7 @@
 import React, {FC} from 'react';
 import {useQuery} from '@apollo/react-hooks';
-import {FlatList, SafeAreaView} from 'react-native';
+import {View} from 'react-native';
+import {KeyboardAwareFlatList} from 'react-native-keyboard-aware-scroll-view';
 
 import {GetIncomeItems, GetIncomeItemsVariables} from '../../autogen/GetIncomeItems';
 import {getIncomeItemsQuery} from '../graphql/queries';
@@ -12,6 +13,8 @@ import {getUserId} from '../services/auth-service';
 import EmptyScreen from '../components/generic/EmptyScreen';
 import {Route} from '../enums/Route';
 import CreateIncomeItemForm from '../components/income/CreateIncomeItemForm';
+import {ListFooterComponent} from '../components/generic/Generic';
+import {EXTRA_HEIGHT} from '../constants/dimensions';
 
 import {InformationRef} from './Information';
 
@@ -43,8 +46,8 @@ const Income: FC = () => {
     const {incomeItems} = queryResult.data;
 
     return (
-        <SafeAreaView style={{height: '100%'}}>
-            <FlatList
+        <View style={{height: '100%'}}>
+            <KeyboardAwareFlatList
                 ListEmptyComponent={
                     <EmptyScreen
                         onPressSubText={onPressSubText}
@@ -52,15 +55,16 @@ const Income: FC = () => {
                         titleText={'You don\'t have any income added yet!'}
                     />
                 }
-                contentContainerStyle={{paddingBottom: 50}}
+                ListFooterComponent={<ListFooterComponent />}
                 data={incomeItems}
+                extraHeight={EXTRA_HEIGHT}
                 keyExtractor={(item): string => item.incomeItemId}
                 renderItem={({item}): JSX.Element =>
                     <IncomeItem incomeItem={item} />
                 }
             />
             <CreateIncomeItemForm showCreateForm={!incomeItems.length} />
-        </SafeAreaView>
+        </View>
     );
 };
 

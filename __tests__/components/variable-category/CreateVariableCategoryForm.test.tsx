@@ -10,6 +10,7 @@ import {getUserId} from '../../../src/services/auth-service';
 import {createVariableCategoryUpdate} from '../../../src/utils/update-cache-utils';
 import Form from '../../../src/components/generic/Form';
 import * as hooks from '../../../src/utils/hooks';
+import {Mode} from '../../../src/enums/Mode';
 
 jest.mock('@apollo/react-hooks');
 jest.mock('react-redux');
@@ -18,13 +19,14 @@ jest.mock('../../../src/utils/hooks');
 
 describe('CreateVariableCategoryForm', () => {
     const {useMutation} = reactHooks as jest.Mocked<typeof reactHooks>;
-    const {useTimePeriodId} = hooks as jest.Mocked<typeof hooks>;
+    const {useTimePeriodId, useMode, useThemedSelectedColor} = hooks as jest.Mocked<typeof hooks>;
 
     let testRenderer,
         testInstance,
         expectedName,
         expectedAmount,
         expectedTimePeriodId,
+        expectedThemedSelectedColor,
         createVariableCategory;
 
     const setStateData = (): void => {
@@ -48,9 +50,12 @@ describe('CreateVariableCategoryForm', () => {
         createVariableCategory = jest.fn();
         expectedName = chance.string();
         expectedAmount = chance.natural().toString();
+        expectedThemedSelectedColor = chance.string();
 
         useTimePeriodId.mockReturnValue(expectedTimePeriodId);
         useMutation.mockReturnValue([createVariableCategory, {} as MutationResult]);
+        useThemedSelectedColor.mockReturnValue(expectedThemedSelectedColor);
+        useMode.mockReturnValue(chance.pickone(Object.values(Mode)));
 
         render();
     });
@@ -100,13 +105,13 @@ describe('CreateVariableCategoryForm', () => {
 
             expect(nameInput).toEqual({
                 onChange: expect.any(Function),
-                title: 'Category Name *',
+                title: 'Name *',
                 value: expectedName
             });
             expect(amountInput).toEqual({
                 keyboardType: 'number-pad',
                 onChange: expect.any(Function),
-                title: 'Category Amount *',
+                title: 'Amount *',
                 value: expectedAmount
             });
         });

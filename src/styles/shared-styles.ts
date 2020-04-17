@@ -25,14 +25,30 @@ export const centeredColumn: Record<string, any> = {
 };
 
 export const shadow = {
-    borderColor: Color.black,
+    borderColor: Color.offBlack,
     borderWidth: 0,
     elevation: 3,
-    shadowColor: Color.black,
+    shadowColor: Color.offBlack,
     shadowOffset: {
         height: 2,
         width: 0
     },
     shadowOpacity: 0.3,
     shadowRadius: 2
+};
+
+export const textWrapperUnderlined: ViewStyle = {
+    borderBottomWidth: 2,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    paddingBottom: 8,
+    width: '80%'
+};
+
+export const textWrapperRounded: ViewStyle = {
+    alignSelf: 'flex-start',
+    backgroundColor: Color.backgroundBlue,
+    borderRadius: 25,
+    paddingHorizontal: 16,
+    paddingVertical: 4
 };

@@ -16,6 +16,8 @@ import {ISavingCategory} from '../../autogen/ISavingCategory';
 import EmptyScreen from '../../src/components/generic/EmptyScreen';
 import {Route} from '../../src/enums/Route';
 import {InformationRef} from '../../src/screens/Information';
+import {Color} from '../../src/constants/color';
+import {Mode} from '../../src/enums/Mode';
 
 jest.mock('@apollo/react-hooks');
 jest.mock('react-redux');
@@ -26,7 +28,7 @@ jest.mock('../../src/utils/hooks');
 describe('Savings', () => {
     const {useQuery, useMutation} = reactHooks as jest.Mocked<typeof reactHooks>;
     const {useSelector} = reactRedux as jest.Mocked<typeof reactRedux>;
-    const {useBudgetNavigation} = hooks as jest.Mocked<typeof hooks>;
+    const {useBudgetNavigation, useTheme, useMode} = hooks as jest.Mocked<typeof hooks>;
 
     let expectedTimePeriodId,
         expectedData,
@@ -52,6 +54,11 @@ describe('Savings', () => {
         useSelector.mockReturnValue(expectedTimePeriodId);
         useMutation.mockReturnValue([jest.fn(), {loading: chance.bool()} as MutationResult]);
         useBudgetNavigation.mockReturnValue(expectedNavigation);
+        useTheme.mockReturnValue({
+            backgroundColor: chance.pickone(Object.values(Color)),
+            textColor: chance.pickone(Object.values(Color))
+        });
+        useMode.mockReturnValue(chance.pickone(Object.values(Mode)));
 
         render();
     });

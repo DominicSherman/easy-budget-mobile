@@ -3,13 +3,15 @@ import {StyleSheet, View} from 'react-native';
 
 import {IVariableCategory} from '../../../autogen/IVariableCategory';
 import CardView from '../generic/CardView';
-import {SCREEN_WIDTH} from '../../constants/dimensions';
-import {LargeText, SmallText} from '../generic/Text';
+import {CARD_MARGIN, CARD_WIDTH} from '../../constants/dimensions';
+import {LargeText, TinyText} from '../generic/Text';
 import {Route} from '../../enums/Route';
-import {usePrimaryColor, useBudgetNavigation} from '../../utils/hooks';
+import {useBudgetNavigation} from '../../utils/hooks';
 import {calculateTotal} from '../../utils/utils';
 import {easeInTransition} from '../../services/animation-service';
-import EditIcon from '../generic/EditIcon';
+import MoreIcon from '../generic/MoreIcon';
+import {Theme} from '../../services/theme-service';
+import ColoredText from '../generic/ColoredText';
 
 import EditVariableCategoryForm from './EditVariableCategoryForm';
 
@@ -27,8 +29,8 @@ const styles = StyleSheet.create({
     wrapper: {
         alignItems: 'flex-start',
         flexDirection: 'column',
-        marginHorizontal: 8,
-        width: SCREEN_WIDTH - 16
+        marginHorizontal: CARD_MARGIN,
+        width: CARD_WIDTH
     }
 });
 
@@ -54,22 +56,23 @@ const VariableCategoryItem: FC<IVariableCategoryItemProps> = ({variableCategory}
 
     return (
         <CardView
-            onPress={onPress}
+            onPress={toggleExpanded}
             shadow
             style={styles.wrapper}
         >
             <View style={styles.topWrapper}>
                 <View style={{width: '50%'}}>
-                    <LargeText>{variableCategory.name}</LargeText>
+                    <ColoredText
+                        text={variableCategory.name}
+                        theme={Theme.BLUE}
+                    />
                 </View>
                 <View style={styles.verticalCenter}>
                     <LargeText>{`$${variableCategory.amount - calculateTotal(variableCategory.expenses)}`}</LargeText>
-                    <SmallText>{'remaining'}</SmallText>
+                    <TinyText>{'remaining'}</TinyText>
                 </View>
-                <EditIcon
-                    color={usePrimaryColor()}
-                    isOpen={expanded}
-                    onPress={toggleExpanded}
+                <MoreIcon
+                    onPress={onPress}
                 />
             </View>
             {

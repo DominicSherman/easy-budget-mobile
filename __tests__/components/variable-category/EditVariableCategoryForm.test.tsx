@@ -138,13 +138,13 @@ describe('EditVariableCategoryForm', () => {
 
             expect(nameInput).toEqual({
                 onChange: expect.any(Function),
-                title: 'Category Name *',
+                title: 'Name *',
                 value: expectedName
             });
             expect(amountInput).toEqual({
                 keyboardType: 'number-pad',
                 onChange: expect.any(Function),
-                title: 'Category Amount *',
+                title: 'Amount *',
                 value: expectedAmount
             });
         });
@@ -153,7 +153,7 @@ describe('EditVariableCategoryForm', () => {
             expect(deleteButton).toEqual({
                 onPress: expect.any(Function),
                 text: 'Delete',
-                wrapperStyle: {backgroundColor: Color.red}
+                wrapperStyle: {backgroundColor: Color.peach}
             });
 
             act(() => {
@@ -183,7 +183,10 @@ describe('EditVariableCategoryForm', () => {
             expect(updateButton).toEqual({
                 disabled: expect.any(Boolean),
                 onPress: expect.any(Function),
-                text: 'Update'
+                text: 'Update',
+                wrapperStyle: {
+                    backgroundColor: Color.brightGreen
+                }
             });
 
             act(() => {

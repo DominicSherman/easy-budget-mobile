@@ -10,6 +10,8 @@ import {
 } from '../../../autogen/CreateSavingCategoryMutation';
 import {createSavingCategoryUpdate} from '../../utils/update-cache-utils';
 import Form from '../generic/Form';
+import {Theme} from '../../services/theme-service';
+import {useThemedSelectedColor} from '../../utils/hooks';
 
 const CreateSavingCategoryForm: FC<{showCreateForm?: boolean}> = ({showCreateForm}) => {
     const [name, setName] = useState('');
@@ -43,7 +45,10 @@ const CreateSavingCategoryForm: FC<{showCreateForm?: boolean}> = ({showCreateFor
     const buttons = [{
         disabled: !name.length,
         onPress,
-        text: 'Create'
+        text: 'Create',
+        wrapperStyle: {
+            backgroundColor: useThemedSelectedColor(Theme.PURPLE)
+        }
     }];
 
     return (
@@ -51,6 +56,7 @@ const CreateSavingCategoryForm: FC<{showCreateForm?: boolean}> = ({showCreateFor
             buttons={buttons}
             headerText={'Create Saving Category'}
             inputs={inputs}
+            theme={Theme.PURPLE}
             toggleable
             visibleByDefault={showCreateForm}
         />

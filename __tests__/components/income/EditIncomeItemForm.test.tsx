@@ -156,7 +156,7 @@ describe('EditIncomeItemForm', () => {
                 checked: expectedRecurring,
                 isToggle: true,
                 onChange: expect.any(Function),
-                title: 'Recurring'
+                title: 'recurring'
             });
         });
 
@@ -164,7 +164,7 @@ describe('EditIncomeItemForm', () => {
             expect(deleteButton).toEqual({
                 onPress: expect.any(Function),
                 text: 'Delete',
-                wrapperStyle: {backgroundColor: Color.red}
+                wrapperStyle: {backgroundColor: Color.peach}
             });
 
             act(() => {
@@ -194,7 +194,10 @@ describe('EditIncomeItemForm', () => {
             expect(updateButton).toEqual({
                 disabled: expect.any(Boolean),
                 onPress: expect.any(Function),
-                text: 'Update'
+                text: 'Update',
+                wrapperStyle: {
+                    backgroundColor: Color.brightGreen
+                }
             });
 
             act(() => {

@@ -142,7 +142,7 @@ describe('EditSavingCategoryForm', () => {
             expect(deleteButton).toEqual({
                 onPress: expect.any(Function),
                 text: 'Delete',
-                wrapperStyle: {backgroundColor: Color.red}
+                wrapperStyle: {backgroundColor: Color.peach}
             });
 
             act(() => {
@@ -172,7 +172,10 @@ describe('EditSavingCategoryForm', () => {
             expect(updateButton).toEqual({
                 disabled: expect.any(Boolean),
                 onPress: expect.any(Function),
-                text: 'Update'
+                text: 'Update',
+                wrapperStyle: {
+                    backgroundColor: Color.brightGreen
+                }
             });
 
             act(() => {
