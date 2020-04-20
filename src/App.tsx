@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {ApolloProvider} from '@apollo/react-hooks';
 import {useSelector} from 'react-redux';
@@ -40,11 +40,12 @@ const App: FC = () => {
     const isDarkMode = useDarkMode();
     const mode = isDarkMode ? Mode.DARK : Mode.LIGHT;
 
-    React.useEffect(() => {
+    useEffect(() => {
         setAppState();
-        dispatchAction(Actions.SET_MODE, mode);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+    useEffect(() => {
+        dispatchAction(Actions.SET_MODE, mode);
+    }, [mode]);
     const theme = useMode() === Mode.DARK ? DarkThemeObject : LightThemeObject;
     const appStatus = useSelector((state: IAppState) => state.appStatus);
 

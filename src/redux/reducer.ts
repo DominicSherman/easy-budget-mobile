@@ -28,7 +28,13 @@ const setKey = (key: string): (state: IAppState, value: any) => IAppState => (st
     [key]: value
 });
 
+const resetState = (state: IAppState): IAppState => ({
+    ...defaultState,
+    mode: state.mode
+});
+
 const reducerMap: ReducerMap = {
+    [Actions.RESET_STATE]: resetState,
     [Actions.SET_APP_STATUS]: setKey('appStatus'),
     [Actions.SET_MODE]: setKey('mode'),
     [Actions.SET_TIME_PERIOD_ID]: setKey('timePeriodId'),

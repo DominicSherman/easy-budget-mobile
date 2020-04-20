@@ -36,6 +36,7 @@ export const setAppState = async (): Promise<void> => {
             dispatchAction(Actions.SET_APP_STATUS, AppStatus.ERROR);
         }
     } else {
+        dispatchAction(Actions.RESET_STATE);
         dispatchAction(Actions.SET_APP_STATUS, AppStatus.LOGGED_OUT);
     }
 };
