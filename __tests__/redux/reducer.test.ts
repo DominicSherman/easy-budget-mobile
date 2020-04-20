@@ -40,6 +40,17 @@ describe('reducer', () => {
         expect(actualState).toEqual(defaultState);
     });
 
+    it('should reset the state if the action is RESET_STATE', () => {
+        const actualState = reducer(expectedAppState, {
+            type: Actions.RESET_STATE
+        });
+
+        expect(actualState).toEqual({
+            ...defaultState,
+            mode: expectedAppState.mode
+        });
+    });
+
     it('should set the appStatus if the action is SET_APP_STATUS', () => {
         const appStatus = chance.string();
 

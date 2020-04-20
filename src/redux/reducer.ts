@@ -50,7 +50,7 @@ export interface IAppState {
     userInformation: User
 }
 
-export default (state = defaultState, {type, data}: { type: Actions, data: any }): IAppState => {
+export default (state = defaultState, {type, data}: { type: Actions, data?: any }): IAppState => {
     const action = reducerMap[type];
 
     if (action) {
