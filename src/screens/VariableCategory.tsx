@@ -17,6 +17,7 @@ import {CARD_WIDTH} from '../constants/dimensions';
 import {Color} from '../constants/color';
 import {IVariableCategory} from '../../autogen/IVariableCategory';
 import {textWrapperUnderlined} from '../styles/shared-styles';
+import {useSecondaryBackgroundColor} from '../utils/hooks';
 
 const styles = StyleSheet.create({
     cardWrapper: {
@@ -29,7 +30,6 @@ const styles = StyleSheet.create({
     },
     listEmptyWrapper: {
         alignItems: 'center',
-        backgroundColor: Color.white,
         borderBottomLeftRadius: 12,
         borderBottomRightRadius: 12,
         marginLeft: 16,
@@ -66,6 +66,7 @@ const VariableCategory: IScreenFC<Route.VARIABLE_CATEGORY> = ({route: {params: {
             variableCategoryId
         }
     });
+    const backgroundColor = useSecondaryBackgroundColor();
 
     if (!queryResult.data) {
         return getEarlyReturn(queryResult);
@@ -77,7 +78,7 @@ const VariableCategory: IScreenFC<Route.VARIABLE_CATEGORY> = ({route: {params: {
         <SafeAreaView style={styles.wrapper}>
             <FlatList
                 ListEmptyComponent={
-                    <View style={styles.listEmptyWrapper}>
+                    <View style={[styles.listEmptyWrapper, {backgroundColor}]}>
                         <RegularText style={{margin: 32}}>{'No expenses for this category yet! 🚀'}</RegularText>
                     </View>
                 }

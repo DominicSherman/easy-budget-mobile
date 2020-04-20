@@ -25,7 +25,7 @@ export const getStore = (): Store<IAppState> => {
 
 export const getState = (): IAppState => getStore().getState();
 
-export const dispatchAction = (type: Actions, data: any): void => {
+export const dispatchAction = (type: Actions, data?: any): void => {
     initializeStore();
 
     store.dispatch({
