@@ -6,6 +6,10 @@ interface IDate {
     date: string
 }
 
+interface IBeginDate {
+    beginDate: string
+}
+
 interface IAmount {
     amount: number
 }
@@ -17,6 +21,8 @@ interface IPaid {
 export const sortByName = (a: IName, b: IName): number => a.name < b.name ? -1 : 1;
 
 export const sortByDate = (a: IDate, b: IDate): number => a.date > b.date ? -1 : 1;
+
+export const sortByBeginDate = (a: IBeginDate, b: IBeginDate): number => a.beginDate > b.beginDate ? -1 : 1;
 
 export const sortByAmount = (a: IAmount, b: IAmount): number => a.amount > b.amount ? -1 : 1;
 

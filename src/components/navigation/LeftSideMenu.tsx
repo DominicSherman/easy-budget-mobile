@@ -55,6 +55,11 @@ const items: IItem[] = [
         route: Route.DEBT
     },
     {
+        iconName: FontAwesomeNames.DOLLAR_SIGN,
+        label: 'Time Periods',
+        route: Route.TIME_PERIODS
+    },
+    {
         iconName: FontAwesomeNames.SETTINGS,
         label: 'Settings',
         route: Route.SETTINGS
