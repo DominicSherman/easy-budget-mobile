@@ -1,17 +1,16 @@
 import React, {FC} from 'react';
 import {useQuery} from '@apollo/react-hooks';
-import {FlatList, View} from 'react-native';
-import moment from 'moment';
+import {FlatList} from 'react-native';
 
 import {getTimePeriodsQuery} from '../graphql/queries';
 import {getUserId} from '../services/auth-service';
 import {getEarlyReturn} from '../services/error-and-loading-service';
 import {sortByBeginDate} from '../utils/sorting-utils';
-import {LargeText} from '../components/generic/Text';
-import {formatTimePeriod} from '../services/moment-service';
+import TimePeriodItem from '../components/time-period/TimePeriodItem';
+import {GetTimePeriods, GetTimePeriodsVariables} from '../../autogen/GetTimePeriods';
 
 const TimePeriods: FC = () => {
-    const queryResult = useQuery(getTimePeriodsQuery, {
+    const queryResult = useQuery<GetTimePeriods, GetTimePeriodsVariables>(getTimePeriodsQuery, {
         variables: {
             userId: getUserId()
         }
@@ -27,11 +26,7 @@ const TimePeriods: FC = () => {
     return (
         <FlatList
             data={sortedTimePeriods}
-            renderItem={({item}): JSX.Element =>
-                <View style={{marginVertical: 16}}>
-                    <LargeText>{`${formatTimePeriod(item.beginDate)} - ${formatTimePeriod(moment(item.endDate).toISOString())} (${moment(item.endDate).diff(moment(item.beginDate), 'd')} days)`}</LargeText>
-                </View>
-            }
+            renderItem={({item}): JSX.Element => <TimePeriodItem timePeriodId={item.timePeriodId} />}
         />
     );
 };

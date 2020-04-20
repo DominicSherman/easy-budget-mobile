@@ -127,6 +127,16 @@ export const getTimePeriodsQuery = gql`
     }
 `;
 
+export const getTimePeriodQuery = gql`
+    ${timePeriodFragment}
+    
+    query GetTimePeriod($userId: String!, $timePeriodId: String!) {
+        timePeriod (userId: $userId, timePeriodId: $timePeriodId) {
+            ...ITimePeriod
+        }
+    }
+`;
+
 /* Screen */
 
 export const homeScreenQuery = gql`
