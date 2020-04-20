@@ -82,7 +82,7 @@ const ExpenseForm: FC<IExpenseFormProps> = (props) => {
                 }}
             >
                 <Input
-                    keyboardType={'number-pad'}
+                    keyboardType={'numeric'}
                     onChange={setAmount}
                     title={'Amount *'}
                     value={amount}

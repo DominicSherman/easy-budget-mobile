@@ -174,17 +174,17 @@ const Home: React.FC = () => {
                         </View>
                         <View style={styles.bottomWrapper}>
                             <View style={styles.verticalCenter}>
-                                <RegularText>{`$${variableCategoriesTotal}`}</RegularText>
+                                <RegularText>{`$${variableCategoriesTotal.toFixed()}`}</RegularText>
                                 <TinyText>{'budgeted'}</TinyText>
                             </View>
                             <RegularText>{'-'}</RegularText>
                             <View style={styles.verticalCenter}>
-                                <RegularText>{`$${expensesTotal}`}</RegularText>
+                                <RegularText>{`$${expensesTotal.toFixed()}`}</RegularText>
                                 <TinyText>{'spent'}</TinyText>
                             </View>
                             <RegularText>{'='}</RegularText>
                             <View style={styles.verticalCenter}>
-                                <RegularText>{`$${variableCategoriesTotal - expensesTotal}`}</RegularText>
+                                <RegularText>{`$${(variableCategoriesTotal - expensesTotal).toFixed()}`}</RegularText>
                                 <TinyText>{'remaining'}</TinyText>
                             </View>
                         </View>

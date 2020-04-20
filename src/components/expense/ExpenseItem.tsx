@@ -93,7 +93,7 @@ const ExpenseItem: FC<IExpenseItemProps> = ({expense, categoryName, isLastItem})
                         color={useDarkBlueColor()}
                         fontWeight={FontWeight.BOLD}
                     >
-                        {`$${expense.amount}`}
+                        {`$${expense.amount.toFixed(2)}`}
                     </RegularMontserratText>
                     <Feather
                         color={useDarkBlueColor()}
