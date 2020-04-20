@@ -30,12 +30,12 @@ const VariableCategoryDetails: FC<{variableCategory: IVariableCategory}> = ({var
             </View>
             <RegularText>{'-'}</RegularText>
             <View style={styles.verticalCenter}>
-                <RegularText>{`$${sum}`}</RegularText>
+                <RegularText>{`$${sum.toFixed(2)}`}</RegularText>
                 <TinyText>{'spent'}</TinyText>
             </View>
             <RegularText>{'='}</RegularText>
             <View style={styles.verticalCenter}>
-                <LargeText>{`$${variableCategory.amount - sum}`}</LargeText>
+                <LargeText>{`$${(variableCategory.amount - sum).toFixed(2)}`}</LargeText>
                 <TinyText>{'remaining'}</TinyText>
             </View>
         </View>

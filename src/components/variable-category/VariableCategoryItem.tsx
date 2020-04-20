@@ -68,7 +68,7 @@ const VariableCategoryItem: FC<IVariableCategoryItemProps> = ({variableCategory}
                     />
                 </View>
                 <View style={styles.verticalCenter}>
-                    <LargeText>{`$${variableCategory.amount - calculateTotal(variableCategory.expenses)}`}</LargeText>
+                    <LargeText>{`$${(variableCategory.amount - calculateTotal(variableCategory.expenses)).toFixed()}`}</LargeText>
                     <TinyText>{'remaining'}</TinyText>
                 </View>
                 <MoreIcon
