@@ -8,6 +8,7 @@ import {
     getFixedCategoriesQuery,
     getIncomeItemsQuery,
     getSavingCategoriesQuery,
+    getTimePeriodsQuery,
     getVariableCategoriesQuery
 } from '../graphql/queries';
 import {getUserId} from '../services/auth-service';
@@ -29,6 +30,9 @@ import {DeleteIncomeItemMutation} from '../../autogen/DeleteIncomeItemMutation';
 import {CreateDebtCategoryMutation} from '../../autogen/CreateDebtCategoryMutation';
 import {GetDebtCategories, GetDebtCategoriesVariables} from '../../autogen/GetDebtCategories';
 import {DeleteDebtCategoryMutation} from '../../autogen/DeleteDebtCategoryMutation';
+import {GetTimePeriods, GetTimePeriodsVariables} from '../../autogen/GetTimePeriods';
+import {CreateTimePeriodMutation} from '../../autogen/CreateTimePeriodMutation';
+import {DeleteTimePeriodMutation} from '../../autogen/DeleteTimePeriodMutation';
 
 export const createVariableCategoryUpdate = (cache: DataProxy, mutationResult: FetchResult<CreateVariableCategoryMutation>): void => {
     const query = getVariableCategoriesQuery;
@@ -206,6 +210,30 @@ export const createExpenseUpdate = (cache: DataProxy, mutationResult: FetchResul
     }
 };
 
+export const createTimePeriodUpdate = (cache: DataProxy, mutationResult: FetchResult<CreateTimePeriodMutation>): void => {
+    const query = getTimePeriodsQuery;
+    const variables = {
+        userId: getUserId()
+    };
+    const {data} = mutationResult;
+    const result = cache.readQuery<GetTimePeriods, GetTimePeriodsVariables>({
+        query,
+        variables
+    });
+
+    if (result && data) {
+        const updatedTimePeriods = [...result.timePeriods, data.createTimePeriod];
+
+        cache.writeQuery<GetTimePeriods, GetTimePeriodsVariables>({
+            data: {
+                timePeriods: updatedTimePeriods
+            },
+            query,
+            variables
+        });
+    }
+};
+
 export const deleteExpenseUpdate = (cache: DataProxy, mutationResult: FetchResult<DeleteExpenseMutation>): void => {
     const query = getExpensesQuery;
     const variables = {
@@ -363,6 +391,30 @@ export const deleteIncomeItemUpdate = (cache: DataProxy, mutationResult: FetchRe
         cache.writeQuery<GetIncomeItems, GetIncomeItemsVariables>({
             data: {
                 incomeItems: updatedCategories
+            },
+            query,
+            variables
+        });
+    }
+};
+
+export const deleteTimePeriodUpdate = (cache: DataProxy, mutationResult: FetchResult<DeleteTimePeriodMutation>): void => {
+    const query = getTimePeriodsQuery;
+    const variables = {
+        userId: getUserId()
+    };
+    const {data} = mutationResult;
+    const result = cache.readQuery<GetTimePeriods, GetTimePeriodsVariables>({
+        query,
+        variables
+    });
+
+    if (result && data) {
+        const updatedTimePeriods = result.timePeriods.filter((category) => category.timePeriodId !== data.deleteTimePeriod);
+
+        cache.writeQuery<GetTimePeriods, GetTimePeriodsVariables>({
+            data: {
+                timePeriods: updatedTimePeriods
             },
             query,
             variables

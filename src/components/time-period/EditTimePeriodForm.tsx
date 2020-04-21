@@ -1,0 +1,116 @@
+import React, {FC, useState} from 'react';
+import {useMutation} from '@apollo/react-hooks';
+import {Alert} from 'react-native';
+
+import {deleteTimePeriodMutation, updateTimePeriodMutation} from '../../graphql/mutations';
+import Form, {IFormInput, InputType} from '../generic/Form';
+import {deleteTimePeriodUpdate} from '../../utils/update-cache-utils';
+import {ITimePeriod} from '../../../autogen/ITimePeriod';
+import {UpdateTimePeriodMutation, UpdateTimePeriodMutationVariables} from '../../../autogen/UpdateTimePeriodMutation';
+import {DeleteTimePeriodMutation, DeleteTimePeriodMutationVariables} from '../../../autogen/DeleteTimePeriodMutation';
+import {easeInTransition} from '../../services/animation-service';
+import {Color} from '../../constants/color';
+
+interface IEditTimePeriodFormProps {
+    toggleExpanded: () => void
+    timePeriod: ITimePeriod
+}
+
+const EditTimePeriodForm: FC<IEditTimePeriodFormProps> = ({toggleExpanded, timePeriod}) => {
+    const {beginDate, endDate, timePeriodId, userId} = timePeriod;
+    const [updatedBeginDate, setUpdatedBeginDate] = useState<Date>(new Date(beginDate));
+    const [updatedEndDate, setUpdatedEndDate] = useState<Date>(new Date(endDate));
+    const originalValues = {
+        beginDate,
+        endDate
+    };
+    const updatedValues = {
+        beginDate: updatedBeginDate,
+        endDate: updatedEndDate
+    };
+    const update = {
+        beginDate: updatedBeginDate.toISOString(),
+        endDate: updatedEndDate.toISOString(),
+        timePeriodId,
+        userId
+    };
+    const [updateTimePeriod] = useMutation<UpdateTimePeriodMutation, UpdateTimePeriodMutationVariables>(updateTimePeriodMutation, {
+        optimisticResponse: {
+            updateTimePeriod: {
+                __typename: 'TimePeriod',
+                ...update
+            }
+        },
+        variables: {
+            timePeriod: {
+
+                ...update
+            }
+        }
+    });
+    const [deleteTimePeriod] = useMutation<DeleteTimePeriodMutation, DeleteTimePeriodMutationVariables>(deleteTimePeriodMutation, {
+        optimisticResponse: {
+            deleteTimePeriod: timePeriodId
+        },
+        update: deleteTimePeriodUpdate,
+        variables: {
+            timePeriodId,
+            userId
+        }
+    });
+    const onPressDelete = (): void => {
+        Alert.alert(
+            'Delete this time period?',
+            '',
+            [
+                {text: 'Cancel'},
+                {
+                    onPress: (): void => {
+                        easeInTransition();
+                        deleteTimePeriod();
+                    },
+                    text: 'Confirm'
+                }
+            ]
+        );
+    };
+    const onPress = (): void => {
+        updateTimePeriod();
+        toggleExpanded();
+    };
+    const disabled = JSON.stringify(originalValues) === JSON.stringify(updatedValues);
+    const inputs: IFormInput[] = [{
+        date: updatedBeginDate,
+        inputType: InputType.DATE,
+        setDate: setUpdatedBeginDate,
+        title: 'Begin Date'
+    }, {
+        date: updatedEndDate,
+        inputType: InputType.DATE,
+        setDate: setUpdatedEndDate,
+        title: 'End Date'
+    }];
+    const buttons = [{
+        onPress: onPressDelete,
+        text: 'Delete',
+        wrapperStyle: {
+            backgroundColor: Color.peach
+        }
+    }, {
+        disabled,
+        onPress,
+        text: 'Update',
+        wrapperStyle: {
+            backgroundColor: Color.brightGreen
+        }
+    }];
+
+    return (
+        <Form
+            buttons={buttons}
+            inputs={inputs}
+        />
+    );
+};
+
+export default EditTimePeriodForm;

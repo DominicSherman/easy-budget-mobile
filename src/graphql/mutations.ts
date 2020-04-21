@@ -3,9 +3,12 @@ import {gql} from 'apollo-boost';
 import {
     createDebtCategoryFragment,
     createSavingCategoryFragment,
-    createVariableCategoryFragment, debtCategoryFragment,
+    createVariableCategoryFragment,
+    debtCategoryFragment,
     expenseFragment,
-    fixedCategoryFragment, incomeItemFragment, savingCategoryFragment,
+    fixedCategoryFragment,
+    incomeItemFragment,
+    savingCategoryFragment,
     timePeriodFragment
 } from './fragments';
 
@@ -186,5 +189,21 @@ export const createTimePeriodMutation = gql`
         createTimePeriod(timePeriod: $timePeriod) {
             ...ITimePeriod
         }
+    }
+`;
+
+export const updateTimePeriodMutation = gql`
+    ${timePeriodFragment}
+    
+    mutation UpdateTimePeriodMutation($timePeriod: UpdateTimePeriod!) {
+        updateTimePeriod(timePeriod: $timePeriod) {
+            ...ITimePeriod
+        }
+    }
+`;
+
+export const deleteTimePeriodMutation = gql`
+    mutation DeleteTimePeriodMutation($userId: String!, $timePeriodId: String!) {
+        deleteTimePeriod(userId: $userId, timePeriodId: $timePeriodId)
     }
 `;

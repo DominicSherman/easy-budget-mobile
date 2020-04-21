@@ -102,6 +102,13 @@ export interface UpdateSavingCategory {
   amount?: number | null;
 }
 
+export interface UpdateTimePeriod {
+  timePeriodId: string;
+  beginDate?: string | null;
+  endDate?: string | null;
+  userId: string;
+}
+
 export interface UpdateVariableCategory {
   variableCategoryId: string;
   userId: string;

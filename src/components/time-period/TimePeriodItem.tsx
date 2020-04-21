@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, useState} from 'react';
 import {useQuery} from '@apollo/react-hooks';
 import {StyleSheet} from 'react-native';
 
@@ -9,6 +9,9 @@ import {GetTimePeriod, GetTimePeriodVariables} from '../../../autogen/GetTimePer
 import CardView from '../generic/CardView';
 import {CARD_MARGIN, CARD_WIDTH} from '../../constants/dimensions';
 import {getFormattedTimePeriodText} from '../../utils/utils';
+import {easeInTransition} from '../../services/animation-service';
+
+import EditTimePeriodForm from './EditTimePeriodForm';
 
 const styles = StyleSheet.create({
     wrapper: {
@@ -26,6 +29,11 @@ const TimePeriodItem: FC<{timePeriodId: string}> = ({timePeriodId}) => {
             userId: getUserId()
         }
     });
+    const [expanded, setExpanded] = useState(false);
+    const toggleExpanded = (): void => {
+        easeInTransition();
+        setExpanded(!expanded);
+    };
 
     if (!queryResult.data) {
         return null;
@@ -35,10 +43,18 @@ const TimePeriodItem: FC<{timePeriodId: string}> = ({timePeriodId}) => {
 
     return (
         <CardView
+            onPress={toggleExpanded}
             shadow
             style={styles.wrapper}
         >
             <LargeText>{getFormattedTimePeriodText(timePeriod)}</LargeText>
+            {
+                expanded &&
+                    <EditTimePeriodForm
+                        timePeriod={timePeriod}
+                        toggleExpanded={toggleExpanded}
+                    />
+            }
         </CardView>
     );
 };
