@@ -3,6 +3,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {ApolloProvider} from '@apollo/react-hooks';
 import {useSelector} from 'react-redux';
 import {useDarkMode} from 'react-native-dark-mode';
+import DropdownAlert from 'react-native-dropdownalert';
 
 import {getApolloClient} from './graphql/apollo-client';
 import {setAppState} from './redux/action-creators';
@@ -13,6 +14,7 @@ import {Mode} from './enums/Mode';
 import {IAppState} from './redux/reducer';
 import {dispatchAction} from './redux/store';
 import {Actions} from './redux/actions';
+import {DropdownRef} from './services/alert-service';
 
 const LightThemeObject = {
     colors: {
@@ -54,6 +56,7 @@ const App: FC = () => {
             <ApolloProvider client={getApolloClient()}>
                 <RootNavigator appStatus={appStatus} />
             </ApolloProvider>
+            <DropdownAlert ref={DropdownRef} />
         </NavigationContainer>
     );
 };
