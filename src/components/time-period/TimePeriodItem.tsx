@@ -46,6 +46,7 @@ const TimePeriodItem: FC<{timePeriodId: string}> = ({timePeriodId}) => {
             onPress={toggleExpanded}
             shadow
             style={styles.wrapper}
+            testID={`TimePeriodItem-${timePeriod.timePeriodId}`}
         >
             <LargeText>{getFormattedTimePeriodText(timePeriod)}</LargeText>
             {

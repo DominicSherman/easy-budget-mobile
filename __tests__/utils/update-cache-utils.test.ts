@@ -1,5 +1,7 @@
 import {
-    createRandomAppState, createRandomDebtCategories, createRandomDebtCategory,
+    createRandomAppState,
+    createRandomDebtCategories,
+    createRandomDebtCategory,
     createRandomExpense,
     createRandomExpenses,
     createRandomFixedCategories,
@@ -7,7 +9,7 @@ import {
     createRandomIncomeItem,
     createRandomIncomeItems,
     createRandomSavingCategories,
-    createRandomSavingCategory,
+    createRandomSavingCategory, createRandomTimePeriod, createRandomTimePeriods,
     createRandomVariableCategories,
     createRandomVariableCategory
 } from '../models';
@@ -15,20 +17,23 @@ import * as reduxStore from '../../src/redux/store';
 import {
     createDebtCategoryUpdate,
     createExpenseUpdate,
-    createFixedCategoryUpdate, createIncomeItemUpdate,
-    createSavingCategoryUpdate,
-    createVariableCategoryUpdate, deleteDebtCategoryUpdate,
+    createFixedCategoryUpdate,
+    createIncomeItemUpdate,
+    createSavingCategoryUpdate, createTimePeriodUpdate,
+    createVariableCategoryUpdate,
+    deleteDebtCategoryUpdate,
     deleteExpenseUpdate,
     deleteFixedCategoryUpdate,
     deleteIncomeItemUpdate,
-    deleteSavingCategoryUpdate,
+    deleteSavingCategoryUpdate, deleteTimePeriodUpdate,
     deleteVariableCategoryUpdate
 } from '../../src/utils/update-cache-utils';
 import {
     getDebtCategoriesQuery,
     getExpensesQuery,
-    getFixedCategoriesQuery, getIncomeItemsQuery,
-    getSavingCategoriesQuery,
+    getFixedCategoriesQuery,
+    getIncomeItemsQuery,
+    getSavingCategoriesQuery, getTimePeriodsQuery,
     getVariableCategoriesQuery
 } from '../../src/graphql/queries';
 import {getUserId} from '../../src/services/auth-service';
@@ -478,6 +483,65 @@ describe('update cache utils', () => {
         });
     });
 
+    describe('createTimePeriodUpdate', () => {
+        let expectedReadQuery,
+            expectedMutationResult;
+
+        beforeEach(() => {
+            expectedMutationResult = {
+                data: {
+                    createTimePeriod: createRandomTimePeriod()
+                }
+            };
+            expectedReadQuery = {
+                timePeriods: createRandomTimePeriods()
+            };
+
+            cache.readQuery.mockReturnValue(expectedReadQuery);
+        });
+
+        it('should call readQuery', () => {
+            createTimePeriodUpdate(cache, expectedMutationResult);
+
+            expect(cache.readQuery).toHaveBeenCalledTimes(1);
+            expect(cache.readQuery).toHaveBeenCalledWith({
+                query: getTimePeriodsQuery,
+                variables: {
+                    userId: getUserId()
+                }
+            });
+        });
+
+        it('should call write query if there is a result and data', () => {
+            createTimePeriodUpdate(cache, expectedMutationResult);
+
+            expect(cache.writeQuery).toHaveBeenCalledTimes(1);
+            expect(cache.writeQuery).toHaveBeenCalledWith({
+                data: {
+                    timePeriods: [...expectedReadQuery.timePeriods, expectedMutationResult.data.createTimePeriod]
+                },
+                query: getTimePeriodsQuery,
+                variables: {
+                    userId: getUserId()
+                }
+            });
+        });
+
+        it('should **not** call write query if there is not a result', () => {
+            cache.readQuery.mockReturnValue(null);
+
+            createTimePeriodUpdate(cache, expectedMutationResult);
+
+            expect(cache.writeQuery).not.toHaveBeenCalled();
+        });
+
+        it('should **not** call write query if there is not data', () => {
+            createTimePeriodUpdate(cache, {data: null});
+
+            expect(cache.writeQuery).not.toHaveBeenCalled();
+        });
+    });
+
     describe('deleteExpenseUpdate', () => {
         let expectedCategory,
             updatedVariableCategories,
@@ -882,6 +946,67 @@ describe('update cache utils', () => {
 
         it('should **not** call write query if there is not data', () => {
             deleteIncomeItemUpdate(cache, {data: null});
+
+            expect(cache.writeQuery).not.toHaveBeenCalled();
+        });
+    });
+
+    describe('deleteTimePeriodUpdate', () => {
+        let expectedReadQuery,
+            expectedTimePeriod,
+            expectedMutationResult;
+
+        beforeEach(() => {
+            expectedTimePeriod = createRandomTimePeriod();
+            expectedMutationResult = {
+                data: {
+                    deleteTimePeriod: expectedTimePeriod.timePeriodId
+                }
+            };
+            expectedReadQuery = {
+                timePeriods: [...createRandomTimePeriods(), expectedTimePeriod]
+            };
+
+            cache.readQuery.mockReturnValue(expectedReadQuery);
+        });
+
+        it('should call readQuery', () => {
+            deleteTimePeriodUpdate(cache, expectedMutationResult);
+
+            expect(cache.readQuery).toHaveBeenCalledTimes(1);
+            expect(cache.readQuery).toHaveBeenCalledWith({
+                query: getTimePeriodsQuery,
+                variables: {
+                    userId: getUserId()
+                }
+            });
+        });
+
+        it('should call write query if there is a result and data', () => {
+            deleteTimePeriodUpdate(cache, expectedMutationResult);
+
+            expect(cache.writeQuery).toHaveBeenCalledTimes(1);
+            expect(cache.writeQuery).toHaveBeenCalledWith({
+                data: {
+                    timePeriods: expectedReadQuery.timePeriods.filter((timePeriod) => timePeriod.timePeriodId !== expectedTimePeriod.timePeriodId)
+                },
+                query: getTimePeriodsQuery,
+                variables: {
+                    userId: getUserId()
+                }
+            });
+        });
+
+        it('should **not** call write query if there is not a result', () => {
+            cache.readQuery.mockReturnValue(null);
+
+            deleteTimePeriodUpdate(cache, expectedMutationResult);
+
+            expect(cache.writeQuery).not.toHaveBeenCalled();
+        });
+
+        it('should **not** call write query if there is not data', () => {
+            deleteTimePeriodUpdate(cache, {data: null});
 
             expect(cache.writeQuery).not.toHaveBeenCalled();
         });

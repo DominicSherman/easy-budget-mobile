@@ -39,6 +39,7 @@ const Date: FC<IDateProps> = (props) => {
                         }
                     });
                 }}
+                testID={`Date-${title}`}
                 text={moment(date).calendar(undefined, formats)}
                 wrapperStyle={{
                     backgroundColor: Color.sunflower,
