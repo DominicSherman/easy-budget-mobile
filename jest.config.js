@@ -21,7 +21,7 @@ module.exports = {
             'statements': 100
         }
     },
-    'preset': 'react-native',
+    'preset': '@testing-library/react-native',
     'transformIgnorePatterns': [
         'node_modules/(?!react-native|react-router-native)/'
     ],

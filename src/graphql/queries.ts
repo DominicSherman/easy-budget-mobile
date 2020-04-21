@@ -117,6 +117,26 @@ export const getActiveTimePeriodQuery = gql`
     }
 `;
 
+export const getTimePeriodsQuery = gql`
+    ${timePeriodFragment}
+    
+    query GetTimePeriods($userId: String!) {
+        timePeriods (userId: $userId) {
+            ...ITimePeriod
+        }
+    }
+`;
+
+export const getTimePeriodQuery = gql`
+    ${timePeriodFragment}
+    
+    query GetTimePeriod($userId: String!, $timePeriodId: String!) {
+        timePeriod (userId: $userId, timePeriodId: $timePeriodId) {
+            ...ITimePeriod
+        }
+    }
+`;
+
 /* Screen */
 
 export const homeScreenQuery = gql`

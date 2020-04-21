@@ -3,16 +3,17 @@ import {StyleSheet, View} from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 import {easeInTransition} from '../../services/animation-service';
-import {centeredRow} from '../../styles/shared-styles';
-import {SCREEN_WIDTH} from '../../constants/dimensions';
 import {useDarkBlueColor, useSecondaryBackgroundColor} from '../../utils/hooks';
 import {Theme} from '../../services/theme-service';
+import {SCREEN_WIDTH} from '../../constants/dimensions';
+import {centeredRow} from '../../styles/shared-styles';
 
 import {FontWeight, RegularMontserratText} from './Text';
 import Button, {IButtonProps} from './Button';
 import Input, {IInputProps} from './Input';
 import PlusMinusIcon from './PlusMinusIcon';
 import Toggle, {IToggleProps} from './Toggle';
+import Date, {IDateProps} from './Date';
 
 const FORM_HEIGHT = 400;
 
@@ -35,15 +36,25 @@ const styles = StyleSheet.create({
     }
 });
 
+export enum InputType {
+    INPUT = 'input',
+    TOGGLE = 'toggle',
+    DATE = 'date'
+}
+
+interface IDateProp extends IDateProps {
+    inputType: InputType.DATE
+}
+
 interface IToggleProp extends IToggleProps {
-    isToggle: true
+    inputType: InputType.TOGGLE
 }
 
 interface IInputProp extends IInputProps {
-    isToggle?: false
+    inputType?: InputType.INPUT
 }
 
-export type IFormInput = (IToggleProp | IInputProp)
+export type IFormInput = (IToggleProp | IInputProp | IDateProp)
 
 interface IFormProps {
     buttons: IButtonProps[]
@@ -106,35 +117,48 @@ const DropdownForm: FC<IFormProps> = (props) => {
             }
             {
                 inputs.map((input) =>
-                    input.isToggle ?
-                        <Toggle
-                            key={input.title}
-                            {...input}
-                        />
-                        :
-                        <Input
-                            key={input.title}
-                            {...input}
-                        />
+                    <InputComponent
+                        input={input}
+                        key={input.title}
+                    />
                 )
             }
-            <View style={styles.buttonWrapper}>
-                {
-                    buttons.map((button) =>
-                        <Button
-                            key={button.text}
-                            {...button}
-                            wrapperStyle={{
-                                padding: 12,
-                                width: buttons.length > 1 ? (SCREEN_WIDTH - 84) / buttons.length : SCREEN_WIDTH / 2,
-                                ...button.wrapperStyle || {}
-                            }}
-                        />
-                    )
-                }
-            </View>
+            <FormButtons buttons={buttons} />
         </View>
     );
 };
+
+const InputComponent: FC<{input: IFormInput}> = ({input}) => {
+    if (input.inputType === InputType.TOGGLE) {
+        return (
+            <Toggle {...input} />
+        );
+    } else if (input.inputType === InputType.DATE) {
+        return (
+            <Date {...input} />
+        );
+    }
+
+    return (
+        <Input {...input} />
+    );
+};
+
+const FormButtons: FC<{buttons: IButtonProps[]}> = ({buttons}) =>
+    <View style={styles.buttonWrapper}>
+        {
+            buttons.map((button) =>
+                <Button
+                    key={button.text}
+                    {...button}
+                    wrapperStyle={{
+                        padding: 12,
+                        width: buttons.length > 1 ? (SCREEN_WIDTH - 84) / buttons.length : SCREEN_WIDTH / 2,
+                        ...button.wrapperStyle || {}
+                    }}
+                />
+            )
+        }
+    </View>;
 
 export default Form;

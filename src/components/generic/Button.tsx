@@ -28,14 +28,16 @@ export interface IButtonProps {
     text: string
     onPress: () => void
     textStyle?: TextStyle
+    testID?: string
     wrapperStyle?: ViewStyle
 }
 
-const Button: FC<IButtonProps> = ({disabled, onPress, text, textStyle, loading, wrapperStyle}) =>
+const Button: FC<IButtonProps> = ({disabled, onPress, text, textStyle, loading, testID, wrapperStyle}) =>
     <Touchable
         disabled={disabled || loading}
         onPress={onPress}
         style={[styles.wrapper, shadow, wrapperStyle, disabled && styles.disabled]}
+        testID={testID}
     >
         {
             loading ?

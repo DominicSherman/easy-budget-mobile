@@ -26,6 +26,7 @@ import LeftSideMenu from './components/navigation/LeftSideMenu';
 import {shadow} from './styles/shared-styles';
 import {getDarkBlueColor} from './services/theme-service';
 import {useMode} from './utils/hooks';
+import TimePeriods from './screens/TimePeriods';
 
 const getScreenOptions = (mode): StackNavigationOptions => ({
     headerLeft: (): JSX.Element => <HamburgerMenu />,
@@ -76,6 +77,7 @@ export type ScreenParams = {
     [Route.SETTINGS]: {}
     [Route.VARIABLE_CATEGORIES]: {}
     [Route.VARIABLE_CATEGORY]: IVariableCategoryProps
+    [Route.TIME_PERIODS]: {}
 }
 
 const Stack = createStackNavigator<ScreenParams>();
@@ -164,6 +166,15 @@ const IncomeStack: FC = () =>
         />
     </Stack.Navigator>;
 
+const TimePeriodsStack: FC = () =>
+    <Stack.Navigator>
+        <Stack.Screen
+            component={TimePeriods}
+            name={Route.TIME_PERIODS}
+            options={getScreenOptions(useMode())}
+        />
+    </Stack.Navigator>;
+
 const DrawerNavigator: FC = () =>
     <Drawer.Navigator
         drawerContent={(props): JSX.Element => <LeftSideMenu {...props} />}
@@ -198,6 +209,10 @@ const DrawerNavigator: FC = () =>
         <Drawer.Screen
             component={DebtStack}
             name={Route.DEBT}
+        />
+        <Drawer.Screen
+            component={TimePeriodsStack}
+            name={Route.TIME_PERIODS}
         />
         <Drawer.Screen
             component={SettingsStack}

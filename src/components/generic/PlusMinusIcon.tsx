@@ -43,6 +43,7 @@ const PlusMinusIcon: FC<IPlusMinusIconProps> = ({isOpen, setOpen, theme}) => {
                 name={isOpen ? FeatherNames.X : FeatherNames.PLUS}
                 onPress={setOpen}
                 size={28}
+                testID={'PlusMinusIcon'}
             />
         </View>
     );

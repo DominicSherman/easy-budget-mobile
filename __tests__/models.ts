@@ -1,4 +1,3 @@
-import {QueryResult} from '@apollo/react-common';
 import {ApolloError, NetworkStatus} from 'apollo-client';
 import {User} from '@react-native-community/google-signin';
 
@@ -111,7 +110,7 @@ export const createRandomTimePeriod = (timePeriod = {}): ITimePeriod => ({
 
 export const createRandomTimePeriods = (): ITimePeriod[] => chance.n(createRandomTimePeriod, chance.d6());
 
-export const createRandomQueryResult = <TData = any>(data: TData): QueryResult<TData, any> => ({
+export const createRandomQueryResult = (data: any): any => ({
     called: chance.bool(),
     // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
     // @ts-ignore

@@ -6,6 +6,7 @@ export enum FeatherNames {
     SQUARE = 'square',
     CHEVRON_DOWN = 'chevron-down',
     CHEVRON_LEFT = 'chevron-left',
+    CHEVRON_RIGHT = 'chevron-right',
     CHEVRON_UP = 'chevron-up',
     X = 'x',
     PLUS = 'plus',

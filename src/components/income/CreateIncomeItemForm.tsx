@@ -6,7 +6,7 @@ import {createIncomeItemMutation} from '../../graphql/mutations';
 import {getUserId} from '../../services/auth-service';
 import {CreateIncomeItemMutation, CreateIncomeItemMutationVariables} from '../../../autogen/CreateIncomeItemMutation';
 import {createIncomeItemUpdate} from '../../utils/update-cache-utils';
-import Form, {IFormInput} from '../generic/Form';
+import Form, {IFormInput, InputType} from '../generic/Form';
 import {useThemedSelectedColor, useTimePeriodId} from '../../utils/hooks';
 import {Theme} from '../../services/theme-service';
 
@@ -56,7 +56,7 @@ const CreateIncomeItemForm: FC<ICreateIncomeItemFormProps> = ({showCreateForm}) 
         value: amount
     }, {
         checked: recurring,
-        isToggle: true,
+        inputType: InputType.TOGGLE,
         onChange: setRecurring,
         title: 'recurring'
     }];

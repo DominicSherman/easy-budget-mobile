@@ -23,6 +23,11 @@ const cache = new InMemoryCache({
                     __typename: 'FixedCategory',
                     id: args.fixedCategoryId
                 }),
+            timePeriod: (_, args, {getCacheKey}): any =>
+                getCacheKey({
+                    __typename: 'TimePeriod',
+                    id: args.timePeriodId
+                }),
             variableCategory: (_, args, {getCacheKey}): any =>
                 getCacheKey({
                     __typename: 'VariableCategory',

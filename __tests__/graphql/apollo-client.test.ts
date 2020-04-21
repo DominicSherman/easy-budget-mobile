@@ -80,6 +80,20 @@ describe('Apollo Client', () => {
             });
         });
 
+        it('should redirect timePeriod', () => {
+            args = {
+                timePeriodId: chance.guid()
+            };
+
+            cacheRedirectsSpy.Query.timePeriod(null, args, {getCacheKey});
+
+            expect(getCacheKey).toHaveBeenCalledTimes(1);
+            expect(getCacheKey).toHaveBeenCalledWith({
+                __typename: 'TimePeriod',
+                id: args.timePeriodId
+            });
+        });
+
         it('should redirect variableCategory', () => {
             args = {
                 variableCategoryId: chance.guid()

@@ -8,7 +8,7 @@ import CreateIncomeItemForm from '../../../src/components/income/CreateIncomeIte
 import {createIncomeItemMutation} from '../../../src/graphql/mutations';
 import {getUserId} from '../../../src/services/auth-service';
 import {createIncomeItemUpdate} from '../../../src/utils/update-cache-utils';
-import Form from '../../../src/components/generic/Form';
+import Form, {InputType} from '../../../src/components/generic/Form';
 import * as hooks from '../../../src/utils/hooks';
 import {Mode} from '../../../src/enums/Mode';
 
@@ -121,7 +121,7 @@ describe('CreateIncomeItemForm', () => {
             });
             expect(recurringInput).toEqual({
                 checked: expectedRecurring,
-                isToggle: true,
+                inputType: InputType.TOGGLE,
                 onChange: expect.any(Function),
                 title: 'recurring'
             });

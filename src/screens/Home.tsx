@@ -8,7 +8,7 @@ import moment from 'moment';
 import {FontWeight, LargeText, RegularText, SmallText, TinyText, TitleText} from '../components/generic/Text';
 import {getUserId} from '../services/auth-service';
 import {homeScreenQuery} from '../graphql/queries';
-import {formatTimePeriod, getRoundedDate} from '../services/moment-service';
+import {getRoundedDate} from '../services/moment-service';
 import {getEarlyReturn} from '../services/error-and-loading-service';
 import NoActiveTimePeriod from '../components/time-period/NoActiveTimePeriod';
 import {IAppState} from '../redux/reducer';
@@ -21,6 +21,7 @@ import {useBudgetNavigation, useMode, useShockBlueColor} from '../utils/hooks';
 import {Color} from '../constants/color';
 import {textWrapperUnderlined} from '../styles/shared-styles';
 import {getThemedSelectedColor, Theme} from '../services/theme-service';
+import {getFormattedTimePeriodText} from '../utils/utils';
 
 const styles = StyleSheet.create({
     bottomWrapper: {
@@ -112,7 +113,7 @@ const Home: React.FC = () => {
                     fontWeight={FontWeight.BOLD}
                     style={{marginTop: 16}}
                 >
-                    {`${formatTimePeriod(activeTimePeriod.beginDate)} - ${formatTimePeriod(moment(activeTimePeriod.endDate).toISOString())} (${moment(activeTimePeriod.endDate).diff(moment(activeTimePeriod.beginDate), 'd')} days)`}
+                    {getFormattedTimePeriodText(activeTimePeriod)}
                 </RegularText>
                 <SmallText
                     color={Color.white}

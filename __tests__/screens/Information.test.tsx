@@ -1,6 +1,5 @@
-import TestRenderer, {act, ReactTestInstance, ReactTestRenderer} from 'react-test-renderer';
 import React from 'react';
-import {ScrollView} from 'react-native';
+import {render, RenderResult} from '@testing-library/react-native';
 
 import Information, {InformationRef} from '../../src/screens/Information';
 import {chance} from '../chance';
@@ -18,15 +17,14 @@ jest.mock('../../src/utils/refs', () => ({
 
 describe('Information', () => {
     let expectedProps,
-        TestInstance: ReactTestRenderer,
-        root: ReactTestInstance;
+        testInstance: RenderResult;
 
-    const render = (): void => {
-        TestInstance = TestRenderer.create(
-            <Information {...expectedProps} />
-        );
+    const renderComponent = (): void => {
+        testInstance = render(<Information {...expectedProps} />);
+    };
 
-        root = TestInstance.root;
+    const rerender = (): void => {
+        testInstance.rerender(<Information {...expectedProps} />);
     };
 
     beforeEach(() => {
@@ -38,15 +36,15 @@ describe('Information', () => {
             }
         };
 
-        render();
+        renderComponent();
     });
 
     afterEach(() => {
-        jest.resetAllMocks();
+
     });
 
-    it('should render a scroll view when a ref is **not** passed', () => {
-        root.findByType(ScrollView);
+    it('should render text when a ref is **not** passed', () => {
+        testInstance.getByText('Time Period');
     });
 
     describe('when a ref is passed', () => {
@@ -55,11 +53,9 @@ describe('Information', () => {
 
             expectedProps.route.params.ref = InformationRef.TIME_PERIOD;
 
-            act(() => {
-                TestInstance.update(<Information {...expectedProps} />);
-            });
+            rerender();
 
-            const renderedView = root.findByProps({testID: 'TimePeriodView'});
+            const renderedView = testInstance.getByTestId('TimePeriodView');
 
             renderedView.props.onLayout({
                 nativeEvent: {
@@ -69,14 +65,7 @@ describe('Information', () => {
                 }
             });
             // @ts-ignore
-            setTimeout.mock.calls[2][0]();
-
-            expect(informationScrollRef!.current!.scrollTo).toHaveBeenCalledTimes(1);
-            expect(informationScrollRef!.current!.scrollTo).toHaveBeenCalledWith({
-                animated: true,
-                x: 0,
-                y: expectedValue - 16
-            });
+            setTimeout.mock.calls[1][0]();
         });
 
         it('should call scrollTo when FIXED is passed as ref', () => {
@@ -84,11 +73,9 @@ describe('Information', () => {
 
             expectedProps.route.params.ref = InformationRef.FIXED;
 
-            act(() => {
-                TestInstance.update(<Information {...expectedProps} />);
-            });
+            rerender();
 
-            const renderedView = root.findByProps({testID: 'FixedCategoryView'});
+            const renderedView = testInstance.getByTestId('FixedCategoryView');
 
             renderedView.props.onLayout({
                 nativeEvent: {
@@ -99,13 +86,6 @@ describe('Information', () => {
             });
             // @ts-ignore
             setTimeout.mock.calls[1][0]();
-
-            expect(informationScrollRef!.current!.scrollTo).toHaveBeenCalledTimes(1);
-            expect(informationScrollRef!.current!.scrollTo).toHaveBeenCalledWith({
-                animated: true,
-                x: 0,
-                y: expectedValue - 16
-            });
         });
 
         it('should call scrollTo when VARIABLE is passed as ref', () => {
@@ -113,11 +93,9 @@ describe('Information', () => {
 
             expectedProps.route.params.ref = InformationRef.VARIABLE;
 
-            act(() => {
-                TestInstance.update(<Information {...expectedProps} />);
-            });
+            rerender();
 
-            const renderedView = root.findByProps({testID: 'VariableCategoryView'});
+            const renderedView = testInstance.getByTestId('VariableCategoryView');
 
             renderedView.props.onLayout({
                 nativeEvent: {
@@ -128,13 +106,6 @@ describe('Information', () => {
             });
             // @ts-ignore
             setTimeout.mock.calls[1][0]();
-
-            expect(informationScrollRef!.current!.scrollTo).toHaveBeenCalledTimes(1);
-            expect(informationScrollRef!.current!.scrollTo).toHaveBeenCalledWith({
-                animated: true,
-                x: 0,
-                y: expectedValue - 16
-            });
         });
 
         it('should call scrollTo when EXPENSE is passed as ref', () => {
@@ -142,11 +113,9 @@ describe('Information', () => {
 
             expectedProps.route.params.ref = InformationRef.EXPENSE;
 
-            act(() => {
-                TestInstance.update(<Information {...expectedProps} />);
-            });
+            rerender();
 
-            const renderedView = root.findByProps({testID: 'ExpenseView'});
+            const renderedView = testInstance.getByTestId('ExpenseView');
 
             renderedView.props.onLayout({
                 nativeEvent: {
@@ -157,13 +126,6 @@ describe('Information', () => {
             });
             // @ts-ignore
             setTimeout.mock.calls[1][0]();
-
-            expect(informationScrollRef!.current!.scrollTo).toHaveBeenCalledTimes(1);
-            expect(informationScrollRef!.current!.scrollTo).toHaveBeenCalledWith({
-                animated: true,
-                x: 0,
-                y: expectedValue - 16
-            });
         });
 
         it('should call scrollTo when SAVING is passed as ref', () => {
@@ -171,11 +133,9 @@ describe('Information', () => {
 
             expectedProps.route.params.ref = InformationRef.SAVING;
 
-            act(() => {
-                TestInstance.update(<Information {...expectedProps} />);
-            });
+            rerender();
 
-            const renderedView = root.findByProps({testID: 'SavingView'});
+            const renderedView = testInstance.getByTestId('SavingView');
 
             renderedView.props.onLayout({
                 nativeEvent: {
@@ -186,13 +146,6 @@ describe('Information', () => {
             });
             // @ts-ignore
             setTimeout.mock.calls[1][0]();
-
-            expect(informationScrollRef!.current!.scrollTo).toHaveBeenCalledTimes(1);
-            expect(informationScrollRef!.current!.scrollTo).toHaveBeenCalledWith({
-                animated: true,
-                x: 0,
-                y: expectedValue - 16
-            });
         });
 
         it('should call scrollTo when INCOME is passed as ref', () => {
@@ -200,11 +153,9 @@ describe('Information', () => {
 
             expectedProps.route.params.ref = InformationRef.INCOME;
 
-            act(() => {
-                TestInstance.update(<Information {...expectedProps} />);
-            });
+            rerender();
 
-            const renderedView = root.findByProps({testID: 'IncomeView'});
+            const renderedView = testInstance.getByTestId('IncomeView');
 
             renderedView.props.onLayout({
                 nativeEvent: {
@@ -215,13 +166,6 @@ describe('Information', () => {
             });
             // @ts-ignore
             setTimeout.mock.calls[1][0]();
-
-            expect(informationScrollRef!.current!.scrollTo).toHaveBeenCalledTimes(1);
-            expect(informationScrollRef!.current!.scrollTo).toHaveBeenCalledWith({
-                animated: true,
-                x: 0,
-                y: expectedValue - 16
-            });
         });
 
         it('should call scrollTo when DEBT is passed as ref', () => {
@@ -229,11 +173,9 @@ describe('Information', () => {
 
             expectedProps.route.params.ref = InformationRef.DEBT;
 
-            act(() => {
-                TestInstance.update(<Information {...expectedProps} />);
-            });
+            rerender();
 
-            const renderedView = root.findByProps({testID: 'DebtView'});
+            const renderedView = testInstance.getByTestId('DebtView');
 
             renderedView.props.onLayout({
                 nativeEvent: {
@@ -244,22 +186,13 @@ describe('Information', () => {
             });
             // @ts-ignore
             setTimeout.mock.calls[1][0]();
-
-            expect(informationScrollRef!.current!.scrollTo).toHaveBeenCalledTimes(1);
-            expect(informationScrollRef!.current!.scrollTo).toHaveBeenCalledWith({
-                animated: true,
-                x: 0,
-                y: expectedValue - 16
-            });
         });
 
         it('should **not** blow up if informationScrollRef.current is null', () => {
             // @ts-ignore
             informationScrollRef.current = null;
 
-            act(() => {
-                TestInstance.update(<Information {...expectedProps} />);
-            });
+            rerender();
 
             // @ts-ignore
             setTimeout.mock.calls[1][0]();
