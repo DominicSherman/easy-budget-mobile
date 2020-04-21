@@ -23,8 +23,8 @@ const MoreIcon: FC<IMoreIconProps> = ({onPress}) =>
     >
         <Feather
             color={useDarkBlueColor()}
-            name={FeatherNames.MORE}
-            size={20}
+            name={FeatherNames.CHEVRON_RIGHT}
+            size={35}
         />
     </Touchable>;
 
