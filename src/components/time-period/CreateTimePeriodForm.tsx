@@ -28,6 +28,10 @@ const CreateTimePeriodForm: FC<ICreateTimePeriodFormProps> = ({showCreateForm}) 
     };
 
     const [createTimePeriod, {loading}] = useMutation<CreateTimePeriodMutation, CreateTimePeriodMutationVariables>(createTimePeriodMutation, {
+        onCompleted: () => {
+            setBeginDate(new Date(now));
+            setEndDate(new Date(fourWeeks));
+        },
         onError: (error) => {
             errorAlert('Error', error.graphQLErrors[0].message);
         },
@@ -36,11 +40,6 @@ const CreateTimePeriodForm: FC<ICreateTimePeriodFormProps> = ({showCreateForm}) 
             timePeriod
         }
     });
-    const onPress = (): void => {
-        createTimePeriod();
-        setBeginDate(new Date(now));
-        setEndDate(new Date(fourWeeks));
-    };
     const inputs: IFormInput[] = [{
         date: beginDate,
         inputType: InputType.DATE,
@@ -54,7 +53,7 @@ const CreateTimePeriodForm: FC<ICreateTimePeriodFormProps> = ({showCreateForm}) 
     }];
     const buttons = [{
         loading,
-        onPress,
+        onPress: createTimePeriod,
         text: 'Create'
     }];
 
