@@ -5,7 +5,7 @@ import {Alert} from 'react-native';
 import {IIncomeItem} from '../../../autogen/IIncomeItem';
 import {deleteIncomeItemMutation, updateIncomeItemMutation} from '../../graphql/mutations';
 import {UpdateIncomeItemMutation, UpdateIncomeItemMutationVariables} from '../../../autogen/UpdateIncomeItemMutation';
-import Form, {IFormInput} from '../generic/Form';
+import Form, {IFormInput, InputType} from '../generic/Form';
 import {DeleteIncomeItemMutation, DeleteIncomeItemMutationVariables} from '../../../autogen/DeleteIncomeItemMutation';
 import {deleteIncomeItemUpdate} from '../../utils/update-cache-utils';
 import {easeInTransition} from '../../services/animation-service';
@@ -88,7 +88,7 @@ const EditIncomeItemForm: FC<IEditIncomeItemFormProps> = ({toggleExpanded, incom
         value: updatedAmount
     }, {
         checked: updatedRecurring,
-        isToggle: true,
+        inputType: InputType.TOGGLE,
         onChange: setUpdatedRecurring,
         title: 'recurring'
     }];

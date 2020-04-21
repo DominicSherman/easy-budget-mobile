@@ -57,7 +57,9 @@ const Information: IScreenFC<Route.INFORMATION> = ({route: {params: {ref}}}) => 
 
     useEffect(() => {
         setTimeout(() => {
+            /* istanbul ignore next */
             if (ref && informationScrollRef.current) {
+                /* istanbul ignore next */
                 informationScrollRef.current.scrollTo({
                     animated: true,
                     x: 0,

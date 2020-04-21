@@ -13,11 +13,12 @@ import {GetTimePeriods, GetTimePeriodsVariables} from '../../autogen/GetTimePeri
 import {TitleText} from '../components/generic/Text';
 import {CARD_MARGIN} from '../constants/dimensions';
 import CreateTimePeriodForm from '../components/time-period/CreateTimePeriodForm';
+import {usePrimaryBackgroundColor} from '../utils/hooks';
 
 const styles = StyleSheet.create({
     title: {
-        marginLeft: CARD_MARGIN,
-        marginTop: 32
+        paddingHorizontal: CARD_MARGIN,
+        paddingTop: 32
     }
 });
 
@@ -26,8 +27,8 @@ const TimePeriods: FC = () => {
         variables: {
             userId: getUserId()
         }
-
     });
+    const backgroundColor = usePrimaryBackgroundColor();
 
     if (!queryResult.data) {
         return getEarlyReturn(queryResult);
@@ -55,7 +56,9 @@ const TimePeriods: FC = () => {
                 keyExtractor={(item): string => item.beginDate}
                 renderItem={({item}): JSX.Element => <TimePeriodItem timePeriodId={item.timePeriodId} />}
                 renderSectionHeader={({section}): JSX.Element =>
-                    <TitleText style={styles.title}>{section.title}</TitleText>
+                    <View style={[styles.title, {backgroundColor}]}>
+                        <TitleText>{section.title}</TitleText>
+                    </View>
                 }
                 sections={sections}
             />

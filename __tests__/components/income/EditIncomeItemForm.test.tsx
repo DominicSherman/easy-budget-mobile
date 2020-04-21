@@ -9,7 +9,7 @@ import {chance} from '../../chance';
 import {createRandomIncomeItem} from '../../models';
 import EditIncomeItemForm from '../../../src/components/income/EditIncomeItemForm';
 import {deleteIncomeItemMutation, updateIncomeItemMutation} from '../../../src/graphql/mutations';
-import Form from '../../../src/components/generic/Form';
+import Form, {InputType} from '../../../src/components/generic/Form';
 import {Color} from '../../../src/constants/color';
 
 jest.mock('@apollo/react-hooks');
@@ -154,7 +154,7 @@ describe('EditIncomeItemForm', () => {
             });
             expect(recurringInput).toEqual({
                 checked: expectedRecurring,
-                isToggle: true,
+                inputType: InputType.TOGGLE,
                 onChange: expect.any(Function),
                 title: 'recurring'
             });
