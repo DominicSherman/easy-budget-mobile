@@ -65,7 +65,7 @@ const Home: React.FC = () => {
     const shockBlueColor = useShockBlueColor();
     const mode = useMode();
 
-    if (!queryResult.data) {
+    if (true) {
         return getEarlyReturn(queryResult);
     }
 
