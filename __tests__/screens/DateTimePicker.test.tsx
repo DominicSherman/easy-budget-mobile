@@ -4,7 +4,7 @@ import RNDatePicker from '@react-native-community/datetimepicker';
 
 import DateTimePicker from '../../src/screens/DateTimePicker';
 import {chance} from '../chance';
-import {RegularText} from '../../src/components/generic/Text';
+import {TitleText} from '../../src/components/generic/Text';
 import Button from '../../src/components/generic/Button';
 import {createRouteProps} from '../models';
 import * as hooks from '../../src/utils/hooks';
@@ -42,7 +42,7 @@ describe('DateTimePicker', () => {
     });
 
     it('should render the title', () => {
-        const renderedText = root.findAllByType(RegularText)[0];
+        const renderedText = root.findAllByType(TitleText)[0];
 
         expect(renderedText.props.children).toBe(expectedProps.title);
     });

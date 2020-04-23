@@ -8,6 +8,7 @@ import {getUserId} from '../../services/auth-service';
 import {CreateTimePeriodMutation, CreateTimePeriodMutationVariables} from '../../../autogen/CreateTimePeriodMutation';
 import Form, {IFormInput, InputType} from '../generic/Form';
 import {createTimePeriodUpdate} from '../../utils/update-cache-utils';
+import {errorAlert} from '../../services/alert-service';
 
 interface ICreateTimePeriodFormProps {
     showCreateForm?: boolean
@@ -26,23 +27,19 @@ const CreateTimePeriodForm: FC<ICreateTimePeriodFormProps> = ({showCreateForm}) 
         userId: getUserId()
     };
 
-    const [createTimePeriod] = useMutation<CreateTimePeriodMutation, CreateTimePeriodMutationVariables>(createTimePeriodMutation, {
-        optimisticResponse: {
-            createTimePeriod: {
-                __typename: 'TimePeriod',
-                ...timePeriod
-            }
+    const [createTimePeriod, {loading}] = useMutation<CreateTimePeriodMutation, CreateTimePeriodMutationVariables>(createTimePeriodMutation, {
+        onCompleted: () => {
+            setBeginDate(new Date(now));
+            setEndDate(new Date(fourWeeks));
+        },
+        onError: (error) => {
+            errorAlert('Error', error.graphQLErrors[0].message);
         },
         update: createTimePeriodUpdate,
         variables: {
             timePeriod
         }
     });
-    const onPress = (): void => {
-        createTimePeriod();
-        setBeginDate(new Date(now));
-        setEndDate(new Date(fourWeeks));
-    };
     const inputs: IFormInput[] = [{
         date: beginDate,
         inputType: InputType.DATE,
@@ -55,7 +52,8 @@ const CreateTimePeriodForm: FC<ICreateTimePeriodFormProps> = ({showCreateForm}) 
         title: 'End Date'
     }];
     const buttons = [{
-        onPress,
+        loading,
+        onPress: createTimePeriod,
         text: 'Create'
     }];
 
