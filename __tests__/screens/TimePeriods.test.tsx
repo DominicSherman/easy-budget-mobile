@@ -101,12 +101,6 @@ describe('TimePeriods', () => {
         renderComponent();
     });
 
-    it('should render the time periods formatted text', () => {
-        const formattedText = getFormattedTimePeriodText(chance.pickone(expectedData.timePeriods));
-
-        testInstance.getByText(formattedText);
-    });
-
     it('should open the create time period form when the plus icon is pressed', () => {
         const renderedIcon = testInstance.getByTestId('PlusMinusIcon');
 
