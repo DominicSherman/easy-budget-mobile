@@ -57,7 +57,7 @@ const TimePeriods: FC = () => {
                 renderItem={({item}): JSX.Element => <TimePeriodItem timePeriodId={item.timePeriodId} />}
                 renderSectionHeader={({section}): JSX.Element =>
                     <View style={[styles.title, {backgroundColor}]}>
-                        <TitleText>{section.title}</TitleText
+                        <TitleText>{section.title}</TitleText>
                     </View>
                 }
                 sections={sections}
