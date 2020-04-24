@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {View} from 'react-native';
+import {FlatList, View} from 'react-native';
 import {useQuery} from '@apollo/react-hooks';
 import {KeyboardAwareFlatList} from 'react-native-keyboard-aware-scroll-view';
 
@@ -54,6 +54,7 @@ const Debt: FC = () => {
                 renderItem={({item}): JSX.Element =>
                     <DebtCategoryItem debtCategory={item} />
                 }
+                showsVerticalScrollIndicator={false}
             />
             <CreateDebtCategoryForm />
         </View>

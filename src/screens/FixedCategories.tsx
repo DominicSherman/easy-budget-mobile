@@ -1,5 +1,5 @@
 import React from 'react';
-import {View} from 'react-native';
+import {FlatList, View} from 'react-native';
 import {useSelector} from 'react-redux';
 import {useQuery} from '@apollo/react-hooks';
 import {KeyboardAwareFlatList} from 'react-native-keyboard-aware-scroll-view';
@@ -66,6 +66,7 @@ const FixedCategories: React.FC = () => {
                 renderItem={({item}): JSX.Element =>
                     <FixedCategoryItem fixedCategory={item} />
                 }
+                showsVerticalScrollIndicator={false}
             />
             <CreateFixedCategoryForm />
         </View>

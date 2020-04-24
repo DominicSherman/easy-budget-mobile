@@ -1,5 +1,5 @@
 import React from 'react';
-import {View} from 'react-native';
+import {FlatList, View} from 'react-native';
 import {useQuery} from '@apollo/react-hooks';
 import {KeyboardAwareFlatList} from 'react-native-keyboard-aware-scroll-view';
 
@@ -45,7 +45,6 @@ const VariableCategories: React.FC = () => {
     }
 
     const {variableCategories} = queryResult.data;
-    const showCreateForm = !variableCategories.length;
     const sortedVariableCategories = variableCategories.sort(sortByAmount);
 
     return (
@@ -67,6 +66,7 @@ const VariableCategories: React.FC = () => {
                         variableCategory={item}
                     />
                 }
+                showsVerticalScrollIndicator={false}
             />
             <CreateVariableCategoryForm />
         </View>

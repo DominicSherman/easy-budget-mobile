@@ -1,7 +1,7 @@
 import React, {FC} from 'react';
 import {useQuery} from '@apollo/react-hooks';
 import {KeyboardAwareSectionList} from 'react-native-keyboard-aware-scroll-view';
-import {StyleSheet, View} from 'react-native';
+import {FlatList, StyleSheet, View} from 'react-native';
 
 import {getTimePeriodsQuery} from '../graphql/queries';
 import {getUserId} from '../services/auth-service';
@@ -60,6 +60,7 @@ const TimePeriods: FC = () => {
                     </View>
                 }
                 sections={sections}
+                showsVerticalScrollIndicator={false}
             />
             <CreateTimePeriodForm />
         </View>
