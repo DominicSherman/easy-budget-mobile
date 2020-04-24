@@ -251,6 +251,7 @@ export const RootNavigator: FC<{appStatus: AppStatus}> = ({appStatus}) => {
     useEffect(() => {
         SplashScreen.hide();
     }, []);
+    const mode = useMode();
 
     return (
         <Stack.Navigator>
@@ -259,6 +260,10 @@ export const RootNavigator: FC<{appStatus: AppStatus}> = ({appStatus}) => {
                     <Stack.Screen
                         component={ErrorView}
                         name={Route.ERROR}
+                        options={{
+                            ...getScreenOptions(mode),
+                            headerLeft: (): null => null
+                        }}
                     /> : null
             }
             {

@@ -9,5 +9,5 @@ export const getEarlyReturn = (queryResult: QueryResult<any, any>): JSX.Element 
         return <LoadingView />;
     }
 
-    return <ErrorView />;
+    return <ErrorView refetch={queryResult.refetch} />;
 };
