@@ -11,14 +11,10 @@ import {createTimePeriodUpdate} from '../../utils/update-cache-utils';
 import {errorAlert} from '../../services/alert-service';
 import {onUpdateOrCreateTimePeriod} from '../../redux/action-creators';
 
-interface ICreateTimePeriodFormProps {
-    showCreateForm?: boolean
-}
-
 const now = moment().startOf('day').toISOString();
 const fourWeeks = moment().startOf('day').add(4, 'w').toISOString();
 
-const CreateTimePeriodForm: FC<ICreateTimePeriodFormProps> = ({showCreateForm}) => {
+const CreateTimePeriodForm: FC = () => {
     const [beginDate, setBeginDate] = useState<Date>(new Date(now));
     const [endDate, setEndDate] = useState<Date>(new Date(fourWeeks));
     const timePeriod = {
@@ -66,7 +62,6 @@ const CreateTimePeriodForm: FC<ICreateTimePeriodFormProps> = ({showCreateForm}) 
             headerText={'Create Time Period'}
             inputs={inputs}
             toggleable
-            visibleByDefault={showCreateForm}
         />
     );
 };

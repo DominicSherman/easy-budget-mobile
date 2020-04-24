@@ -68,7 +68,7 @@ const VariableCategories: React.FC = () => {
                     />
                 }
             />
-            <CreateVariableCategoryForm showCreateForm={showCreateForm} />
+            <CreateVariableCategoryForm />
         </View>
     );
 };

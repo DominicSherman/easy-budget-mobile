@@ -13,11 +13,7 @@ import Form from '../generic/Form';
 import {IInputProps} from '../generic/Input';
 import {useTimePeriodId} from '../../utils/hooks';
 
-interface ICreateVariableCategoryFormProps {
-    showCreateForm?: boolean
-}
-
-const CreateVariableCategoryForm: FC<ICreateVariableCategoryFormProps> = ({showCreateForm}) => {
+const CreateVariableCategoryForm: FC = () => {
     const timePeriodId = useTimePeriodId();
     const [name, setName] = useState('');
     const [amount, setAmount] = useState('');
@@ -68,7 +64,6 @@ const CreateVariableCategoryForm: FC<ICreateVariableCategoryFormProps> = ({showC
             headerText={'Create Variable Category'}
             inputs={inputs}
             toggleable
-            visibleByDefault={showCreateForm}
         />
     );
 };

@@ -63,7 +63,7 @@ const Income: FC = () => {
                     <IncomeItem incomeItem={item} />
                 }
             />
-            <CreateIncomeItemForm showCreateForm={!incomeItems.length} />
+            <CreateIncomeItemForm />
         </View>
     );
 };

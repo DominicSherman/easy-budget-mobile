@@ -47,7 +47,6 @@ const FixedCategories: React.FC = () => {
     }
 
     const {fixedCategories} = queryResult.data;
-    const showCreateForm = !fixedCategories.length;
     const sortedFixedCategories = fixedCategories.sort(sortByAmount).sort(sortByPaid);
 
     return (
@@ -68,7 +67,7 @@ const FixedCategories: React.FC = () => {
                     <FixedCategoryItem fixedCategory={item} />
                 }
             />
-            <CreateFixedCategoryForm showCreateForm={showCreateForm} />
+            <CreateFixedCategoryForm />
         </View>
     );
 };

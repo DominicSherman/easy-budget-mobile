@@ -61,7 +61,7 @@ const TimePeriods: FC = () => {
                 }
                 sections={sections}
             />
-            <CreateTimePeriodForm showCreateForm={!sortedTimePeriods.length} />
+            <CreateTimePeriodForm />
         </View>
     );
 };

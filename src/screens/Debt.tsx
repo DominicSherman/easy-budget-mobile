@@ -55,7 +55,7 @@ const Debt: FC = () => {
                     <DebtCategoryItem debtCategory={item} />
                 }
             />
-            <CreateDebtCategoryForm showCreateForm={!debtCategories.length} />
+            <CreateDebtCategoryForm />
         </View>
     );
 };
