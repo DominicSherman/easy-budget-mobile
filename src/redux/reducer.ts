@@ -6,7 +6,7 @@ import {Mode} from '../enums/Mode';
 import {Actions} from './actions';
 
 const defaultState: IAppState = {
-    appStatus: AppStatus.LOADING,
+    appStatus: null,
     mode: Mode.DARK,
     timePeriodId: '',
     userInformation: {
@@ -44,7 +44,7 @@ const reducerMap: ReducerMap = {
 type ReducerMap = { [key in Actions]?: (state: IAppState, value: any) => IAppState };
 
 export interface IAppState {
-    appStatus: AppStatus
+    appStatus: AppStatus | null
     mode: Mode
     timePeriodId: string
     userInformation: User

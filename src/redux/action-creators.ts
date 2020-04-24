@@ -11,11 +11,7 @@ import {dispatchAction} from './store';
 import {Actions} from './actions';
 
 export const setAppState = async (): Promise<void> => {
-    dispatchAction(Actions.SET_APP_STATUS, AppStatus.LOADING);
-
-    const [isSignedIn] = await Promise.all([
-        getIsSignedIn()
-    ]);
+    const isSignedIn = await getIsSignedIn();
 
     if (isSignedIn) {
         const [user, result] = await Promise.all<User | null, QueryResponse<GetActiveTimePeriod>>([
