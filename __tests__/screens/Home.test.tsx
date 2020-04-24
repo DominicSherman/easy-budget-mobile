@@ -87,6 +87,7 @@ describe('Home', () => {
 
     it('should query for the active time period data', () => {
         expect(useQuery).toHaveBeenCalledWith(homeScreenQuery, {
+            skip: false,
             variables: {
                 date: getRoundedDate(),
                 timePeriodId: expectedTimePeriodId,
@@ -108,7 +109,7 @@ describe('Home', () => {
     });
 
     it('should return early if there is no active timePeriod', () => {
-        expectedData.data.timePeriods = [];
+        useSelector.mockReturnValue(['', expectedUserInformation]);
 
         useQuery.mockReturnValue(expectedData);
         render();
