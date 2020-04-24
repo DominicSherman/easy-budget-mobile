@@ -1,6 +1,7 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import RNDatePicker from '@react-native-community/datetimepicker';
+import moment from 'moment';
 
 import {TitleText} from '../components/generic/Text';
 import Button from '../components/generic/Button';
@@ -25,9 +26,10 @@ export interface IDateTimePickerProps {
     date: Date
     setDate: (date: Date) => void
     title: string
+    roundUp?: boolean
 }
 
-const DateTimePicker: IScreenFC<Route.DATE_PICKER> = ({route: {params: {date, setDate, title}}}) => {
+const DateTimePicker: IScreenFC<Route.DATE_PICKER> = ({route: {params: {date, setDate, title, roundUp = false}}}) => {
     const navigation = useBudgetNavigation();
 
     return (
@@ -38,7 +40,15 @@ const DateTimePicker: IScreenFC<Route.DATE_PICKER> = ({route: {params: {date, se
             <RNDatePicker
                 onChange={(event: Event, date?: Date): void => {
                     if (date) {
-                        setDate(date);
+                        let dateToSet;
+
+                        if (roundUp) {
+                            dateToSet = new Date(moment(date).endOf('d').toISOString());
+                        } else {
+                            dateToSet = new Date(moment(date).startOf('d').toISOString());
+                        }
+
+                        setDate(dateToSet);
                     }
                 }}
                 value={date}

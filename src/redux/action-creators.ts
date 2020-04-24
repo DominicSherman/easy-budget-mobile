@@ -1,10 +1,11 @@
 import {User} from '@react-native-community/google-signin';
 
-import {getActiveTimePeriod} from '../repositories/time-period-repository';
+import {getActiveTimePeriod, getTimePeriods} from '../repositories/time-period-repository';
 import {getIsSignedIn, signInSilently} from '../services/auth-service';
 import {AppStatus} from '../enums/AppStatus';
 import {QueryResponse} from '../repositories/query-middleware';
 import {GetActiveTimePeriod} from '../../autogen/GetActiveTimePeriod';
+import {isActiveTimePeriod} from '../utils/utils';
 
 import {dispatchAction} from './store';
 import {Actions} from './actions';
@@ -38,5 +39,19 @@ export const setAppState = async (): Promise<void> => {
     } else {
         dispatchAction(Actions.RESET_STATE);
         dispatchAction(Actions.SET_APP_STATUS, AppStatus.LOGGED_OUT);
+    }
+};
+
+export const onUpdateOrCreateTimePeriod = async (): Promise<void> => {
+    const result = await getTimePeriods();
+
+    if (!result.hasError) {
+        const activeTimePeriod = result.data.timePeriods.find(isActiveTimePeriod);
+
+        if (activeTimePeriod) {
+            dispatchAction(Actions.SET_TIME_PERIOD_ID, activeTimePeriod.timePeriodId);
+        } else {
+            dispatchAction(Actions.SET_TIME_PERIOD_ID, '');
+        }
     }
 };
