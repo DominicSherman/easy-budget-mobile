@@ -6,7 +6,7 @@ import {Alert} from 'react-native';
 import {MutationResult} from '@apollo/react-common';
 
 import TimePeriods from '../../src/screens/TimePeriods';
-import {createRandomQueryResult, createRandomTimePeriod, createRandomTimePeriods} from '../models';
+import {createRandomQueryResult, createRandomTimePeriod} from '../models';
 import {getTimePeriodsQuery} from '../../src/graphql/queries';
 import * as hooks from '../../src/utils/hooks';
 import {chance} from '../chance';
@@ -34,6 +34,8 @@ describe('TimePeriods', () => {
         createTimePeriod,
         updateTimePeriod,
         deleteTimePeriod,
+        expectedInactiveTimePeriods,
+        expectedActiveTimePeriod,
         expectedNavigation,
         expectedData;
 
@@ -45,11 +47,7 @@ describe('TimePeriods', () => {
     };
 
     beforeEach(() => {
-        const expectedTimePeriods = [
-            createRandomTimePeriod({
-                beginDate: moment().subtract(1, 'd').toISOString(),
-                endDate: moment().add(1, 'd').toISOString()
-            }),
+        expectedInactiveTimePeriods = [
             createRandomTimePeriod({
                 beginDate: moment().subtract(30, 'd').toISOString(),
                 endDate: moment().subtract(2, 'd').toISOString()
@@ -57,8 +55,16 @@ describe('TimePeriods', () => {
             createRandomTimePeriod({
                 beginDate: moment().add(2, 'd').toISOString(),
                 endDate: moment().add(30, 'd').toISOString()
-            }),
-            ...createRandomTimePeriods()
+            })
+        ];
+        expectedActiveTimePeriod = createRandomTimePeriod({
+            beginDate: moment().subtract(1, 'd').toISOString(),
+            endDate: moment().add(1, 'd').toISOString()
+        });
+
+        const expectedTimePeriods = [
+            expectedActiveTimePeriod,
+            ...expectedInactiveTimePeriods
         ];
 
         expectedData = {
@@ -171,7 +177,7 @@ describe('TimePeriods', () => {
     });
 
     it('should open the edit time period form when the card view is pressed and allow the user to delete', () => {
-        const expectedItem = chance.pickone<ITimePeriod>(expectedData.timePeriods);
+        const expectedItem = chance.pickone<ITimePeriod>(expectedInactiveTimePeriods);
         const renderedItem = testInstance.getByTestId(`TimePeriodItem-${expectedItem.timePeriodId}`);
 
         act(() => {

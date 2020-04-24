@@ -1,8 +1,10 @@
-import {setAppState} from '../../src/redux/action-creators';
+import moment from 'moment';
+
+import {onUpdateOrCreateTimePeriod, setAppState} from '../../src/redux/action-creators';
 import * as timePeriodRepository from '../../src/repositories/time-period-repository';
 import {
     createRandomErrorResponse,
-    createRandomOkResponse,
+    createRandomOkResponse, createRandomTimePeriod,
     createRandomTimePeriods,
     createRandomUserInformation
 } from '../models';
@@ -17,8 +19,12 @@ jest.mock('../../src/redux/store');
 jest.mock('../../src/services/auth-service');
 
 describe('action creators', () => {
-    const {getActiveTimePeriod} = timePeriodRepository as jest.Mocked<typeof timePeriodRepository>;
+    const {getActiveTimePeriod, getTimePeriods} = timePeriodRepository as jest.Mocked<typeof timePeriodRepository>;
     const {getIsSignedIn, signInSilently} = authService as jest.Mocked<typeof authService>;
+
+    afterEach(() => {
+        jest.resetAllMocks();
+    });
 
     describe('setAppState', () => {
         let AsyncStorage,
@@ -35,10 +41,6 @@ describe('action creators', () => {
             getActiveTimePeriod.mockResolvedValue(createRandomOkResponse({
                 timePeriods: []
             }));
-        });
-
-        afterEach(() => {
-            jest.resetAllMocks();
         });
 
         it('should set the app status to loading', async () => {
@@ -96,6 +98,62 @@ describe('action creators', () => {
             await setAppState();
 
             expect(dispatchAction).toHaveBeenCalledWith(Actions.SET_APP_STATUS, AppStatus.LOGGED_OUT);
+        });
+    });
+
+    describe('onUpdateOrCreateTimePeriod', () => {
+        let expectedResult,
+            expectedActiveTimePeriod;
+
+        beforeEach(() => {
+            expectedActiveTimePeriod = createRandomTimePeriod({
+                beginDate: moment().subtract(1, 'd').toISOString(),
+                endDate: moment().add(1, 'd').toISOString()
+            });
+            expectedResult = {
+                data: {
+                    timePeriods: [
+                        expectedActiveTimePeriod,
+                        createRandomTimePeriod({
+                            beginDate: moment().add(2, 'd').toISOString(),
+                            endDate: moment().add(30, 'd').toISOString()
+                        }),
+                        createRandomTimePeriod({
+                            beginDate: moment().subtract(30, 'd').toISOString(),
+                            endDate: moment().subtract(2, 'd').toISOString()
+                        })
+                    ]
+                },
+                hasError: false
+            };
+
+            getTimePeriods.mockResolvedValue(expectedResult);
+        });
+
+        it('should set the active time period if there is one', async () => {
+            await onUpdateOrCreateTimePeriod();
+
+            expect(dispatchAction).toHaveBeenCalledTimes(1);
+            expect(dispatchAction).toHaveBeenCalledWith(Actions.SET_TIME_PERIOD_ID, expectedActiveTimePeriod.timePeriodId);
+        });
+
+        it('should set the active time period to an empty string if there is not one', async () => {
+            expectedResult.data.timePeriods = expectedResult.data.timePeriods.filter((t) => t.timePeriodId !== expectedActiveTimePeriod.timePeriodId);
+            getTimePeriods.mockResolvedValue(expectedResult);
+
+            await onUpdateOrCreateTimePeriod();
+
+            expect(dispatchAction).toHaveBeenCalledTimes(1);
+            expect(dispatchAction).toHaveBeenCalledWith(Actions.SET_TIME_PERIOD_ID, '');
+        });
+
+        it('should not dispatch an action if there is an error', async () => {
+            expectedResult.hasError = true;
+            getTimePeriods.mockResolvedValue(expectedResult);
+
+            await onUpdateOrCreateTimePeriod();
+
+            expect(dispatchAction).not.toHaveBeenCalled();
         });
     });
 });

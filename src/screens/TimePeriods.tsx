@@ -1,7 +1,6 @@
 import React, {FC} from 'react';
 import {useQuery} from '@apollo/react-hooks';
 import {KeyboardAwareSectionList} from 'react-native-keyboard-aware-scroll-view';
-import moment from 'moment';
 import {StyleSheet, View} from 'react-native';
 
 import {getTimePeriodsQuery} from '../graphql/queries';
@@ -14,6 +13,7 @@ import {TitleText} from '../components/generic/Text';
 import {CARD_MARGIN} from '../constants/dimensions';
 import CreateTimePeriodForm from '../components/time-period/CreateTimePeriodForm';
 import {usePrimaryBackgroundColor} from '../utils/hooks';
+import {isActiveTimePeriod, isFutureTimePeriod, isPreviousTimePeriod} from '../utils/utils';
 
 const styles = StyleSheet.create({
     title: {
@@ -34,11 +34,10 @@ const TimePeriods: FC = () => {
         return getEarlyReturn(queryResult);
     }
 
-    const currentTime = moment().toISOString();
     const sortedTimePeriods = queryResult.data.timePeriods.sort(sortByBeginDate);
-    const prevTimePeriods = sortedTimePeriods.filter((timePeriod) => timePeriod.endDate < currentTime);
-    const futureTimePeriods = sortedTimePeriods.filter((timePeriod) => timePeriod.beginDate > currentTime);
-    const activeTimePeriod = sortedTimePeriods.filter((timePeriod) => timePeriod.beginDate <= currentTime && timePeriod.endDate >= currentTime);
+    const prevTimePeriods = sortedTimePeriods.filter(isPreviousTimePeriod);
+    const futureTimePeriods = sortedTimePeriods.filter(isFutureTimePeriod);
+    const activeTimePeriod = sortedTimePeriods.filter(isActiveTimePeriod);
     const sections = [{
         data: activeTimePeriod,
         title: 'Active'
@@ -53,7 +52,7 @@ const TimePeriods: FC = () => {
     return (
         <View style={{height: '100%'}}>
             <KeyboardAwareSectionList
-                keyExtractor={(item): string => item.beginDate}
+                keyExtractor={(item): string => item.timePeriodId}
                 renderItem={({item}): JSX.Element => <TimePeriodItem timePeriodId={item.timePeriodId} />}
                 renderSectionHeader={({section}): JSX.Element =>
                     <View style={[styles.title, {backgroundColor}]}>

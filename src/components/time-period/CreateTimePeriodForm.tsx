@@ -9,6 +9,7 @@ import {CreateTimePeriodMutation, CreateTimePeriodMutationVariables} from '../..
 import Form, {IFormInput, InputType} from '../generic/Form';
 import {createTimePeriodUpdate} from '../../utils/update-cache-utils';
 import {errorAlert} from '../../services/alert-service';
+import {onUpdateOrCreateTimePeriod} from '../../redux/action-creators';
 
 interface ICreateTimePeriodFormProps {
     showCreateForm?: boolean
@@ -22,7 +23,7 @@ const CreateTimePeriodForm: FC<ICreateTimePeriodFormProps> = ({showCreateForm}) 
     const [endDate, setEndDate] = useState<Date>(new Date(fourWeeks));
     const timePeriod = {
         beginDate: moment(beginDate).toISOString(),
-        endDate: moment(endDate).add(1, 'd').toISOString(),
+        endDate: moment(endDate).toISOString(),
         timePeriodId: uuid.v4(),
         userId: getUserId()
     };
@@ -31,6 +32,7 @@ const CreateTimePeriodForm: FC<ICreateTimePeriodFormProps> = ({showCreateForm}) 
         onCompleted: () => {
             setBeginDate(new Date(now));
             setEndDate(new Date(fourWeeks));
+            onUpdateOrCreateTimePeriod();
         },
         onError: (error) => {
             errorAlert('Error', error.graphQLErrors[0].message);
@@ -48,6 +50,7 @@ const CreateTimePeriodForm: FC<ICreateTimePeriodFormProps> = ({showCreateForm}) 
     }, {
         date: endDate,
         inputType: InputType.DATE,
+        roundUp: true,
         setDate: setEndDate,
         title: 'End Date'
     }];

@@ -55,6 +55,7 @@ const calculateTotal = (items: {amount: number}[]): number => items.reduce((tota
 const Home: React.FC = () => {
     const [timePeriodId, userInformation] = useSelector<IAppState, [string, User]>((state) => [state.timePeriodId, state.userInformation]);
     const queryResult = useQuery<HomeScreenQuery, HomeScreenQueryVariables>(homeScreenQuery, {
+        skip: !timePeriodId,
         variables: {
             date,
             timePeriodId,
@@ -65,19 +66,18 @@ const Home: React.FC = () => {
     const shockBlueColor = useShockBlueColor();
     const mode = useMode();
 
+    if (!timePeriodId) {
+        return (
+            <NoActiveTimePeriod />
+        );
+    }
+
     if (!queryResult.data) {
         return getEarlyReturn(queryResult);
     }
 
     const {timePeriods, fixedCategories, variableCategories, expenses, incomeItems} = queryResult.data;
     const activeTimePeriod = timePeriods[0];
-
-    if (!activeTimePeriod) {
-        return (
-            <NoActiveTimePeriod />
-        );
-    }
-
     const variableCategoriesTotal = calculateTotal(variableCategories);
     const fixedCategoriesTotal = calculateTotal(fixedCategories);
     const expensesTotal = calculateTotal(expenses);
