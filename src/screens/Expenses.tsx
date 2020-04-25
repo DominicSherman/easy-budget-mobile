@@ -13,6 +13,7 @@ import EmptyScreen from '../components/generic/EmptyScreen';
 import {Route} from '../enums/Route';
 import {useBudgetNavigation, useTimePeriodId} from '../utils/hooks';
 import {ListFooterComponent} from '../components/generic/Generic';
+import BrowsingHeader from '../components/time-period/BrowsingHeader';
 
 import {InformationRef} from './Information';
 import TimePeriods from './TimePeriods';
@@ -77,7 +78,12 @@ const Expenses: FC = () => {
                 />
             }
             ListFooterComponent={<ListFooterComponent />}
-            ListHeaderComponent={<CreateExpenseForm />}
+            ListHeaderComponent={
+                <>
+                    <BrowsingHeader />
+                    <CreateExpenseForm />
+                </>
+            }
             ListHeaderComponentStyle={{zIndex: 1}}
             data={sortedExpenses}
             keyExtractor={(item): string => item.expenseId}

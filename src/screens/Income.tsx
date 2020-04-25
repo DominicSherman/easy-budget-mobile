@@ -17,6 +17,7 @@ import {EXTRA_HEIGHT} from '../constants/dimensions';
 
 import {InformationRef} from './Information';
 import TimePeriods from './TimePeriods';
+import BrowsingHeader from '../components/time-period/BrowsingHeader';
 
 const Income: FC = () => {
     const timePeriodId = useTimePeriodId();
@@ -56,6 +57,7 @@ const Income: FC = () => {
                     />
                 }
                 ListFooterComponent={<ListFooterComponent />}
+                ListHeaderComponent={<BrowsingHeader />}
                 data={incomeItems}
                 extraHeight={EXTRA_HEIGHT}
                 keyExtractor={(item): string => item.incomeItemId}

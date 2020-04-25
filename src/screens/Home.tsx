@@ -20,6 +20,7 @@ import {getFormattedTimePeriodLength, getFormattedTimePeriodText} from '../utils
 import {TimePeriodType} from '../redux/reducer';
 
 import TimePeriods from './TimePeriods';
+import BrowsingHeader from '../components/time-period/BrowsingHeader';
 
 const styles = StyleSheet.create({
     bottomWrapper: {
@@ -103,21 +104,24 @@ const Home: React.FC = () => {
                         zIndex: -1
                     }}
                 />
-                <RegularText
-                    color={Color.white}
-                    fontWeight={FontWeight.BOLD}
-                    style={{marginTop: 16}}
-                >
-                    {`${getFormattedTimePeriodText(timePeriod)} ${getFormattedTimePeriodLength(timePeriod)}`}
-                </RegularText>
+                <BrowsingHeader />
                 {
                     timePeriod.type === TimePeriodType.ACTIVE &&
-                        <SmallText
-                            color={Color.white}
-                            style={{marginTop: 8}}
-                        >
-                            {`${moment().diff(moment(timePeriod.beginDate), 'd')} days done, ${daysRemainingText}`}
-                        </SmallText>
+                        <>
+                            <RegularText
+                                color={Color.white}
+                                fontWeight={FontWeight.BOLD}
+                                style={{marginTop: 16}}
+                            >
+                                {`${getFormattedTimePeriodText(timePeriod)} ${getFormattedTimePeriodLength(timePeriod)}`}
+                            </RegularText>
+                            <SmallText
+                                color={Color.white}
+                                style={{marginTop: 8}}
+                            >
+                                {`${moment().diff(moment(timePeriod.beginDate), 'd')} days done, ${daysRemainingText}`}
+                            </SmallText>
+                        </>
                 }
                 <TitleText
                     color={Color.white}

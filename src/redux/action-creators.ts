@@ -50,7 +50,10 @@ export const onUpdateOrCreateTimePeriod = async (): Promise<void> => {
         const activeTimePeriod = result.data.timePeriods.find(isActiveTimePeriod);
 
         if (activeTimePeriod) {
-            dispatchAction(Actions.SET_TIME_PERIOD, activeTimePeriod.timePeriodId);
+            dispatchAction(Actions.SET_TIME_PERIOD, {
+                ...activeTimePeriod,
+                type: TimePeriodType.ACTIVE
+            });
         } else {
             dispatchAction(Actions.SET_TIME_PERIOD, '');
         }
