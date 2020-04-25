@@ -1,12 +1,12 @@
-import React, {FC} from 'react';
+import React, {FC, useEffect} from 'react';
 import {createStackNavigator, StackNavigationOptions} from '@react-navigation/stack';
 import {createDrawerNavigator} from '@react-navigation/drawer';
+import SplashScreen from 'react-native-splash-screen';
 
 import {Route} from './enums/Route';
 import {BackButton, CloseIcon, HamburgerMenu, InfoIcon} from './components/navigation/HeaderComponents';
 import {SCREEN_WIDTH} from './constants/dimensions';
 import {AppStatus} from './enums/AppStatus';
-import LoadingView from './components/generic/LoadingView';
 import ErrorView from './components/generic/ErrorView';
 import Information, {IInformationProps} from './screens/Information';
 import VariableCategory, {IVariableCategoryProps} from './screens/VariableCategory';
@@ -247,38 +247,42 @@ const RootStack: FC = () =>
         />
     </Stack.Navigator>;
 
-export const RootNavigator: FC<{appStatus: AppStatus}> = ({appStatus}) =>
-    <Stack.Navigator>
-        {
-            appStatus === AppStatus.LOADING ?
-                <Stack.Screen
-                    component={LoadingView}
-                    name={Route.LOADING}
-                    options={{headerTitle: ''}}
-                /> : null
-        }
-        {
-            appStatus === AppStatus.ERROR ?
-                <Stack.Screen
-                    component={ErrorView}
-                    name={Route.ERROR}
-                /> : null
-        }
-        {
-            appStatus === AppStatus.LOGGED_OUT ?
-                <Stack.Screen
-                    component={Login}
-                    name={Route.LOGIN}
-                    options={{animationTypeForReplace: 'pop'}}
-                /> : null
+export const RootNavigator: FC<{appStatus: AppStatus}> = ({appStatus}) => {
+    useEffect(() => {
+        SplashScreen.hide();
+    }, []);
+    const mode = useMode();
 
-        }
-        {
-            appStatus === AppStatus.LOGGED_IN ?
-                <Stack.Screen
-                    component={RootStack}
-                    name={Route.ROOT_STACK}
-                    options={{headerShown: false}}
-                /> : null
-        }
-    </Stack.Navigator>;
+    return (
+        <Stack.Navigator>
+            {
+                appStatus === AppStatus.ERROR ?
+                    <Stack.Screen
+                        component={ErrorView}
+                        name={Route.ERROR}
+                        options={{
+                            ...getScreenOptions(mode),
+                            headerLeft: (): null => null
+                        }}
+                    /> : null
+            }
+            {
+                appStatus === AppStatus.LOGGED_OUT ?
+                    <Stack.Screen
+                        component={Login}
+                        name={Route.LOGIN}
+                        options={{animationTypeForReplace: 'pop'}}
+                    /> : null
+
+            }
+            {
+                appStatus === AppStatus.LOGGED_IN ?
+                    <Stack.Screen
+                        component={RootStack}
+                        name={Route.ROOT_STACK}
+                        options={{headerShown: false}}
+                    /> : null
+            }
+        </Stack.Navigator>
+    );
+};

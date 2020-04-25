@@ -13,7 +13,7 @@ import Form from '../generic/Form';
 import {useThemedSelectedColor} from '../../utils/hooks';
 import {Theme} from '../../services/theme-service';
 
-const CreateDebtCategoryForm: FC<{showCreateForm?: boolean}> = ({showCreateForm}) => {
+const CreateDebtCategoryForm: FC = () => {
     const [name, setName] = useState('');
     const debtCategory = {
         debtCategoryId: uuid.v4(),
@@ -58,7 +58,6 @@ const CreateDebtCategoryForm: FC<{showCreateForm?: boolean}> = ({showCreateForm}
             inputs={inputs}
             theme={Theme.LIGHT_BLUE}
             toggleable
-            visibleByDefault={showCreateForm}
         />
     );
 };

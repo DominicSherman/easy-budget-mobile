@@ -45,7 +45,6 @@ const VariableCategories: React.FC = () => {
     }
 
     const {variableCategories} = queryResult.data;
-    const showCreateForm = !variableCategories.length;
     const sortedVariableCategories = variableCategories.sort(sortByAmount);
 
     return (
@@ -67,8 +66,9 @@ const VariableCategories: React.FC = () => {
                         variableCategory={item}
                     />
                 }
+                showsVerticalScrollIndicator={false}
             />
-            <CreateVariableCategoryForm showCreateForm={showCreateForm} />
+            <CreateVariableCategoryForm />
         </View>
     );
 };

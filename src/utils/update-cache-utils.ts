@@ -129,10 +129,7 @@ export const createIncomeItemUpdate = (cache: DataProxy, mutationResult: FetchRe
     });
 
     if (result && data) {
-        const updatedIncomeItems = [...result.incomeItems, {
-            ...data.createIncomeItem,
-            amount: 0
-        }];
+        const updatedIncomeItems = [...result.incomeItems, data.createIncomeItem];
 
         cache.writeQuery<GetIncomeItems, GetIncomeItemsVariables>({
             data: {

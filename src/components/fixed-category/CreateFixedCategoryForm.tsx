@@ -14,11 +14,7 @@ import {IInputProps} from '../generic/Input';
 import {useThemedSelectedColor, useTimePeriodId} from '../../utils/hooks';
 import {Theme} from '../../services/theme-service';
 
-interface ICreateFixedCategoryFormProps {
-    showCreateForm?: boolean
-}
-
-const CreateFixedCategoryForm: FC<ICreateFixedCategoryFormProps> = ({showCreateForm}) => {
+const CreateFixedCategoryForm: FC = () => {
     const timePeriodId = useTimePeriodId();
     const [name, setName] = useState('');
     const [amount, setAmount] = useState('');
@@ -81,7 +77,6 @@ const CreateFixedCategoryForm: FC<ICreateFixedCategoryFormProps> = ({showCreateF
             inputs={inputs}
             theme={Theme.RED}
             toggleable
-            visibleByDefault={showCreateForm}
         />
     );
 };

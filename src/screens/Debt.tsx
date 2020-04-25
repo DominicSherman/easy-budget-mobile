@@ -54,8 +54,9 @@ const Debt: FC = () => {
                 renderItem={({item}): JSX.Element =>
                     <DebtCategoryItem debtCategory={item} />
                 }
+                showsVerticalScrollIndicator={false}
             />
-            <CreateDebtCategoryForm showCreateForm={!debtCategories.length} />
+            <CreateDebtCategoryForm />
         </View>
     );
 };

@@ -62,8 +62,9 @@ const Income: FC = () => {
                 renderItem={({item}): JSX.Element =>
                     <IncomeItem incomeItem={item} />
                 }
+                showsVerticalScrollIndicator={false}
             />
-            <CreateIncomeItemForm showCreateForm={!incomeItems.length} />
+            <CreateIncomeItemForm />
         </View>
     );
 };

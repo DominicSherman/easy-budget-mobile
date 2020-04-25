@@ -162,13 +162,7 @@ describe('update cache utils', () => {
             expect(cache.writeQuery).toHaveBeenCalledTimes(1);
             expect(cache.writeQuery).toHaveBeenCalledWith({
                 data: {
-                    incomeItems: [
-                        ...expectedReadQuery.incomeItems,
-                        {
-                            ...expectedMutationResult.data.createIncomeItem,
-                            amount: 0
-                        }
-                    ]
+                    incomeItems: [...expectedReadQuery.incomeItems, expectedMutationResult.data.createIncomeItem]
                 },
                 query: getIncomeItemsQuery,
                 variables: {

@@ -54,8 +54,9 @@ const Savings: FC = () => {
                 renderItem={({item}): JSX.Element =>
                     <SavingCategoryItem savingCategory={item} />
                 }
+                showsVerticalScrollIndicator={false}
             />
-            <CreateSavingCategoryForm showCreateForm={!savingCategories.length} />
+            <CreateSavingCategoryForm />
         </View>
     );
 };
