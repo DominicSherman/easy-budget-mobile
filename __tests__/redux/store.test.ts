@@ -55,7 +55,7 @@ describe('store', () => {
 
     describe('dispatchAction', () => {
         it('should call dispatch', () => {
-            const expectedAction = Actions.SET_TIME_PERIOD_ID;
+            const expectedAction = Actions.SET_TIME_PERIOD;
             const expectedData = chance.string();
 
             dispatchAction(expectedAction, expectedData);

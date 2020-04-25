@@ -1,17 +1,14 @@
 import React from 'react';
 import {View} from 'react-native';
-import {useSelector} from 'react-redux';
 import {useQuery} from '@apollo/react-hooks';
 import {KeyboardAwareFlatList} from 'react-native-keyboard-aware-scroll-view';
 
-import {useBudgetNavigation} from '../utils/hooks';
-import {IAppState} from '../redux/reducer';
+import {useBudgetNavigation, useTimePeriodId} from '../utils/hooks';
 import {GetFixedCategories, GetFixedCategoriesVariables} from '../../autogen/GetFixedCategories';
 import {getFixedCategoriesQuery} from '../graphql/queries';
 import {getUserId} from '../services/auth-service';
 import {getEarlyReturn} from '../services/error-and-loading-service';
 import {sortByAmount, sortByPaid} from '../utils/sorting-utils';
-import NoActiveTimePeriod from '../components/time-period/NoActiveTimePeriod';
 import FixedCategoryItem from '../components/fixed-category/FixedCategoryItem';
 import CreateFixedCategoryForm from '../components/fixed-category/CreateFixedCategoryForm';
 import {Route} from '../enums/Route';
@@ -20,9 +17,10 @@ import {ListFooterComponent} from '../components/generic/Generic';
 import {EXTRA_HEIGHT} from '../constants/dimensions';
 
 import {InformationRef} from './Information';
+import TimePeriods from './TimePeriods';
 
 const FixedCategories: React.FC = () => {
-    const timePeriodId = useSelector<IAppState, string>((state) => state.timePeriodId);
+    const timePeriodId = useTimePeriodId();
     const queryResult = useQuery<GetFixedCategories, GetFixedCategoriesVariables>(getFixedCategoriesQuery, {
         skip: !timePeriodId,
         variables: {
@@ -39,7 +37,7 @@ const FixedCategories: React.FC = () => {
     });
 
     if (!timePeriodId) {
-        return <NoActiveTimePeriod />;
+        return <TimePeriods />;
     }
 
     if (!queryResult.data) {

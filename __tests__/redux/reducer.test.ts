@@ -83,7 +83,7 @@ describe('reducer', () => {
 
         const actualState = reducer(expectedAppState, {
             data: timePeriodId,
-            type: Actions.SET_TIME_PERIOD_ID
+            type: Actions.SET_TIME_PERIOD
         });
 
         expect(actualState).toEqual({

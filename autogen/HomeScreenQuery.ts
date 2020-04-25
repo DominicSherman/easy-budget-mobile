@@ -6,7 +6,7 @@
 // GraphQL query operation: HomeScreenQuery
 // ====================================================
 
-export interface HomeScreenQuery_timePeriods {
+export interface HomeScreenQuery_timePeriod {
   __typename: "TimePeriod";
   timePeriodId: string;
   beginDate: string;
@@ -84,7 +84,7 @@ export interface HomeScreenQuery_incomeItems {
 }
 
 export interface HomeScreenQuery {
-  timePeriods: HomeScreenQuery_timePeriods[];
+  timePeriod: HomeScreenQuery_timePeriod;
   expenses: HomeScreenQuery_expenses[];
   variableCategories: HomeScreenQuery_variableCategories[];
   fixedCategories: HomeScreenQuery_fixedCategories[];
@@ -95,6 +95,5 @@ export interface HomeScreenQuery {
 
 export interface HomeScreenQueryVariables {
   userId: string;
-  date: string;
   timePeriodId: string;
 }

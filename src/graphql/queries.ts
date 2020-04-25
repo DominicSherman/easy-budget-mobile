@@ -140,7 +140,6 @@ export const getTimePeriodQuery = gql`
 /* Screen */
 
 export const homeScreenQuery = gql`
-    ${timePeriodFragment}
     ${fixedCategoryFragment}
     ${variableCategoryFragment}
     ${expenseFragment}
@@ -148,10 +147,7 @@ export const homeScreenQuery = gql`
     ${incomeItemFragment}
     ${debtCategoryFragment}
     
-    query HomeScreenQuery($userId: String!, $date: String!, $timePeriodId: String!) {
-        timePeriods (userId: $userId, date: $date) {
-            ...ITimePeriod
-        }
+    query HomeScreenQuery($userId: String!, $timePeriodId: String!) {
         expenses (userId: $userId, timePeriodId: $timePeriodId) {
             ...IExpense
         }

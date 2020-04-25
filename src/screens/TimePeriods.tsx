@@ -9,7 +9,7 @@ import {getEarlyReturn} from '../services/error-and-loading-service';
 import {sortByBeginDate} from '../utils/sorting-utils';
 import TimePeriodItem from '../components/time-period/TimePeriodItem';
 import {GetTimePeriods, GetTimePeriodsVariables} from '../../autogen/GetTimePeriods';
-import {TitleText} from '../components/generic/Text';
+import {LargeText} from '../components/generic/Text';
 import {CARD_MARGIN} from '../constants/dimensions';
 import CreateTimePeriodForm from '../components/time-period/CreateTimePeriodForm';
 import {usePrimaryBackgroundColor} from '../utils/hooks';
@@ -40,13 +40,13 @@ const TimePeriods: FC = () => {
     const activeTimePeriod = sortedTimePeriods.filter(isActiveTimePeriod);
     const sections = [{
         data: activeTimePeriod,
-        title: 'Active'
+        title: 'Active Time Period'
     }, {
         data: futureTimePeriods,
-        title: 'Upcoming'
+        title: 'Upcoming Time Periods'
     }, {
         data: prevTimePeriods,
-        title: 'Previous'
+        title: 'Previous Time Periods'
     }].filter((s) => s.data.length !== 0);
 
     return (
@@ -56,7 +56,7 @@ const TimePeriods: FC = () => {
                 renderItem={({item}): JSX.Element => <TimePeriodItem timePeriodId={item.timePeriodId} />}
                 renderSectionHeader={({section}): JSX.Element =>
                     <View style={[styles.title, {backgroundColor}]}>
-                        <TitleText>{section.title}</TitleText>
+                        <LargeText>{section.title}</LargeText>
                     </View>
                 }
                 sections={sections}

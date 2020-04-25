@@ -63,7 +63,7 @@ describe('action creators', () => {
 
                     await setAppState();
 
-                    expect(dispatchAction).toHaveBeenCalledWith(Actions.SET_TIME_PERIOD_ID, expectedTimePeriods[0].timePeriodId);
+                    expect(dispatchAction).toHaveBeenCalledWith(Actions.SET_TIME_PERIOD, expectedTimePeriods[0].timePeriodId);
                 });
 
                 it('should set the user', async () => {
@@ -128,7 +128,7 @@ describe('action creators', () => {
             await onUpdateOrCreateTimePeriod();
 
             expect(dispatchAction).toHaveBeenCalledTimes(1);
-            expect(dispatchAction).toHaveBeenCalledWith(Actions.SET_TIME_PERIOD_ID, expectedActiveTimePeriod.timePeriodId);
+            expect(dispatchAction).toHaveBeenCalledWith(Actions.SET_TIME_PERIOD, expectedActiveTimePeriod.timePeriodId);
         });
 
         it('should set the active time period to an empty string if there is not one', async () => {
@@ -138,7 +138,7 @@ describe('action creators', () => {
             await onUpdateOrCreateTimePeriod();
 
             expect(dispatchAction).toHaveBeenCalledTimes(1);
-            expect(dispatchAction).toHaveBeenCalledWith(Actions.SET_TIME_PERIOD_ID, '');
+            expect(dispatchAction).toHaveBeenCalledWith(Actions.SET_TIME_PERIOD, '');
         });
 
         it('should not dispatch an action if there is an error', async () => {

@@ -9,7 +9,6 @@ import {GetVariableCategories, GetVariableCategoriesVariables} from '../../autog
 import {getEarlyReturn} from '../services/error-and-loading-service';
 import CreateVariableCategoryForm from '../components/variable-category/CreateVariableCategoryForm';
 import {sortByAmount} from '../utils/sorting-utils';
-import NoActiveTimePeriod from '../components/time-period/NoActiveTimePeriod';
 import VariableCategoryItem from '../components/variable-category/VariableCategoryItem';
 import {useBudgetNavigation, useTimePeriodId} from '../utils/hooks';
 import EmptyScreen from '../components/generic/EmptyScreen';
@@ -18,6 +17,7 @@ import {ListFooterComponent} from '../components/generic/Generic';
 import {EXTRA_HEIGHT} from '../constants/dimensions';
 
 import {InformationRef} from './Information';
+import TimePeriods from './TimePeriods';
 
 const VariableCategories: React.FC = () => {
     const timePeriodId = useTimePeriodId();
@@ -37,7 +37,7 @@ const VariableCategories: React.FC = () => {
     });
 
     if (!timePeriodId) {
-        return <NoActiveTimePeriod />;
+        return <TimePeriods />;
     }
 
     if (!queryResult.data) {

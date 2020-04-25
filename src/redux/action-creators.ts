@@ -5,10 +5,12 @@ import {getIsSignedIn, signInSilently} from '../services/auth-service';
 import {AppStatus} from '../enums/AppStatus';
 import {QueryResponse} from '../repositories/query-middleware';
 import {GetActiveTimePeriod} from '../../autogen/GetActiveTimePeriod';
-import {isActiveTimePeriod} from '../utils/utils';
+import {isActiveTimePeriod, isFutureTimePeriod, isPreviousTimePeriod} from '../utils/utils';
+import {ITimePeriod} from '../../autogen/ITimePeriod';
 
 import {dispatchAction} from './store';
 import {Actions} from './actions';
+import {TimePeriodType} from './reducer';
 
 export const setAppState = async (): Promise<void> => {
     const isSignedIn = await getIsSignedIn();
@@ -25,7 +27,10 @@ export const setAppState = async (): Promise<void> => {
             const timePeriod = result.data.timePeriods[0];
 
             if (timePeriod) {
-                dispatchAction(Actions.SET_TIME_PERIOD_ID, timePeriod.timePeriodId);
+                dispatchAction(Actions.SET_TIME_PERIOD, {
+                    ...timePeriod,
+                    type: TimePeriodType.ACTIVE
+                });
             }
 
             dispatchAction(Actions.SET_APP_STATUS, AppStatus.LOGGED_IN);
@@ -45,9 +50,24 @@ export const onUpdateOrCreateTimePeriod = async (): Promise<void> => {
         const activeTimePeriod = result.data.timePeriods.find(isActiveTimePeriod);
 
         if (activeTimePeriod) {
-            dispatchAction(Actions.SET_TIME_PERIOD_ID, activeTimePeriod.timePeriodId);
+            dispatchAction(Actions.SET_TIME_PERIOD, activeTimePeriod.timePeriodId);
         } else {
-            dispatchAction(Actions.SET_TIME_PERIOD_ID, '');
+            dispatchAction(Actions.SET_TIME_PERIOD, '');
         }
     }
+};
+
+export const browseTimePeriod = (timePeriod: ITimePeriod): void => {
+    let type = TimePeriodType.ACTIVE;
+
+    if (isPreviousTimePeriod(timePeriod)) {
+        type = TimePeriodType.PREVIOUS;
+    } else if (isFutureTimePeriod(timePeriod)) {
+        type = TimePeriodType.UPCOMING;
+    }
+
+    dispatchAction(Actions.SET_TIME_PERIOD, {
+        ...timePeriod,
+        type
+    });
 };
