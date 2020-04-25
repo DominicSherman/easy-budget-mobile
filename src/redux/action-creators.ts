@@ -8,7 +8,7 @@ import {GetActiveTimePeriod} from '../../autogen/GetActiveTimePeriod';
 import {isActiveTimePeriod, isFutureTimePeriod, isPreviousTimePeriod} from '../utils/utils';
 import {ITimePeriod} from '../../autogen/ITimePeriod';
 
-import {dispatchAction} from './store';
+import {dispatchAction, getState} from './store';
 import {Actions} from './actions';
 import {TimePeriodType} from './reducer';
 
@@ -43,24 +43,7 @@ export const setAppState = async (): Promise<void> => {
     }
 };
 
-export const onUpdateOrCreateTimePeriod = async (): Promise<void> => {
-    const result = await getTimePeriods();
-
-    if (!result.hasError) {
-        const activeTimePeriod = result.data.timePeriods.find(isActiveTimePeriod);
-
-        if (activeTimePeriod) {
-            dispatchAction(Actions.SET_TIME_PERIOD, {
-                ...activeTimePeriod,
-                type: TimePeriodType.ACTIVE
-            });
-        } else {
-            dispatchAction(Actions.SET_TIME_PERIOD, '');
-        }
-    }
-};
-
-export const browseTimePeriod = (timePeriod: ITimePeriod): void => {
+const getTimePeriodType = (timePeriod: {beginDate: string, endDate: string}): TimePeriodType => {
     let type = TimePeriodType.ACTIVE;
 
     if (isPreviousTimePeriod(timePeriod)) {
@@ -69,8 +52,28 @@ export const browseTimePeriod = (timePeriod: ITimePeriod): void => {
         type = TimePeriodType.UPCOMING;
     }
 
+    return type;
+};
+
+export const browseTimePeriod = (timePeriod: ITimePeriod): void => {
     dispatchAction(Actions.SET_TIME_PERIOD, {
         ...timePeriod,
-        type
+        type: getTimePeriodType(timePeriod)
     });
+};
+
+export const onCreateTimePeriod = (timePeriod: ITimePeriod): void => {
+    const currentTimePeriod = getState().timePeriod;
+
+    if (!currentTimePeriod && isActiveTimePeriod(timePeriod)) {
+        browseTimePeriod(timePeriod);
+    }
+};
+
+export const onUpdateTimePeriod = (timePeriod: ITimePeriod): void => {
+    const currentTimePeriodId = getState().timePeriod?.timePeriodId;
+
+    if (currentTimePeriodId === timePeriod.timePeriodId) {
+        browseTimePeriod(timePeriod);
+    }
 };

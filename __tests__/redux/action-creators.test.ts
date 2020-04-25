@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-import {onUpdateOrCreateTimePeriod, setAppState} from '../../src/redux/action-creators';
+import {onUpdateTimePeriod, setAppState} from '../../src/redux/action-creators';
 import * as timePeriodRepository from '../../src/repositories/time-period-repository';
 import {
     createRandomErrorResponse,
@@ -125,7 +125,7 @@ describe('action creators', () => {
         });
 
         it('should set the active time period if there is one', async () => {
-            await onUpdateOrCreateTimePeriod();
+            await onUpdateTimePeriod();
 
             expect(dispatchAction).toHaveBeenCalledTimes(1);
             expect(dispatchAction).toHaveBeenCalledWith(Actions.SET_TIME_PERIOD, expectedActiveTimePeriod.timePeriodId);
@@ -135,7 +135,7 @@ describe('action creators', () => {
             expectedResult.data.timePeriods = expectedResult.data.timePeriods.filter((t) => t.timePeriodId !== expectedActiveTimePeriod.timePeriodId);
             getTimePeriods.mockResolvedValue(expectedResult);
 
-            await onUpdateOrCreateTimePeriod();
+            await onUpdateTimePeriod();
 
             expect(dispatchAction).toHaveBeenCalledTimes(1);
             expect(dispatchAction).toHaveBeenCalledWith(Actions.SET_TIME_PERIOD, '');
@@ -145,7 +145,7 @@ describe('action creators', () => {
             expectedResult.hasError = true;
             getTimePeriods.mockResolvedValue(expectedResult);
 
-            await onUpdateOrCreateTimePeriod();
+            await onUpdateTimePeriod();
 
             expect(dispatchAction).not.toHaveBeenCalled();
         });
