@@ -151,7 +151,7 @@ export const createRandomUserInformation = (): User => ({
 });
 
 export const createRandomAppState = (): IAppState => ({
-    appStatus: AppStatus.LOADING,
+    appStatus: chance.pickone(Object.values(AppStatus)),
     mode: chance.pickone(Object.values(Mode)),
     timePeriodId: chance.guid(),
     userInformation: createRandomUserInformation()

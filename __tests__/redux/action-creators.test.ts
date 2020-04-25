@@ -43,12 +43,6 @@ describe('action creators', () => {
             }));
         });
 
-        it('should set the app status to loading', async () => {
-            await setAppState();
-
-            expect(dispatchAction).toHaveBeenCalledWith(Actions.SET_APP_STATUS, AppStatus.LOADING);
-        });
-
         describe('when the user is signed in', () => {
             beforeEach(() => {
                 getIsSignedIn.mockResolvedValue(true);

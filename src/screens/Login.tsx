@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {GoogleSigninButton} from '@react-native-community/google-signin';
 import {SafeAreaView} from 'react-native';
+import Touchable from 'react-native-platform-touchable';
 
 import {screenWrapper} from '../styles/shared-styles';
 import {signIn} from '../services/auth-service';
@@ -14,20 +15,26 @@ const Login: React.FC = () => {
     }
 
     return (
-        <SafeAreaView style={screenWrapper}>
-            <GoogleSigninButton
-                color={GoogleSigninButton.Color.Dark}
+        <SafeAreaView
+            style={screenWrapper}
+        >
+            <Touchable
                 onPress={async (): Promise<void> => {
                     setLoading(true);
 
                     await signIn();
                 }}
-                size={GoogleSigninButton.Size.Wide}
-                style={{
-                    height: 48,
-                    width: 192
-                }}
-            />
+                testID={'signInButton'}
+            >
+                <GoogleSigninButton
+                    color={GoogleSigninButton.Color.Dark}
+                    size={GoogleSigninButton.Size.Wide}
+                    style={{
+                        height: 48,
+                        width: 192
+                    }}
+                />
+            </Touchable>
         </SafeAreaView>
     );
 };
