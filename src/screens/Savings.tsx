@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {FlatList, View} from 'react-native';
+import {View} from 'react-native';
 import {useQuery} from '@apollo/react-hooks';
 import {KeyboardAwareFlatList} from 'react-native-keyboard-aware-scroll-view';
 

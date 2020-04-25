@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 import {useQuery} from '@apollo/react-hooks';
-import {FlatList, View} from 'react-native';
+import {View} from 'react-native';
 import {KeyboardAwareFlatList} from 'react-native-keyboard-aware-scroll-view';
 
 import {GetIncomeItems, GetIncomeItemsVariables} from '../../autogen/GetIncomeItems';
