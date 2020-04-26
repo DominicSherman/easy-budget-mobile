@@ -154,7 +154,7 @@ describe('EditIncomeItemForm', () => {
             });
             expect(recurringInput).toEqual({
                 checked: expectedRecurring,
-                inputType: InputType.TOGGLE,
+                inputType: InputType.RECURRING_TOGGLE,
                 onChange: expect.any(Function),
                 title: 'recurring'
             });

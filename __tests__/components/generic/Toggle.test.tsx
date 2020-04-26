@@ -3,7 +3,7 @@ import React from 'react';
 import Touchable from 'react-native-platform-touchable';
 
 import {chance} from '../../chance';
-import Toggle from '../../../src/components/generic/Toggle';
+import RecurringToggle from '../../../src/components/generic/RecurringToggle';
 import {Color} from '../../../src/constants/color';
 
 jest.mock('../../../src/utils/hooks');
@@ -14,7 +14,7 @@ describe('Toggle', () => {
 
     const render = (): void => {
         root = TestRenderer.create(
-            <Toggle {...expectedProps} />
+            <RecurringToggle {...expectedProps} />
         ).root;
     };
 
