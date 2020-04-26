@@ -14,10 +14,10 @@ import {Route} from '../enums/Route';
 import CreateIncomeItemForm from '../components/income/CreateIncomeItemForm';
 import {ListFooterComponent} from '../components/generic/Generic';
 import {EXTRA_HEIGHT} from '../constants/dimensions';
+import BrowsingHeader from '../components/time-period/BrowsingHeader';
 
 import {InformationRef} from './Information';
 import TimePeriods from './TimePeriods';
-import BrowsingHeader from '../components/time-period/BrowsingHeader';
 
 const Income: FC = () => {
     const timePeriodId = useTimePeriodId();
