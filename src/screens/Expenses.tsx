@@ -1,6 +1,7 @@
 import React, {FC} from 'react';
-import {FlatList} from 'react-native';
 import {useQuery} from '@apollo/react-hooks';
+import {NetworkStatus} from 'apollo-client';
+import {KeyboardAwareFlatList} from 'react-native-keyboard-aware-scroll-view';
 
 import {getExpensesQuery} from '../graphql/queries';
 import {getUserId} from '../services/auth-service';
@@ -22,6 +23,7 @@ const Expenses: FC = () => {
     const navigation = useBudgetNavigation();
     const timePeriodId = useTimePeriodId();
     const queryResult = useQuery<GetExpenses, GetExpensesVariables>(getExpensesQuery, {
+        notifyOnNetworkStatusChange: true,
         skip: !timePeriodId,
         variables: {
             timePeriodId,
@@ -51,7 +53,8 @@ const Expenses: FC = () => {
         return getEarlyReturn(queryResult);
     }
 
-    const {expenses, variableCategories} = queryResult.data;
+    const {refetch, networkStatus, data} = queryResult;
+    const {expenses, variableCategories} = data;
 
     if (!variableCategories.length) {
         return (
@@ -69,7 +72,7 @@ const Expenses: FC = () => {
     )?.name || '';
 
     return (
-        <FlatList
+        <KeyboardAwareFlatList
             ListEmptyComponent={
                 <EmptyScreen
                     onPressSubText={goToInformation}
@@ -87,6 +90,8 @@ const Expenses: FC = () => {
             ListHeaderComponentStyle={{zIndex: 1}}
             data={sortedExpenses}
             keyExtractor={(item): string => item.expenseId}
+            onRefresh={refetch}
+            refreshing={networkStatus === NetworkStatus.refetch}
             renderItem={({item, index}): JSX.Element =>
                 <ExpenseItem
                     categoryName={getCategoryName(item.variableCategoryId)}

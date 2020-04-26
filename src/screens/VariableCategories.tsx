@@ -2,6 +2,7 @@ import React from 'react';
 import {View} from 'react-native';
 import {useQuery} from '@apollo/react-hooks';
 import {KeyboardAwareFlatList} from 'react-native-keyboard-aware-scroll-view';
+import {NetworkStatus} from 'apollo-client';
 
 import {getVariableCategoriesQuery} from '../graphql/queries';
 import {getUserId} from '../services/auth-service';
@@ -23,6 +24,7 @@ import TimePeriods from './TimePeriods';
 const VariableCategories: React.FC = () => {
     const timePeriodId = useTimePeriodId();
     const queryResult = useQuery<GetVariableCategories, GetVariableCategoriesVariables>(getVariableCategoriesQuery, {
+        notifyOnNetworkStatusChange: true,
         skip: !timePeriodId,
         variables: {
             timePeriodId,
@@ -45,7 +47,8 @@ const VariableCategories: React.FC = () => {
         return getEarlyReturn(queryResult);
     }
 
-    const {variableCategories} = queryResult.data;
+    const {refetch, networkStatus, data} = queryResult;
+    const {variableCategories} = data;
     const sortedVariableCategories = variableCategories.sort(sortByAmount);
 
     return (
@@ -63,6 +66,8 @@ const VariableCategories: React.FC = () => {
                 data={sortedVariableCategories}
                 extraHeight={EXTRA_HEIGHT}
                 keyExtractor={(item): string => item.variableCategoryId}
+                onRefresh={refetch}
+                refreshing={networkStatus === NetworkStatus.refetch}
                 renderItem={({item}): JSX.Element =>
                     <VariableCategoryItem
                         variableCategory={item}

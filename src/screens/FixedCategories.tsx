@@ -2,6 +2,7 @@ import React from 'react';
 import {View} from 'react-native';
 import {useQuery} from '@apollo/react-hooks';
 import {KeyboardAwareFlatList} from 'react-native-keyboard-aware-scroll-view';
+import {NetworkStatus} from 'apollo-client';
 
 import {useBudgetNavigation, useTimePeriodId} from '../utils/hooks';
 import {GetFixedCategories, GetFixedCategoriesVariables} from '../../autogen/GetFixedCategories';
@@ -23,6 +24,7 @@ import TimePeriods from './TimePeriods';
 const FixedCategories: React.FC = () => {
     const timePeriodId = useTimePeriodId();
     const queryResult = useQuery<GetFixedCategories, GetFixedCategoriesVariables>(getFixedCategoriesQuery, {
+        notifyOnNetworkStatusChange: true,
         skip: !timePeriodId,
         variables: {
             timePeriodId,
@@ -45,7 +47,8 @@ const FixedCategories: React.FC = () => {
         return getEarlyReturn(queryResult);
     }
 
-    const {fixedCategories} = queryResult.data;
+    const {refetch, networkStatus, data} = queryResult;
+    const {fixedCategories} = data;
     const sortedFixedCategories = fixedCategories.sort(sortByAmount).sort(sortByPaid);
 
     return (
@@ -63,6 +66,8 @@ const FixedCategories: React.FC = () => {
                 data={sortedFixedCategories}
                 extraHeight={EXTRA_HEIGHT}
                 keyExtractor={(item): string => item.fixedCategoryId}
+                onRefresh={refetch}
+                refreshing={networkStatus === NetworkStatus.refetch}
                 renderItem={({item}): JSX.Element =>
                     <FixedCategoryItem fixedCategory={item} />
                 }
