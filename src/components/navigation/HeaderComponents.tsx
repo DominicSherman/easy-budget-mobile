@@ -68,7 +68,7 @@ export const BackButton: FC = () => {
         <Icon
             name={FeatherNames.CHEVRON_LEFT}
             onPress={navigation.goBack}
-            size={34}
+            size={38}
         />
     );
 };
