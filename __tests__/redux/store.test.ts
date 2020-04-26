@@ -1,6 +1,6 @@
 import * as redux from 'redux';
 
-import {dispatchAction, getState, getStore, initializeStore, resetStore} from '../../src/redux/store';
+import {dispatchAction, getState, getStore, getTimePeriodId, initializeStore, resetStore} from '../../src/redux/store';
 import reducer, {IAppState} from '../../src/redux/reducer';
 import {createRandomAppState} from '../models';
 import {Actions} from '../../src/redux/actions';
@@ -50,6 +50,26 @@ describe('store', () => {
             const actualState = getState();
 
             expect(actualState).toEqual(expectedState);
+        });
+    });
+
+    describe('getTimePeriodId', () => {
+        it('should return the timePeriodId if there is a timePeriod', () => {
+            expect(getTimePeriodId()).toBe(expectedState.timePeriod!.timePeriodId);
+        });
+
+        it('should return an empty string otherwise', () => {
+            expectedState.timePeriod = null;
+            expectedStore = {
+                dispatch: jest.fn(),
+                getState: jest.fn(() => expectedState)
+            };
+
+            createStore.mockReturnValue(expectedStore);
+
+            initializeStore();
+
+            expect(getTimePeriodId()).toBe('');
         });
     });
 
