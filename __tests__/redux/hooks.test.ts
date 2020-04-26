@@ -9,7 +9,7 @@ import {
     useMode,
     usePrimaryBackgroundColor,
     usePrimaryColor,
-    useSecondaryBackgroundColor,
+    useSecondaryBackgroundColor, useSecondaryTextColor,
     useShockBlueColor,
     useTheme,
     useThemedBackgroundColor,
@@ -199,6 +199,12 @@ describe('hooks', () => {
             expect(actualValue).toBe(expectedColor);
             expect(getShockBlueColor).toHaveBeenCalledTimes(1);
             expect(getShockBlueColor).toHaveBeenCalledWith(expectedSelector);
+        });
+    });
+
+    describe('useSecondaryTextColor', () => {
+        it('should return Color.grey', () => {
+            expect(useSecondaryTextColor()).toBe(Color.grey);
         });
     });
 
