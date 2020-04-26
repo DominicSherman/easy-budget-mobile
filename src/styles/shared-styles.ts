@@ -30,11 +30,11 @@ export const shadow = {
     elevation: 3,
     shadowColor: Color.offBlack,
     shadowOffset: {
-        height: 2,
+        height: 3,
         width: 0
     },
-    shadowOpacity: 0.3,
-    shadowRadius: 2
+    shadowOpacity: 0.15,
+    shadowRadius: 4
 };
 
 export const textWrapperUnderlined: ViewStyle = {

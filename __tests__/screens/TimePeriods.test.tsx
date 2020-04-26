@@ -28,7 +28,7 @@ jest.mock('../../src/services/error-and-loading-service');
 
 describe('TimePeriods', () => {
     const {useQuery, useMutation} = apolloHooks as jest.Mocked<typeof apolloHooks>;
-    const {useMode, useBudgetNavigation} = hooks as jest.Mocked<typeof hooks>;
+    const {useMode, useBudgetNavigation, useTimePeriodId} = hooks as jest.Mocked<typeof hooks>;
     const {getEarlyReturn} = errorAndLoadingService as jest.Mocked<typeof errorAndLoadingService>;
 
     let testInstance: RenderResult,
@@ -190,6 +190,15 @@ describe('TimePeriods', () => {
             name: Route.HOME,
             params: {}
         });
+    });
+
+    it('should show the current text for the currently selected time period', () => {
+        const selectedTimePeriod = chance.pickone<ITimePeriod>(expectedData.timePeriods);
+
+        useTimePeriodId.mockReturnValue(selectedTimePeriod.timePeriodId);
+        rerender();
+
+        testInstance.getByText('Current');
     });
 
     it('should open the edit time period form when the card view is pressed and allow the user to delete', () => {

@@ -12,12 +12,19 @@ import {CARD_MARGIN, CARD_WIDTH} from '../../constants/dimensions';
 import {getFormattedTimePeriodLength, getFormattedTimePeriodText} from '../../utils/utils';
 import {easeInTransition} from '../../services/animation-service';
 import {centeredColumn, centeredRow} from '../../styles/shared-styles';
-import {useBudgetNavigation, useSecondaryTextColor} from '../../utils/hooks';
+import {useBudgetNavigation, useSecondaryTextColor, useTimePeriodId} from '../../utils/hooks';
 import {Color} from '../../constants/color';
 import {setTimePeriod} from '../../redux/action-creators';
 import {Route} from '../../enums/Route';
 
 import EditTimePeriodForm from './EditTimePeriodForm';
+
+const hitSlop = {
+    bottom: 36,
+    left: 36,
+    right: 36,
+    top: 36
+};
 
 const styles = StyleSheet.create({
     wrapper: {
@@ -42,6 +49,7 @@ const TimePeriodItem: FC<{ timePeriodId: string }> = ({timePeriodId}) => {
     };
     const color = useSecondaryTextColor();
     const navigation = useBudgetNavigation();
+    const currentlyBrowsing = useTimePeriodId() === timePeriodId;
 
     if (!queryResult.data) {
         return null;
@@ -74,12 +82,16 @@ const TimePeriodItem: FC<{ timePeriodId: string }> = ({timePeriodId}) => {
                     <LargeText>{getFormattedTimePeriodText(timePeriod)}</LargeText>
                     <SmallText color={color}>{getFormattedTimePeriodLength(timePeriod)}</SmallText>
                 </View>
-                <Touchable onPress={onBrowse}>
+                <Touchable
+                    disabled={currentlyBrowsing}
+                    hitSlop={hitSlop}
+                    onPress={onBrowse}
+                >
                     <RegularText
-                        color={Color.shockBlue}
+                        color={currentlyBrowsing ? Color.lightGreen : Color.shockBlue}
                         fontWeight={FontWeight.BOLD}
                     >
-                        {'Browse'}
+                        {currentlyBrowsing ? 'Current' : 'Browse'}
                     </RegularText>
                 </Touchable>
             </View>
