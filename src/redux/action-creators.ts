@@ -1,6 +1,6 @@
 import {User} from '@react-native-community/google-signin';
 
-import {getActiveTimePeriod, getTimePeriods} from '../repositories/time-period-repository';
+import {getActiveTimePeriod} from '../repositories/time-period-repository';
 import {getIsSignedIn, signInSilently} from '../services/auth-service';
 import {AppStatus} from '../enums/AppStatus';
 import {QueryResponse} from '../repositories/query-middleware';
@@ -55,7 +55,7 @@ const getTimePeriodType = (timePeriod: {beginDate: string, endDate: string}): Ti
     return type;
 };
 
-export const browseTimePeriod = (timePeriod: ITimePeriod): void => {
+export const setTimePeriod = (timePeriod: ITimePeriod): void => {
     dispatchAction(Actions.SET_TIME_PERIOD, {
         ...timePeriod,
         type: getTimePeriodType(timePeriod)
@@ -66,7 +66,7 @@ export const onCreateTimePeriod = (timePeriod: ITimePeriod): void => {
     const currentTimePeriod = getState().timePeriod;
 
     if (!currentTimePeriod && isActiveTimePeriod(timePeriod)) {
-        browseTimePeriod(timePeriod);
+        setTimePeriod(timePeriod);
     }
 };
 
@@ -74,6 +74,6 @@ export const onUpdateTimePeriod = (timePeriod: ITimePeriod): void => {
     const currentTimePeriodId = getState().timePeriod?.timePeriodId;
 
     if (currentTimePeriodId === timePeriod.timePeriodId) {
-        browseTimePeriod(timePeriod);
+        setTimePeriod(timePeriod);
     }
 };

@@ -9,7 +9,7 @@ import {CreateTimePeriodMutation, CreateTimePeriodMutationVariables} from '../..
 import Form, {IFormInput, InputType} from '../generic/Form';
 import {createTimePeriodUpdate} from '../../utils/update-cache-utils';
 import {errorAlert} from '../../services/alert-service';
-import {onCreateTimePeriod, onUpdateTimePeriod} from '../../redux/action-creators';
+import {onCreateTimePeriod} from '../../redux/action-creators';
 
 const now = moment().startOf('day').toISOString();
 const fourWeeks = moment().startOf('day').add(4, 'w').toISOString();

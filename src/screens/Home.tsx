@@ -18,9 +18,9 @@ import {textWrapperUnderlined} from '../styles/shared-styles';
 import {getThemedSelectedColor, Theme} from '../services/theme-service';
 import {getFormattedTimePeriodLength, getFormattedTimePeriodText} from '../utils/utils';
 import {TimePeriodType} from '../redux/reducer';
+import BrowsingHeader from '../components/time-period/BrowsingHeader';
 
 import TimePeriods from './TimePeriods';
-import BrowsingHeader from '../components/time-period/BrowsingHeader';
 
 const styles = StyleSheet.create({
     bottomWrapper: {
@@ -131,7 +131,12 @@ const Home: React.FC = () => {
                 </TitleText>
                 <View style={{marginTop: 8}}>
                     <CardView
-                        disabled
+                        onPress={(): void => {
+                            navigation.navigate({
+                                name: Route.TIME_PERIODS,
+                                params: {}
+                            });
+                        }}
                         shadow
                         style={styles.wrapper}
                     >

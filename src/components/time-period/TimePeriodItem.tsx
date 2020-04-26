@@ -14,7 +14,7 @@ import {easeInTransition} from '../../services/animation-service';
 import {centeredColumn, centeredRow} from '../../styles/shared-styles';
 import {useBudgetNavigation, useSecondaryTextColor} from '../../utils/hooks';
 import {Color} from '../../constants/color';
-import {browseTimePeriod} from '../../redux/action-creators';
+import {setTimePeriod} from '../../redux/action-creators';
 import {Route} from '../../enums/Route';
 
 import EditTimePeriodForm from './EditTimePeriodForm';
@@ -49,7 +49,7 @@ const TimePeriodItem: FC<{ timePeriodId: string }> = ({timePeriodId}) => {
 
     const {timePeriod} = queryResult.data;
     const onBrowse = (): void => {
-        browseTimePeriod(timePeriod);
+        setTimePeriod(timePeriod);
         navigation.navigate({
             name: Route.HOME,
             params: {}

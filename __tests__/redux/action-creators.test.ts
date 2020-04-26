@@ -1,26 +1,30 @@
 import moment from 'moment';
 
-import {onUpdateTimePeriod, setAppState} from '../../src/redux/action-creators';
+import {onCreateTimePeriod, onUpdateTimePeriod, setAppState, setTimePeriod} from '../../src/redux/action-creators';
 import * as timePeriodRepository from '../../src/repositories/time-period-repository';
 import {
+    createRandomAppState,
     createRandomErrorResponse,
-    createRandomOkResponse, createRandomTimePeriod,
+    createRandomOkResponse,
+    createRandomTimePeriod,
     createRandomTimePeriods,
     createRandomUserInformation
 } from '../models';
-import {dispatchAction} from '../../src/redux/store';
 import {Actions} from '../../src/redux/actions';
 import {ITimePeriod} from '../../autogen/ITimePeriod';
 import * as authService from '../../src/services/auth-service';
 import {AppStatus} from '../../src/enums/AppStatus';
+import {TimePeriodType} from '../../src/redux/reducer';
+import * as reduxStore from '../../src/redux/store';
 
 jest.mock('../../src/repositories/time-period-repository');
 jest.mock('../../src/redux/store');
 jest.mock('../../src/services/auth-service');
 
 describe('action creators', () => {
-    const {getActiveTimePeriod, getTimePeriods} = timePeriodRepository as jest.Mocked<typeof timePeriodRepository>;
+    const {getActiveTimePeriod} = timePeriodRepository as jest.Mocked<typeof timePeriodRepository>;
     const {getIsSignedIn, signInSilently} = authService as jest.Mocked<typeof authService>;
+    const {dispatchAction, getState} = reduxStore as jest.Mocked<typeof reduxStore>;
 
     afterEach(() => {
         jest.resetAllMocks();
@@ -63,7 +67,10 @@ describe('action creators', () => {
 
                     await setAppState();
 
-                    expect(dispatchAction).toHaveBeenCalledWith(Actions.SET_TIME_PERIOD, expectedTimePeriods[0].timePeriodId);
+                    expect(dispatchAction).toHaveBeenCalledWith(Actions.SET_TIME_PERIOD, {
+                        ...expectedTimePeriods[0],
+                        type: TimePeriodType.ACTIVE
+                    });
                 });
 
                 it('should set the user', async () => {
@@ -95,57 +102,154 @@ describe('action creators', () => {
         });
     });
 
-    describe('onUpdateOrCreateTimePeriod', () => {
-        let expectedResult,
-            expectedActiveTimePeriod;
+    describe('setTimePeriod', () => {
+        it('should set the time period in state if it is active', () => {
+            const timePeriod = createRandomTimePeriod({
+                beginDate: moment().subtract(5, 'm').toISOString(),
+                endDate: moment().add(5, 'm').toISOString()
+            });
+
+            setTimePeriod(timePeriod);
+
+            expect(dispatchAction).toHaveBeenCalledTimes(1);
+            expect(dispatchAction).toHaveBeenCalledWith(Actions.SET_TIME_PERIOD, {
+                ...timePeriod,
+                type: TimePeriodType.ACTIVE
+            });
+        });
+
+        it('should set the time period in state if it is previous', () => {
+            const timePeriod = createRandomTimePeriod({
+                beginDate: moment().subtract(10, 'm').toISOString(),
+                endDate: moment().subtract(5, 'm').toISOString()
+            });
+
+            setTimePeriod(timePeriod);
+
+            expect(dispatchAction).toHaveBeenCalledTimes(1);
+            expect(dispatchAction).toHaveBeenCalledWith(Actions.SET_TIME_PERIOD, {
+                ...timePeriod,
+                type: TimePeriodType.PREVIOUS
+            });
+        });
+
+        it('should set the time period in state if it is upcoming', () => {
+            const timePeriod = createRandomTimePeriod({
+                beginDate: moment().add(5, 'm').toISOString(),
+                endDate: moment().add(10, 'm').toISOString()
+            });
+
+            setTimePeriod(timePeriod);
+
+            expect(dispatchAction).toHaveBeenCalledTimes(1);
+            expect(dispatchAction).toHaveBeenCalledWith(Actions.SET_TIME_PERIOD, {
+                ...timePeriod,
+                type: TimePeriodType.UPCOMING
+            });
+        });
+    });
+
+    describe('onCreateTimePeriod', () => {
+        let expectedState;
 
         beforeEach(() => {
-            expectedActiveTimePeriod = createRandomTimePeriod({
-                beginDate: moment().subtract(1, 'd').toISOString(),
-                endDate: moment().add(1, 'd').toISOString()
+            expectedState = createRandomAppState({timePeriod: null});
+
+            getState.mockReturnValue(expectedState);
+        });
+
+        it('should call setTimePeriod if there is not a time period in state and the created one is active', () => {
+            const timePeriod = createRandomTimePeriod({
+                beginDate: moment().subtract(5, 's').toISOString(),
+                endDate: moment().add(5, 's').toISOString()
             });
-            expectedResult = {
-                data: {
-                    timePeriods: [
-                        expectedActiveTimePeriod,
-                        createRandomTimePeriod({
-                            beginDate: moment().add(2, 'd').toISOString(),
-                            endDate: moment().add(30, 'd').toISOString()
-                        }),
-                        createRandomTimePeriod({
-                            beginDate: moment().subtract(30, 'd').toISOString(),
-                            endDate: moment().subtract(2, 'd').toISOString()
-                        })
-                    ]
-                },
-                hasError: false
-            };
 
-            getTimePeriods.mockResolvedValue(expectedResult);
-        });
-
-        it('should set the active time period if there is one', async () => {
-            await onUpdateTimePeriod();
+            onCreateTimePeriod(timePeriod);
 
             expect(dispatchAction).toHaveBeenCalledTimes(1);
-            expect(dispatchAction).toHaveBeenCalledWith(Actions.SET_TIME_PERIOD, expectedActiveTimePeriod.timePeriodId);
+            expect(dispatchAction).toHaveBeenCalledWith(Actions.SET_TIME_PERIOD, {
+                ...timePeriod,
+                type: TimePeriodType.ACTIVE
+            });
         });
 
-        it('should set the active time period to an empty string if there is not one', async () => {
-            expectedResult.data.timePeriods = expectedResult.data.timePeriods.filter((t) => t.timePeriodId !== expectedActiveTimePeriod.timePeriodId);
-            getTimePeriods.mockResolvedValue(expectedResult);
+        it('should call **not** call setTimePeriod if time period is not active', () => {
+            const timePeriod = createRandomTimePeriod({
+                beginDate: moment().subtract(10, 's'),
+                endDate: moment().subtract(9, 's')
+            });
 
-            await onUpdateTimePeriod();
+            onCreateTimePeriod(timePeriod);
+
+            expect(dispatchAction).not.toHaveBeenCalled();
+        });
+
+        it('should call **not** call setTimePeriod if there is a time period in state', () => {
+            const timePeriod = createRandomTimePeriod({
+                beginDate: moment().subtract(5, 's').toISOString(),
+                endDate: moment().add(5, 's').toISOString()
+            });
+
+            expectedState = createRandomAppState();
+            getState.mockReturnValue(expectedState);
+
+            onCreateTimePeriod(timePeriod);
+
+            expect(dispatchAction).not.toHaveBeenCalled();
+        });
+    });
+
+    describe('onUpdateTimePeriod', () => {
+        let expectedState;
+
+        it('should call setTimePeriod if the current time period in state is the created one', () => {
+            const timePeriod = createRandomTimePeriod({
+                beginDate: moment().subtract(5, 's').toISOString(),
+                endDate: moment().add(5, 's').toISOString()
+            });
+
+            expectedState = createRandomAppState({
+                timePeriod: {
+                    timePeriodId: timePeriod.timePeriodId
+                }
+            });
+            getState.mockReturnValue(expectedState);
+
+            onUpdateTimePeriod(timePeriod);
 
             expect(dispatchAction).toHaveBeenCalledTimes(1);
-            expect(dispatchAction).toHaveBeenCalledWith(Actions.SET_TIME_PERIOD, '');
+            expect(dispatchAction).toHaveBeenCalledWith(Actions.SET_TIME_PERIOD, {
+                ...timePeriod,
+                type: TimePeriodType.ACTIVE
+            });
         });
 
-        it('should not dispatch an action if there is an error', async () => {
-            expectedResult.hasError = true;
-            getTimePeriods.mockResolvedValue(expectedResult);
+        it('should call **not** call setTimePeriod if there is not a time period in state', () => {
+            const timePeriod = createRandomTimePeriod({
+                beginDate: moment().subtract(10, 's'),
+                endDate: moment().subtract(9, 's')
+            });
 
-            await onUpdateTimePeriod();
+            expectedState = createRandomAppState({
+                timePeriod: null
+            });
+            getState.mockReturnValue(expectedState);
+
+            onUpdateTimePeriod(timePeriod);
+
+            expect(dispatchAction).not.toHaveBeenCalled();
+        });
+
+        it('should call **not** call setTimePeriod if the time period in state does not match', () => {
+            const timePeriod = createRandomTimePeriod({
+                beginDate: moment().subtract(10, 's'),
+                endDate: moment().subtract(9, 's')
+            });
+
+            expectedState = createRandomAppState();
+            getState.mockReturnValue(expectedState);
+
+            onUpdateTimePeriod(timePeriod);
 
             expect(dispatchAction).not.toHaveBeenCalled();
         });
