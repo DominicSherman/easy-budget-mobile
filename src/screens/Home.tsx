@@ -1,7 +1,8 @@
 import React from 'react';
-import {ScrollView, StyleSheet, View} from 'react-native';
+import {RefreshControl, ScrollView, StyleSheet, View} from 'react-native';
 import {useQuery} from '@apollo/react-hooks';
 import moment from 'moment';
+import {NetworkStatus} from 'apollo-client';
 
 import {FontWeight, LargeText, RegularText, SmallText, TinyText, TitleText} from '../components/generic/Text';
 import {getUserId} from '../services/auth-service';
@@ -53,6 +54,7 @@ const Home: React.FC = () => {
     const timePeriod = useTimePeriod();
     const userInformation = useUserInformation();
     const queryResult = useQuery<HomeScreenQuery, HomeScreenQueryVariables>(homeScreenQuery, {
+        notifyOnNetworkStatusChange: true,
         skip: !timePeriod,
         variables: {
             timePeriodId: timePeriod?.timePeriodId || '',
@@ -69,11 +71,12 @@ const Home: React.FC = () => {
         );
     }
 
-    if (!queryResult.data || queryResult.loading) {
+    if (!queryResult.data || queryResult.networkStatus === NetworkStatus.setVariables) {
         return getEarlyReturn(queryResult);
     }
 
-    const {fixedCategories, variableCategories, expenses, incomeItems} = queryResult.data;
+    const {refetch, networkStatus, data} = queryResult;
+    const {fixedCategories, variableCategories, expenses, incomeItems} = data;
     const variableCategoriesTotal = calculateTotal(variableCategories);
     const fixedCategoriesTotal = calculateTotal(fixedCategories);
     const expensesTotal = calculateTotal(expenses);
@@ -91,6 +94,12 @@ const Home: React.FC = () => {
                     alignItems: 'center',
                     paddingBottom: 64
                 }}
+                refreshControl={
+                    <RefreshControl
+                        onRefresh={refetch}
+                        refreshing={networkStatus === NetworkStatus.refetch}
+                    />
+                }
             >
                 <View
                     style={{
