@@ -52,7 +52,7 @@ const CreateIncomeItemForm: FC = () => {
         value: amount
     }, {
         checked: recurring,
-        inputType: InputType.TOGGLE,
+        inputType: InputType.RECURRING_TOGGLE,
         onChange: setRecurring,
         title: 'recurring'
     }];
