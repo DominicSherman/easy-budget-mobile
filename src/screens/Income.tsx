@@ -2,6 +2,7 @@ import React, {FC} from 'react';
 import {useQuery} from '@apollo/react-hooks';
 import {View} from 'react-native';
 import {KeyboardAwareFlatList} from 'react-native-keyboard-aware-scroll-view';
+import {NetworkStatus} from 'apollo-client';
 
 import {GetIncomeItems, GetIncomeItemsVariables} from '../../autogen/GetIncomeItems';
 import {getIncomeItemsQuery} from '../graphql/queries';
@@ -22,6 +23,7 @@ import TimePeriods from './TimePeriods';
 const Income: FC = () => {
     const timePeriodId = useTimePeriodId();
     const queryResult = useQuery<GetIncomeItems, GetIncomeItemsVariables>(getIncomeItemsQuery, {
+        notifyOnNetworkStatusChange: true,
         skip: !timePeriodId,
         variables: {
             timePeriodId,
@@ -44,7 +46,8 @@ const Income: FC = () => {
         return getEarlyReturn(queryResult);
     }
 
-    const {incomeItems} = queryResult.data;
+    const {refetch, networkStatus, data} = queryResult;
+    const {incomeItems} = data;
 
     return (
         <View style={{height: '100%'}}>
@@ -61,6 +64,8 @@ const Income: FC = () => {
                 data={incomeItems}
                 extraHeight={EXTRA_HEIGHT}
                 keyExtractor={(item): string => item.incomeItemId}
+                onRefresh={refetch}
+                refreshing={networkStatus === NetworkStatus.refetch}
                 renderItem={({item}): JSX.Element =>
                     <IncomeItem incomeItem={item} />
                 }

@@ -95,6 +95,7 @@ describe('Home', () => {
             render();
 
             expect(useQuery).toHaveBeenCalledWith(homeScreenQuery, {
+                notifyOnNetworkStatusChange: true,
                 skip: true,
                 variables: {
                     timePeriodId: '',
@@ -114,6 +115,7 @@ describe('Home', () => {
     describe('when there is a time period', () => {
         it('should query for the active time period data', () => {
             expect(useQuery).toHaveBeenCalledWith(homeScreenQuery, {
+                notifyOnNetworkStatusChange: true,
                 skip: false,
                 variables: {
                     timePeriodId: expectedTimePeriod.timePeriodId,

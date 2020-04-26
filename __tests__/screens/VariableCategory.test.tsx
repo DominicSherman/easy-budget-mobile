@@ -49,6 +49,7 @@ describe('VariableCategory', () => {
     it('should call useQuery', () => {
         expect(useQuery).toHaveBeenCalledTimes(1);
         expect(useQuery).toHaveBeenCalledWith(getVariableCategoryQuery, {
+            notifyOnNetworkStatusChange: true,
             variables: {
                 userId: getUserId(),
                 variableCategoryId: expectedProps.variableCategoryId

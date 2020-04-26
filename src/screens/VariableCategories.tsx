@@ -48,7 +48,6 @@ const VariableCategories: React.FC = () => {
     }
 
     const {refetch, networkStatus, data} = queryResult;
-    console.log('networkStatus', networkStatus);
     const {variableCategories} = data;
     const sortedVariableCategories = variableCategories.sort(sortByAmount);
 

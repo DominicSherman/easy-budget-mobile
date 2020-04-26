@@ -2,6 +2,7 @@ import React, {FC} from 'react';
 import {useQuery} from '@apollo/react-hooks';
 import {KeyboardAwareSectionList} from 'react-native-keyboard-aware-scroll-view';
 import {StyleSheet, View} from 'react-native';
+import {NetworkStatus} from 'apollo-client';
 
 import {getTimePeriodsQuery} from '../graphql/queries';
 import {getUserId} from '../services/auth-service';
@@ -24,6 +25,7 @@ const styles = StyleSheet.create({
 
 const TimePeriods: FC = () => {
     const queryResult = useQuery<GetTimePeriods, GetTimePeriodsVariables>(getTimePeriodsQuery, {
+        notifyOnNetworkStatusChange: true,
         variables: {
             userId: getUserId()
         }
@@ -34,7 +36,8 @@ const TimePeriods: FC = () => {
         return getEarlyReturn(queryResult);
     }
 
-    const sortedTimePeriods = queryResult.data.timePeriods.sort(sortByBeginDate);
+    const {refetch, networkStatus, data} = queryResult;
+    const sortedTimePeriods = data.timePeriods.sort(sortByBeginDate);
     const prevTimePeriods = sortedTimePeriods.filter(isPreviousTimePeriod);
     const futureTimePeriods = sortedTimePeriods.filter(isFutureTimePeriod);
     const activeTimePeriod = sortedTimePeriods.filter(isActiveTimePeriod);
@@ -53,6 +56,8 @@ const TimePeriods: FC = () => {
         <View style={{height: '100%'}}>
             <KeyboardAwareSectionList
                 keyExtractor={(item): string => item.timePeriodId}
+                onRefresh={refetch}
+                refreshing={networkStatus === NetworkStatus.refetch}
                 renderItem={({item}): JSX.Element => <TimePeriodItem timePeriodId={item.timePeriodId} />}
                 renderSectionHeader={({section}): JSX.Element =>
                     <View style={[styles.title, {backgroundColor}]}>
