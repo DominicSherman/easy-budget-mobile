@@ -12,7 +12,7 @@ import {FontWeight, RegularMontserratText} from './Text';
 import Button, {IButtonProps} from './Button';
 import Input, {IInputProps} from './Input';
 import PlusMinusIcon from './PlusMinusIcon';
-import Toggle, {IToggleProps} from './Toggle';
+import RecurringToggle, {IRecurringToggleProps} from './RecurringToggle';
 import Date, {IDateProps} from './Date';
 
 const FORM_HEIGHT = 400;
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
 
 export enum InputType {
     INPUT = 'input',
-    TOGGLE = 'toggle',
+    RECURRING_TOGGLE = 'recurring_toggle',
     DATE = 'date'
 }
 
@@ -46,8 +46,8 @@ interface IDateProp extends IDateProps {
     inputType: InputType.DATE
 }
 
-interface IToggleProp extends IToggleProps {
-    inputType: InputType.TOGGLE
+interface IToggleProp extends IRecurringToggleProps {
+    inputType: InputType.RECURRING_TOGGLE
 }
 
 interface IInputProp extends IInputProps {
@@ -129,9 +129,9 @@ const DropdownForm: FC<IFormProps> = (props) => {
 };
 
 const InputComponent: FC<{input: IFormInput}> = ({input}) => {
-    if (input.inputType === InputType.TOGGLE) {
+    if (input.inputType === InputType.RECURRING_TOGGLE) {
         return (
-            <Toggle {...input} />
+            <RecurringToggle {...input} />
         );
     } else if (input.inputType === InputType.DATE) {
         return (

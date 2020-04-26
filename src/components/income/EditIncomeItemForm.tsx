@@ -88,7 +88,7 @@ const EditIncomeItemForm: FC<IEditIncomeItemFormProps> = ({toggleExpanded, incom
         value: updatedAmount
     }, {
         checked: updatedRecurring,
-        inputType: InputType.TOGGLE,
+        inputType: InputType.RECURRING_TOGGLE,
         onChange: setUpdatedRecurring,
         title: 'recurring'
     }];

@@ -1,6 +1,5 @@
 import React, {FC, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
-import Feather from 'react-native-vector-icons/Feather';
 
 import {IIncomeItem} from '../../../autogen/IIncomeItem';
 import {LargeText, TinyText} from '../generic/Text';
@@ -8,11 +7,9 @@ import {CARD_MARGIN, CARD_WIDTH} from '../../constants/dimensions';
 import CardView from '../generic/CardView';
 import {easeInTransition} from '../../services/animation-service';
 import {centeredColumn} from '../../styles/shared-styles';
-import {useSecondaryTextColor} from '../../utils/hooks';
-import {Color} from '../../constants/color';
-import {FeatherNames} from '../../enums/IconNames';
 import ColoredText from '../generic/ColoredText';
 import {Theme} from '../../services/theme-service';
+import RecurringIcon from '../generic/RecurringIcon';
 
 import EditIncomeItemForm from './EditIncomeItemForm';
 
@@ -50,9 +47,6 @@ const styles = StyleSheet.create({
 const IncomeItem: FC<{ incomeItem: IIncomeItem }> = ({incomeItem}) => {
     const [expanded, setExpanded] = useState(false);
     const {name, amount, recurring} = incomeItem;
-    const primaryColor = useSecondaryTextColor();
-    const color = recurring ? Color.sunflower : primaryColor;
-    const iconName = recurring ? FeatherNames.CHECK_SQUARE : FeatherNames.SQUARE;
     const toggleExpanded = (): void => {
         easeInTransition();
         setExpanded(!expanded);
@@ -77,11 +71,7 @@ const IncomeItem: FC<{ incomeItem: IIncomeItem }> = ({incomeItem}) => {
                         <TinyText>{'amount'}</TinyText>
                     </View>
                     <View style={[centeredColumn, styles.recurringWrapper]}>
-                        <Feather
-                            color={color}
-                            name={iconName}
-                            size={20}
-                        />
+                        <RecurringIcon isRecurring={recurring} />
                         <TinyText>{'recurring'}</TinyText>
                     </View>
                 </View>
