@@ -17,9 +17,10 @@ import {deleteTimePeriodMutation, updateTimePeriodMutation} from '../../src/grap
 import {ITimePeriod} from '../../autogen/ITimePeriod';
 import * as errorAndLoadingService from '../../src/services/error-and-loading-service';
 import {RegularText} from '../../src/components/generic/Text';
+import {setTimePeriod} from '../../src/redux/action-creators';
 
 jest.mock('@apollo/react-hooks');
-
+jest.mock('../../src/redux/action-creators');
 jest.mock('../../src/services/animation-service');
 jest.mock('../../src/utils/hooks');
 jest.mock('../../src/services/auth-service');
@@ -174,6 +175,21 @@ describe('TimePeriods', () => {
         });
 
         expect(updateTimePeriod).toHaveBeenCalledTimes(1);
+    });
+
+    it('should navigate to the home screen when a browse button is pressed', () => {
+        const renderedBrowseButton = testInstance.getAllByText('Browse')[0];
+
+        act(() => {
+            fireEvent.press(renderedBrowseButton);
+        });
+
+        expect(setTimePeriod).toHaveBeenCalledTimes(1);
+        expect(expectedNavigation.navigate).toHaveBeenCalledTimes(1);
+        expect(expectedNavigation.navigate).toHaveBeenCalledWith({
+            name: Route.HOME,
+            params: {}
+        });
     });
 
     it('should open the edit time period form when the card view is pressed and allow the user to delete', () => {

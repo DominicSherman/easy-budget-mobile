@@ -5,7 +5,12 @@ import {FlatList} from 'react-native';
 import {MutationResult} from '@apollo/react-common';
 
 import Income from '../../src/screens/Income';
-import {createRandomIncomeItems, createRandomQueryResult} from '../models';
+import {
+    createRandomIncomeItems,
+    createRandomQueryResult,
+    createRandomTimePeriod,
+    createRandomTimePeriods
+} from '../models';
 import {chance} from '../chance';
 import {getEarlyReturn} from '../../src/services/error-and-loading-service';
 import {sortByName} from '../../src/utils/sorting-utils';
@@ -15,9 +20,10 @@ import {IIncomeItem} from '../../autogen/IIncomeItem';
 import EmptyScreen from '../../src/components/generic/EmptyScreen';
 import {Route} from '../../src/enums/Route';
 import {InformationRef} from '../../src/screens/Information';
-import NoActiveTimePeriod from '../../src/components/time-period/NoActiveTimePeriod';
 import {Color} from '../../src/constants/color';
 import {Mode} from '../../src/enums/Mode';
+import {getTimePeriodQuery, getTimePeriodsQuery} from '../../src/graphql/queries';
+import TimePeriods from '../../src/screens/TimePeriods';
 
 jest.mock('@apollo/react-hooks');
 jest.mock('react-redux');
@@ -49,7 +55,23 @@ describe('Income', () => {
             navigate: jest.fn()
         };
 
-        useQuery.mockReturnValue(expectedData);
+        useQuery.mockImplementation((query) => {
+            if (query === getTimePeriodsQuery) {
+                return {
+                    data: {
+                        timePeriods: createRandomTimePeriods()
+                    }
+                };
+            } else if (query === getTimePeriodQuery) {
+                return {
+                    data: {
+                        timePeriod: createRandomTimePeriod()
+                    }
+                };
+            }
+
+            return expectedData;
+        });
         useTimePeriodId.mockReturnValue(expectedTimePeriodId);
         useMutation.mockReturnValue([jest.fn(), {loading: chance.bool()} as MutationResult]);
         useBudgetNavigation.mockReturnValue(expectedNavigation);
@@ -71,7 +93,7 @@ describe('Income', () => {
 
         render();
 
-        root.findByType(NoActiveTimePeriod);
+        root.findByType(TimePeriods);
     });
 
     it('should return early when there is no data', () => {

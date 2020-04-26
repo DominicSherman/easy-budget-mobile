@@ -13,7 +13,7 @@ import {
 } from '../graphql/queries';
 import {getUserId} from '../services/auth-service';
 import {CreateVariableCategoryMutation} from '../../autogen/CreateVariableCategoryMutation';
-import {getState} from '../redux/store';
+import {getTimePeriodId} from '../redux/store';
 import {CreateFixedCategoryMutation} from '../../autogen/CreateFixedCategoryMutation';
 import {GetFixedCategories, GetFixedCategoriesVariables} from '../../autogen/GetFixedCategories';
 import {CreateExpenseMutation} from '../../autogen/CreateExpenseMutation';
@@ -37,7 +37,7 @@ import {DeleteTimePeriodMutation} from '../../autogen/DeleteTimePeriodMutation';
 export const createVariableCategoryUpdate = (cache: DataProxy, mutationResult: FetchResult<CreateVariableCategoryMutation>): void => {
     const query = getVariableCategoriesQuery;
     const variables = {
-        timePeriodId: getState().timePeriodId,
+        timePeriodId: getTimePeriodId(),
         userId: getUserId()
     };
     const {data} = mutationResult;
@@ -119,7 +119,7 @@ export const createDebtCategoryUpdate = (cache: DataProxy, mutationResult: Fetch
 export const createIncomeItemUpdate = (cache: DataProxy, mutationResult: FetchResult<CreateIncomeItemMutation>): void => {
     const query = getIncomeItemsQuery;
     const variables = {
-        timePeriodId: getState().timePeriodId,
+        timePeriodId: getTimePeriodId(),
         userId: getUserId()
     };
     const {data} = mutationResult;
@@ -144,7 +144,7 @@ export const createIncomeItemUpdate = (cache: DataProxy, mutationResult: FetchRe
 export const createFixedCategoryUpdate = (cache: DataProxy, mutationResult: FetchResult<CreateFixedCategoryMutation>): void => {
     const query = getFixedCategoriesQuery;
     const variables = {
-        timePeriodId: getState().timePeriodId,
+        timePeriodId: getTimePeriodId(),
         userId: getUserId()
     };
     const {data} = mutationResult;
@@ -169,7 +169,7 @@ export const createFixedCategoryUpdate = (cache: DataProxy, mutationResult: Fetc
 export const createExpenseUpdate = (cache: DataProxy, mutationResult: FetchResult<CreateExpenseMutation>): void => {
     const query = getExpensesQuery;
     const variables = {
-        timePeriodId: getState().timePeriodId,
+        timePeriodId: getTimePeriodId(),
         userId: getUserId()
     };
     const {data} = mutationResult;
@@ -234,7 +234,7 @@ export const createTimePeriodUpdate = (cache: DataProxy, mutationResult: FetchRe
 export const deleteExpenseUpdate = (cache: DataProxy, mutationResult: FetchResult<DeleteExpenseMutation>): void => {
     const query = getExpensesQuery;
     const variables = {
-        timePeriodId: getState().timePeriodId,
+        timePeriodId: getTimePeriodId(),
         userId: getUserId()
     };
     const {data} = mutationResult;
@@ -275,7 +275,7 @@ export const deleteExpenseUpdate = (cache: DataProxy, mutationResult: FetchResul
 export const deleteFixedCategoryUpdate = (cache: DataProxy, mutationResult: FetchResult<DeleteFixedCategoryMutation>): void => {
     const query = getFixedCategoriesQuery;
     const variables = {
-        timePeriodId: getState().timePeriodId,
+        timePeriodId: getTimePeriodId(),
         userId: getUserId()
     };
     const {data} = mutationResult;
@@ -300,7 +300,7 @@ export const deleteFixedCategoryUpdate = (cache: DataProxy, mutationResult: Fetc
 export const deleteVariableCategoryUpdate = (cache: DataProxy, mutationResult: FetchResult<DeleteVariableCategoryMutation>): void => {
     const query = getVariableCategoriesQuery;
     const variables = {
-        timePeriodId: getState().timePeriodId,
+        timePeriodId: getTimePeriodId(),
         userId: getUserId()
     };
     const {data} = mutationResult;
@@ -373,7 +373,7 @@ export const deleteDebtCategoryUpdate = (cache: DataProxy, mutationResult: Fetch
 export const deleteIncomeItemUpdate = (cache: DataProxy, mutationResult: FetchResult<DeleteIncomeItemMutation>): void => {
     const query = getIncomeItemsQuery;
     const variables = {
-        timePeriodId: getState().timePeriodId,
+        timePeriodId: getTimePeriodId(),
         userId: getUserId()
     };
     const {data} = mutationResult;

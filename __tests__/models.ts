@@ -3,7 +3,7 @@ import {User} from '@react-native-community/google-signin';
 
 import {IVariableCategory} from '../autogen/IVariableCategory';
 import {ITimePeriod} from '../autogen/ITimePeriod';
-import {IAppState} from '../src/redux/reducer';
+import {IAppState, TimePeriodType} from '../src/redux/reducer';
 import {IErrorResponse, IOkResponse} from '../src/repositories/query-middleware';
 import {AppStatus} from '../src/enums/AppStatus';
 import {IFixedCategory} from '../autogen/IFixedCategory';
@@ -110,14 +110,14 @@ export const createRandomTimePeriod = (timePeriod = {}): ITimePeriod => ({
 
 export const createRandomTimePeriods = (): ITimePeriod[] => chance.n(createRandomTimePeriod, chance.d6());
 
-export const createRandomQueryResult = (data: any): any => ({
+export const createRandomQueryResult = (data?: any, loading?: boolean): any => ({
     called: chance.bool(),
     // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
     // @ts-ignore
     client: chance.string(),
     data,
     error: chance.pickone([createError(), undefined]),
-    loading: chance.bool(),
+    loading: loading === undefined ? chance.bool() : loading,
     networkStatus: chance.pickone([
         NetworkStatus.error,
         NetworkStatus.loading,
@@ -150,11 +150,15 @@ export const createRandomUserInformation = (): User => ({
     }
 });
 
-export const createRandomAppState = (): IAppState => ({
+export const createRandomAppState = (state = {}): IAppState => ({
     appStatus: chance.pickone(Object.values(AppStatus)),
     mode: chance.pickone(Object.values(Mode)),
-    timePeriodId: chance.guid(),
-    userInformation: createRandomUserInformation()
+    timePeriod: {
+        ...createRandomTimePeriod(),
+        type: chance.pickone(Object.values(TimePeriodType))
+    },
+    userInformation: createRandomUserInformation(),
+    ...state
 });
 
 export const createRouteProps = (props): any => ({

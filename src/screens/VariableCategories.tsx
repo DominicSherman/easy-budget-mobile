@@ -9,15 +9,16 @@ import {GetVariableCategories, GetVariableCategoriesVariables} from '../../autog
 import {getEarlyReturn} from '../services/error-and-loading-service';
 import CreateVariableCategoryForm from '../components/variable-category/CreateVariableCategoryForm';
 import {sortByAmount} from '../utils/sorting-utils';
-import NoActiveTimePeriod from '../components/time-period/NoActiveTimePeriod';
 import VariableCategoryItem from '../components/variable-category/VariableCategoryItem';
 import {useBudgetNavigation, useTimePeriodId} from '../utils/hooks';
 import EmptyScreen from '../components/generic/EmptyScreen';
 import {Route} from '../enums/Route';
 import {ListFooterComponent} from '../components/generic/Generic';
 import {EXTRA_HEIGHT} from '../constants/dimensions';
+import BrowsingHeader from '../components/time-period/BrowsingHeader';
 
 import {InformationRef} from './Information';
+import TimePeriods from './TimePeriods';
 
 const VariableCategories: React.FC = () => {
     const timePeriodId = useTimePeriodId();
@@ -37,7 +38,7 @@ const VariableCategories: React.FC = () => {
     });
 
     if (!timePeriodId) {
-        return <NoActiveTimePeriod />;
+        return <TimePeriods />;
     }
 
     if (!queryResult.data) {
@@ -58,6 +59,7 @@ const VariableCategories: React.FC = () => {
                     />
                 }
                 ListFooterComponent={<ListFooterComponent />}
+                ListHeaderComponent={<BrowsingHeader />}
                 data={sortedVariableCategories}
                 extraHeight={EXTRA_HEIGHT}
                 keyExtractor={(item): string => item.variableCategoryId}

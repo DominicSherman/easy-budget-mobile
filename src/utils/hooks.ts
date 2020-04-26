@@ -14,7 +14,7 @@ import {
     getThemedTextColor,
     Theme
 } from '../services/theme-service';
-import {IAppState} from '../redux/reducer';
+import {IAppState, ITimePeriodState} from '../redux/reducer';
 import {ScreenParams} from '../StacksOnStacksOnStacks';
 import {Color} from '../constants/color';
 
@@ -56,7 +56,10 @@ export const useShockBlueColor = (): Color =>
 export const useSecondaryTextColor = (): Color => Color.grey;
 
 export const useTimePeriodId = (): string =>
-    useSelector<IAppState, string>((state) => state.timePeriodId);
+    useSelector<IAppState, string>((state) => state.timePeriod?.timePeriodId || '');
+
+export const useTimePeriod = (): ITimePeriodState | null =>
+    useSelector<IAppState, ITimePeriodState | null>((state) => state.timePeriod);
 
 export const useUserInformation = (): User =>
     useSelector<IAppState, User>((state) => state.userInformation);

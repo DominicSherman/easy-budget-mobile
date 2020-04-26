@@ -11,7 +11,7 @@ import {DeleteTimePeriodMutation, DeleteTimePeriodMutationVariables} from '../..
 import {easeInTransition} from '../../services/animation-service';
 import {Color} from '../../constants/color';
 import {errorAlert} from '../../services/alert-service';
-import {onUpdateOrCreateTimePeriod} from '../../redux/action-creators';
+import {onUpdateTimePeriod} from '../../redux/action-creators';
 import {isActiveTimePeriod} from '../../utils/utils';
 
 interface IEditTimePeriodFormProps {
@@ -38,9 +38,9 @@ const EditTimePeriodForm: FC<IEditTimePeriodFormProps> = ({toggleExpanded, timeP
         userId
     };
     const [updateTimePeriod, {loading}] = useMutation<UpdateTimePeriodMutation, UpdateTimePeriodMutationVariables>(updateTimePeriodMutation, {
-        onCompleted: () => {
+        onCompleted: (data) => {
             toggleExpanded();
-            onUpdateOrCreateTimePeriod();
+            onUpdateTimePeriod(data.updateTimePeriod);
         },
         onError: (error) => {
             errorAlert('Error', error.graphQLErrors[0].message);
