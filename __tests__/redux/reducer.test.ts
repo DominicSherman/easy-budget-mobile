@@ -1,4 +1,4 @@
-import {createRandomAppState, createRandomUserInformation} from '../models';
+import {createRandomAppState, createRandomTimePeriod, createRandomUserInformation} from '../models';
 import reducer, {IAppState} from '../../src/redux/reducer';
 import {chance} from '../chance';
 import {Actions} from '../../src/redux/actions';
@@ -7,7 +7,7 @@ import {Mode} from '../../src/enums/Mode';
 const defaultState: IAppState = {
     appStatus: null,
     mode: Mode.DARK,
-    timePeriodId: '',
+    timePeriod: null,
     userInformation: {
         idToken: '',
         serverAuthCode: null,
@@ -79,16 +79,16 @@ describe('reducer', () => {
     });
 
     it('should set the timePeriodId if the action is SET_TIME_PERIOD_ID', () => {
-        const timePeriodId = chance.guid();
+        const timePeriod = createRandomTimePeriod();
 
         const actualState = reducer(expectedAppState, {
-            data: timePeriodId,
+            data: timePeriod,
             type: Actions.SET_TIME_PERIOD
         });
 
         expect(actualState).toEqual({
             ...expectedAppState,
-            timePeriodId
+            timePeriod
         });
     });
 
