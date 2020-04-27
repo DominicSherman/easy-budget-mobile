@@ -10,6 +10,7 @@ import Form, {IFormInput, InputType} from '../generic/Form';
 import {createTimePeriodUpdate} from '../../utils/update-cache-utils';
 import {errorAlert} from '../../services/alert-service';
 import {onCreateTimePeriod} from '../../redux/action-creators';
+import {Color} from '../../constants/color';
 
 const now = moment().startOf('day').toISOString();
 const fourWeeks = moment().startOf('day').add(4, 'w').toISOString();
@@ -53,7 +54,8 @@ const CreateTimePeriodForm: FC = () => {
     const buttons = [{
         loading,
         onPress: createTimePeriod,
-        text: 'Create'
+        text: 'Create',
+        wrapperStyle: {marginTop: 16}
     }];
 
     return (

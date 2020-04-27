@@ -5,7 +5,7 @@ import {Route} from '../../enums/Route';
 import {useBudgetNavigation} from '../../utils/hooks';
 import {Color} from '../../constants/color';
 
-import {RegularText} from './Text';
+import {TinyText} from './Text';
 import Button from './Button';
 
 const formats = {
@@ -28,8 +28,9 @@ const Date: FC<IDateProps> = (props) => {
 
     return (
         <>
-            <RegularText style={{marginTop: 16}}>{title}</RegularText>
+            <TinyText style={{marginTop: 16}}>{title}</TinyText>
             <Button
+                color={Color.lightGreen}
                 onPress={(): void => {
                     navigation.navigate({
                         name: Route.DATE_PICKER,
@@ -43,10 +44,7 @@ const Date: FC<IDateProps> = (props) => {
                 }}
                 testID={`Date-${title}`}
                 text={moment(date).calendar(undefined, formats)}
-                wrapperStyle={{
-                    backgroundColor: Color.sunflower,
-                    marginBottom: 16
-                }}
+                wrapperStyle={{marginBottom: 8}}
             />
         </>
     );
