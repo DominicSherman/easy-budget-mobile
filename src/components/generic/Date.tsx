@@ -2,10 +2,9 @@ import React, {FC} from 'react';
 import moment from 'moment';
 
 import {Route} from '../../enums/Route';
-import {useBudgetNavigation} from '../../utils/hooks';
-import {Color} from '../../constants/color';
+import {useBudgetNavigation, useSecondaryTextColor} from '../../utils/hooks';
 
-import {TinyText} from './Text';
+import {SmallText} from './Text';
 import Button from './Button';
 
 const formats = {
@@ -24,11 +23,17 @@ export interface IDateProps {
 
 const Date: FC<IDateProps> = (props) => {
     const navigation = useBudgetNavigation();
+    const color = useSecondaryTextColor();
     const {date, setDate, title, roundUp} = props;
 
     return (
         <>
-            <TinyText style={{marginTop: 16}}>{title}</TinyText>
+            <SmallText
+                color={color}
+                style={{marginBottom: 2}}
+            >
+                {title}
+            </SmallText>
             <Button
                 onPress={(): void => {
                     navigation.navigate({
