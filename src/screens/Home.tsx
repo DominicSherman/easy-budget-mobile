@@ -10,16 +10,17 @@ import {homeScreenQuery} from '../graphql/queries';
 import {getEarlyReturn} from '../services/error-and-loading-service';
 import {HomeScreenQuery, HomeScreenQueryVariables} from '../../autogen/HomeScreenQuery';
 import CardView from '../components/generic/CardView';
-import {CARD_WIDTH, SCREEN_HEIGHT, SCREEN_WIDTH} from '../constants/dimensions';
+import {CARD_WIDTH} from '../constants/dimensions';
 import {Route} from '../enums/Route';
 import Button from '../components/generic/Button';
-import {useBudgetNavigation, useMode, useShockBlueColor, useTimePeriod, useUserInformation} from '../utils/hooks';
+import {useBudgetNavigation, useMode, useTimePeriod, useUserInformation} from '../utils/hooks';
 import {Color} from '../constants/color';
 import {textWrapperUnderlined} from '../styles/shared-styles';
 import {getThemedSelectedColor, Theme} from '../services/theme-service';
 import {getFormattedTimePeriodLength, getFormattedTimePeriodText} from '../utils/utils';
 import {TimePeriodType} from '../redux/reducer';
 import BrowsingHeader from '../components/time-period/BrowsingHeader';
+import BackgroundHeader from '../components/generic/BackgroundHeader';
 
 import TimePeriods from './TimePeriods';
 
@@ -62,7 +63,6 @@ const Home: React.FC = () => {
         }
     });
     const navigation = useBudgetNavigation();
-    const shockBlueColor = useShockBlueColor();
     const mode = useMode();
 
     if (!timePeriod) {
@@ -101,18 +101,7 @@ const Home: React.FC = () => {
                     />
                 }
             >
-                <View
-                    style={{
-                        backgroundColor: shockBlueColor,
-                        borderBottomLeftRadius: 50,
-                        borderBottomRightRadius: 50,
-                        height: SCREEN_HEIGHT * 0.22,
-                        position: 'absolute',
-                        top: 0,
-                        width: SCREEN_WIDTH,
-                        zIndex: -1
-                    }}
-                />
+                <BackgroundHeader />
                 <BrowsingHeader />
                 {
                     timePeriod.type === TimePeriodType.ACTIVE &&
