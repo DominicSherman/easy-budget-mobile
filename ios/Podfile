@@ -39,9 +39,7 @@ target 'EasyBudget' do
   pod 'GoogleSignIn', '~> 5.0.0'
 
   pod 'RNGoogleSignin', :path => '../node_modules/@react-native-community/google-signin'
-
-  use_native_modules!
-
   pod 'RNDateTimePicker', :path => '../node_modules/@react-native-community/datetimepicker'
 
+  use_native_modules!
 end
