@@ -1,10 +1,8 @@
 import React, {FC, useState} from 'react';
-import {useSelector} from 'react-redux';
 import {useMutation, useQuery} from '@apollo/react-hooks';
 import uuid from 'uuid';
 import moment from 'moment';
 
-import {IAppState} from '../../redux/reducer';
 import {getExpensesQuery} from '../../graphql/queries';
 import {getUserId} from '../../services/auth-service';
 import {GetExpenses, GetExpensesVariables} from '../../../autogen/GetExpenses';
@@ -12,6 +10,7 @@ import {sortByDate, sortByName} from '../../utils/sorting-utils';
 import {createExpenseMutation} from '../../graphql/mutations';
 import {CreateExpenseMutation, CreateExpenseMutationVariables} from '../../../autogen/CreateExpenseMutation';
 import {createExpenseUpdate} from '../../utils/update-cache-utils';
+import {useTimePeriodId} from '../../utils/hooks';
 
 import ExpenseForm from './ExpenseForm';
 
@@ -19,7 +18,7 @@ const CreateExpenseForm: FC = () => {
     const [name, setName] = useState('');
     const [amount, setAmount] = useState('');
     const [categoryId, setCategoryId] = useState<string | null>(null);
-    const timePeriodId = useSelector<IAppState, string>((state) => state.timePeriodId);
+    const timePeriodId = useTimePeriodId();
     const queryResult = useQuery<GetExpenses, GetExpensesVariables>(getExpensesQuery, {
         variables: {
             timePeriodId,

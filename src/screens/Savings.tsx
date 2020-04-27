@@ -2,6 +2,7 @@ import React, {FC} from 'react';
 import {View} from 'react-native';
 import {useQuery} from '@apollo/react-hooks';
 import {KeyboardAwareFlatList} from 'react-native-keyboard-aware-scroll-view';
+import {NetworkStatus} from 'apollo-client';
 
 import {getSavingCategoriesQuery} from '../graphql/queries';
 import {getUserId} from '../services/auth-service';
@@ -19,6 +20,7 @@ import {InformationRef} from './Information';
 
 const Savings: FC = () => {
     const queryResult = useQuery<GetSavingCategories, GetSavingCategoriesVariables>(getSavingCategoriesQuery, {
+        notifyOnNetworkStatusChange: true,
         variables: {
             userId: getUserId()
         }
@@ -35,7 +37,8 @@ const Savings: FC = () => {
         return getEarlyReturn(queryResult);
     }
 
-    const {savingCategories} = queryResult.data;
+    const {refetch, networkStatus, data} = queryResult;
+    const {savingCategories} = data;
 
     return (
         <View style={{height: '100%'}}>
@@ -51,11 +54,14 @@ const Savings: FC = () => {
                 data={savingCategories}
                 extraHeight={EXTRA_HEIGHT}
                 keyExtractor={(item): string => item.savingCategoryId}
+                onRefresh={refetch}
+                refreshing={networkStatus === NetworkStatus.refetch}
                 renderItem={({item}): JSX.Element =>
                     <SavingCategoryItem savingCategory={item} />
                 }
+                showsVerticalScrollIndicator={false}
             />
-            <CreateSavingCategoryForm showCreateForm={!savingCategories.length} />
+            <CreateSavingCategoryForm />
         </View>
     );
 };

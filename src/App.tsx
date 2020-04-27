@@ -3,6 +3,8 @@ import {NavigationContainer} from '@react-navigation/native';
 import {ApolloProvider} from '@apollo/react-hooks';
 import {useSelector} from 'react-redux';
 import {useDarkMode} from 'react-native-dark-mode';
+import DropdownAlert from 'react-native-dropdownalert';
+import {View} from 'react-native';
 
 import {getApolloClient} from './graphql/apollo-client';
 import {setAppState} from './redux/action-creators';
@@ -13,6 +15,8 @@ import {Mode} from './enums/Mode';
 import {IAppState} from './redux/reducer';
 import {dispatchAction} from './redux/store';
 import {Actions} from './redux/actions';
+import {DropdownRef} from './services/alert-service';
+import {AppStatus} from './enums/AppStatus';
 
 const LightThemeObject = {
     colors: {
@@ -47,13 +51,18 @@ const App: FC = () => {
         dispatchAction(Actions.SET_MODE, mode);
     }, [mode]);
     const theme = useMode() === Mode.DARK ? DarkThemeObject : LightThemeObject;
-    const appStatus = useSelector((state: IAppState) => state.appStatus);
+    const appStatus = useSelector<IAppState, AppStatus | null>((state: IAppState) => state.appStatus);
+
+    if (!appStatus) {
+        return <View />;
+    }
 
     return (
         <NavigationContainer theme={theme}>
             <ApolloProvider client={getApolloClient()}>
                 <RootNavigator appStatus={appStatus} />
             </ApolloProvider>
+            <DropdownAlert ref={DropdownRef} />
         </NavigationContainer>
     );
 };

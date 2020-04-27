@@ -24,5 +24,6 @@ export enum FontAwesomeNames {
     HAND_DOLLARS = 'hand-holding-usd',
     WALLET = 'wallet',
     DOLLAR_SIGN = 'dollar-sign',
-    SETTINGS = 'cog'
+    SETTINGS = 'cog',
+    CALENDAR_CHECK = 'calendar-check'
 }

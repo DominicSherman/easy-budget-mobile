@@ -17,6 +17,8 @@
 		3190757E27E14B36BE876A13 /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 437271B2B6844842B3E645B9 /* OpenSans-Light.ttf */; };
 		3CFD17EEA8B743EDBDEC60D4 /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 774893FBBDD943C6920857B1 /* Montserrat-Regular.ttf */; };
 		3E6BBD1D23DF6AF900F6F7B0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3E6BBD1C23DF6AF900F6F7B0 /* GoogleService-Info.plist */; };
+		3EDBEA0724536A120032C63A /* splash-screen-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EDBEA0524536A120032C63A /* splash-screen-logo.png */; };
+		3EDBEA0824536A120032C63A /* splash-screen-robot-large.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EDBEA0624536A120032C63A /* splash-screen-robot-large.png */; };
 		3E6C8DC424511A410082F57B /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E6C8DC324511A410082F57B /* File.swift */; };
 		4957BF4F19144BA18D0399F0 /* Montserrat-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DE08C4B6543848BEB80D51C3 /* Montserrat-SemiBoldItalic.ttf */; };
 		4F34A1A855864888A8D674B4 /* Montserrat-ExtraLightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 58E5A75BD4F64D19B4EFC946 /* Montserrat-ExtraLightItalic.ttf */; };
@@ -67,6 +69,10 @@
 		3E6BBD1C23DF6AF900F6F7B0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3E6C8DC224511A410082F57B /* EasyBudget-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "EasyBudget-Bridging-Header.h"; sourceTree = "<group>"; };
 		3E6C8DC324511A410082F57B /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
+		437271B2B6844842B3E645B9 /* OpenSans-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-Light.ttf"; path = "../assets/fonts/OpenSans-Light.ttf"; sourceTree = "<group>"; };
+		469E58E4993F45989F6523C2 /* Montserrat-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-LightItalic.ttf"; path = "../assets/fonts/Montserrat-LightItalic.ttf"; sourceTree = "<group>"; };
+		3EDBEA0524536A120032C63A /* splash-screen-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "splash-screen-logo.png"; path = "../assets/splash-screen-logo.png"; sourceTree = "<group>"; };
+		3EDBEA0624536A120032C63A /* splash-screen-robot-large.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "splash-screen-robot-large.png"; path = "../assets/splash-screen-robot-large.png"; sourceTree = "<group>"; };
 		437271B2B6844842B3E645B9 /* OpenSans-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-Light.ttf"; path = "../assets/fonts/OpenSans-Light.ttf"; sourceTree = "<group>"; };
 		469E58E4993F45989F6523C2 /* Montserrat-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-LightItalic.ttf"; path = "../assets/fonts/Montserrat-LightItalic.ttf"; sourceTree = "<group>"; };
 		57426C1B69B64E3872A86133 /* Pods-EasyBudgetTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EasyBudgetTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-EasyBudgetTests/Pods-EasyBudgetTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -153,6 +159,8 @@
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
+				3EDBEA0524536A120032C63A /* splash-screen-logo.png */,
+				3EDBEA0624536A120032C63A /* splash-screen-robot-large.png */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
 			name = EasyBudget;
@@ -347,7 +355,9 @@
 				D39B303DEDEE4404927F05E1 /* OpenSans-LightItalic.ttf in Resources */,
 				D6F0B001A1A5411BBD735792 /* OpenSans-Regular.ttf in Resources */,
 				9BC6356E43304CE0B93194BE /* OpenSans-SemiBold.ttf in Resources */,
+				3EDBEA0824536A120032C63A /* splash-screen-robot-large.png in Resources */,
 				1470D32C92B843E8AE2511C2 /* OpenSans-SemiBoldItalic.ttf in Resources */,
+				3EDBEA0724536A120032C63A /* splash-screen-logo.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -493,8 +503,8 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CURRENT_PROJECT_VERSION = 10;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 8;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 936DG5J788;
 				INFOPLIST_FILE = EasyBudget/Info.plist;
@@ -519,8 +529,8 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CURRENT_PROJECT_VERSION = 10;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = 936DG5J788;
 				INFOPLIST_FILE = EasyBudget/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

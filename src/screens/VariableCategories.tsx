@@ -2,6 +2,7 @@ import React from 'react';
 import {View} from 'react-native';
 import {useQuery} from '@apollo/react-hooks';
 import {KeyboardAwareFlatList} from 'react-native-keyboard-aware-scroll-view';
+import {NetworkStatus} from 'apollo-client';
 
 import {getVariableCategoriesQuery} from '../graphql/queries';
 import {getUserId} from '../services/auth-service';
@@ -9,19 +10,21 @@ import {GetVariableCategories, GetVariableCategoriesVariables} from '../../autog
 import {getEarlyReturn} from '../services/error-and-loading-service';
 import CreateVariableCategoryForm from '../components/variable-category/CreateVariableCategoryForm';
 import {sortByAmount} from '../utils/sorting-utils';
-import NoActiveTimePeriod from '../components/time-period/NoActiveTimePeriod';
 import VariableCategoryItem from '../components/variable-category/VariableCategoryItem';
 import {useBudgetNavigation, useTimePeriodId} from '../utils/hooks';
 import EmptyScreen from '../components/generic/EmptyScreen';
 import {Route} from '../enums/Route';
 import {ListFooterComponent} from '../components/generic/Generic';
 import {EXTRA_HEIGHT} from '../constants/dimensions';
+import BrowsingHeader from '../components/time-period/BrowsingHeader';
 
 import {InformationRef} from './Information';
+import TimePeriods from './TimePeriods';
 
 const VariableCategories: React.FC = () => {
     const timePeriodId = useTimePeriodId();
     const queryResult = useQuery<GetVariableCategories, GetVariableCategoriesVariables>(getVariableCategoriesQuery, {
+        notifyOnNetworkStatusChange: true,
         skip: !timePeriodId,
         variables: {
             timePeriodId,
@@ -37,15 +40,15 @@ const VariableCategories: React.FC = () => {
     });
 
     if (!timePeriodId) {
-        return <NoActiveTimePeriod />;
+        return <TimePeriods />;
     }
 
     if (!queryResult.data) {
         return getEarlyReturn(queryResult);
     }
 
-    const {variableCategories} = queryResult.data;
-    const showCreateForm = !variableCategories.length;
+    const {refetch, networkStatus, data} = queryResult;
+    const {variableCategories} = data;
     const sortedVariableCategories = variableCategories.sort(sortByAmount);
 
     return (
@@ -59,16 +62,20 @@ const VariableCategories: React.FC = () => {
                     />
                 }
                 ListFooterComponent={<ListFooterComponent />}
+                ListHeaderComponent={<BrowsingHeader />}
                 data={sortedVariableCategories}
                 extraHeight={EXTRA_HEIGHT}
                 keyExtractor={(item): string => item.variableCategoryId}
+                onRefresh={refetch}
+                refreshing={networkStatus === NetworkStatus.refetch}
                 renderItem={({item}): JSX.Element =>
                     <VariableCategoryItem
                         variableCategory={item}
                     />
                 }
+                showsVerticalScrollIndicator={false}
             />
-            <CreateVariableCategoryForm showCreateForm={showCreateForm} />
+            <CreateVariableCategoryForm />
         </View>
     );
 };

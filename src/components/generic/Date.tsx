@@ -19,11 +19,12 @@ export interface IDateProps {
     date: Date
     setDate: (date: Date) => void
     title: string
+    roundUp?: boolean
 }
 
 const Date: FC<IDateProps> = (props) => {
     const navigation = useBudgetNavigation();
-    const {date, setDate, title} = props;
+    const {date, setDate, title, roundUp} = props;
 
     return (
         <>
@@ -34,6 +35,7 @@ const Date: FC<IDateProps> = (props) => {
                         name: Route.DATE_PICKER,
                         params: {
                             date,
+                            roundUp,
                             setDate,
                             title
                         }

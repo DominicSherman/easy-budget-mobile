@@ -1,6 +1,8 @@
 import React, {FC} from 'react';
-import {FlatList, SafeAreaView, StyleSheet, View} from 'react-native';
+import {SafeAreaView, StyleSheet, View} from 'react-native';
 import {useQuery} from '@apollo/react-hooks';
+import {NetworkStatus} from 'apollo-client';
+import {KeyboardAwareFlatList} from 'react-native-keyboard-aware-scroll-view';
 
 import {IScreenFC} from '../types/global';
 import {Route} from '../enums/Route';
@@ -61,6 +63,7 @@ const ListHeaderComponent: FC<{variableCategory: IVariableCategory}> = ({variabl
 
 const VariableCategory: IScreenFC<Route.VARIABLE_CATEGORY> = ({route: {params: {variableCategoryId}}}) => {
     const queryResult = useQuery<GetVariableCategory, GetVariableCategoryVariables>(getVariableCategoryQuery, {
+        notifyOnNetworkStatusChange: true,
         variables: {
             userId: getUserId(),
             variableCategoryId
@@ -72,11 +75,12 @@ const VariableCategory: IScreenFC<Route.VARIABLE_CATEGORY> = ({route: {params: {
         return getEarlyReturn(queryResult);
     }
 
-    const {variableCategory} = queryResult.data;
+    const {refetch, networkStatus, data} = queryResult;
+    const {variableCategory} = data;
 
     return (
         <SafeAreaView style={styles.wrapper}>
-            <FlatList
+            <KeyboardAwareFlatList
                 ListEmptyComponent={
                     <View style={[styles.listEmptyWrapper, {backgroundColor}]}>
                         <RegularText style={{margin: 32}}>{'No expenses for this category yet! 🚀'}</RegularText>
@@ -86,6 +90,8 @@ const VariableCategory: IScreenFC<Route.VARIABLE_CATEGORY> = ({route: {params: {
                 ListHeaderComponentStyle={{zIndex: 1}}
                 data={variableCategory.expenses.sort(sortByDate)}
                 keyExtractor={(item): string => item.expenseId}
+                onRefresh={refetch}
+                refreshing={networkStatus === NetworkStatus.refetch}
                 renderItem={({item, index}): JSX.Element =>
                     <ExpenseItem
                         categoryName={variableCategory.name}

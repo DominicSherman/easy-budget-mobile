@@ -10,11 +10,7 @@ import Form, {IFormInput, InputType} from '../generic/Form';
 import {useThemedSelectedColor, useTimePeriodId} from '../../utils/hooks';
 import {Theme} from '../../services/theme-service';
 
-interface ICreateIncomeItemFormProps {
-    showCreateForm?: boolean
-}
-
-const CreateIncomeItemForm: FC<ICreateIncomeItemFormProps> = ({showCreateForm}) => {
+const CreateIncomeItemForm: FC = () => {
     const timePeriodId = useTimePeriodId();
     const [name, setName] = useState('');
     const [amount, setAmount] = useState('');
@@ -56,7 +52,7 @@ const CreateIncomeItemForm: FC<ICreateIncomeItemFormProps> = ({showCreateForm}) 
         value: amount
     }, {
         checked: recurring,
-        inputType: InputType.TOGGLE,
+        inputType: InputType.RECURRING_TOGGLE,
         onChange: setRecurring,
         title: 'recurring'
     }];
@@ -76,7 +72,6 @@ const CreateIncomeItemForm: FC<ICreateIncomeItemFormProps> = ({showCreateForm}) 
             inputs={inputs}
             theme={Theme.GOLD}
             toggleable
-            visibleByDefault={showCreateForm}
         />
     );
 };

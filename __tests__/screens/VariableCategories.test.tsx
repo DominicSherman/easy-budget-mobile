@@ -7,7 +7,7 @@ import {MutationResult} from '@apollo/react-common';
 import VariableCategories from '../../src/screens/VariableCategories';
 import {
     createRandomExpense,
-    createRandomQueryResult,
+    createRandomQueryResult, createRandomTimePeriod, createRandomTimePeriods,
     createRandomVariableCategories,
     createRandomVariableCategory
 } from '../models';
@@ -15,7 +15,6 @@ import {chance} from '../chance';
 import {getEarlyReturn} from '../../src/services/error-and-loading-service';
 import {sortByName} from '../../src/utils/sorting-utils';
 import {IVariableCategory} from '../../autogen/IVariableCategory';
-import NoActiveTimePeriod from '../../src/components/time-period/NoActiveTimePeriod';
 import VariableCategoryItem from '../../src/components/variable-category/VariableCategoryItem';
 import * as hooks from '../../src/utils/hooks';
 import EmptyScreen from '../../src/components/generic/EmptyScreen';
@@ -23,6 +22,8 @@ import {Route} from '../../src/enums/Route';
 import {InformationRef} from '../../src/screens/Information';
 import {Color} from '../../src/constants/color';
 import {Mode} from '../../src/enums/Mode';
+import TimePeriods from '../../src/screens/TimePeriods';
+import {getTimePeriodQuery, getTimePeriodsQuery} from '../../src/graphql/queries';
 
 jest.mock('@apollo/react-hooks');
 jest.mock('react-redux');
@@ -61,7 +62,23 @@ describe('VariableCategories', () => {
         };
 
         useTimePeriodId.mockReturnValue(expectedTimePeriodId);
-        useQuery.mockReturnValue(expectedData);
+        useQuery.mockImplementation((query) => {
+            if (query === getTimePeriodsQuery) {
+                return {
+                    data: {
+                        timePeriods: createRandomTimePeriods()
+                    }
+                };
+            } else if (query === getTimePeriodQuery) {
+                return {
+                    data: {
+                        timePeriod: createRandomTimePeriod()
+                    }
+                };
+            }
+
+            return expectedData;
+        });
         useMutation.mockReturnValue([jest.fn(), {loading: chance.bool()} as MutationResult]);
         useBudgetNavigation.mockReturnValue(expectedNavigation);
         useTheme.mockReturnValue({
@@ -81,7 +98,7 @@ describe('VariableCategories', () => {
         useTimePeriodId.mockReturnValue('');
         render();
 
-        root.findByType(NoActiveTimePeriod);
+        root.findByType(TimePeriods);
     });
 
     it('should return early when there is no data', () => {

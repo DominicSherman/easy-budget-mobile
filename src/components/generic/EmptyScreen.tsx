@@ -1,4 +1,4 @@
-import {ScrollView, StyleSheet} from 'react-native';
+import {Image, ScrollView, StyleSheet} from 'react-native';
 import React, {FC} from 'react';
 import Touchable from 'react-native-platform-touchable';
 
@@ -36,6 +36,14 @@ const EmptyScreen: FC<IEmptyScreenProps> = ({titleText, subText, onPressSubText}
                 {subText}
             </RegularText>
         </Touchable>
+        <Image
+            resizeMode={'contain'}
+            source={require('../../../assets/empty-state-robot-large.png')}
+            style={{
+                height: SCREEN_HEIGHT / 2,
+                width: '100%'
+            }}
+        />
     </ScrollView>;
 
 export default EmptyScreen;

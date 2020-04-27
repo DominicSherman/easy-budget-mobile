@@ -1,10 +1,11 @@
 import TestRenderer from 'react-test-renderer';
 import React from 'react';
 import RNDatePicker from '@react-native-community/datetimepicker';
+import moment from 'moment';
 
 import DateTimePicker from '../../src/screens/DateTimePicker';
 import {chance} from '../chance';
-import {RegularText} from '../../src/components/generic/Text';
+import {TitleText} from '../../src/components/generic/Text';
 import Button from '../../src/components/generic/Button';
 import {createRouteProps} from '../models';
 import * as hooks from '../../src/utils/hooks';
@@ -42,13 +43,13 @@ describe('DateTimePicker', () => {
     });
 
     it('should render the title', () => {
-        const renderedText = root.findAllByType(RegularText)[0];
+        const renderedText = root.findAllByType(TitleText)[0];
 
         expect(renderedText.props.children).toBe(expectedProps.title);
     });
 
     it('should render the RNDatePicker', () => {
-        const expectedDate = chance.string();
+        const expectedDate = chance.date();
 
         const renderedPicker = root.findByType(RNDatePicker);
 
@@ -57,13 +58,28 @@ describe('DateTimePicker', () => {
         renderedPicker.props.onChange(chance.string(), expectedDate);
 
         expect(expectedProps.setDate).toHaveBeenCalledTimes(1);
-        expect(expectedProps.setDate).toHaveBeenCalledWith(expectedDate);
+        expect(expectedProps.setDate).toHaveBeenCalledWith(new Date(moment(expectedDate).startOf('d').toISOString()));
 
         expectedProps.setDate.mockReset();
 
         renderedPicker.props.onChange(chance.string(), null);
 
         expect(expectedProps.setDate).not.toHaveBeenCalled();
+    });
+
+    it('should handle it correctly if roundUp is true', () => {
+        expectedProps.roundUp = true;
+        render();
+
+        const expectedDate = chance.date();
+        const renderedPicker = root.findByType(RNDatePicker);
+
+        expect(renderedPicker.props.value).toBe(expectedProps.date);
+
+        renderedPicker.props.onChange(chance.string(), expectedDate);
+
+        expect(expectedProps.setDate).toHaveBeenCalledTimes(1);
+        expect(expectedProps.setDate).toHaveBeenCalledWith(new Date(moment(expectedDate).endOf('d').toISOString()));
     });
 
     it('should render the button', () => {

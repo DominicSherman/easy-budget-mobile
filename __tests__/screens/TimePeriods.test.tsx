@@ -6,7 +6,7 @@ import {Alert} from 'react-native';
 import {MutationResult} from '@apollo/react-common';
 
 import TimePeriods from '../../src/screens/TimePeriods';
-import {createRandomQueryResult, createRandomTimePeriod, createRandomTimePeriods} from '../models';
+import {createRandomQueryResult, createRandomTimePeriod} from '../models';
 import {getTimePeriodsQuery} from '../../src/graphql/queries';
 import * as hooks from '../../src/utils/hooks';
 import {chance} from '../chance';
@@ -17,9 +17,10 @@ import {deleteTimePeriodMutation, updateTimePeriodMutation} from '../../src/grap
 import {ITimePeriod} from '../../autogen/ITimePeriod';
 import * as errorAndLoadingService from '../../src/services/error-and-loading-service';
 import {RegularText} from '../../src/components/generic/Text';
+import {setTimePeriod} from '../../src/redux/action-creators';
 
 jest.mock('@apollo/react-hooks');
-
+jest.mock('../../src/redux/action-creators');
 jest.mock('../../src/services/animation-service');
 jest.mock('../../src/utils/hooks');
 jest.mock('../../src/services/auth-service');
@@ -27,13 +28,15 @@ jest.mock('../../src/services/error-and-loading-service');
 
 describe('TimePeriods', () => {
     const {useQuery, useMutation} = apolloHooks as jest.Mocked<typeof apolloHooks>;
-    const {useMode, useBudgetNavigation} = hooks as jest.Mocked<typeof hooks>;
+    const {useMode, useBudgetNavigation, useTimePeriodId} = hooks as jest.Mocked<typeof hooks>;
     const {getEarlyReturn} = errorAndLoadingService as jest.Mocked<typeof errorAndLoadingService>;
 
     let testInstance: RenderResult,
         createTimePeriod,
         updateTimePeriod,
         deleteTimePeriod,
+        expectedInactiveTimePeriods,
+        expectedActiveTimePeriod,
         expectedNavigation,
         expectedData;
 
@@ -45,11 +48,7 @@ describe('TimePeriods', () => {
     };
 
     beforeEach(() => {
-        const expectedTimePeriods = [
-            createRandomTimePeriod({
-                beginDate: moment().subtract(1, 'd').toISOString(),
-                endDate: moment().add(1, 'd').toISOString()
-            }),
+        expectedInactiveTimePeriods = [
             createRandomTimePeriod({
                 beginDate: moment().subtract(30, 'd').toISOString(),
                 endDate: moment().subtract(2, 'd').toISOString()
@@ -57,8 +56,16 @@ describe('TimePeriods', () => {
             createRandomTimePeriod({
                 beginDate: moment().add(2, 'd').toISOString(),
                 endDate: moment().add(30, 'd').toISOString()
-            }),
-            ...createRandomTimePeriods()
+            })
+        ];
+        expectedActiveTimePeriod = createRandomTimePeriod({
+            beginDate: moment().subtract(1, 'd').toISOString(),
+            endDate: moment().add(1, 'd').toISOString()
+        });
+
+        const expectedTimePeriods = [
+            expectedActiveTimePeriod,
+            ...expectedInactiveTimePeriods
         ];
 
         expectedData = {
@@ -99,12 +106,6 @@ describe('TimePeriods', () => {
         Alert.alert = jest.fn();
 
         renderComponent();
-    });
-
-    it('should render the time periods formatted text', () => {
-        const formattedText = getFormattedTimePeriodText(chance.pickone(expectedData.timePeriods));
-
-        testInstance.getByText(formattedText);
     });
 
     it('should open the create time period form when the plus icon is pressed', () => {
@@ -176,8 +177,32 @@ describe('TimePeriods', () => {
         expect(updateTimePeriod).toHaveBeenCalledTimes(1);
     });
 
+    it('should navigate to the home screen when a browse button is pressed', () => {
+        const renderedBrowseButton = testInstance.getAllByText('Browse')[0];
+
+        act(() => {
+            fireEvent.press(renderedBrowseButton);
+        });
+
+        expect(setTimePeriod).toHaveBeenCalledTimes(1);
+        expect(expectedNavigation.navigate).toHaveBeenCalledTimes(1);
+        expect(expectedNavigation.navigate).toHaveBeenCalledWith({
+            name: Route.HOME,
+            params: {}
+        });
+    });
+
+    it('should show the current text for the currently selected time period', () => {
+        const selectedTimePeriod = chance.pickone<ITimePeriod>(expectedData.timePeriods);
+
+        useTimePeriodId.mockReturnValue(selectedTimePeriod.timePeriodId);
+        rerender();
+
+        testInstance.getByText('Current');
+    });
+
     it('should open the edit time period form when the card view is pressed and allow the user to delete', () => {
-        const expectedItem = chance.pickone<ITimePeriod>(expectedData.timePeriods);
+        const expectedItem = chance.pickone<ITimePeriod>(expectedInactiveTimePeriods);
         const renderedItem = testInstance.getByTestId(`TimePeriodItem-${expectedItem.timePeriodId}`);
 
         act(() => {

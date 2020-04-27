@@ -41,7 +41,7 @@ const Button: FC<IButtonProps> = ({disabled, onPress, text, textStyle, loading, 
     >
         {
             loading ?
-                <ActivityIndicator />
+                <ActivityIndicator color={Color.white} />
                 :
                 <RegularMontserratText
                     color={Color.white}

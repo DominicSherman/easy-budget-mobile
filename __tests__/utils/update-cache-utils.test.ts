@@ -1,5 +1,4 @@
 import {
-    createRandomAppState,
     createRandomDebtCategories,
     createRandomDebtCategory,
     createRandomExpense,
@@ -9,7 +8,9 @@ import {
     createRandomIncomeItem,
     createRandomIncomeItems,
     createRandomSavingCategories,
-    createRandomSavingCategory, createRandomTimePeriod, createRandomTimePeriods,
+    createRandomSavingCategory,
+    createRandomTimePeriod,
+    createRandomTimePeriods,
     createRandomVariableCategories,
     createRandomVariableCategory
 } from '../models';
@@ -19,13 +20,15 @@ import {
     createExpenseUpdate,
     createFixedCategoryUpdate,
     createIncomeItemUpdate,
-    createSavingCategoryUpdate, createTimePeriodUpdate,
+    createSavingCategoryUpdate,
+    createTimePeriodUpdate,
     createVariableCategoryUpdate,
     deleteDebtCategoryUpdate,
     deleteExpenseUpdate,
     deleteFixedCategoryUpdate,
     deleteIncomeItemUpdate,
-    deleteSavingCategoryUpdate, deleteTimePeriodUpdate,
+    deleteSavingCategoryUpdate,
+    deleteTimePeriodUpdate,
     deleteVariableCategoryUpdate
 } from '../../src/utils/update-cache-utils';
 import {
@@ -33,16 +36,18 @@ import {
     getExpensesQuery,
     getFixedCategoriesQuery,
     getIncomeItemsQuery,
-    getSavingCategoriesQuery, getTimePeriodsQuery,
+    getSavingCategoriesQuery,
+    getTimePeriodsQuery,
     getVariableCategoriesQuery
 } from '../../src/graphql/queries';
 import {getUserId} from '../../src/services/auth-service';
+import {chance} from '../chance';
 
 jest.mock('../../src/redux/store');
 jest.mock('../../src/services/auth-service');
 
 describe('update cache utils', () => {
-    const {getState} = reduxStore as jest.Mocked<typeof reduxStore>;
+    const {getTimePeriodId} = reduxStore as jest.Mocked<typeof reduxStore>;
 
     let cache;
 
@@ -56,7 +61,7 @@ describe('update cache utils', () => {
     describe('createVariableCategoryUpdate', () => {
         let expectedReadQuery,
             expectedMutationResult,
-            expectedState;
+            expectedTimePeriodId;
 
         beforeEach(() => {
             expectedMutationResult = {
@@ -67,10 +72,10 @@ describe('update cache utils', () => {
             expectedReadQuery = {
                 variableCategories: createRandomVariableCategories()
             };
-            expectedState = createRandomAppState();
+            expectedTimePeriodId = chance.guid();
 
             cache.readQuery.mockReturnValue(expectedReadQuery);
-            getState.mockReturnValue(expectedState);
+            getTimePeriodId.mockReturnValue(expectedTimePeriodId);
         });
 
         it('should call readQuery', () => {
@@ -80,7 +85,7 @@ describe('update cache utils', () => {
             expect(cache.readQuery).toHaveBeenCalledWith({
                 query: getVariableCategoriesQuery,
                 variables: {
-                    timePeriodId: expectedState.timePeriodId,
+                    timePeriodId: expectedTimePeriodId,
                     userId: getUserId()
                 }
             });
@@ -102,7 +107,7 @@ describe('update cache utils', () => {
                 },
                 query: getVariableCategoriesQuery,
                 variables: {
-                    timePeriodId: expectedState.timePeriodId,
+                    timePeriodId: expectedTimePeriodId,
                     userId: getUserId()
                 }
             });
@@ -126,7 +131,7 @@ describe('update cache utils', () => {
     describe('createIncomeItemUpdate', () => {
         let expectedReadQuery,
             expectedMutationResult,
-            expectedState;
+            expectedTimePeriodId;
 
         beforeEach(() => {
             expectedMutationResult = {
@@ -137,10 +142,10 @@ describe('update cache utils', () => {
             expectedReadQuery = {
                 incomeItems: createRandomIncomeItems()
             };
-            expectedState = createRandomAppState();
+            expectedTimePeriodId = chance.guid();
 
             cache.readQuery.mockReturnValue(expectedReadQuery);
-            getState.mockReturnValue(expectedState);
+            getTimePeriodId.mockReturnValue(expectedTimePeriodId);
         });
 
         it('should call readQuery', () => {
@@ -150,7 +155,7 @@ describe('update cache utils', () => {
             expect(cache.readQuery).toHaveBeenCalledWith({
                 query: getIncomeItemsQuery,
                 variables: {
-                    timePeriodId: expectedState.timePeriodId,
+                    timePeriodId: expectedTimePeriodId,
                     userId: getUserId()
                 }
             });
@@ -162,17 +167,11 @@ describe('update cache utils', () => {
             expect(cache.writeQuery).toHaveBeenCalledTimes(1);
             expect(cache.writeQuery).toHaveBeenCalledWith({
                 data: {
-                    incomeItems: [
-                        ...expectedReadQuery.incomeItems,
-                        {
-                            ...expectedMutationResult.data.createIncomeItem,
-                            amount: 0
-                        }
-                    ]
+                    incomeItems: [...expectedReadQuery.incomeItems, expectedMutationResult.data.createIncomeItem]
                 },
                 query: getIncomeItemsQuery,
                 variables: {
-                    timePeriodId: expectedState.timePeriodId,
+                    timePeriodId: expectedTimePeriodId,
                     userId: getUserId()
                 }
             });
@@ -196,7 +195,7 @@ describe('update cache utils', () => {
     describe('createFixedCategoryUpdate', () => {
         let expectedReadQuery,
             expectedMutationResult,
-            expectedState;
+            expectedTimePeriodId;
 
         beforeEach(() => {
             expectedMutationResult = {
@@ -207,10 +206,10 @@ describe('update cache utils', () => {
             expectedReadQuery = {
                 fixedCategories: createRandomFixedCategories()
             };
-            expectedState = createRandomAppState();
+            expectedTimePeriodId = chance.guid();
 
             cache.readQuery.mockReturnValue(expectedReadQuery);
-            getState.mockReturnValue(expectedState);
+            getTimePeriodId.mockReturnValue(expectedTimePeriodId);
         });
 
         it('should call readQuery', () => {
@@ -220,7 +219,7 @@ describe('update cache utils', () => {
             expect(cache.readQuery).toHaveBeenCalledWith({
                 query: getFixedCategoriesQuery,
                 variables: {
-                    timePeriodId: expectedState.timePeriodId,
+                    timePeriodId: expectedTimePeriodId,
                     userId: getUserId()
                 }
             });
@@ -239,7 +238,7 @@ describe('update cache utils', () => {
                 },
                 query: getFixedCategoriesQuery,
                 variables: {
-                    timePeriodId: expectedState.timePeriodId,
+                    timePeriodId: expectedTimePeriodId,
                     userId: getUserId()
                 }
             });
@@ -263,7 +262,7 @@ describe('update cache utils', () => {
     describe('createSavingCategoryUpdate', () => {
         let expectedReadQuery,
             expectedMutationResult,
-            expectedState;
+            expectedTimePeriodId;
 
         beforeEach(() => {
             expectedMutationResult = {
@@ -274,10 +273,10 @@ describe('update cache utils', () => {
             expectedReadQuery = {
                 savingCategories: createRandomSavingCategories()
             };
-            expectedState = createRandomAppState();
+            expectedTimePeriodId = chance.guid();
 
             cache.readQuery.mockReturnValue(expectedReadQuery);
-            getState.mockReturnValue(expectedState);
+            getTimePeriodId.mockReturnValue(expectedTimePeriodId);
         });
 
         it('should call readQuery', () => {
@@ -331,7 +330,7 @@ describe('update cache utils', () => {
     describe('createDebtCategoryUpdate', () => {
         let expectedReadQuery,
             expectedMutationResult,
-            expectedState;
+            expectedTimePeriodId;
 
         beforeEach(() => {
             expectedMutationResult = {
@@ -342,10 +341,10 @@ describe('update cache utils', () => {
             expectedReadQuery = {
                 debtCategories: createRandomDebtCategories()
             };
-            expectedState = createRandomAppState();
+            expectedTimePeriodId = chance.guid();
 
             cache.readQuery.mockReturnValue(expectedReadQuery);
-            getState.mockReturnValue(expectedState);
+            getTimePeriodId.mockReturnValue(expectedTimePeriodId);
         });
 
         it('should call readQuery', () => {
@@ -401,7 +400,7 @@ describe('update cache utils', () => {
             updatedVariableCategories,
             expectedReadQuery,
             expectedMutationResult,
-            expectedState;
+            expectedTimePeriodId;
 
         beforeEach(() => {
             expectedMutationResult = {
@@ -414,7 +413,7 @@ describe('update cache utils', () => {
                 expenses: createRandomExpenses(),
                 variableCategories: [...createRandomVariableCategories(), expectedCategory]
             };
-            expectedState = createRandomAppState();
+            expectedTimePeriodId = chance.guid();
 
             const index = expectedReadQuery.variableCategories.indexOf(expectedCategory);
             const updatedCategory = {
@@ -432,7 +431,7 @@ describe('update cache utils', () => {
             ];
 
             cache.readQuery.mockReturnValue(expectedReadQuery);
-            getState.mockReturnValue(expectedState);
+            getTimePeriodId.mockReturnValue(expectedTimePeriodId);
         });
 
         it('should call readQuery', () => {
@@ -442,7 +441,7 @@ describe('update cache utils', () => {
             expect(cache.readQuery).toHaveBeenCalledWith({
                 query: getExpensesQuery,
                 variables: {
-                    timePeriodId: expectedState.timePeriodId,
+                    timePeriodId: expectedTimePeriodId,
                     userId: getUserId()
                 }
             });
@@ -462,7 +461,7 @@ describe('update cache utils', () => {
                 },
                 query: getExpensesQuery,
                 variables: {
-                    timePeriodId: expectedState.timePeriodId,
+                    timePeriodId: expectedTimePeriodId,
                     userId: getUserId()
                 }
             });
@@ -548,7 +547,7 @@ describe('update cache utils', () => {
             expectedReadQuery,
             expectedExpense,
             expectedMutationResult,
-            expectedState;
+            expectedTimePeriodId;
 
         beforeEach(() => {
             expectedExpense = createRandomExpense();
@@ -562,7 +561,7 @@ describe('update cache utils', () => {
                 expenses: [...createRandomExpenses(), expectedExpense],
                 variableCategories: [...createRandomVariableCategories(), expectedCategory]
             };
-            expectedState = createRandomAppState();
+            expectedTimePeriodId = chance.guid();
 
             const index = expectedReadQuery.variableCategories.indexOf(expectedCategory);
             const updatedCategory = {
@@ -577,7 +576,7 @@ describe('update cache utils', () => {
             ];
 
             cache.readQuery.mockReturnValue(expectedReadQuery);
-            getState.mockReturnValue(expectedState);
+            getTimePeriodId.mockReturnValue(expectedTimePeriodId);
         });
 
         it('should call readQuery', () => {
@@ -587,7 +586,7 @@ describe('update cache utils', () => {
             expect(cache.readQuery).toHaveBeenCalledWith({
                 query: getExpensesQuery,
                 variables: {
-                    timePeriodId: expectedState.timePeriodId,
+                    timePeriodId: expectedTimePeriodId,
                     userId: getUserId()
                 }
             });
@@ -604,7 +603,7 @@ describe('update cache utils', () => {
                 },
                 query: getExpensesQuery,
                 variables: {
-                    timePeriodId: expectedState.timePeriodId,
+                    timePeriodId: expectedTimePeriodId,
                     userId: getUserId()
                 }
             });
@@ -629,7 +628,7 @@ describe('update cache utils', () => {
         let expectedReadQuery,
             expectedFixedCategory,
             expectedMutationResult,
-            expectedState;
+            expectedTimePeriodId;
 
         beforeEach(() => {
             expectedFixedCategory = createRandomFixedCategory();
@@ -641,10 +640,10 @@ describe('update cache utils', () => {
             expectedReadQuery = {
                 fixedCategories: [...createRandomFixedCategories(), expectedFixedCategory]
             };
-            expectedState = createRandomAppState();
+            expectedTimePeriodId = chance.guid();
 
             cache.readQuery.mockReturnValue(expectedReadQuery);
-            getState.mockReturnValue(expectedState);
+            getTimePeriodId.mockReturnValue(expectedTimePeriodId);
         });
 
         it('should call readQuery', () => {
@@ -654,7 +653,7 @@ describe('update cache utils', () => {
             expect(cache.readQuery).toHaveBeenCalledWith({
                 query: getFixedCategoriesQuery,
                 variables: {
-                    timePeriodId: expectedState.timePeriodId,
+                    timePeriodId: expectedTimePeriodId,
                     userId: getUserId()
                 }
             });
@@ -670,7 +669,7 @@ describe('update cache utils', () => {
                 },
                 query: getFixedCategoriesQuery,
                 variables: {
-                    timePeriodId: expectedState.timePeriodId,
+                    timePeriodId: expectedTimePeriodId,
                     userId: getUserId()
                 }
             });
@@ -695,7 +694,7 @@ describe('update cache utils', () => {
         let expectedReadQuery,
             expectedVariableCategory,
             expectedMutationResult,
-            expectedState;
+            expectedTimePeriodId;
 
         beforeEach(() => {
             expectedVariableCategory = createRandomVariableCategory();
@@ -707,10 +706,10 @@ describe('update cache utils', () => {
             expectedReadQuery = {
                 variableCategories: [...createRandomVariableCategories(), expectedVariableCategory]
             };
-            expectedState = createRandomAppState();
+            expectedTimePeriodId = chance.guid();
 
             cache.readQuery.mockReturnValue(expectedReadQuery);
-            getState.mockReturnValue(expectedState);
+            getTimePeriodId.mockReturnValue(expectedTimePeriodId);
         });
 
         it('should call readQuery', () => {
@@ -720,7 +719,7 @@ describe('update cache utils', () => {
             expect(cache.readQuery).toHaveBeenCalledWith({
                 query: getVariableCategoriesQuery,
                 variables: {
-                    timePeriodId: expectedState.timePeriodId,
+                    timePeriodId: expectedTimePeriodId,
                     userId: getUserId()
                 }
             });
@@ -736,7 +735,7 @@ describe('update cache utils', () => {
                 },
                 query: getVariableCategoriesQuery,
                 variables: {
-                    timePeriodId: expectedState.timePeriodId,
+                    timePeriodId: expectedTimePeriodId,
                     userId: getUserId()
                 }
             });
@@ -761,7 +760,7 @@ describe('update cache utils', () => {
         let expectedReadQuery,
             expectedSavingCategory,
             expectedMutationResult,
-            expectedState;
+            expectedTimePeriodId;
 
         beforeEach(() => {
             expectedSavingCategory = createRandomSavingCategory();
@@ -773,10 +772,10 @@ describe('update cache utils', () => {
             expectedReadQuery = {
                 savingCategories: [...createRandomSavingCategories(), expectedSavingCategory]
             };
-            expectedState = createRandomAppState();
+            expectedTimePeriodId = chance.guid();
 
             cache.readQuery.mockReturnValue(expectedReadQuery);
-            getState.mockReturnValue(expectedState);
+            getTimePeriodId.mockReturnValue(expectedTimePeriodId);
         });
 
         it('should call readQuery', () => {
@@ -825,7 +824,7 @@ describe('update cache utils', () => {
         let expectedReadQuery,
             expectedDebtCategory,
             expectedMutationResult,
-            expectedState;
+            expectedTimePeriodId;
 
         beforeEach(() => {
             expectedDebtCategory = createRandomDebtCategory();
@@ -837,10 +836,10 @@ describe('update cache utils', () => {
             expectedReadQuery = {
                 debtCategories: [...createRandomDebtCategories(), expectedDebtCategory]
             };
-            expectedState = createRandomAppState();
+            expectedTimePeriodId = chance.guid();
 
             cache.readQuery.mockReturnValue(expectedReadQuery);
-            getState.mockReturnValue(expectedState);
+            getTimePeriodId.mockReturnValue(expectedTimePeriodId);
         });
 
         it('should call readQuery', () => {
@@ -889,7 +888,7 @@ describe('update cache utils', () => {
         let expectedReadQuery,
             expectedIncomeItem,
             expectedMutationResult,
-            expectedState;
+            expectedTimePeriodId;
 
         beforeEach(() => {
             expectedIncomeItem = createRandomIncomeItem();
@@ -901,10 +900,10 @@ describe('update cache utils', () => {
             expectedReadQuery = {
                 incomeItems: [...createRandomIncomeItems(), expectedIncomeItem]
             };
-            expectedState = createRandomAppState();
+            expectedTimePeriodId = chance.guid();
 
             cache.readQuery.mockReturnValue(expectedReadQuery);
-            getState.mockReturnValue(expectedState);
+            getTimePeriodId.mockReturnValue(expectedTimePeriodId);
         });
 
         it('should call readQuery', () => {
@@ -914,7 +913,7 @@ describe('update cache utils', () => {
             expect(cache.readQuery).toHaveBeenCalledWith({
                 query: getIncomeItemsQuery,
                 variables: {
-                    timePeriodId: expectedState.timePeriodId,
+                    timePeriodId: expectedTimePeriodId,
                     userId: getUserId()
                 }
             });
@@ -930,7 +929,7 @@ describe('update cache utils', () => {
                 },
                 query: getIncomeItemsQuery,
                 variables: {
-                    timePeriodId: expectedState.timePeriodId,
+                    timePeriodId: expectedTimePeriodId,
                     userId: getUserId()
                 }
             });

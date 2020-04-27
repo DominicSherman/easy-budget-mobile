@@ -1,25 +1,26 @@
 import TestRenderer, {act} from 'react-test-renderer';
 import React from 'react';
 import * as reactHooks from '@apollo/react-hooks';
-import * as reactRedux from 'react-redux';
 import {Picker, View} from 'react-native';
 
 import {chance} from '../../chance';
-import {createRandomAppState, createRandomExpenses, createRandomVariableCategories} from '../../models';
+import {createRandomExpenses, createRandomVariableCategories} from '../../models';
 import CreateExpenseForm from '../../../src/components/expense/CreateExpenseForm';
 import {createExpenseMutation} from '../../../src/graphql/mutations';
 import {getUserId} from '../../../src/services/auth-service';
 import {createExpenseUpdate} from '../../../src/utils/update-cache-utils';
 import Button from '../../../src/components/generic/Button';
 import {sortByName} from '../../../src/utils/sorting-utils';
+import * as hooks from '../../../src/utils/hooks';
 
 jest.mock('@apollo/react-hooks');
 jest.mock('react-redux');
 jest.mock('../../../src/services/auth-service');
+jest.mock('../../../src/utils/hooks');
 
 describe('CreateExpenseForm', () => {
     const {useMutation, useQuery} = reactHooks as jest.Mocked<typeof reactHooks>;
-    const {useSelector} = reactRedux as jest.Mocked<typeof reactRedux>;
+    const {useTimePeriodId} = hooks as jest.Mocked<typeof hooks>;
 
     let testRenderer,
         testInstance,
@@ -67,7 +68,7 @@ describe('CreateExpenseForm', () => {
         };
 
         useQuery.mockReturnValue(expectedUseQuery);
-        useSelector.mockReturnValue(expectedTimePeriodId);
+        useTimePeriodId.mockReturnValue(expectedTimePeriodId);
         // @ts-ignore
         useMutation.mockReturnValue([createExpense]);
 
@@ -84,14 +85,6 @@ describe('CreateExpenseForm', () => {
         updateComponent();
 
         expect(testInstance.findAllByType(View)).toEqual([]);
-    });
-
-    it('should call useSelector', () => {
-        const expectedState = createRandomAppState();
-
-        const actualTimePeriodId = useSelector.mock.calls[0][0](expectedState);
-
-        expect(actualTimePeriodId).toEqual(expectedState.timePeriodId);
     });
 
     it('should call useMutation', () => {

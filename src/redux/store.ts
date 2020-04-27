@@ -25,6 +25,8 @@ export const getStore = (): Store<IAppState> => {
 
 export const getState = (): IAppState => getStore().getState();
 
+export const getTimePeriodId = (): string => getState().timePeriod?.timePeriodId || '';
+
 export const dispatchAction = (type: Actions, data?: any): void => {
     initializeStore();
 

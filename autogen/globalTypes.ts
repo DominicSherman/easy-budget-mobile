@@ -104,8 +104,8 @@ export interface UpdateSavingCategory {
 
 export interface UpdateTimePeriod {
   timePeriodId: string;
-  beginDate?: string | null;
-  endDate?: string | null;
+  beginDate: string;
+  endDate: string;
   userId: string;
 }
 

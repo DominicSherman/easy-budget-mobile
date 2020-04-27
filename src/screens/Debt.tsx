@@ -2,6 +2,7 @@ import React, {FC} from 'react';
 import {View} from 'react-native';
 import {useQuery} from '@apollo/react-hooks';
 import {KeyboardAwareFlatList} from 'react-native-keyboard-aware-scroll-view';
+import {NetworkStatus} from 'apollo-client';
 
 import {getDebtCategoriesQuery} from '../graphql/queries';
 import {getUserId} from '../services/auth-service';
@@ -19,6 +20,7 @@ import {InformationRef} from './Information';
 
 const Debt: FC = () => {
     const queryResult = useQuery<GetDebtCategories, GetDebtCategoriesVariables>(getDebtCategoriesQuery, {
+        notifyOnNetworkStatusChange: true,
         variables: {
             userId: getUserId()
         }
@@ -35,7 +37,8 @@ const Debt: FC = () => {
         return getEarlyReturn(queryResult);
     }
 
-    const {debtCategories} = queryResult.data;
+    const {refetch, networkStatus, data} = queryResult;
+    const {debtCategories} = data;
 
     return (
         <View style={{height: '100%'}}>
@@ -51,11 +54,14 @@ const Debt: FC = () => {
                 data={debtCategories}
                 extraHeight={EXTRA_HEIGHT}
                 keyExtractor={(item): string => item.debtCategoryId}
+                onRefresh={refetch}
+                refreshing={networkStatus === NetworkStatus.refetch}
                 renderItem={({item}): JSX.Element =>
                     <DebtCategoryItem debtCategory={item} />
                 }
+                showsVerticalScrollIndicator={false}
             />
-            <CreateDebtCategoryForm showCreateForm={!debtCategories.length} />
+            <CreateDebtCategoryForm />
         </View>
     );
 };

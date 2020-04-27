@@ -10,6 +10,9 @@ import {UpdateTimePeriodMutation, UpdateTimePeriodMutationVariables} from '../..
 import {DeleteTimePeriodMutation, DeleteTimePeriodMutationVariables} from '../../../autogen/DeleteTimePeriodMutation';
 import {easeInTransition} from '../../services/animation-service';
 import {Color} from '../../constants/color';
+import {errorAlert} from '../../services/alert-service';
+import {onUpdateTimePeriod} from '../../redux/action-creators';
+import {isActiveTimePeriod} from '../../utils/utils';
 
 interface IEditTimePeriodFormProps {
     toggleExpanded: () => void
@@ -34,16 +37,16 @@ const EditTimePeriodForm: FC<IEditTimePeriodFormProps> = ({toggleExpanded, timeP
         timePeriodId,
         userId
     };
-    const [updateTimePeriod] = useMutation<UpdateTimePeriodMutation, UpdateTimePeriodMutationVariables>(updateTimePeriodMutation, {
-        optimisticResponse: {
-            updateTimePeriod: {
-                __typename: 'TimePeriod',
-                ...update
-            }
+    const [updateTimePeriod, {loading}] = useMutation<UpdateTimePeriodMutation, UpdateTimePeriodMutationVariables>(updateTimePeriodMutation, {
+        onCompleted: (data) => {
+            toggleExpanded();
+            onUpdateTimePeriod(data.updateTimePeriod);
+        },
+        onError: (error) => {
+            errorAlert('Error', error.graphQLErrors[0].message);
         },
         variables: {
             timePeriod: {
-
                 ...update
             }
         }
@@ -74,10 +77,6 @@ const EditTimePeriodForm: FC<IEditTimePeriodFormProps> = ({toggleExpanded, timeP
             ]
         );
     };
-    const onPress = (): void => {
-        updateTimePeriod();
-        toggleExpanded();
-    };
     const disabled = JSON.stringify(originalValues) === JSON.stringify(updatedValues);
     const inputs: IFormInput[] = [{
         date: updatedBeginDate,
@@ -87,10 +86,12 @@ const EditTimePeriodForm: FC<IEditTimePeriodFormProps> = ({toggleExpanded, timeP
     }, {
         date: updatedEndDate,
         inputType: InputType.DATE,
+        roundUp: true,
         setDate: setUpdatedEndDate,
         title: 'End Date'
     }];
     const buttons = [{
+        disabled: isActiveTimePeriod(timePeriod),
         onPress: onPressDelete,
         text: 'Delete',
         wrapperStyle: {
@@ -98,7 +99,8 @@ const EditTimePeriodForm: FC<IEditTimePeriodFormProps> = ({toggleExpanded, timeP
         }
     }, {
         disabled,
-        onPress,
+        loading,
+        onPress: updateTimePeriod,
         text: 'Update',
         wrapperStyle: {
             backgroundColor: Color.brightGreen

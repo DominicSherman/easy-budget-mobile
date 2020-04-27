@@ -9,12 +9,12 @@ import {
     useMode,
     usePrimaryBackgroundColor,
     usePrimaryColor,
-    useSecondaryBackgroundColor,
+    useSecondaryBackgroundColor, useSecondaryTextColor,
     useShockBlueColor,
     useTheme,
     useThemedBackgroundColor,
     useThemedSelectedColor,
-    useThemedTextColor,
+    useThemedTextColor, useTimePeriod,
     useTimePeriodId,
     useUserInformation
 } from '../../src/utils/hooks';
@@ -202,6 +202,12 @@ describe('hooks', () => {
         });
     });
 
+    describe('useSecondaryTextColor', () => {
+        it('should return Color.grey', () => {
+            expect(useSecondaryTextColor()).toBe(Color.grey);
+        });
+    });
+
     describe('useTimePeriodId', () => {
         it('should return the timePeriodId from state', () => {
             const actualValue = useTimePeriodId();
@@ -209,7 +215,29 @@ describe('hooks', () => {
             const returnValue = selector(expectedState);
 
             expect(actualValue).toBe(expectedSelector);
-            expect(returnValue).toEqual(expectedState.timePeriodId);
+            expect(returnValue).toEqual(expectedState.timePeriod.timePeriodId);
+        });
+
+        it('should return an empty string if time period is null', () => {
+            expectedState.timePeriod = null;
+
+            const actualValue = useTimePeriodId();
+            const selector = useSelector.mock.calls[0][0];
+            const returnValue = selector(expectedState);
+
+            expect(actualValue).toBe(expectedSelector);
+            expect(returnValue).toEqual('');
+        });
+    });
+
+    describe('useTimePeriod', () => {
+        it('should return the timePeriod from state', () => {
+            const actualValue = useTimePeriod();
+            const selector = useSelector.mock.calls[0][0];
+            const returnValue = selector(expectedState);
+
+            expect(actualValue).toBe(expectedSelector);
+            expect(returnValue).toEqual(expectedState.timePeriod);
         });
     });
 

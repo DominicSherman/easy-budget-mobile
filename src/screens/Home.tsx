@@ -1,27 +1,27 @@
 import React from 'react';
-import {ScrollView, StyleSheet, View} from 'react-native';
+import {RefreshControl, ScrollView, StyleSheet, View} from 'react-native';
 import {useQuery} from '@apollo/react-hooks';
-import {useSelector} from 'react-redux';
-import {User} from '@react-native-community/google-signin';
 import moment from 'moment';
+import {NetworkStatus} from 'apollo-client';
 
 import {FontWeight, LargeText, RegularText, SmallText, TinyText, TitleText} from '../components/generic/Text';
 import {getUserId} from '../services/auth-service';
 import {homeScreenQuery} from '../graphql/queries';
-import {getRoundedDate} from '../services/moment-service';
 import {getEarlyReturn} from '../services/error-and-loading-service';
-import NoActiveTimePeriod from '../components/time-period/NoActiveTimePeriod';
-import {IAppState} from '../redux/reducer';
 import {HomeScreenQuery, HomeScreenQueryVariables} from '../../autogen/HomeScreenQuery';
 import CardView from '../components/generic/CardView';
 import {CARD_WIDTH, SCREEN_HEIGHT, SCREEN_WIDTH} from '../constants/dimensions';
 import {Route} from '../enums/Route';
 import Button from '../components/generic/Button';
-import {useBudgetNavigation, useMode, useShockBlueColor} from '../utils/hooks';
+import {useBudgetNavigation, useMode, useShockBlueColor, useTimePeriod, useUserInformation} from '../utils/hooks';
 import {Color} from '../constants/color';
 import {textWrapperUnderlined} from '../styles/shared-styles';
 import {getThemedSelectedColor, Theme} from '../services/theme-service';
-import {getFormattedTimePeriodText} from '../utils/utils';
+import {getFormattedTimePeriodLength, getFormattedTimePeriodText} from '../utils/utils';
+import {TimePeriodType} from '../redux/reducer';
+import BrowsingHeader from '../components/time-period/BrowsingHeader';
+
+import TimePeriods from './TimePeriods';
 
 const styles = StyleSheet.create({
     bottomWrapper: {
@@ -48,16 +48,16 @@ const styles = StyleSheet.create({
     }
 });
 
-const date = getRoundedDate();
-
-const calculateTotal = (items: {amount: number}[]): number => items.reduce((total, item) => total + item.amount, 0);
+const calculateTotal = (items: { amount: number }[]): number => items.reduce((total, item) => total + item.amount, 0);
 
 const Home: React.FC = () => {
-    const [timePeriodId, userInformation] = useSelector<IAppState, [string, User]>((state) => [state.timePeriodId, state.userInformation]);
+    const timePeriod = useTimePeriod();
+    const userInformation = useUserInformation();
     const queryResult = useQuery<HomeScreenQuery, HomeScreenQueryVariables>(homeScreenQuery, {
+        notifyOnNetworkStatusChange: true,
+        skip: !timePeriod,
         variables: {
-            date,
-            timePeriodId,
+            timePeriodId: timePeriod?.timePeriodId || '',
             userId: getUserId()
         }
     });
@@ -65,19 +65,18 @@ const Home: React.FC = () => {
     const shockBlueColor = useShockBlueColor();
     const mode = useMode();
 
+    if (!timePeriod) {
+        return (
+            <TimePeriods />
+        );
+    }
+
     if (true) {
         return getEarlyReturn(queryResult);
     }
 
-    const {timePeriods, fixedCategories, variableCategories, expenses, incomeItems} = queryResult.data;
-    const activeTimePeriod = timePeriods[0];
-
-    if (!activeTimePeriod) {
-        return (
-            <NoActiveTimePeriod />
-        );
-    }
-
+    const {refetch, networkStatus, data} = queryResult;
+    const {fixedCategories, variableCategories, expenses, incomeItems} = data;
     const variableCategoriesTotal = calculateTotal(variableCategories);
     const fixedCategoriesTotal = calculateTotal(fixedCategories);
     const expensesTotal = calculateTotal(expenses);
@@ -85,7 +84,7 @@ const Home: React.FC = () => {
     const recurringItems = incomeItems.filter((item) => item.recurring);
     const nonRecurringItems = incomeItems.filter((item) => !item.recurring);
     const fixedExpensesTotal = fixedCategories.filter((category) => category.paid).reduce((total, fixedCategory) => total + fixedCategory.amount, 0);
-    const daysRemaining = moment(activeTimePeriod.endDate).diff(moment(), 'd') + 1;
+    const daysRemaining = moment(timePeriod.endDate).diff(moment(), 'd') + 1;
     const daysRemainingText = daysRemaining > 1 ? `${daysRemaining} days remaining` : 'final day today';
 
     return (
@@ -95,6 +94,12 @@ const Home: React.FC = () => {
                     alignItems: 'center',
                     paddingBottom: 64
                 }}
+                refreshControl={
+                    <RefreshControl
+                        onRefresh={refetch}
+                        refreshing={networkStatus === NetworkStatus.refetch}
+                    />
+                }
             >
                 <View
                     style={{
@@ -108,19 +113,25 @@ const Home: React.FC = () => {
                         zIndex: -1
                     }}
                 />
-                <RegularText
-                    color={Color.white}
-                    fontWeight={FontWeight.BOLD}
-                    style={{marginTop: 16}}
-                >
-                    {getFormattedTimePeriodText(activeTimePeriod)}
-                </RegularText>
-                <SmallText
-                    color={Color.white}
-                    style={{marginTop: 8}}
-                >
-                    {`${moment().diff(moment(activeTimePeriod.beginDate), 'd')} days done, ${daysRemainingText}`}
-                </SmallText>
+                <BrowsingHeader />
+                {
+                    timePeriod.type === TimePeriodType.ACTIVE &&
+                        <>
+                            <RegularText
+                                color={Color.white}
+                                fontWeight={FontWeight.BOLD}
+                                style={{marginTop: 16}}
+                            >
+                                {`${getFormattedTimePeriodText(timePeriod)} ${getFormattedTimePeriodLength(timePeriod)}`}
+                            </RegularText>
+                            <SmallText
+                                color={Color.white}
+                                style={{marginTop: 8}}
+                            >
+                                {`${moment().diff(moment(timePeriod.beginDate), 'd')} days done, ${daysRemainingText}`}
+                            </SmallText>
+                        </>
+                }
                 <TitleText
                     color={Color.white}
                     style={{marginTop: 16}}
@@ -129,11 +140,18 @@ const Home: React.FC = () => {
                 </TitleText>
                 <View style={{marginTop: 8}}>
                     <CardView
-                        disabled
+                        onPress={(): void => {
+                            navigation.navigate({
+                                name: Route.TIME_PERIODS,
+                                params: {}
+                            });
+                        }}
                         shadow
                         style={styles.wrapper}
                     >
-                        <View style={[styles.titleWrapper, {borderBottomColor: getThemedSelectedColor(mode, Theme.GREEN)}]}>
+                        <View
+                            style={[styles.titleWrapper, {borderBottomColor: getThemedSelectedColor(mode, Theme.GREEN)}]}
+                        >
                             <LargeText>{'This Month'}</LargeText>
                         </View>
                         <View style={styles.bottomWrapper}>
@@ -170,7 +188,9 @@ const Home: React.FC = () => {
                         shadow
                         style={styles.wrapper}
                     >
-                        <View style={[styles.titleWrapper, {borderBottomColor: getThemedSelectedColor(mode, Theme.BLUE)}]}>
+                        <View
+                            style={[styles.titleWrapper, {borderBottomColor: getThemedSelectedColor(mode, Theme.BLUE)}]}
+                        >
                             <LargeText>{'Variable Categories'}</LargeText>
                         </View>
                         <View style={styles.bottomWrapper}>
@@ -202,7 +222,9 @@ const Home: React.FC = () => {
                         shadow
                         style={styles.wrapper}
                     >
-                        <View style={[styles.titleWrapper, {borderBottomColor: getThemedSelectedColor(mode, Theme.RED)}]}>
+                        <View
+                            style={[styles.titleWrapper, {borderBottomColor: getThemedSelectedColor(mode, Theme.RED)}]}
+                        >
                             <LargeText>{'Fixed Categories'}</LargeText>
                         </View>
                         <View style={styles.bottomWrapper}>
@@ -234,7 +256,9 @@ const Home: React.FC = () => {
                         shadow
                         style={styles.wrapper}
                     >
-                        <View style={[styles.titleWrapper, {borderBottomColor: getThemedSelectedColor(mode, Theme.GOLD)}]}>
+                        <View
+                            style={[styles.titleWrapper, {borderBottomColor: getThemedSelectedColor(mode, Theme.GOLD)}]}
+                        >
                             <LargeText>{'Income'}</LargeText>
                         </View>
                         {
