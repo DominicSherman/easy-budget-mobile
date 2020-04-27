@@ -30,7 +30,6 @@ const Date: FC<IDateProps> = (props) => {
         <>
             <TinyText style={{marginTop: 16}}>{title}</TinyText>
             <Button
-                color={Color.lightGreen}
                 onPress={(): void => {
                     navigation.navigate({
                         name: Route.DATE_PICKER,

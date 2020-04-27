@@ -52,6 +52,7 @@ const CreateTimePeriodForm: FC = () => {
         title: 'End Date'
     }];
     const buttons = [{
+        color: Color.brightGreen,
         loading,
         onPress: createTimePeriod,
         text: 'Create',
