@@ -16,9 +16,9 @@
 		2D0DCC7AC42D4005AC991BF7 /* Montserrat-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 706DA9EC915543768318FACA /* Montserrat-Medium.ttf */; };
 		3190757E27E14B36BE876A13 /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 437271B2B6844842B3E645B9 /* OpenSans-Light.ttf */; };
 		3CFD17EEA8B743EDBDEC60D4 /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 774893FBBDD943C6920857B1 /* Montserrat-Regular.ttf */; };
+		3E3DA2B324579652008A9091 /* splash-screen-robot.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E3DA2B224579652008A9091 /* splash-screen-robot.png */; };
+		3E3DA2B52457A040008A9091 /* app-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E3DA2B42457A040008A9091 /* app-logo.png */; };
 		3E6BBD1D23DF6AF900F6F7B0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3E6BBD1C23DF6AF900F6F7B0 /* GoogleService-Info.plist */; };
-		3EDBEA0724536A120032C63A /* splash-screen-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EDBEA0524536A120032C63A /* splash-screen-logo.png */; };
-		3EDBEA0824536A120032C63A /* splash-screen-robot-large.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EDBEA0624536A120032C63A /* splash-screen-robot-large.png */; };
 		4957BF4F19144BA18D0399F0 /* Montserrat-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DE08C4B6543848BEB80D51C3 /* Montserrat-SemiBoldItalic.ttf */; };
 		4F34A1A855864888A8D674B4 /* Montserrat-ExtraLightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 58E5A75BD4F64D19B4EFC946 /* Montserrat-ExtraLightItalic.ttf */; };
 		54CDE63FB6D64FF192C45178 /* Montserrat-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FC6A6BEF88784028BD9B48F7 /* Montserrat-BoldItalic.ttf */; };
@@ -65,9 +65,9 @@
 		2A4B1D4A858A4250808F5B4B /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
 		2FC9189F05AB4851B3CA77F1 /* Montserrat-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Italic.ttf"; path = "../assets/fonts/Montserrat-Italic.ttf"; sourceTree = "<group>"; };
 		39CB648CA51F4E5780965F83 /* Montserrat-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-SemiBold.ttf"; path = "../assets/fonts/Montserrat-SemiBold.ttf"; sourceTree = "<group>"; };
+		3E3DA2B224579652008A9091 /* splash-screen-robot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "splash-screen-robot.png"; path = "../assets/splash-screen-robot.png"; sourceTree = "<group>"; };
+		3E3DA2B42457A040008A9091 /* app-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "app-logo.png"; path = "../assets/app-logo.png"; sourceTree = "<group>"; };
 		3E6BBD1C23DF6AF900F6F7B0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		3EDBEA0524536A120032C63A /* splash-screen-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "splash-screen-logo.png"; path = "../assets/splash-screen-logo.png"; sourceTree = "<group>"; };
-		3EDBEA0624536A120032C63A /* splash-screen-robot-large.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "splash-screen-robot-large.png"; path = "../assets/splash-screen-robot-large.png"; sourceTree = "<group>"; };
 		437271B2B6844842B3E645B9 /* OpenSans-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-Light.ttf"; path = "../assets/fonts/OpenSans-Light.ttf"; sourceTree = "<group>"; };
 		469E58E4993F45989F6523C2 /* Montserrat-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-LightItalic.ttf"; path = "../assets/fonts/Montserrat-LightItalic.ttf"; sourceTree = "<group>"; };
 		57426C1B69B64E3872A86133 /* Pods-EasyBudgetTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EasyBudgetTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-EasyBudgetTests/Pods-EasyBudgetTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -147,6 +147,7 @@
 		13B07FAE1A68108700A75B9A /* EasyBudget */ = {
 			isa = PBXGroup;
 			children = (
+				3E3DA2B42457A040008A9091 /* app-logo.png */,
 				3E6BBD1C23DF6AF900F6F7B0 /* GoogleService-Info.plist */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -154,8 +155,7 @@
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
-				3EDBEA0524536A120032C63A /* splash-screen-logo.png */,
-				3EDBEA0624536A120032C63A /* splash-screen-robot-large.png */,
+				3E3DA2B224579652008A9091 /* splash-screen-robot.png */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
 			name = EasyBudget;
@@ -332,6 +332,7 @@
 				B9CA9A29CF934002964D41EE /* Montserrat-Light.ttf in Resources */,
 				DB2A6011118C472D8CC4CE00 /* Montserrat-LightItalic.ttf in Resources */,
 				2D0DCC7AC42D4005AC991BF7 /* Montserrat-Medium.ttf in Resources */,
+				3E3DA2B324579652008A9091 /* splash-screen-robot.png in Resources */,
 				AEE9982D4E6D4A9A927B614B /* Montserrat-MediumItalic.ttf in Resources */,
 				3CFD17EEA8B743EDBDEC60D4 /* Montserrat-Regular.ttf in Resources */,
 				6E0F89470B144B3593AA88A3 /* Montserrat-SemiBold.ttf in Resources */,
@@ -344,12 +345,11 @@
 				B7D8DF67B7524B289CCD6636 /* OpenSans-ExtraBoldItalic.ttf in Resources */,
 				8ABEDA155E4A40DC91BC4489 /* OpenSans-Italic.ttf in Resources */,
 				3190757E27E14B36BE876A13 /* OpenSans-Light.ttf in Resources */,
+				3E3DA2B52457A040008A9091 /* app-logo.png in Resources */,
 				D39B303DEDEE4404927F05E1 /* OpenSans-LightItalic.ttf in Resources */,
 				D6F0B001A1A5411BBD735792 /* OpenSans-Regular.ttf in Resources */,
 				9BC6356E43304CE0B93194BE /* OpenSans-SemiBold.ttf in Resources */,
-				3EDBEA0824536A120032C63A /* splash-screen-robot-large.png in Resources */,
 				1470D32C92B843E8AE2511C2 /* OpenSans-SemiBoldItalic.ttf in Resources */,
-				3EDBEA0724536A120032C63A /* splash-screen-logo.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -398,7 +398,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-EasyBudget/Pods-EasyBudget-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-EasyBudget/Pods-EasyBudget-resources.sh",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
@@ -439,7 +439,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-EasyBudget/Pods-EasyBudget-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-EasyBudget/Pods-EasyBudget-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {

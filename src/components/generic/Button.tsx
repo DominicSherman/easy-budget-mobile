@@ -14,7 +14,6 @@ const styles = StyleSheet.create({
     },
     wrapper: {
         alignItems: 'center',
-        backgroundColor: Color.shockBlue,
         borderRadius: 12,
         justifyContent: 'center',
         padding: 16,
@@ -23,6 +22,7 @@ const styles = StyleSheet.create({
 });
 
 export interface IButtonProps {
+    color?: Color
     disabled?: boolean
     loading?: boolean
     text: string
@@ -32,11 +32,11 @@ export interface IButtonProps {
     wrapperStyle?: ViewStyle
 }
 
-const Button: FC<IButtonProps> = ({disabled, onPress, text, textStyle, loading, testID, wrapperStyle}) =>
+const Button: FC<IButtonProps> = ({color, disabled, onPress, text, textStyle, loading, testID, wrapperStyle}) =>
     <Touchable
         disabled={disabled || loading}
         onPress={onPress}
-        style={[styles.wrapper, shadow, wrapperStyle, disabled && styles.disabled]}
+        style={[{backgroundColor: color || Color.shockBlue}, styles.wrapper, shadow, wrapperStyle, disabled && styles.disabled]}
         testID={testID}
     >
         {

@@ -106,7 +106,12 @@ const DropdownForm: FC<IFormProps> = (props) => {
         <View style={[styles.wrapper, {backgroundColor: useSecondaryBackgroundColor()}, toggleable && styles.toggledWrapper]}>
             {
                 headerText &&
-                    <View style={{justifyContent: 'center'}}>
+                    <View
+                        style={{
+                            justifyContent: 'center',
+                            marginBottom: 8
+                        }}
+                    >
                         <RegularMontserratText
                             color={darkBlueColor}
                             fontWeight={FontWeight.EXTRA_BOLD}
