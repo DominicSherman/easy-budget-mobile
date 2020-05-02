@@ -38,7 +38,7 @@ const EmptyScreen: FC<IEmptyScreenProps> = ({titleText, subText, onPressSubText}
         </Touchable>
         <Image
             resizeMode={'contain'}
-            source={require('../../../assets/empty-state-robot-large.png')}
+            source={require('../../../assets/empty-state-robot.png')}
             style={{
                 height: SCREEN_HEIGHT / 2,
                 width: '100%'

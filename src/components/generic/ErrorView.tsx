@@ -32,7 +32,7 @@ const ErrorView: FC<{ refetch: () => Promise<ApolloQueryResult<any>> }> = ({refe
         >
             <Image
                 resizeMode={'contain'}
-                source={require('../../../assets/error-robot-large.png')}
+                source={require('../../../assets/error-robot.png')}
                 style={{
                     height: SCREEN_HEIGHT * 0.4,
                     width: '100%'

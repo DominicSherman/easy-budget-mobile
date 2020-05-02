@@ -3,7 +3,8 @@ import {StyleSheet} from 'react-native';
 export const textStyles = StyleSheet.create({
     large: {
         fontFamily: 'Montserrat-Bold',
-        fontSize: 20
+        fontSize: 20,
+        fontWeight: '700'
     },
     regular: {
         fontFamily: 'OpenSans-Regular',
