@@ -4,7 +4,7 @@ import LottieView from 'lottie-react-native';
 
 import LoadingView from '../../../src/components/generic/LoadingView';
 import * as hooks from '../../../src/utils/hooks';
-import { Mode } from '../../../src/enums/Mode';
+import {Mode} from '../../../src/enums/Mode';
 
 jest.mock('../../../src/utils/hooks');
 
