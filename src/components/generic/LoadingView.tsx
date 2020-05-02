@@ -1,12 +1,25 @@
+// eslint-disable-next-line eslint-comments/disable-enable-pair
+/* eslint-disable import/extensions */
 import React, {FC} from 'react';
-import {ActivityIndicator, View} from 'react-native';
+import LottieView from 'lottie-react-native';
 
-import {screenWrapper} from '../../styles/shared-styles';
-import {usePrimaryColor} from '../../utils/hooks';
+import darkModeAnimation from '../../../assets/loading-dark.json';
+import lightModeAnimation from '../../../assets/loading-light.json';
+import {useMode, useSecondaryBackgroundColor} from '../../utils/hooks';
+import {Mode} from '../../enums/Mode';
 
-const LoadingView: FC = () =>
-    <View style={screenWrapper}>
-        <ActivityIndicator color={usePrimaryColor()} />
-    </View>;
+const LoadingView: FC = () => {
+    const mode = useMode();
+    const source = mode === Mode.DARK ? darkModeAnimation : lightModeAnimation;
+
+    return (
+        <LottieView
+            autoPlay
+            loop
+            source={source}
+            style={{backgroundColor: useSecondaryBackgroundColor()}}
+        />
+    );
+};
 
 export default LoadingView;
