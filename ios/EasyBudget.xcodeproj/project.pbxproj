@@ -19,6 +19,7 @@
 		3E3DA2B324579652008A9091 /* splash-screen-robot.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E3DA2B224579652008A9091 /* splash-screen-robot.png */; };
 		3E3DA2B52457A040008A9091 /* app-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E3DA2B42457A040008A9091 /* app-logo.png */; };
 		3E6BBD1D23DF6AF900F6F7B0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3E6BBD1C23DF6AF900F6F7B0 /* GoogleService-Info.plist */; };
+		3EF9769B245E06F800AD0AA8 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF9769A245E06F800AD0AA8 /* File.swift */; };
 		4957BF4F19144BA18D0399F0 /* Montserrat-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DE08C4B6543848BEB80D51C3 /* Montserrat-SemiBoldItalic.ttf */; };
 		4F34A1A855864888A8D674B4 /* Montserrat-ExtraLightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 58E5A75BD4F64D19B4EFC946 /* Montserrat-ExtraLightItalic.ttf */; };
 		54CDE63FB6D64FF192C45178 /* Montserrat-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FC6A6BEF88784028BD9B48F7 /* Montserrat-BoldItalic.ttf */; };
@@ -69,8 +70,7 @@
 		3E3DA2B224579652008A9091 /* splash-screen-robot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "splash-screen-robot.png"; path = "../assets/splash-screen-robot.png"; sourceTree = "<group>"; };
 		3E3DA2B42457A040008A9091 /* app-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "app-logo.png"; path = "../assets/app-logo.png"; sourceTree = "<group>"; };
 		3E6BBD1C23DF6AF900F6F7B0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		3E6C8DC224511A410082F57B /* EasyBudget-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "EasyBudget-Bridging-Header.h"; sourceTree = "<group>"; };
-		3E6C8DC324511A410082F57B /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
+		3EF9769A245E06F800AD0AA8 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		437271B2B6844842B3E645B9 /* OpenSans-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-Light.ttf"; path = "../assets/fonts/OpenSans-Light.ttf"; sourceTree = "<group>"; };
 		469E58E4993F45989F6523C2 /* Montserrat-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-LightItalic.ttf"; path = "../assets/fonts/Montserrat-LightItalic.ttf"; sourceTree = "<group>"; };
 		57426C1B69B64E3872A86133 /* Pods-EasyBudgetTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EasyBudgetTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-EasyBudgetTests/Pods-EasyBudgetTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -237,14 +237,13 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				3E6C8DC324511A410082F57B /* File.swift */,
+				3EF9769A245E06F800AD0AA8 /* File.swift */,
 				13B07FAE1A68108700A75B9A /* EasyBudget */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				07992F170195AD6B53DCB990 /* Pods */,
 				228050CC33E045469DFBA2E5 /* Resources */,
-				3E6C8DC224511A410082F57B /* EasyBudget-Bridging-Header.h */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -474,7 +473,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
-				3E6C8DC424511A410082F57B /* File.swift in Sources */,
+				3EF9769B245E06F800AD0AA8 /* File.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
