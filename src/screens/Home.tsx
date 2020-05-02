@@ -71,7 +71,7 @@ const Home: React.FC = () => {
         );
     }
 
-    if (true) {
+    if (!queryResult.data || queryResult.networkStatus === NetworkStatus.setVariables) {
         return getEarlyReturn(queryResult);
     }
 
