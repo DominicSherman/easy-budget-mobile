@@ -1,5 +1,7 @@
 import {GoogleSignin, User} from '@react-native-community/google-signin';
-import auth from '@react-native-firebase/auth';
+// eslint-disable-next-line import/no-named-as-default
+import firebase from '@react-native-firebase/app';
+import '@react-native-firebase/auth';
 
 import {setAppState} from '../redux/action-creators';
 
@@ -13,11 +15,12 @@ export const signIn = async (): Promise<void> => {
     await configureGoogle();
 
     const data = await GoogleSignin.signIn();
-    const credential = auth.GoogleAuthProvider.credential(
+    const credential = firebase.auth.GoogleAuthProvider.credential(
         data.idToken
     );
 
-    await auth()
+    await firebase
+        .auth()
         .signInWithCredential(credential);
 
     setAppState();
@@ -28,7 +31,7 @@ export const signOut = async (): Promise<void> => {
     setAppState();
 };
 
-export const getUserId = (): string => auth().currentUser?.uid || '';
+export const getUserId = (): string => firebase.auth().currentUser?.uid || '';
 
 export const getIsSignedIn = (): Promise<boolean> => GoogleSignin.isSignedIn();
 
