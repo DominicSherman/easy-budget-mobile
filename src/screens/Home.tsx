@@ -300,7 +300,10 @@ const Home: React.FC = () => {
                         </View>
                         <View style={styles.bottomWrapper}>
                             <View style={styles.verticalCenter}>
-                                <RegularText>{`$${savingCategoriesTotal} saved`}</RegularText>
+                                <RegularText style={{fontWeight: '600'}}>
+                                    {`$${savingCategoriesTotal}`}
+                                    <RegularText style={{fontWeight: '400'}}>{' saved'}</RegularText>
+                                </RegularText>
                             </View>
                         </View>
                     </CardView>
@@ -323,7 +326,10 @@ const Home: React.FC = () => {
                         </View>
                         <View style={styles.bottomWrapper}>
                             <View style={styles.verticalCenter}>
-                                <RegularText>{`$${debtCategoriesTotal} owed`}</RegularText>
+                                <RegularText style={{fontWeight: '600'}}>
+                                    {`$${debtCategoriesTotal}`}
+                                    <RegularText style={{fontWeight: '400'}}>{' owed'}</RegularText>
+                                </RegularText>
                             </View>
                         </View>
                     </CardView>
