@@ -5,7 +5,6 @@ import {getIsSignedIn, getUserId, signIn, signInSilently, signOut} from '../../s
 import {chance} from '../chance';
 import {setAppState} from '../../src/redux/action-creators';
 
-jest.mock('@react-native-firebase/auth', () => jest.fn());
 jest.mock('../../src/redux/action-creators');
 
 describe('auth service', () => {

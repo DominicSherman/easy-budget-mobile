@@ -35,6 +35,7 @@ module.exports = {
         '^.+\\.(js)$': '<rootDir>/node_modules/babel-jest'
     },
     'moduleNameMapper': {
+        '@react-native-firebase/auth': '<rootDir>/__tests__/stubs/firebase-auth-stub.ts',
         '@react-native-firebase/app': '<rootDir>/__tests__/stubs/react-native-firebase-stub.ts',
         'google-signin': '<rootDir>/__tests__/stubs/google-signin-stub.ts',
         'react-native-gesture-handler': '<rootDir>/__tests__/stubs/react-native-gesture-handler-stub.ts',
