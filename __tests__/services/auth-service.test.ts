@@ -1,5 +1,5 @@
 import {GoogleSignin} from '@react-native-community/google-signin';
-import * as firebase from 'react-native-firebase';
+import * as firebase from '@react-native-firebase/app';
 
 import {getIsSignedIn, getUserId, signIn, signInSilently, signOut} from '../../src/services/auth-service';
 import {chance} from '../chance';
@@ -9,6 +9,7 @@ jest.mock('../../src/redux/action-creators');
 
 describe('auth service', () => {
     const mockGoogleSignin = GoogleSignin as jest.Mocked<typeof GoogleSignin>;
+    // @ts-ignore
     const {auth} = firebase as jest.Mocked<typeof firebase>;
 
     afterEach(() => {
@@ -102,7 +103,7 @@ describe('auth service', () => {
         it('should return the userId', () => {
             const actualUserId = getUserId();
 
-            expect(actualUserId).toBe(firebase.auth().currentUser!.uid);
+            expect(actualUserId).toBe(auth().currentUser!.uid);
         });
 
         it('should return an empty string if current user is null', () => {
