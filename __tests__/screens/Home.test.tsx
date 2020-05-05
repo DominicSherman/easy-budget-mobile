@@ -7,11 +7,12 @@ import moment from 'moment';
 import Home from '../../src/screens/Home';
 import {getUserId} from '../../src/services/auth-service';
 import {
+    createRandomDebtCategories,
     createRandomExpenses,
     createRandomFixedCategories,
     createRandomIncomeItem,
     createRandomIncomeItems,
-    createRandomQueryResult,
+    createRandomQueryResult, createRandomSavingCategories,
     createRandomTimePeriod,
     createRandomTimePeriods,
     createRandomUserInformation,
@@ -53,9 +54,11 @@ describe('Home', () => {
         expectedTimePeriod = createRandomTimePeriod({type: TimePeriodType.ACTIVE});
         expectedUserInformation = createRandomUserInformation();
         expectedData = createRandomQueryResult({
+            debtCategories: createRandomDebtCategories(),
             expenses: createRandomExpenses(),
             fixedCategories: createRandomFixedCategories(),
             incomeItems: chance.n(createRandomIncomeItem, chance.d6(), {recurring: true}),
+            savingCategories: createRandomSavingCategories(),
             timePeriods: createRandomTimePeriods(),
             variableCategories: createRandomVariableCategories()
         }, false);
@@ -136,20 +139,24 @@ describe('Home', () => {
             root.findByType(earlyReturn.type);
         });
 
-        it('should render four CardViews', () => {
+        it('should render six CardViews', () => {
             const [
                 renderedThisMonth,
                 renderedVariableCategories,
                 renderedFixedCategories,
-                renderedIncome
+                renderedIncome,
+                renderedSavings,
+                renderedDebt
             ] = root.findAllByType(CardView);
 
             renderedThisMonth.props.onPress();
             renderedVariableCategories.props.onPress();
             renderedFixedCategories.props.onPress();
             renderedIncome.props.onPress();
+            renderedSavings.props.onPress();
+            renderedDebt.props.onPress();
 
-            expect(expectedNavigation.navigate).toHaveBeenCalledTimes(4);
+            expect(expectedNavigation.navigate).toHaveBeenCalledTimes(6);
             expect(expectedNavigation.navigate).toHaveBeenCalledWith({
                 name: Route.TIME_PERIODS,
                 params: {}
@@ -164,6 +171,14 @@ describe('Home', () => {
             });
             expect(expectedNavigation.navigate).toHaveBeenCalledWith({
                 name: Route.INCOME,
+                params: {}
+            });
+            expect(expectedNavigation.navigate).toHaveBeenCalledWith({
+                name: Route.SAVINGS,
+                params: {}
+            });
+            expect(expectedNavigation.navigate).toHaveBeenCalledWith({
+                name: Route.DEBT,
                 params: {}
             });
         });

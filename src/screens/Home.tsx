@@ -76,13 +76,15 @@ const Home: React.FC = () => {
     }
 
     const {refetch, networkStatus, data} = queryResult;
-    const {fixedCategories, variableCategories, expenses, incomeItems} = data;
+    const {fixedCategories, variableCategories, expenses, incomeItems, savingCategories, debtCategories} = data;
     const variableCategoriesTotal = calculateTotal(variableCategories);
     const fixedCategoriesTotal = calculateTotal(fixedCategories);
     const expensesTotal = calculateTotal(expenses);
     const incomeTotal = calculateTotal(incomeItems);
     const recurringItems = incomeItems.filter((item) => item.recurring);
     const nonRecurringItems = incomeItems.filter((item) => !item.recurring);
+    const savingCategoriesTotal = calculateTotal(savingCategories);
+    const debtCategoriesTotal = calculateTotal(debtCategories);
     const fixedExpensesTotal = fixedCategories.filter((category) => category.paid).reduce((total, fixedCategory) => total + fixedCategory.amount, 0);
     const daysRemaining = moment(timePeriod.endDate).diff(moment(), 'd') + 1;
     const daysRemainingText = daysRemaining > 1 ? `${daysRemaining} days remaining` : 'final day today';
@@ -278,6 +280,58 @@ const Home: React.FC = () => {
                                     </View>
                                 </View>
                         }
+                    </CardView>
+                </View>
+                <View style={{marginTop: 8}}>
+                    <CardView
+                        onPress={(): void => {
+                            navigation.navigate({
+                                name: Route.SAVINGS,
+                                params: {}
+                            });
+                        }}
+                        shadow
+                        style={styles.wrapper}
+                    >
+                        <View
+                            style={[styles.titleWrapper, {borderBottomColor: getThemedSelectedColor(mode, Theme.PURPLE)}]}
+                        >
+                            <LargeText>{'Savings'}</LargeText>
+                        </View>
+                        <View style={styles.bottomWrapper}>
+                            <View style={styles.verticalCenter}>
+                                <RegularText style={{fontWeight: '600'}}>
+                                    {`$${savingCategoriesTotal}`}
+                                    <RegularText style={{fontWeight: '400'}}>{' saved'}</RegularText>
+                                </RegularText>
+                            </View>
+                        </View>
+                    </CardView>
+                </View>
+                <View style={{marginTop: 8}}>
+                    <CardView
+                        onPress={(): void => {
+                            navigation.navigate({
+                                name: Route.DEBT,
+                                params: {}
+                            });
+                        }}
+                        shadow
+                        style={styles.wrapper}
+                    >
+                        <View
+                            style={[styles.titleWrapper, {borderBottomColor: getThemedSelectedColor(mode, Theme.LIGHT_BLUE)}]}
+                        >
+                            <LargeText>{'Debt'}</LargeText>
+                        </View>
+                        <View style={styles.bottomWrapper}>
+                            <View style={styles.verticalCenter}>
+                                <RegularText style={{fontWeight: '600'}}>
+                                    {`$${debtCategoriesTotal}`}
+                                    <RegularText style={{fontWeight: '400'}}>{' owed'}</RegularText>
+                                </RegularText>
+                            </View>
+                        </View>
                     </CardView>
                 </View>
                 <Button
