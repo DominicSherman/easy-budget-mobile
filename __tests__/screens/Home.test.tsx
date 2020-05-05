@@ -7,11 +7,12 @@ import moment from 'moment';
 import Home from '../../src/screens/Home';
 import {getUserId} from '../../src/services/auth-service';
 import {
+    createRandomDebtCategories,
     createRandomExpenses,
     createRandomFixedCategories,
     createRandomIncomeItem,
     createRandomIncomeItems,
-    createRandomQueryResult,
+    createRandomQueryResult, createRandomSavingCategories,
     createRandomTimePeriod,
     createRandomTimePeriods,
     createRandomUserInformation,
@@ -53,9 +54,11 @@ describe('Home', () => {
         expectedTimePeriod = createRandomTimePeriod({type: TimePeriodType.ACTIVE});
         expectedUserInformation = createRandomUserInformation();
         expectedData = createRandomQueryResult({
+            debtCategories: createRandomDebtCategories(),
             expenses: createRandomExpenses(),
             fixedCategories: createRandomFixedCategories(),
             incomeItems: chance.n(createRandomIncomeItem, chance.d6(), {recurring: true}),
+            savingCategories: createRandomSavingCategories(),
             timePeriods: createRandomTimePeriods(),
             variableCategories: createRandomVariableCategories()
         }, false);
@@ -153,7 +156,7 @@ describe('Home', () => {
             renderedSavings.props.onPress();
             renderedDebt.props.onPress();
 
-            expect(expectedNavigation.navigate).toHaveBeenCalledTimes(4);
+            expect(expectedNavigation.navigate).toHaveBeenCalledTimes(6);
             expect(expectedNavigation.navigate).toHaveBeenCalledWith({
                 name: Route.TIME_PERIODS,
                 params: {}
