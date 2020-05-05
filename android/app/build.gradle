@@ -183,12 +183,9 @@ android {
 dependencies {
     implementation project(':@react-native-community_datetimepicker')
     implementation project(':@react-native-community_google-signin')
-    implementation project(':react-native-firebase')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
     implementation "com.facebook.react:react-native:+"  // From node_modules
-    implementation 'com.google.firebase:firebase-analytics:17.2.0'
-    implementation "com.google.firebase:firebase-auth:17.0.0"
     implementation project(":@react-native-community_google-signin")
     implementation 'androidx.appcompat:appcompat:1.1.0-rc01'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0-alpha02'

@@ -1,5 +1,5 @@
 import {GoogleSignin, User} from '@react-native-community/google-signin';
-import firebase from 'react-native-firebase';
+import auth from '@react-native-firebase/auth';
 
 import {setAppState} from '../redux/action-creators';
 
@@ -13,12 +13,11 @@ export const signIn = async (): Promise<void> => {
     await configureGoogle();
 
     const data = await GoogleSignin.signIn();
-    const credential = firebase.auth.GoogleAuthProvider.credential(
+    const credential = auth.GoogleAuthProvider.credential(
         data.idToken
     );
 
-    await firebase
-        .auth()
+    await auth()
         .signInWithCredential(credential);
 
     setAppState();
@@ -29,7 +28,7 @@ export const signOut = async (): Promise<void> => {
     setAppState();
 };
 
-export const getUserId = (): string => firebase.auth().currentUser?.uid || '';
+export const getUserId = (): string => auth().currentUser?.uid || '';
 
 export const getIsSignedIn = (): Promise<boolean> => GoogleSignin.isSignedIn();
 
