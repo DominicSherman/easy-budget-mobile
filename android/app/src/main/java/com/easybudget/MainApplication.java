@@ -2,8 +2,6 @@ package com.easybudget;
 
 import android.app.Application;
 import android.content.Context;
-import io.invertase.firebase.RNFirebasePackage;
-import io.invertase.firebase.auth.RNFirebaseAuthPackage;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
 import com.reactcommunity.rndatetimepicker.RNDateTimePickerPackage;
@@ -28,8 +26,7 @@ public class MainApplication extends Application implements ReactApplication {
                     @SuppressWarnings("UnnecessaryLocalVariable")
                     List<ReactPackage> packages = new PackageList(this).getPackages();
                     // Packages that cannot be autolinked yet can be added manually here, for example:
-//                     packages.add(new RNGoogleSigninPackage());
-                    packages.add(new RNFirebaseAuthPackage());
+                    //  packages.add(new RNGoogleSigninPackage());
                     return packages;
                 }
 

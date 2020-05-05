@@ -1,5 +1,7 @@
 import {GoogleSignin, User} from '@react-native-community/google-signin';
-import firebase from 'react-native-firebase';
+// eslint-disable-next-line import/no-named-as-default
+import firebase from '@react-native-firebase/app';
+import '@react-native-firebase/auth';
 
 import {setAppState} from '../redux/action-creators';
 
