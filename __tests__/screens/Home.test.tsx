@@ -136,18 +136,22 @@ describe('Home', () => {
             root.findByType(earlyReturn.type);
         });
 
-        it('should render four CardViews', () => {
+        it('should render six CardViews', () => {
             const [
                 renderedThisMonth,
                 renderedVariableCategories,
                 renderedFixedCategories,
-                renderedIncome
+                renderedIncome,
+                renderedSavings,
+                renderedDebt
             ] = root.findAllByType(CardView);
 
             renderedThisMonth.props.onPress();
             renderedVariableCategories.props.onPress();
             renderedFixedCategories.props.onPress();
             renderedIncome.props.onPress();
+            renderedSavings.props.onPress();
+            renderedDebt.props.onPress();
 
             expect(expectedNavigation.navigate).toHaveBeenCalledTimes(4);
             expect(expectedNavigation.navigate).toHaveBeenCalledWith({
@@ -164,6 +168,14 @@ describe('Home', () => {
             });
             expect(expectedNavigation.navigate).toHaveBeenCalledWith({
                 name: Route.INCOME,
+                params: {}
+            });
+            expect(expectedNavigation.navigate).toHaveBeenCalledWith({
+                name: Route.SAVINGS,
+                params: {}
+            });
+            expect(expectedNavigation.navigate).toHaveBeenCalledWith({
+                name: Route.DEBT,
                 params: {}
             });
         });
