@@ -3,7 +3,7 @@ import React, {FC} from 'react';
 import Touchable from 'react-native-platform-touchable';
 
 import {SCREEN_HEIGHT} from '../../constants/dimensions';
-import {Color} from '../../constants/color';
+import {useSecondaryTextColor} from '../../utils/hooks';
 
 import {RegularText, TitleText} from './Text';
 
@@ -14,7 +14,6 @@ const styles = StyleSheet.create({
         paddingTop: SCREEN_HEIGHT * 0.1
     },
     subText: {
-        color: Color.lightGrey,
         marginTop: 16
     }
 });
@@ -32,7 +31,7 @@ const EmptyScreen: FC<IEmptyScreenProps> = ({titleText, subText, onPressSubText}
             disabled={!onPressSubText}
             onPress={onPressSubText}
         >
-            <RegularText style={styles.subText}>
+            <RegularText style={[styles.subText, {color: useSecondaryTextColor()}]}>
                 {subText}
             </RegularText>
         </Touchable>

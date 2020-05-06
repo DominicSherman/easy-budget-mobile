@@ -25,7 +25,7 @@ import {textStyles} from './styles/text-styles';
 import LeftSideMenu from './components/navigation/LeftSideMenu';
 import {shadow} from './styles/shared-styles';
 import {getDarkBlueColor} from './services/theme-service';
-import {useMode} from './utils/hooks';
+import {useDarkBlueColor, useMode} from './utils/hooks';
 import TimePeriods from './screens/TimePeriods';
 
 const getScreenOptions = (mode): StackNavigationOptions => ({
@@ -243,7 +243,14 @@ const RootStack: FC = () =>
         <Stack.Screen
             component={Information}
             name={Route.INFORMATION}
-            options={modalOptions}
+            options={{
+                ...modalOptions,
+                headerTitle: 'INFO',
+                headerTitleStyle: {
+                    ...textStyles.title,
+                    color: useDarkBlueColor()
+                }
+            }}
         />
     </Stack.Navigator>;
 

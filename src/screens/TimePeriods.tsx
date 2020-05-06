@@ -13,8 +13,13 @@ import {GetTimePeriods, GetTimePeriodsVariables} from '../../autogen/GetTimePeri
 import {LargeText} from '../components/generic/Text';
 import {CARD_MARGIN} from '../constants/dimensions';
 import CreateTimePeriodForm from '../components/time-period/CreateTimePeriodForm';
-import {usePrimaryBackgroundColor} from '../utils/hooks';
+import {useBudgetNavigation, usePrimaryBackgroundColor} from '../utils/hooks';
 import {isActiveTimePeriod, isFutureTimePeriod, isPreviousTimePeriod} from '../utils/utils';
+import {Route} from '../enums/Route';
+import EmptyScreen from '../components/generic/EmptyScreen';
+import {ListFooterComponent} from '../components/generic/Generic';
+
+import {InformationRef} from './Information';
 
 const styles = StyleSheet.create({
     title: {
@@ -31,6 +36,13 @@ const TimePeriods: FC = () => {
         }
     });
     const backgroundColor = usePrimaryBackgroundColor();
+    const navigation = useBudgetNavigation();
+    const onPressSubText = (): void => navigation.navigate({
+        name: Route.INFORMATION,
+        params: {
+            ref: InformationRef.TIME_PERIOD
+        }
+    });
 
     if (!queryResult.data) {
         return getEarlyReturn(queryResult);
@@ -55,6 +67,14 @@ const TimePeriods: FC = () => {
     return (
         <View style={{height: '100%'}}>
             <KeyboardAwareSectionList
+                ListEmptyComponent={
+                    <EmptyScreen
+                        onPressSubText={onPressSubText}
+                        subText={'What is a time period?'}
+                        titleText={'You haven\'t created any time periods yet!'}
+                    />
+                }
+                ListFooterComponent={<ListFooterComponent />}
                 keyExtractor={(item): string => item.timePeriodId}
                 onRefresh={refetch}
                 refreshing={networkStatus === NetworkStatus.refetch}
