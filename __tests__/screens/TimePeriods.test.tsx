@@ -18,6 +18,7 @@ import {ITimePeriod} from '../../autogen/ITimePeriod';
 import * as errorAndLoadingService from '../../src/services/error-and-loading-service';
 import {RegularText} from '../../src/components/generic/Text';
 import {setTimePeriod} from '../../src/redux/action-creators';
+import {InformationRef} from '../../src/screens/Information';
 
 jest.mock('@apollo/react-hooks');
 jest.mock('../../src/redux/action-creators');
@@ -106,6 +107,39 @@ describe('TimePeriods', () => {
         Alert.alert = jest.fn();
 
         renderComponent();
+    });
+
+    it('should show the empty screen when there are no time periods', () => {
+        useQuery.mockImplementation((query, options) => {
+            if (query === getTimePeriodsQuery) {
+                expectedData.timePeriods = [];
+
+                return createRandomQueryResult(expectedData);
+            }
+
+            // @ts-ignore
+            const timePeriodId = options!.variables!.timePeriodId;
+            const data = {
+                timePeriod: expectedData.timePeriods.find((t) => t.timePeriodId === timePeriodId)
+            };
+
+            return createRandomQueryResult(data);
+        });
+        renderComponent();
+
+        const renderedSubText = testInstance.getByText('What is a time period?');
+
+        act(() => {
+            fireEvent.press(renderedSubText);
+        });
+
+        expect(expectedNavigation.navigate).toHaveBeenCalledTimes(1);
+        expect(expectedNavigation.navigate).toHaveBeenCalledWith({
+            name: Route.INFORMATION,
+            params: {
+                ref: InformationRef.TIME_PERIOD
+            }
+        });
     });
 
     it('should open the create time period form when the plus icon is pressed', () => {
