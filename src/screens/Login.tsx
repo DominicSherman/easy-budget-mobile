@@ -22,7 +22,11 @@ const Login: React.FC = () => {
                 onPress={async (): Promise<void> => {
                     setLoading(true);
 
-                    await signIn();
+                    try {
+                        await signIn();
+                    } catch (error) {
+                        setLoading(false);
+                    }
                 }}
                 testID={'signInButton'}
             >
