@@ -278,7 +278,11 @@ export const RootNavigator: FC<{appStatus: AppStatus}> = ({appStatus}) => {
                     <Stack.Screen
                         component={Login}
                         name={Route.LOGIN}
-                        options={{animationTypeForReplace: 'pop'}}
+                        options={{
+                            ...getScreenOptions(mode),
+                            animationTypeForReplace: 'pop',
+                            headerLeft: (): null => null
+                        }}
                     /> : null
 
             }
