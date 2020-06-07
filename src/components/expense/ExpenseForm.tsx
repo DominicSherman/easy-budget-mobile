@@ -17,23 +17,24 @@ const styles = StyleSheet.create({
     },
     wrapper: {
         alignItems: 'center',
-        marginTop: 8,
+        marginTop: 16,
         width: '100%'
     }
 });
 
 interface IExpenseFormProps {
+    amount: string
     buttonText: string
     disabled?: boolean
     headerText: string
-    amount: string
-    setAmount: Dispatch<SetStateAction<any>>
     name: string | null
-    setName: Dispatch<SetStateAction<any>>
-    variableCategoryId: string | null
-    setVariableCategoryId: Dispatch<SetStateAction<any>>
     onPress: () => void
+    setAmount: Dispatch<SetStateAction<any>>
+    setName: Dispatch<SetStateAction<any>>
+    setVariableCategoryId: Dispatch<SetStateAction<any>>
+    showCategoryPicker?: boolean
     variableCategories: IVariableCategory[]
+    variableCategoryId: string | null
 }
 
 const ExpenseForm: FC<IExpenseFormProps> = (props) => {
@@ -43,6 +44,7 @@ const ExpenseForm: FC<IExpenseFormProps> = (props) => {
         amount,
         setAmount,
         name,
+        showCategoryPicker,
         setName,
         variableCategoryId,
         setVariableCategoryId,
@@ -56,22 +58,25 @@ const ExpenseForm: FC<IExpenseFormProps> = (props) => {
             <View style={{justifyContent: 'center'}}>
                 <LargeText>{headerText}</LargeText>
             </View>
-            <Picker
-                onValueChange={(value): void => setVariableCategoryId(value)}
-                selectedValue={variableCategoryId}
-                style={styles.picker}
-            >
-                {
-                    variableCategories.map((variableCategory) =>
-                        <Picker.Item
-                            color={color}
-                            key={variableCategory.variableCategoryId}
-                            label={variableCategory.name}
-                            value={variableCategory.variableCategoryId}
-                        />
-                    )
-                }
-            </Picker>
+            {
+                showCategoryPicker &&
+                    <Picker
+                        onValueChange={(value): void => setVariableCategoryId(value)}
+                        selectedValue={variableCategoryId}
+                        style={styles.picker}
+                    >
+                        {
+                            variableCategories.map((variableCategory) =>
+                                <Picker.Item
+                                    color={color}
+                                    key={variableCategory.variableCategoryId}
+                                    label={variableCategory.name}
+                                    value={variableCategory.variableCategoryId}
+                                />
+                            )
+                        }
+                    </Picker>
+            }
             <CardView
                 disabled
                 shadow
