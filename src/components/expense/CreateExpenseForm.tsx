@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useState} from 'react';
 import {useMutation, useQuery} from '@apollo/react-hooks';
 import uuid from 'uuid';
 import moment from 'moment';
@@ -60,17 +60,15 @@ const CreateExpenseForm: FC<{ variableCategoryId?: string }> = ({variableCategor
     const firstCategory = sortedVariableCategories[0];
     const mostRecentExpense = sortedExpenses[0];
 
-    useEffect(() => {
-        if (!categoryId) {
-            if (variableCategoryId) {
-                setCategoryId(variableCategoryId);
-            } else if (mostRecentExpense) {
-                setCategoryId(mostRecentExpense.variableCategoryId);
-            } else if (firstCategory) {
-                setCategoryId(firstCategory.variableCategoryId);
-            }
+    if (!categoryId) {
+        if (variableCategoryId) {
+            setCategoryId(variableCategoryId);
+        } else if (mostRecentExpense) {
+            setCategoryId(mostRecentExpense.variableCategoryId);
+        } else if (firstCategory) {
+            setCategoryId(firstCategory.variableCategoryId);
         }
-    }, [queryResult.data, categoryId, variableCategoryId, mostRecentExpense, firstCategory]);
+    }
 
     if (!queryResult.data) {
         return null;
