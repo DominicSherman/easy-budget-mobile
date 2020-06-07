@@ -1,9 +1,16 @@
 import TestRenderer from 'react-test-renderer';
 import React from 'react';
 import * as apolloReactHooks from '@apollo/react-hooks';
+import {MutationResult} from '@apollo/react-common';
 
 import VariableCategory from '../../src/screens/VariableCategory';
-import {createRandomQueryResult, createRandomVariableCategory, createRouteProps} from '../models';
+import {
+    createRandomExpenses,
+    createRandomQueryResult,
+    createRandomVariableCategories,
+    createRandomVariableCategory,
+    createRouteProps
+} from '../models';
 import {chance} from '../chance';
 import {getVariableCategoryQuery} from '../../src/graphql/queries';
 import {getUserId} from '../../src/services/auth-service';
@@ -16,7 +23,7 @@ jest.mock('../../src/services/auth-service');
 jest.mock('../../src/utils/hooks');
 
 describe('VariableCategory', () => {
-    const {useQuery} = apolloReactHooks as jest.Mocked<typeof apolloReactHooks>;
+    const {useQuery, useMutation} = apolloReactHooks as jest.Mocked<typeof apolloReactHooks>;
     const {useTheme} = hooks as jest.Mocked<typeof hooks>;
 
     let root,
@@ -37,7 +44,17 @@ describe('VariableCategory', () => {
             variableCategory: createRandomVariableCategory()
         });
 
-        useQuery.mockReturnValue(expectedQueryResult);
+        useQuery.mockImplementation((query) => {
+            if (query === getVariableCategoryQuery) {
+                return expectedQueryResult;
+            }
+
+            return createRandomQueryResult({
+                expenses: createRandomExpenses(),
+                variableCategories: createRandomVariableCategories()
+            });
+        });
+        useMutation.mockReturnValue([jest.fn(), {} as MutationResult]);
         useTheme.mockReturnValue({
             backgroundColor: chance.pickone(Object.values(Color)),
             textColor: chance.pickone(Object.values(Color))
@@ -47,7 +64,6 @@ describe('VariableCategory', () => {
     });
 
     it('should call useQuery', () => {
-        expect(useQuery).toHaveBeenCalledTimes(1);
         expect(useQuery).toHaveBeenCalledWith(getVariableCategoryQuery, {
             notifyOnNetworkStatusChange: true,
             variables: {
