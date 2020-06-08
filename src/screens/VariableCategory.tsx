@@ -20,6 +20,8 @@ import {Color} from '../constants/color';
 import {IVariableCategory} from '../../autogen/IVariableCategory';
 import {textWrapperUnderlined} from '../styles/shared-styles';
 import {useSecondaryBackgroundColor} from '../utils/hooks';
+import CreateExpenseForm from '../components/expense/CreateExpenseForm';
+import {ListFooterComponent} from '../components/generic/Generic';
 
 const styles = StyleSheet.create({
     cardWrapper: {
@@ -84,6 +86,12 @@ const VariableCategory: IScreenFC<Route.VARIABLE_CATEGORY> = ({route: {params: {
                 ListEmptyComponent={
                     <View style={[styles.listEmptyWrapper, {backgroundColor}]}>
                         <RegularText style={{margin: 32}}>{'No expenses for this category yet! 🚀'}</RegularText>
+                    </View>
+                }
+                ListFooterComponent={
+                    <View>
+                        <CreateExpenseForm variableCategoryId={variableCategoryId} />
+                        <ListFooterComponent />
                     </View>
                 }
                 ListHeaderComponent={<ListHeaderComponent variableCategory={variableCategory} />}

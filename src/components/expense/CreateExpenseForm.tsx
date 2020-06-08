@@ -14,7 +14,7 @@ import {useTimePeriodId} from '../../utils/hooks';
 
 import ExpenseForm from './ExpenseForm';
 
-const CreateExpenseForm: FC = () => {
+const CreateExpenseForm: FC<{ variableCategoryId?: string }> = ({variableCategoryId}) => {
     const [name, setName] = useState('');
     const [amount, setAmount] = useState('');
     const [categoryId, setCategoryId] = useState<string | null>(null);
@@ -51,23 +51,27 @@ const CreateExpenseForm: FC = () => {
         setName('');
         setAmount('');
     };
-
-    if (!queryResult.data) {
-        return null;
-    }
-
-    const {expenses, variableCategories} = queryResult.data;
+    const {expenses, variableCategories} = queryResult.data || {
+        expenses: [],
+        variableCategories: []
+    };
     const sortedVariableCategories = variableCategories.sort(sortByName);
     const sortedExpenses = expenses.sort(sortByDate);
     const firstCategory = sortedVariableCategories[0];
     const mostRecentExpense = sortedExpenses[0];
 
     if (!categoryId) {
-        if (mostRecentExpense) {
+        if (variableCategoryId) {
+            setCategoryId(variableCategoryId);
+        } else if (mostRecentExpense) {
             setCategoryId(mostRecentExpense.variableCategoryId);
         } else if (firstCategory) {
             setCategoryId(firstCategory.variableCategoryId);
         }
+    }
+
+    if (!queryResult.data) {
+        return null;
     }
 
     return (
@@ -80,6 +84,7 @@ const CreateExpenseForm: FC = () => {
             setAmount={setAmount}
             setName={setName}
             setVariableCategoryId={setCategoryId}
+            showCategoryPicker={!variableCategoryId}
             variableCategories={sortedVariableCategories}
             variableCategoryId={categoryId}
         />
