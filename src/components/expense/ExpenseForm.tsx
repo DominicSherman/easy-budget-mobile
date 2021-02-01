@@ -1,5 +1,6 @@
 import React, {Dispatch, FC, SetStateAction} from 'react';
-import {Picker, StyleSheet, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
+import {Picker} from '@react-native-community/picker';
 
 import {LargeText} from '../generic/Text';
 import Button from '../generic/Button';
@@ -62,7 +63,7 @@ const ExpenseForm: FC<IExpenseFormProps> = (props) => {
                 showCategoryPicker &&
                     <Picker
                         onValueChange={(value): void => setVariableCategoryId(value)}
-                        selectedValue={variableCategoryId}
+                        selectedValue={variableCategoryId || undefined}
                         style={styles.picker}
                     >
                         {

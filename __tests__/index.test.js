@@ -5,6 +5,9 @@ import App from '../src/App';
 jest.mock('@react-navigation/drawer', () => ({
     createDrawerNavigator: jest.fn()
 }));
+jest.mock('../src/StacksOnStacksOnStacks', () => ({
+    RootNavigator: jest.fn(() => null)
+}));
 
 describe('index', () => {
     let AppRegistry;

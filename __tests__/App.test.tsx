@@ -24,6 +24,9 @@ jest.mock('@react-navigation/drawer', () => ({
         Screen: (): JSX.Element => <></>
     }))
 }));
+jest.mock('../src/StacksOnStacksOnStacks', () => ({
+    RootNavigator: jest.fn(() => null)
+}));
 jest.mock('react-redux');
 
 describe('App', () => {

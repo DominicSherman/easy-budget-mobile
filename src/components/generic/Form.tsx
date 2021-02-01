@@ -68,6 +68,7 @@ interface IFormProps {
 const Form: FC<IFormProps> = (props) => {
     const visibleByDefault = Boolean(props.visibleByDefault);
     const [isVisible, setIsVisible] = useState(visibleByDefault);
+
     const setVisible = (): void => {
         easeInTransition();
         setIsVisible(!isVisible);
