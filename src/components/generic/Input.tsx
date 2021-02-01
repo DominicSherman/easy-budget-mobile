@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {KeyboardTypeOptions, StyleSheet, TextInput, TextStyle, View} from 'react-native';
+import {KeyboardTypeOptions, ReturnKeyType, StyleSheet, TextInput, TextStyle, View} from 'react-native';
 
 import {textStyles} from '../../styles/text-styles';
 import {SCREEN_WIDTH} from '../../constants/dimensions';
@@ -31,9 +31,11 @@ export interface IInputProps {
     value: string | null
     style?: TextStyle
     keyboardType?: KeyboardTypeOptions
+    returnKeyType?: ReturnKeyType
+    onSubmitEditing?: () => void
 }
 
-const Input: FC<IInputProps> = ({style, title, onChange, keyboardType, value}) =>
+const Input: FC<IInputProps> = ({style, title, onChange, keyboardType, value, returnKeyType, onSubmitEditing}) =>
     <View>
         <TinyText
             color={Color.mediumGrey}
@@ -44,6 +46,8 @@ const Input: FC<IInputProps> = ({style, title, onChange, keyboardType, value}) =
         <TextInput
             keyboardType={keyboardType}
             onChangeText={onChange}
+            onSubmitEditing={onSubmitEditing}
+            returnKeyType={returnKeyType}
             style={[
                 styles.input,
                 {borderColor: usePrimaryColor()},
