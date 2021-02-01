@@ -90,11 +90,14 @@ const ExpenseForm: FC<IExpenseFormProps> = (props) => {
                 <Input
                     keyboardType={'numeric'}
                     onChange={setAmount}
+                    returnKeyType={'next'}
                     title={'Amount *'}
                     value={amount}
                 />
                 <Input
                     onChange={setName}
+                    onSubmitEditing={onPress}
+                    returnKeyType={'done'}
                     title={'Description'}
                     value={name}
                 />
