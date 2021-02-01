@@ -38,6 +38,7 @@ const DateTimePicker: IScreenFC<Route.DATE_PICKER> = ({route: {params: {date, se
                 <TitleText>{title}</TitleText>
             </View>
             <RNDatePicker
+                display={'inline'}
                 onChange={(event: Event, date?: Date): void => {
                     if (date) {
                         let dateToSet;
