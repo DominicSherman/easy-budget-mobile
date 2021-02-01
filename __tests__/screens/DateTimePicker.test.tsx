@@ -11,6 +11,7 @@ import {createRouteProps} from '../models';
 import * as hooks from '../../src/utils/hooks';
 
 jest.mock('@react-navigation/native');
+jest.mock('@react-native-community/datetimepicker', () => jest.fn(() => null));
 jest.mock('../../src/utils/hooks');
 
 describe('DateTimePicker', () => {

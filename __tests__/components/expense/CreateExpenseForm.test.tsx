@@ -1,7 +1,8 @@
 import TestRenderer, {act} from 'react-test-renderer';
 import React from 'react';
 import * as reactHooks from '@apollo/react-hooks';
-import {Picker, View} from 'react-native';
+import {View} from 'react-native';
+import {Picker} from '@react-native-community/picker';
 
 import {chance} from '../../chance';
 import {createRandomExpenses, createRandomVariableCategories} from '../../models';
