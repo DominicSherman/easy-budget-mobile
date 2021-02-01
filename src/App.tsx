@@ -23,6 +23,7 @@ const LightThemeObject = {
         background: Color.lightGrey,
         border: Color.white,
         card: Color.white,
+        notification: Color.white,
         primary: Color.dark,
         text: Color.dark
     },
@@ -34,6 +35,7 @@ const DarkThemeObject = {
         background: Color.offBlack,
         border: Color.dark,
         card: Color.dark,
+        notification: Color.dark,
         primary: Color.white,
         text: Color.white
     },
