@@ -512,7 +512,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 18;
+				CURRENT_PROJECT_VERSION = 19;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 936DG5J788;
 				INFOPLIST_FILE = EasyBudget/Info.plist;
@@ -537,7 +537,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 18;
+				CURRENT_PROJECT_VERSION = 19;
 				DEVELOPMENT_TEAM = 936DG5J788;
 				INFOPLIST_FILE = EasyBudget/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -548,8 +548,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.reactnative.easybudget;
 				PRODUCT_NAME = EasyBudget;
-				PROVISIONING_PROFILE = "04b65ed3-dc8d-4083-880b-4c10ef6682c0";
-				PROVISIONING_PROFILE_SPECIFIER = "com.reactnative.easybudget AppStore";
+				PROVISIONING_PROFILE = "1b2830be-29e2-4b9d-a8c8-4c17256b2dba";
+				PROVISIONING_PROFILE_SPECIFIER = "com.reactnative.easybudget AppStore 1616363948";
 				SWIFT_OBJC_BRIDGING_HEADER = "EasyBudget-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
