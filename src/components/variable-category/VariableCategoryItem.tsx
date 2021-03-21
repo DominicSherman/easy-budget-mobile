@@ -1,5 +1,6 @@
 import React, {FC, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
+import HapticFeedback from 'react-native-haptic-feedback';
 
 import {IVariableCategory} from '../../../autogen/IVariableCategory';
 import CardView from '../generic/CardView';
@@ -56,7 +57,7 @@ const VariableCategoryItem: FC<IVariableCategoryItemProps> = ({variableCategory}
 
     return (
         <CardView
-            onPress={toggleExpanded}
+            onPress={onPress}
             shadow
             style={styles.wrapper}
         >
@@ -72,7 +73,10 @@ const VariableCategoryItem: FC<IVariableCategoryItemProps> = ({variableCategory}
                     <TinyText>{'remaining'}</TinyText>
                 </View>
                 <MoreIcon
-                    onPress={onPress}
+                    onPress={(): void => {
+                        HapticFeedback.trigger('impactLight');
+                        toggleExpanded();
+                    }}
                 />
             </View>
             {

@@ -2,6 +2,7 @@ import React, {FC} from 'react';
 import Feather from 'react-native-vector-icons/Feather';
 import {DrawerActions} from '@react-navigation/routers';
 import Touchable from 'react-native-platform-touchable';
+import HapticFeedback from 'react-native-haptic-feedback';
 
 import {FeatherNames} from '../../enums/IconNames';
 import {useBudgetNavigation} from '../../utils/hooks';
@@ -28,7 +29,10 @@ interface IIcon {
 const Icon: FC<IIcon> = ({name, onPress, size}) =>
     <Touchable
         hitSlop={hitSlop}
-        onPress={onPress}
+        onPress={(): void => {
+            HapticFeedback.trigger('impactLight');
+            onPress();
+        }}
     >
         <Feather
             color={Color.selectedGreen}

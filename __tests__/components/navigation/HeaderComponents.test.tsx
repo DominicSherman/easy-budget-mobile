@@ -8,6 +8,7 @@ import {BackButton, CloseIcon, HamburgerMenu, InfoIcon} from '../../../src/compo
 import {Route} from '../../../src/enums/Route';
 import * as hooks from '../../../src/utils/hooks';
 
+jest.mock('react-native-haptic-feedback');
 jest.mock('@react-navigation/native');
 jest.mock('../../../src/utils/hooks');
 
@@ -71,7 +72,9 @@ describe('HeaderComponents', () => {
 
             const renderedTouchable = root.findByType(Touchable);
 
-            expect(renderedTouchable.props.onPress).toBe(expectedNavigation.goBack);
+            renderedTouchable.props.onPress();
+
+            expect(expectedNavigation.goBack).toHaveBeenCalledTimes(1);
         });
     });
 
@@ -99,7 +102,9 @@ describe('HeaderComponents', () => {
 
             const renderedTouchable = root.findByType(Touchable);
 
-            expect(renderedTouchable.props.onPress).toBe(expectedNavigation.goBack);
+            renderedTouchable.props.onPress();
+
+            expect(expectedNavigation.goBack).toHaveBeenCalledTimes(1);
         });
     });
 
