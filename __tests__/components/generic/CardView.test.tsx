@@ -91,11 +91,12 @@ describe('CardView', () => {
         expect(renderedComponent.type).toBe(Touchable);
         expect(renderedComponent.props.accessibilityLabel).toBe(expectedProps.accessibilityLabel);
         expect(renderedComponent.props.accessibilityRole).toBe('button');
-        expect(renderedComponent.props.onPress).toBe(expectedProps.onPress);
 
+        renderedComponent.props.onPress();
         renderedComponent.props.onPressIn();
         renderedComponent.props.onPressOut();
 
+        expect(expectedProps.onPress).toHaveBeenCalledTimes(1);
         expect(Animated.timing).toHaveBeenCalledTimes(3);
         expect(Animated.sequence).toHaveBeenCalledTimes(1);
         expect(Animated.timing).toHaveBeenCalledWith(expect.any(Animated.Value), {
@@ -109,6 +110,14 @@ describe('CardView', () => {
             useNativeDriver: true
         });
         expect(startSpy).toHaveBeenCalledTimes(2);
+    });
+
+    it('should render the Touchable if an onPress is not passed', () => {
+        expectedProps.onPress = undefined;
+
+        createTestRenderer();
+
+        renderedComponent.props.onPress();
     });
 
     it('should render the root <Touchable> component when disableAnimation is true', () => {

@@ -158,7 +158,7 @@ describe('Home', () => {
 
             expect(expectedNavigation.navigate).toHaveBeenCalledTimes(6);
             expect(expectedNavigation.navigate).toHaveBeenCalledWith({
-                name: Route.TIME_PERIODS,
+                name: Route.EXPENSES,
                 params: {}
             });
             expect(expectedNavigation.navigate).toHaveBeenCalledWith({

@@ -1,27 +1,37 @@
-import React, {FC} from 'react';
-import {SafeAreaView, StyleSheet, View} from 'react-native';
 import {useQuery} from '@apollo/react-hooks';
 import {NetworkStatus} from 'apollo-client';
+import React, {FC} from 'react';
+import {
+    SafeAreaView,
+    StyleSheet,
+    View
+} from 'react-native';
 import {KeyboardAwareFlatList} from 'react-native-keyboard-aware-scroll-view';
 
-import {IScreenFC} from '../types/global';
-import {Route} from '../enums/Route';
-import {getEarlyReturn} from '../services/error-and-loading-service';
-import {getUserId} from '../services/auth-service';
-import {getVariableCategoryQuery} from '../graphql/queries';
-import {GetVariableCategory, GetVariableCategoryVariables} from '../../autogen/GetVariableCategory';
-import ExpenseItem from '../components/expense/ExpenseItem';
-import {LargeText, RegularText} from '../components/generic/Text';
-import {sortByDate} from '../utils/sorting-utils';
-import VariableCategoryDetails from '../components/variable-category/VariableCategoryDetails';
-import CardView from '../components/generic/CardView';
-import {CARD_WIDTH} from '../constants/dimensions';
-import {Color} from '../constants/color';
+import {
+    GetVariableCategory,
+    GetVariableCategoryVariables
+} from '../../autogen/GetVariableCategory';
 import {IVariableCategory} from '../../autogen/IVariableCategory';
-import {textWrapperUnderlined} from '../styles/shared-styles';
-import {useSecondaryBackgroundColor} from '../utils/hooks';
 import CreateExpenseForm from '../components/expense/CreateExpenseForm';
-import {ListFooterComponent} from '../components/generic/Generic';
+import ExpenseItem from '../components/expense/ExpenseItem';
+import CardView from '../components/generic/CardView';
+import {
+    LargeText,
+    RegularText
+} from '../components/generic/Text';
+import VariableCategoryDetails
+    from '../components/variable-category/VariableCategoryDetails';
+import {Color} from '../constants/color';
+import {CARD_WIDTH} from '../constants/dimensions';
+import {Route} from '../enums/Route';
+import {getVariableCategoryQuery} from '../graphql/queries';
+import {getUserId} from '../services/auth-service';
+import {getEarlyReturn} from '../services/error-and-loading-service';
+import {textWrapperUnderlined} from '../styles/shared-styles';
+import {IScreenFC} from '../types/global';
+import {useSecondaryBackgroundColor} from '../utils/hooks';
+import {sortByDate} from '../utils/sorting-utils';
 
 const styles = StyleSheet.create({
     cardWrapper: {
