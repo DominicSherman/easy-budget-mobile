@@ -13,9 +13,11 @@ import {createExpenseUpdate} from '../../../src/utils/update-cache-utils';
 import Button from '../../../src/components/generic/Button';
 import {sortByName} from '../../../src/utils/sorting-utils';
 import * as hooks from '../../../src/utils/hooks';
+import Input from '../../../src/components/generic/Input';
 
 jest.mock('@apollo/react-hooks');
 jest.mock('react-redux');
+jest.mock('react-native-haptic-feedback');
 jest.mock('../../../src/services/auth-service');
 jest.mock('../../../src/utils/hooks');
 
@@ -146,6 +148,17 @@ describe('CreateExpenseForm', () => {
 
         act(() => {
             renderedButton.props.onPress();
+            updateComponent();
+        });
+
+        expect(createExpense).toHaveBeenCalledTimes(1);
+    });
+
+    it('should render an input with the correct onPress', () => {
+        const renderedInputs = testInstance.findAllByType(Input);
+
+        act(() => {
+            renderedInputs[1].props.onSubmitEditing();
         });
         updateComponent();
 
