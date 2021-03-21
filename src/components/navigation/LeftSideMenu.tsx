@@ -4,6 +4,7 @@ import {DrawerActions} from '@react-navigation/routers';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import {View} from 'react-native';
 import Touchable from 'react-native-platform-touchable';
+import HapticFeedback from 'react-native-haptic-feedback';
 
 import {Route} from '../../enums/Route';
 import {useBudgetNavigation, useDarkBlueColor, useSecondaryBackgroundColor, useTheme} from '../../utils/hooks';
@@ -70,6 +71,7 @@ const Item: FC<{ isActive: boolean, item: IItem }> = ({isActive, item}) => {
     const navigation = useBudgetNavigation();
     const color = useDarkBlueColor();
     const onPress = (): void => {
+        HapticFeedback.trigger('impactLight');
         navigation.navigate({
             name: item.route,
             params: {}

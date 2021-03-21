@@ -133,7 +133,7 @@ const Home: React.FC = () => {
                     <CardView
                         onPress={(): void => {
                             navigation.navigate({
-                                name: Route.TIME_PERIODS,
+                                name: Route.EXPENSES,
                                 params: {}
                             });
                         }}
@@ -166,6 +166,16 @@ const Home: React.FC = () => {
                                 <TinyText>{'remaining'}</TinyText>
                             </View>
                         </View>
+                        <Button
+                            onPress={(): void => {
+                                navigation.navigate({
+                                    name: Route.EXPENSES,
+                                    params: {}
+                                });
+                            }}
+                            text={'Create Expense'}
+                            wrapperStyle={{marginTop: 16}}
+                        />
                     </CardView>
                 </View>
                 <View style={{marginTop: 8}}>
@@ -334,16 +344,6 @@ const Home: React.FC = () => {
                         </View>
                     </CardView>
                 </View>
-                <Button
-                    onPress={(): void => {
-                        navigation.navigate({
-                            name: Route.EXPENSES,
-                            params: {}
-                        });
-                    }}
-                    text={'Create Expense'}
-                    wrapperStyle={{marginTop: 48}}
-                />
             </ScrollView>
         </View>
     );

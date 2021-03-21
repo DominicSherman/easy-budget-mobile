@@ -49,9 +49,11 @@ describe('VariableCategoryItem', () => {
     });
 
     it('should render a MoreIcon', () => {
-        const renderedCardView = root.findByType(MoreIcon);
+        const renderedTouchable = root.findByType(CardView);
 
-        renderedCardView.props.onPress();
+        act(() => {
+            renderedTouchable.props.onPress();
+        });
 
         expect(expectedNavigation.navigate).toHaveBeenCalledTimes(1);
         expect(expectedNavigation.navigate).toHaveBeenCalledWith({
@@ -67,11 +69,9 @@ describe('VariableCategoryItem', () => {
     });
 
     it('should render a card view to toggle the edit form', () => {
-        const renderedTouchable = root.findByType(CardView);
+        const renderedCardView = root.findByType(MoreIcon);
 
-        act(() => {
-            renderedTouchable.props.onPress();
-        });
+        renderedCardView.props.onPress();
 
         root.findByType(EditVariableCategoryForm);
     });

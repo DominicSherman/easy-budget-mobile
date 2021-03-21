@@ -16,6 +16,7 @@ import {Mode} from '../../../src/enums/Mode';
 
 jest.mock('@react-navigation/native');
 jest.mock('@apollo/react-hooks');
+jest.mock('react-native-haptic-feedback');
 jest.mock('../../../src/services/animation-service');
 jest.mock('../../../src/services/auth-service');
 jest.mock('../../../src/utils/hooks');
@@ -80,9 +81,11 @@ describe('FixedCategoryItem', () => {
     });
 
     it('should call updateFixedCategory onValueChange', () => {
-        const renderedTouchable = root.findAllByType(Touchable)[1];
+        const renderedTouchable = root.findByType(CardView);
 
-        renderedTouchable.props.onPress();
+        act(() => {
+            renderedTouchable.props.onPress();
+        });
 
         expect(updateCategory).toHaveBeenCalledTimes(1);
         expect(updateCategory).toHaveBeenCalledWith({
@@ -102,12 +105,10 @@ describe('FixedCategoryItem', () => {
         });
     });
 
-    it('should render a CardView to toggle the edit form', () => {
-        const renderedTouchable = root.findByType(CardView);
+    it('should render an option button to toggle the edit form', () => {
+        const renderedTouchable = root.findAllByType(Touchable)[1];
 
-        act(() => {
-            renderedTouchable.props.onPress();
-        });
+        renderedTouchable.props.onPress();
 
         root.findByType(EditFixedCategoryForm);
     });
