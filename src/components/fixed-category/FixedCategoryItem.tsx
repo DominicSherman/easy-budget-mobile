@@ -1,25 +1,39 @@
-import React, {FC, useState} from 'react';
-import {StyleSheet, View} from 'react-native';
 import {useMutation} from '@apollo/react-hooks';
+import React, {
+    FC,
+    useState
+} from 'react';
+import {
+    StyleSheet,
+    View
+} from 'react-native';
+import HapticFeedback from 'react-native-haptic-feedback';
 import Feather from 'react-native-vector-icons/Feather';
-import Touchable from 'react-native-platform-touchable';
 
 import {IFixedCategory} from '../../../autogen/IFixedCategory';
-import {FontWeight, LargeText, TinyText} from '../generic/Text';
-import {CARD_MARGIN, CARD_WIDTH} from '../../constants/dimensions';
 import {
     UpdateFixedCategoryMutation,
     UpdateFixedCategoryMutationVariables
 } from '../../../autogen/UpdateFixedCategoryMutation';
-import {updateFixedCategoryMutation} from '../../graphql/mutations';
-import CardView from '../generic/CardView';
-import {FeatherNames} from '../../enums/IconNames';
-import {useDarkBlueColor} from '../../utils/hooks';
 import {Color} from '../../constants/color';
+import {
+    CARD_MARGIN,
+    CARD_WIDTH
+} from '../../constants/dimensions';
+import {FeatherNames} from '../../enums/IconNames';
+import {updateFixedCategoryMutation} from '../../graphql/mutations';
 import {easeInTransition} from '../../services/animation-service';
-import {centeredColumn} from '../../styles/shared-styles';
-import ColoredText from '../generic/ColoredText';
 import {Theme} from '../../services/theme-service';
+import {centeredColumn} from '../../styles/shared-styles';
+import {useDarkBlueColor} from '../../utils/hooks';
+import CardView from '../generic/CardView';
+import ColoredText from '../generic/ColoredText';
+import MoreIcon from '../generic/MoreIcon';
+import {
+    FontWeight,
+    LargeText,
+    TinyText
+} from '../generic/Text';
 
 import EditFixedCategoryForm from './EditFixedCategoryForm';
 
@@ -82,7 +96,7 @@ const FixedCategoryItem: FC<{ fixedCategory: IFixedCategory }> = ({fixedCategory
 
     return (
         <CardView
-            onPress={toggleExpanded}
+            onPress={togglePaid}
             shadow
             style={styles.wrapper}
         >
@@ -107,16 +121,27 @@ const FixedCategoryItem: FC<{ fixedCategory: IFixedCategory }> = ({fixedCategory
                         <LargeText color={textColor}>{`$${amount}`}</LargeText>
                         <TinyText>{'amount'}</TinyText>
                     </View>
-                    <Touchable onPress={togglePaid}>
-                        <View style={[centeredColumn, {marginRight: 8}]}>
-                            <Feather
-                                color={iconColor}
-                                name={iconName}
-                                size={20}
-                            />
-                            <TinyText>{'paid'}</TinyText>
-                        </View>
-                    </Touchable>
+                    <View style={[centeredColumn, {marginRight: 8}]}>
+                        <Feather
+                            color={iconColor}
+                            name={iconName}
+                            size={20}
+                        />
+                        <TinyText>{'paid'}</TinyText>
+                    </View>
+                    <View
+                        style={[centeredColumn, {
+                            marginBottom: 2,
+                            marginLeft: 8
+                        }]}
+                    >
+                        <MoreIcon
+                            onPress={(): void => {
+                                HapticFeedback.trigger('impactLight');
+                                toggleExpanded();
+                            }}
+                        />
+                    </View>
                 </View>
             </View>
             {

@@ -52,16 +52,21 @@ export interface IVariableCategoryProps {
 }
 
 const ListHeaderComponent: FC<{variableCategory: IVariableCategory}> = ({variableCategory}) =>
-    <CardView
-        disabled
-        shadow
-        style={styles.cardWrapper}
-    >
-        <View style={[textWrapperUnderlined, {borderBottomColor: Color.shockBlue}]}>
-            <LargeText>{variableCategory.name}</LargeText>
+    <View>
+        <View style={{marginBottom: 16}}>
+            <CreateExpenseForm variableCategoryId={variableCategory.variableCategoryId} />
         </View>
-        <VariableCategoryDetails variableCategory={variableCategory} />
-    </CardView>;
+        <CardView
+            disabled
+            shadow
+            style={styles.cardWrapper}
+        >
+            <View style={[textWrapperUnderlined, {borderBottomColor: Color.shockBlue}]}>
+                <LargeText>{variableCategory.name}</LargeText>
+            </View>
+            <VariableCategoryDetails variableCategory={variableCategory} />
+        </CardView>
+    </View>;
 
 const VariableCategory: IScreenFC<Route.VARIABLE_CATEGORY> = ({route: {params: {variableCategoryId}}}) => {
     const queryResult = useQuery<GetVariableCategory, GetVariableCategoryVariables>(getVariableCategoryQuery, {
@@ -86,12 +91,6 @@ const VariableCategory: IScreenFC<Route.VARIABLE_CATEGORY> = ({route: {params: {
                 ListEmptyComponent={
                     <View style={[styles.listEmptyWrapper, {backgroundColor}]}>
                         <RegularText style={{margin: 32}}>{'No expenses for this category yet! 🚀'}</RegularText>
-                    </View>
-                }
-                ListFooterComponent={
-                    <View>
-                        <CreateExpenseForm variableCategoryId={variableCategoryId} />
-                        <ListFooterComponent />
                     </View>
                 }
                 ListHeaderComponent={<ListHeaderComponent variableCategory={variableCategory} />}

@@ -1,6 +1,7 @@
 import React, {FC, useState} from 'react';
 import {Animated, StyleProp, StyleSheet, ViewStyle} from 'react-native';
 import Touchable from 'react-native-platform-touchable';
+import HapticFeedback from 'react-native-haptic-feedback';
 
 import {Color} from '../../constants/color';
 import {useSecondaryBackgroundColor} from '../../utils/hooks';
@@ -73,7 +74,12 @@ const CardView: FC<ICardViewProps> = (props) => {
             activeOpacity={1}
             background={Touchable.SelectableBackgroundBorderless()}
             disabled={disabled}
-            onPress={onPress}
+            onPress={(): void => {
+                if (onPress) {
+                    HapticFeedback.trigger('impactLight');
+                    onPress();
+                }
+            }}
             onPressIn={animateIn}
             onPressOut={animateOut}
             testID={testID}

@@ -1,6 +1,7 @@
 import React, {Dispatch, FC, SetStateAction} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Picker} from '@react-native-community/picker';
+import HapticFeedback from 'react-native-haptic-feedback';
 
 import {LargeText} from '../generic/Text';
 import Button from '../generic/Button';
@@ -96,7 +97,10 @@ const ExpenseForm: FC<IExpenseFormProps> = (props) => {
                 />
                 <Input
                     onChange={setName}
-                    onSubmitEditing={onPress}
+                    onSubmitEditing={(): void => {
+                        HapticFeedback.trigger('impactLight');
+                        onPress();
+                    }}
                     returnKeyType={'done'}
                     title={'Description'}
                     value={name}

@@ -1,6 +1,7 @@
 import React, {FC} from 'react';
 import {ActivityIndicator, StyleSheet, TextStyle, ViewStyle} from 'react-native';
 import Touchable from 'react-native-platform-touchable';
+import HapticFeedback from 'react-native-haptic-feedback';
 
 import {Color} from '../../constants/color';
 import {SCREEN_WIDTH} from '../../constants/dimensions';
@@ -35,7 +36,10 @@ export interface IButtonProps {
 const Button: FC<IButtonProps> = ({color, disabled, onPress, text, textStyle, loading, testID, wrapperStyle}) =>
     <Touchable
         disabled={disabled || loading}
-        onPress={onPress}
+        onPress={(): void => {
+            HapticFeedback.trigger('impactLight');
+            onPress();
+        }}
         style={[{backgroundColor: color || Color.shockBlue}, styles.wrapper, shadow, wrapperStyle, disabled && styles.disabled]}
         testID={testID}
     >
