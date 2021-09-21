@@ -46,7 +46,7 @@
     "react-native-codegen": "^0.0.7",
     "react-native-dark-mode": "^0.2.2",
     "react-native-dropdownalert": "^4.2.1",
-    "react-native-gesture-handler": "1.5.3",
+    "react-native-gesture-handler": "1.10.3",
     "react-native-haptic-feedback": "^1.11.0",
     "react-native-keyboard-aware-scroll-view": "github:APSL/react-native-keyboard-aware-scroll-view#pull/501/head",
     "react-native-platform-touchable": "1.1.1",
